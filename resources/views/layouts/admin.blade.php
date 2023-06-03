@@ -9,13 +9,15 @@
     <meta name="keywords" content="">
     <meta name="author" content="HIPL" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset(config('constants.default.admin_favicon')) }}" type="image/x-icon">
     
     @include('partials.admin.css')    
 
+   {{-- @powerGridStyles --}}
+    
     @livewireStyles
 
-    @yield('styles') 
+    @stack('styles')
 </head>
 <body>
     <div class="container-scroller">
@@ -49,15 +51,17 @@
   
     @include('partials.admin.js')
 
+   {{-- @powerGridScripts --}}
+   
     @livewireScripts
 
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    
     <script src="{{ asset('vendor/livewire-alert/livewire-alert.js') }}"></script> 
 
     <x-livewire-alert::flash />
     
-    @yield('scripts') 
+    @stack('scripts')
 
 </body>
 </html>

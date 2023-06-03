@@ -63,32 +63,6 @@ if (!function_exists('uploadImage')) {
 	}
 }
 
-if (!function_exists('useUploadedImage')) {
-	/**
-	 * Upload Image.
-	 *
-	 * @param array $input
-	 *
-	 * @return array $input
-	 */
-	function useUploadedImage($directory,$type,$previousFeedId)
-	{		
-		$oldFile = Uploads::where('uploadsable_id',$previousFeedId)->where('type',$type)->first();
-
-		$upload               		= new Uploads;
-		
-		$upload->file_path      	= $oldFile->file_path;
-		$upload->extension      	= $oldFile->extension;
-		$upload->original_file_name = $oldFile->original_file_name;
-		$upload->type 				= $oldFile->type;
-		$upload->file_type 			= $oldFile->file_type;
-		$upload->orientation 		= $oldFile->orientation;
-		$response             		= $directory->uploads()->save($upload);
-		
-		return $upload;
-	}
-}
-
 if (!function_exists('deleteFile')) {
 	/**
 	 * Destroy Old Image.	 *
@@ -197,5 +171,18 @@ if (!function_exists('generateRandomString')) {
 		$randomString = Str::random($length); 
 
 		return $randomString;
+	}
+}
+
+if (!function_exists('convertDateTimeFormat')) {
+	function convertDateTimeFormat($value,$type='date')
+	{
+		$changeFormatValue = Carbon::parse($value);
+		if ($type == 'date') {
+			return $changeFormatValue->format(config('constants.date_format'));
+		}else if($type='datetime'){
+			return $changeFormatValue->format(config('constants.datetime_format'));
+		}
+		return $changeFormatValue;
 	}
 }

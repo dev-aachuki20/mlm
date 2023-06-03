@@ -43,13 +43,36 @@ return [
         'title' => 'Packages',
         'title_singular' => 'Package',
         'fields' => [
-            'title' => 'Title',
+            'title' => 'Plan name',
+            'amount' => 'Plan prize',
             'description' => 'Description',
-            'commission'  => 'Commission',
+            'commission'  => 'Level commission',
             'level_one_commission'   => 'Level 1',
             'level_two_commission'   => 'Level 2',
-            'level_three_commission' => 'Level 3',           
+            'level_three_commission' => 'Level 3',
+            'logo' => 'Logo',           
             'created_at' => 'Created At',
+
+        ],
+    ],
+
+    'faq' => [
+        'title' => 'Faqs',
+        'title_singular' => 'Faq',
+        'fields' => [
+            'question' => 'Question',
+            'answer' => 'Answer',         
+        ],
+    ],
+
+    'testimonial' => [
+        'title' => 'Testimonials',
+        'title_singular' => 'Testimonial',
+        'fields' => [
+            'name'   => 'Name',
+            'rating' => 'Rating',
+            'designation' => 'Designation',
+            'description' => 'Description',      
         ],
     ],
 

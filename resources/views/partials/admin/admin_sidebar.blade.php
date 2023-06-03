@@ -12,6 +12,18 @@
             <span class="menu-title">{{__('cruds.package.title_singular')}}</span>
         </a>
     </li>
+    <li class="nav-item {{ request()->is('admin/testimonial') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.testimonial') }}">
+            <i class="icon-grid menu-icon ti-comment-alt"></i>
+            <span class="menu-title">{{__('cruds.testimonial.title_singular')}}</span>
+        </a>
+    </li>
+    <li class="nav-item {{ request()->is('admin/faq') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.faq') }}">
+            <i class="icon-grid menu-icon ti-help-alt"></i>
+            <span class="menu-title">{{__('cruds.faq.title_singular')}}</span>
+        </a>
+    </li>
     <!-- <li class="nav-item">
     <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
         <i class="icon-layout menu-icon"></i>

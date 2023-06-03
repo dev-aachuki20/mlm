@@ -4,7 +4,7 @@
         <div class="col-lg-4 mx-auto">
         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
             <div class="brand-logo">
-            <img src="{{ asset('images/logo.svg') }}" alt="logo">
+            <img src="{{ asset('admin/images/logo.svg') }}" alt="logo">
             </div>
             <h4>Hello! let's get started</h4>
             <h6 class="font-weight-light">Login to continue.</h6>
@@ -22,6 +22,9 @@
             <div class="mt-3">
                 <button type="submit"  wire:loading.attr="disabled" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
                     {{ trans('global.login') }}
+                    <span wire:loading wire:target="submitLogin">
+                        <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                    </span>
                 </button>
             </div>
             </form>

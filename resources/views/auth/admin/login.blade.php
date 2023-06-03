@@ -12,17 +12,21 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>{{ trans('global.login') }}</title>
   <!-- plugins:css -->
-  <link rel="stylesheet" href="{{ asset('assets/feather/feather.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/ti-icons/css/themify-icons.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/vendor.bundle.base.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/admin/custom.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/assets/feather/feather.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/assets/ti-icons/css/themify-icons.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/assets/css/vendor.bundle.base.css') }}">
   <!-- endinject -->
   <!-- Plugin css for this page -->
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/css/vertical-layout-light/style.css') }}">
   <!-- endinject -->
-  <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
+  <link rel="shortcut icon" href="{{ asset('admin/images/favicon.png') }}" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  
+  <link rel="stylesheet" href="{{ asset('admin/css/custom.css') }}" />
+
 
   @livewireStyles
 </head>
@@ -37,15 +41,15 @@
   </div>
   <!-- container-scroller -->
   <!-- plugins:js -->
-  <script src="{{ asset('assets/js/vendor.bundle.base.js') }}"></script>
-  <script src="{{ asset('js/template.js') }}"></script>
-  <script src="{{ asset('vendor/livewire-alert/livewire-alert.js') }}"></script> 
+  <script src="{{ asset('admin/assets/js/vendor.bundle.base.js') }}"></script>
+  <script src="{{ asset('admin/js/template.js') }}"></script>
+  <script src="{{ asset('admin/vendor/livewire-alert/livewire-alert.js') }}"></script> 
 
   @livewireScripts
 
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   
-  <script src="{{ asset('vendor/livewire-alert/livewire-alert.js') }}"></script> 
+  <script src="{{ asset('admin/vendor/livewire-alert/livewire-alert.js') }}"></script> 
 
   <x-livewire-alert::flash />
   

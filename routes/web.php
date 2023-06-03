@@ -34,8 +34,13 @@ Route::group(['middleware' => ['web'], 'as' => 'auth.','prefix'=>'auth'], functi
 Route::group(['middleware' => ['preventBackHistory']], function () {
 
     Route::group(['as' => 'admin.','prefix'=>'admin'], function () {
-        Route::view('index', 'admin.index')->name('dashboard');
+        
+        Route::view('dashboard', 'admin.index')->name('dashboard');
         Route::view('package', 'admin.package.index')->name('package');
+        Route::view('testimonial', 'admin.testimonial.index')->name('testimonial');
+        Route::view('faq', 'admin.faq.index')->name('faq');
+
+
     });
 
 });
