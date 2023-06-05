@@ -52,7 +52,12 @@ class Login extends BaseComponent
 
                     $this->flash('success', trans('panel.message.login_success'));
 
-                    return redirect()->route('admin.dashboard');
+                    if(Auth::user()->is_user){
+                        return redirect()->route('user.dashboard');
+                    }else{
+                        return redirect()->route('admin.dashboard');
+                    }
+                  
                 }
         
                 $this->addError('email', trans('auth.failed'));

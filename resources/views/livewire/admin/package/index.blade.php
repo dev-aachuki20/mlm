@@ -8,6 +8,10 @@
     
                     @include('livewire.admin.package.form')
 
+                @elseif($viewMode)
+
+                    @livewire('admin.package.show', ['package_id' => $package_id])
+
                 @else
                     <div wire:loading wire:target="create" class="loader"></div>
                     <div class="card-title">
@@ -18,7 +22,10 @@
                         </button>
                     </div>                
                     <div class="table-responsive">
-                    
+                        <div class="table-additional-plugin">
+                            <input type="text" class="form-control col-2" wire:model="search" placeholder="{{ __('global.search')}}">
+                        </div>
+                       
                         <table class="table table-hover">
                         <thead>
                             <tr>
@@ -47,6 +54,10 @@
                                         </td>
                                         <td>{{ convertDateTimeFormat($package->created_at,'datetime') }}</td>
                                         <td>
+                                            <button type="button" wire:click="show({{$package->id}})" class="btn btn-primary btn-rounded btn-icon">
+                                                <i class="ti-eye"></i>
+                                            </button>
+                                            
                                             <button type="button" wire:click="edit({{$package->id}})" class="btn btn-info btn-rounded btn-icon">
                                                 <i class="ti-pencil-alt"></i>
                                             </button>
@@ -65,7 +76,9 @@
                         
                         </tbody>
                         </table>
-                    
+
+                        {{ $allPackages->links('vendor.pagination.bootstrap-5') }}
+                       
                     </div>
 
                 @endif
@@ -92,7 +105,6 @@
         $('.dropify').dropify();
         $('.dropify-errors-container').remove();
       
-
         $('textarea#summernote').summernote({
             placeholder: 'Type somthing...',
             tabsize: 2,
@@ -106,7 +118,13 @@
                 ['table', ['table']],
                 ['insert', ['link', /*'picture', 'video'*/]],
                 // ['view', ['fullscreen', 'codeview', 'help']],
-            ]
+            ],
+            callbacks: {
+                onChange: function(content) {
+                    // Update the Livewire property when the Summernote content changes
+                    @this.set('description', content);
+                }
+            }
         });
       
     });

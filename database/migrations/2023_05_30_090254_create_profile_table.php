@@ -35,6 +35,9 @@ return new class extends Migration
             $table->string('ifsc_code')->nullable();
             $table->string('account_number')->nullable();
             $table->string('pan_card_number',100)->nullable();
+            $table->unsignedBigInteger('level_one_user_id')->nullable();
+            $table->unsignedBigInteger('level_two_user_id')->nullable();
+            $table->unsignedBigInteger('level_three_user_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

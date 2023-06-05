@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label>{{ __('cruds.faq.fields.question')}}</label>
+                <label class="font-weight-bold">{{ __('cruds.faq.fields.question')}}</label>
                 <textarea class="form-control" wire:model.defer="question" rows="4"></textarea>
                 @error('question') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
@@ -18,8 +18,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label>{{ __('cruds.faq.fields.answer')}}</label>
-                <textarea class="form-control" wire:model.defer="answer" rows="4"></textarea>
+                <label class="font-weight-bold">{{ __('cruds.faq.fields.answer')}}</label>
+                <textarea class="form-control" id="summernote" wire:model.defer="answer" rows="4"></textarea>
                 @error('answer') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
         </div>
@@ -28,8 +28,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
+                <label class="font-weight-bold">{{__('global.status')}}</label>
                 <div class="form-group">
-                    <label class="toggle-switch float-right">
+                    <label class="toggle-switch">
                         <input type="checkbox" class="toggleSwitch" value="{{ $status }}" {{ $status ==1 ? 'checked' : '' }}>
                         <span class="switch-slider"></span>
                     </label>
@@ -45,7 +46,7 @@
             <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
         </span>
     </button>
-    <button wire:click.prevent="cancel" class="btn btn-light">
+    <button wire:click.prevent="cancel" class="btn btn-secondary">
         {{ __('global.cancel')}}
         <span wire:loading wire:target="cancel">
             <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>

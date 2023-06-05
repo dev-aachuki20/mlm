@@ -36,4 +36,23 @@ class Testimonial extends Model
             $model->created_by = auth()->user()->id;
         });               
     }
+
+    public function uploads()
+    {
+        return $this->morphMany(Uploads::class, 'uploadsable');
+    }
+
+
+    public function testimonialImage()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','testimonial');
+    }
+
+    public function getImageUrlAttribute()
+    {
+        if($this->testimonialImage){
+            return $this->testimonialImage->file_url;
+        }
+        return "";
+    }
 }

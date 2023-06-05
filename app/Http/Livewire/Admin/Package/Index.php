@@ -2,12 +2,16 @@
 
 namespace App\Http\Livewire\Admin\Package;
 
+use Gate;
 use App\Models\Package;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Symfony\Component\HttpFoundation\Response;
+use App\Rules\CommissionRule;
+
 
 class Index extends Component
 {
@@ -20,33 +24,24 @@ class Index extends Component
 
     protected $packages = null;
 
-    public  $title, $amount, $status = 1, $description='',$package_logo=null;
+    public  $title, $amount, $status = 1, $description='',$image=null,$viewMode = false,$originalImage;
 
     public $package_id =null, $level_one_commission, $level_two_commission, $level_three_commission;
 
-    protected $rules = [
-        'title'  => 'required',
-        'amount' => 'required',
-        'level_one_commission'   => '',
-        'level_two_commission'   => '',
-        'level_three_commission' => '',
-        'description' => 'required',
-        'status' => 'required',
-        'package_logo' => 'required|image|max:1024',
-    ];
-    
     protected $listeners = [
         'confirmedToggleAction','deleteConfirm'
     ];
 
     public function mount(){
-       
+        abort_if(Gate::denies('package_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
     }
 
     public function render()
     {
+        $this->search = str_replace(',', '', $this->search);
          $this->packages = Package::query()
             ->where('title', 'like', '%'.$this->search.'%')
+            ->orWhere('amount', 'like', '%'.$this->search.'%')
             ->orderBy('id','desc')
             ->paginate(10);
 
@@ -63,41 +58,33 @@ class Index extends Component
 
     public function store()
     {
-        $rules = [
+        $validatedData = $this->validate([
             'title'  => 'required',
             'amount' => 'required',
-            'level_one_commission'   => '',
-            'level_two_commission'   => '',
-            'level_three_commission' => '',
+            'level_one_commission'   => [new CommissionRule($this->amount)],
+            'level_two_commission'   => [new CommissionRule($this->amount)],
+            'level_three_commission' => [new CommissionRule($this->amount)],
             'description' => 'required',
             'status' => 'required',
-            'package_logo' => 'required|image|max:'.config('constants.logo_max_size'),
-        ];
+            'image' => 'required|image|max:'.config('constants.logo_max_size'),
+        ]);
+        
+        $validatedData['status'] = $this->status;
 
-        $validatedData = Validator::make($this->all(),$rules);
+        $insertRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators']);
 
-        if ($validatedData->fails()) {
-            $this->initializePlugins();
-            $validatedData->validate();
-        }else{
-            $validatedDate['status'] = !$this->status;
+        $package = Package::create($insertRecord);
+    
+        uploadImage($package, $this->image, 'package/image/',"package", 'original', 'save', null);
 
-            $insertRecord = $this->except(['search','formMode','updateMode','package_id','package_logo','page','paginators']);
-    
-            $package = Package::create($insertRecord);
-      
-            uploadImage($package, $this->package_logo, 'package/logo/',"package", 'original', 'save', null);
-    
-            $this->formMode = false;
-    
-            $this->resetInputFields();
-    
-            $this->flash('success',trans('messages.add_success_message'));
-          
-            return redirect()->route('admin.package');
-        }
+        $this->formMode = false;
 
-      
+        $this->resetInputFields();
+
+        $this->flash('success',trans('messages.add_success_message'));
+        
+        return redirect()->route('admin.package');
+       
     }
 
 
@@ -113,7 +100,7 @@ class Index extends Component
         $this->level_three_commission = $package->level_three_commission;
         $this->description = $package->description;
         $this->status = $package->status;
-        $this->package_logo = $package->logo_image_url;
+        $this->originalImage = $package->image_url;
 
         $this->formMode = true;
         $this->updateMode = true;
@@ -121,7 +108,7 @@ class Index extends Component
     }
 
     public function update(){
-        $validatedDate = $this->validate([
+        $validatedData = $this->validate([
             'title' => 'required',
             'amount' => 'required',
             'level_one_commission'   => '',
@@ -131,19 +118,22 @@ class Index extends Component
             'status' => 'required',
         ]);
 
-        if(!$this->package_logo){
-            $validatedDate['package_logo'] = 'required|image|max:'.config('constants.logo_max_size');
+        if($this->image){
+            $validatedData['image'] = 'required|image|max:'.config('constants.logo_max_size');
         }
   
-        $validatedDate['status'] = !$this->status;
+        $validatedData['status'] = !$this->status;
 
         $package = Package::find($this->package_id);
 
-        if(!$this->package_logo){
-          uploadImage($package, $this->package_logo, 'package/logo/',"package", 'original', 'update', null);
+        // Check if the photo has been changed
+        $uploadId = null;
+        if ($this->image) {
+            $uploadId = $package->packageLogo->id;
+            uploadImage($package, $this->image, 'package/image/',"package", 'original', 'update', $uploadId);
         }
         
-        $updateRecord = $this->except(['search','formMode','updateMode','package_id','package_logo','page','paginators']);
+        $updateRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators']);
 
         $package->update($updateRecord);
   
@@ -178,6 +168,11 @@ class Index extends Component
         $this->alert('success', trans('messages.delete_success_message'));
     }
 
+    public function show($id){
+        $this->package_id = $id;
+        $this->formMode = false;
+        $this->viewMode = true;
+    }
 
     private function resetInputFields(){
         $this->title = '';
@@ -187,12 +182,14 @@ class Index extends Component
         $this->level_three_commission = '';
         $this->description = '';
         $this->status = 1;
-        $this->package_logo =null;
+        $this->package_image =null;
     }
 
     public function cancel(){
         $this->formMode = false;
         $this->updateMode = false;
+        $this->viewMode = false;
+
     }
 
     public function toggle($id){

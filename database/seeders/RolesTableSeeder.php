@@ -12,12 +12,18 @@ class RolesTableSeeder extends Seeder
         $roles = [
             [
                 'id'         => 1,
-                'title'      => 'Admin',
+                'title'      => 'Super Admin',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ], 
             [
                 'id'         => 2,
+                'title'      => 'Admin',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ], 
+            [
+                'id'         => 3,
                 'title'      => 'User',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),

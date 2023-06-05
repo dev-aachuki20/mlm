@@ -84,7 +84,7 @@ class User extends Authenticatable
      */
     public function canImpersonate()
     {
-        if(in_array(auth()->user()->roles->first()->id, ['1','2'])){
+        if(in_array(auth()->user()->roles->first()->id, ['1','2','3'])){
             return true;
         }
         return false;
@@ -95,20 +95,25 @@ class User extends Authenticatable
      */
     public function canBeImpersonated()
     {
-        if(in_array($this->roles->first()->id, ['1'])){
+        if(in_array($this->roles->first()->id, ['1','2'])){
             return false;
         }
         return true;
     }
 
-    public function getIsAdminAttribute()
+    public function getIsSuperAdminAttribute()
     {
         return $this->roles()->where('id', 1)->exists();
     }
 
-    public function getIsUserAttribute()
+    public function getIsAdminAttribute()
     {
         return $this->roles()->where('id', 2)->exists();
+    }
+
+    public function getIsUserAttribute()
+    {
+        return $this->roles()->where('id', 3)->exists();
     }
 
     public function profileImage()

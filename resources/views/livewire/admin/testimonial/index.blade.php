@@ -8,6 +8,10 @@
     
                     @include('livewire.admin.testimonial.form')
 
+                @elseif($viewMode)
+
+                    @livewire('admin.testimonial.show', ['testimonial_id' => $testimonial_id])
+
                 @else
                     <div wire:loading wire:target="create" class="loader"></div>
                     <div class="card-title">
@@ -18,7 +22,9 @@
                         </button>
                     </div>                
                     <div class="table-responsive">
-                    
+                        <div class="table-additional-plugin">
+                            <input type="text" class="form-control col-2" wire:model="search" placeholder="{{ __('global.search')}}">
+                        </div>
                         <table class="table table-hover">
                         <thead>
                             <tr>
@@ -45,6 +51,10 @@
                                         </td>
                                         <td>{{ convertDateTimeFormat($testimonial->created_at,'datetime') }}</td>
                                         <td>
+                                            <button type="button" wire:click="show({{$testimonial->id}})" class="btn btn-primary btn-rounded btn-icon">
+                                                <i class="ti-eye"></i>
+                                            </button>
+
                                             <button type="button" wire:click="edit({{$testimonial->id}})" class="btn btn-info btn-rounded btn-icon">
                                                 <i class="ti-pencil-alt"></i>
                                             </button>
@@ -63,7 +73,9 @@
                         
                         </tbody>
                         </table>
-                    
+
+                         {{ $allTestimonials->links('vendor.pagination.bootstrap-5') }}
+
                     </div>
 
                 @endif
@@ -73,3 +85,47 @@
     </div>
 </div>
 </div>
+
+@push('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+@endpush
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script type="text/javascript">
+
+    document.addEventListener('loadPlugins', function (event) {
+      
+        $('.dropify').dropify();
+        $('.dropify-errors-container').remove();
+      
+        $('textarea#summernote').summernote({
+            placeholder: 'Type somthing...',
+            tabsize: 2,
+            height: 100,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', /*'picture', 'video'*/]],
+                // ['view', ['fullscreen', 'codeview', 'help']],
+            ],
+            callbacks: {
+                onChange: function(content) {
+                    // Update the Livewire property when the Summernote content changes
+                    @this.set('description', content);
+                }
+            }
+        });
+      
+    });
+
+   
+
+</script>
+@endpush

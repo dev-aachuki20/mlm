@@ -45,15 +45,15 @@ class Package extends Model
         return $this->morphMany(Uploads::class, 'uploadsable');
     }
 
-    public function packageLogo()
+    public function packageImage()
     {
         return $this->morphOne(Uploads::class, 'uploadsable')->where('type','package');
     }
 
-    public function getLogoImageUrlAttribute()
+    public function getImageUrlAttribute()
     {
-        if($this->packageLogo){
-            return $this->packageLogo->file_url;
+        if($this->packageImage){
+            return $this->packageImage->file_url;
         }
         return "";
     }

@@ -39,7 +39,13 @@ Route::group(['middleware' => ['preventBackHistory']], function () {
         Route::view('package', 'admin.package.index')->name('package');
         Route::view('testimonial', 'admin.testimonial.index')->name('testimonial');
         Route::view('faq', 'admin.faq.index')->name('faq');
+        Route::view('slider-banner', 'admin.slider-banner.index')->name('slider-banner');
 
+    });
+
+    Route::group(['as' => 'user.','prefix'=>'user'], function () {
+        
+        Route::view('dashboard', 'user.index')->name('dashboard');
 
     });
 

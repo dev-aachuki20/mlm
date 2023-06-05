@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\Admin\Faq;
 
+use Gate;
 use Livewire\Component;
 use App\Models\Faq;
 use Livewire\WithPagination;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Symfony\Component\HttpFoundation\Response;
 
 class Index extends Component
 {
@@ -13,7 +15,7 @@ class Index extends Component
 
     protected $layout = null;
 
-    public $search = '', $formMode = false , $updateMode = false;
+    public $search = '', $formMode = false , $updateMode = false, $viewMode = false,$viewDetails = null;
 
     public $faq_id = null, $question, $answer,$status = 1;
 
@@ -23,12 +25,15 @@ class Index extends Component
         'confirmedToggleAction','deleteConfirm'
     ];
 
+    public function mount(){
+        abort_if(Gate::denies('faq_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+    }
+
     public function render()
     {
-
         $this->faqs = Faq::query()
         ->where('question', 'like', '%'.$this->search.'%')
-        ->orderBy('id')
+        ->orderBy('id','desc')
         ->paginate(10);
 
         $allFaqs = $this->faqs;
@@ -39,6 +44,7 @@ class Index extends Component
     public function create()
     {
         $this->resetInputFields();
+        $this->initializePlugins();
         $this->formMode = true;
     }
 
@@ -51,7 +57,7 @@ class Index extends Component
             'status'  => 'required',
         ]);
 
-        $validatedDate['status'] = !$this->status;
+        $validatedDate['status'] = $this->status;
     
         Faq::create($validatedDate);
   
@@ -66,6 +72,7 @@ class Index extends Component
 
     public function edit($id)
     {
+        $this->initializePlugins();
         $faq = Faq::findOrFail($id);
         $this->faq_id = $id;
         $this->question     = $faq->question;
@@ -118,6 +125,12 @@ class Index extends Component
         $this->alert('success', trans('messages.delete_success_message'));
     }
 
+    public function show($id){
+        $this->faq_id = $id;
+        $this->formMode = false;
+        $this->viewMode = true;
+    }
+
     private function resetInputFields(){
         $this->question = '';
         $this->answer = '';
@@ -127,6 +140,7 @@ class Index extends Component
     public function cancel(){
         $this->formMode = false;
         $this->updateMode = false;
+        $this->viewMode = false;
     }
 
     public function toggle($id){
@@ -149,6 +163,10 @@ class Index extends Component
         $model = Faq::find($faqId);
         $model->update(['status' => !$model->status]);
         $this->alert('success', trans('messages.change_status_success_message'));
+    }
+
+    public function initializePlugins(){
+        $this->dispatchBrowserEvent('loadPlugins');
     }
 
 }

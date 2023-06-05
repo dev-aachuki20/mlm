@@ -50,7 +50,7 @@ return [
             'level_one_commission'   => 'Level 1',
             'level_two_commission'   => 'Level 2',
             'level_three_commission' => 'Level 3',
-            'logo' => 'Logo',           
+            'image' => 'Image',           
             'created_at' => 'Created At',
 
         ],
@@ -72,7 +72,8 @@ return [
             'name'   => 'Name',
             'rating' => 'Rating',
             'designation' => 'Designation',
-            'description' => 'Description',      
+            'description' => 'Description',
+            'image' => 'Image',           
         ],
     ],
 

@@ -6,24 +6,57 @@
             <span class="menu-title">{{__('global.dashboard')}}</span>
         </a>
     </li>
-    <li class="nav-item {{ request()->is('admin/package') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.package') }}">
-            <i class="icon-grid menu-icon ti-package"></i>
-            <span class="menu-title">{{__('cruds.package.title_singular')}}</span>
+
+    @if(auth()->user()->is_super_admin)
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+            <i class="icon-layout menu-icon"></i>
+            <span class="menu-title">Master</span>
+            <i class="menu-arrow"></i>
         </a>
-    </li>
-    <li class="nav-item {{ request()->is('admin/testimonial') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.testimonial') }}">
-            <i class="icon-grid menu-icon ti-comment-alt"></i>
-            <span class="menu-title">{{__('cruds.testimonial.title_singular')}}</span>
-        </a>
-    </li>
-    <li class="nav-item {{ request()->is('admin/faq') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.faq') }}">
-            <i class="icon-grid menu-icon ti-help-alt"></i>
-            <span class="menu-title">{{__('cruds.faq.title_singular')}}</span>
-        </a>
-    </li>
+        <div class="collapse" id="ui-basic">
+            <ul class="nav flex-column sub-menu">
+                @can('package_access')
+                <li class="nav-item {{ request()->is('admin/package') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.package') }}">
+                        <!-- <i class="icon-grid menu-icon ti-package"></i> -->
+                        <span class="menu-title">{{__('cruds.package.title_singular')}}</span>
+                    </a>
+                </li>
+                @endcan
+
+                @can('testimonial_access')
+                <li class="nav-item {{ request()->is('admin/testimonial') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.testimonial') }}">
+                        <!-- <i class="icon-grid menu-icon ti-comment-alt"></i> -->
+                        <span class="menu-title">{{__('cruds.testimonial.title_singular')}}</span>
+                    </a>
+                </li>
+                @endcan
+
+                @can('slider_banner_access')
+                <li class="nav-item {{ request()->is('admin/slider-banner') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.slider-banner') }}">
+                        <!-- <i class="icon-grid menu-icon ti-help-alt"></i> -->
+                        <span class="menu-title">Slider Banner</span>
+                    </a>
+                </li>
+                @endcan
+
+                @can('faq_access')
+                <li class="nav-item {{ request()->is('admin/faq') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.faq') }}">
+                        <!-- <i class="icon-grid menu-icon ti-help-alt"></i> -->
+                        <span class="menu-title">{{__('cruds.faq.title_singular')}}</span>
+                    </a>
+                </li>
+                @endcan
+            </ul>
+        </div>
+    </li> 
+    @endif
+
+    
     <!-- <li class="nav-item">
     <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
         <i class="icon-layout menu-icon"></i>

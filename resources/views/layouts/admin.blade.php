@@ -22,11 +22,20 @@
 <body>
     <div class="container-scroller">
     
-            @include('partials.admin.header')
+        @include('partials.admin.header')
 
         <div class="container-fluid page-body-wrapper">
 
-         @include('partials.admin.admin_sidebar')
+        @if(auth()->user()->is_super_admin || auth()->user()->is_admin)
+
+            @include('partials.admin.admin_sidebar')
+
+        @elseif(auth()->user()->is_user)
+
+            @include('partials.admin.user_sidebar')
+
+        @endif
+        
 
         <div class="main-panel">
             <!-- content-wrapper start -->

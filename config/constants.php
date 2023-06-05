@@ -30,6 +30,8 @@ return [
     'img_max_size' => '3', // logo min height
    
     'logo_max_size' => '1024',
+    
+    'slider_banner_limit' => '5',
 
     'gender_options' => [   
         1 => "Male",
