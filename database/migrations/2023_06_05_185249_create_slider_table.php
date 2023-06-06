@@ -16,7 +16,9 @@ return new class extends Migration
         Schema::create('slider', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->string('type',100)->nullable();
             $table->unsignedBigInteger('created_by');
+            $table->tinyInteger('status')->default(1)->comment('0=> inactive, 1=> active');
             $table->timestamps();
             $table->softDeletes();
         });

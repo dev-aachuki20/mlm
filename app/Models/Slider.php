@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class Package extends Model
+class Slider extends Model
 {
     use SoftDeletes;
 
-    public $table = 'package';
+    public $table = 'slider';
 
     protected $dates = [
         'created_at',
@@ -20,13 +20,15 @@ class Package extends Model
 
     protected $fillable = [
         'name',
+        'type',
+        'status',
         'created_by',
     ];
 
     protected static function boot () 
     {
         parent::boot();
-        static::creating(function(Package $model) {
+        static::creating(function(Slider $model) {
             $model->created_by = auth()->user()->id;
         });               
     }
@@ -38,7 +40,7 @@ class Package extends Model
 
     public function sliderImage()
     {
-        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','slider-banner');
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','slider');
     }
 
     public function getImageUrlAttribute()

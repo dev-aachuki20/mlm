@@ -1,12 +1,12 @@
 @extends('layouts.admin')
-@section('title','Slider Banner')
+@section('title','Profile')
 
 @section('styles')
 @stop
 
 @section('content')
 
-    @livewire('admin.slider-banner.index')
+    @livewire('auth.profile.index')
 
 @stop
 

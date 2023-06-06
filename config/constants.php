@@ -27,11 +27,14 @@ return [
     
     'logo_min_width' => '250', // logo min width
     'logo_min_height' => '150', // logo min height
-    'img_max_size' => '3', // logo min height
    
-    'logo_max_size' => '1024',
+    'img_max_size' => '1024',
     
-    'slider_banner_limit' => '5',
+    'slider_limit' => '5',
+
+    'slider_type' => [
+        'banner',
+    ],
 
     'gender_options' => [   
         1 => "Male",
@@ -39,5 +42,5 @@ return [
         3 => "Other",
     ],
     'copy_right_content'=>'All Rights Reserved.',
-   
+
 ];

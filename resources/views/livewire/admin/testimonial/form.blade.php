@@ -21,16 +21,7 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12 mb-4">
-            <div class="form-group mb-0" wire:ignore>
-                <label class="font-weight-bold">{{ __('cruds.testimonial.fields.rating')}}</label>
-                <input type="number" class="form-control" min="1" max="5"  wire:model.defer="rating" placeholder="{{ __('cruds.testimonial.fields.rating')}}" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight','Tab'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space' && this.value.length < 1 " step="1"  autocomplete="off">
-            </div>
-            @error('rating') <span class="error text-danger">{{ $message }}</span>@enderror
-        </div>
-    </div>
-
+ 
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
@@ -56,8 +47,16 @@
     </div>
     
     <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
+        <div class="col-md-6">
+            <div class="form-group mb-0" wire:ignore>
+                <label class="font-weight-bold">{{ __('cruds.testimonial.fields.rating')}}</label>
+                <input type="number" class="form-control" min="1" max="5"  wire:model.defer="rating" placeholder="{{ __('cruds.testimonial.fields.rating')}}" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight','Tab'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space' && this.value.length < 1 " step="1"  autocomplete="off">
+            </div>
+            @error('rating') <span class="error text-danger">{{ $message }}</span>@enderror
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group float-left">
                 <label class="font-weight-bold">{{__('global.status')}}</label>
                 <div class="form-group">
                     <label class="toggle-switch float-right">

@@ -34,11 +34,11 @@
                 </li>
                 @endcan
 
-                @can('slider_banner_access')
-                <li class="nav-item {{ request()->is('admin/slider-banner') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin.slider-banner') }}">
+                @can('slider_access')
+                <li class="nav-item {{ request()->is('admin/slider') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.slider') }}">
                         <!-- <i class="icon-grid menu-icon ti-help-alt"></i> -->
-                        <span class="menu-title">Slider Banner</span>
+                        <span class="menu-title">Slider</span>
                     </a>
                 </li>
                 @endcan

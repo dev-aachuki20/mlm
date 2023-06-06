@@ -7,7 +7,6 @@ use App\Models\Package;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Symfony\Component\HttpFoundation\Response;
 use App\Rules\CommissionRule;
@@ -66,7 +65,7 @@ class Index extends Component
             'level_three_commission' => [new CommissionRule($this->amount)],
             'description' => 'required',
             'status' => 'required',
-            'image' => 'required|image|max:'.config('constants.logo_max_size'),
+            'image' => 'required|image|max:'.config('constants.img_max_size'),
         ]);
         
         $validatedData['status'] = $this->status;
@@ -119,7 +118,7 @@ class Index extends Component
         ]);
 
         if($this->image){
-            $validatedData['image'] = 'required|image|max:'.config('constants.logo_max_size');
+            $validatedData['image'] = 'required|image|max:'.config('constants.img_max_size');
         }
   
         $validatedData['status'] = !$this->status;
@@ -129,7 +128,7 @@ class Index extends Component
         // Check if the photo has been changed
         $uploadId = null;
         if ($this->image) {
-            $uploadId = $package->packageLogo->id;
+            $uploadId = $package->packageImage->id;
             uploadImage($package, $this->image, 'package/image/',"package", 'original', 'update', $uploadId);
         }
         

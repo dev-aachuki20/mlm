@@ -27,11 +27,15 @@ Route::get('/cache-clear', function() {
 Route::group(['middleware' => ['web'], 'as' => 'auth.','prefix'=>'auth'], function () {
     
     Route::view('login', 'auth.admin.login')->name('login');
-
+    Route::view('forget-password', 'auth.admin.forget-password')->name('forget-password');
+    Route::view('reset-password/{token}/{email}', 'auth.admin.reset-password')->name('reset-password');
 });    
 
 
-Route::group(['middleware' => ['preventBackHistory']], function () {
+Route::group(['middleware' => ['auth','preventBackHistory']], function () {
+
+    Route::view('admin/profile', 'auth.profile.index')->name('auth.admin-profile');
+    Route::view('user/profile', 'auth.profile.index')->name('auth.user-profile');
 
     Route::group(['as' => 'admin.','prefix'=>'admin'], function () {
         
@@ -39,7 +43,7 @@ Route::group(['middleware' => ['preventBackHistory']], function () {
         Route::view('package', 'admin.package.index')->name('package');
         Route::view('testimonial', 'admin.testimonial.index')->name('testimonial');
         Route::view('faq', 'admin.faq.index')->name('faq');
-        Route::view('slider-banner', 'admin.slider-banner.index')->name('slider-banner');
+        Route::view('slider', 'admin.slider.index')->name('slider');
 
     });
 

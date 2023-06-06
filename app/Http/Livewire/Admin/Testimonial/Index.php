@@ -60,7 +60,7 @@ class Index extends Component
             'description' => 'required',
             'rating'      => 'required|digits_between:1,5',
             'status' => 'required',
-            'testimonial_image' => 'required|image|max:'.config('constants.logo_max_size'),
+            'testimonial_image' => 'required|image|max:'.config('constants.img_max_size'),
         ]);
   
         $validatedData['status'] = $this->status;
@@ -103,7 +103,7 @@ class Index extends Component
         ]);
 
         if($this->testimonial_image){
-            $validatedData['testimonial_image'] = 'required|image|max:'.config('constants.logo_max_size');
+            $validatedData['testimonial_image'] = 'required|image|max:'.config('constants.img_max_size');
         }
   
         $validatedData['status'] = !$this->status;
@@ -113,7 +113,7 @@ class Index extends Component
         // Check if the photo has been changed
         $uploadId = null;
         if ($this->testimonial_image) {
-             $uploadId = $testimonial->testimonialLogo->id;
+             $uploadId = $testimonial->testimonialImage->id;
              uploadImage($testimonial, $this->testimonial_image, 'testimonial/image/',"testimonial", 'original', 'update', $uploadId);
         }
 

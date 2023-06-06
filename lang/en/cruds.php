@@ -21,7 +21,36 @@ return [
             'password'                 => 'Password',
             'confirm_password'         => 'Password Confirm',
             'role'                     => 'User Level',
+            'date_of_join'             => 'Date of join',
+            'my_referral_code'         => 'My referral code',
+            'referral_code'            => 'Referral code',
+            'referral_name'            => 'Referral Name',
             'remember_token'           => 'Remember Token',
+            'created_at'               => 'Created at',
+            'updated_at'               => 'Updated at',
+            'deleted_at'               => 'Deleted at',
+        ],
+
+        'profile'         => [
+            'guardian_name'            => 'Guardian name',
+            'gender'                   => 'Gender',
+            'profession'               => 'Profession',
+            'marital_status'           => 'Marital status',
+            'address'                  => 'Address',
+            'state'                    => 'state',
+            'city'                     => 'city',
+            'pin_code'                 => 'Pin code',
+            'nominee_name'             => 'Nominee name',
+            'nominee_dob'              => 'Nominee DOB',
+            'nominee_relation'         => 'Nominee relation',
+            'bank_name'                => 'Bank Name',
+            'branch_name'              => 'Branch Name',
+            'ifsc_code'                => 'Ifsc code',
+            'account_number'           => 'Account number',
+            'pan_card_number'          => 'Pan card number',
+            'level_one_user'           => 'Level 1 user',
+            'level_two_user'           => 'Level 2 user',
+            'level_three_user'         => 'Level 3 user',
             'created_at'               => 'Created at',
             'updated_at'               => 'Updated at',
             'deleted_at'               => 'Deleted at',
@@ -44,7 +73,7 @@ return [
         'title_singular' => 'Package',
         'fields' => [
             'title' => 'Plan name',
-            'amount' => 'Plan prize',
+            'amount' => 'Plan price',
             'description' => 'Description',
             'commission'  => 'Level commission',
             'level_one_commission'   => 'Level 1',
@@ -77,6 +106,14 @@ return [
         ],
     ],
 
-   
+    'slider' => [
+        'title' => 'Sliders',
+        'title_singular' => 'Slider',
+        'fields' => [
+            'name' => 'Name',
+            'type' => 'Type',
+            'image'=>'Image'         
+        ],
+    ],
 
 ];

@@ -6,20 +6,24 @@
 
                 @if($formMode)
     
-                    @include('livewire.admin.faq.form')
+                    @include('livewire.admin.slider.form')
 
                 @elseif($viewMode)
 
-                    @livewire('admin.faq.show', ['faq_id' => $faq_id])
-                  
+                    @livewire('admin.slider.show', ['slider_id' => $slider_id])
+
                 @else
                     <div wire:loading wire:target="create" class="loader"></div>
                     <div class="card-title">
-                        <h4 class="float-left">{{__('cruds.faq.title_singular')}}</h4>
-                        <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                            <i class="ti-plus btn-icon-prepend"></i>                                                    
-                                {{__('global.add')}}
-                        </button>
+                        <h4 class="float-left">Slider</h4>
+
+                        @if($allSliders->count() <= (int)config('constants.slider_limit'))
+                            <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
+                                <i class="ti-plus btn-icon-prepend"></i>                                                    
+                                    {{__('global.add')}}
+                            </button>
+                        @endif
+
                     </div>                
                     <div class="table-responsive">
                         <div class="table-additional-plugin">
@@ -29,37 +33,40 @@
                         <thead>
                             <tr>
                                 <th>{{ trans('global.sno') }}</th>
-                                <th>{{ trans('cruds.faq.fields.question') }}</th>
+                                <th>{{ __('cruds.slider.fields.name')}}</th>
+                                <th>{{ __('cruds.slider.fields.type')}}</th>
                                 <th>{{ trans('global.status') }}</th>
                                 <th>{{ trans('global.created_at') }}</th>
                                 <th>{{ trans('global.action') }}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if($allFaqs->count() > 0)
-                                @foreach($allFaqs as $serialNo => $faq)
-                                    <tr>
+                            @if($allSliders->count() > 0)
+                                @foreach($allSliders as $serialNo => $slider)
+
+                                <tr>
                                         <td>{{ $serialNo+1 }}</td>
-                                        <td>{{ $faq->question }}</td>
+                                        <td>{{ ucfirst($slider->name) }}</td>
+                                        <td>{{ ucfirst($slider->type) }}</td>
                                         <td>
                         
                                             <label class="toggle-switch">
-                                                <input wire:ignore type="checkbox" class="toggleSwitch"  wire:click="toggle({{$faq->id}})" {{ $faq->status == 1 ? 'checked' : '' }}>
+                                                <input type="checkbox" class="toggleSwitch"  wire:click="toggle({{$slider->id}})" {{ $slider->status == 1 ? 'checked' : '' }}>
                                                 <span class="switch-slider"></span>
                                             </label>
 
                                         </td>
-                                        <td>{{ convertDateTimeFormat($faq->created_at,'datetime') }}</td>
+                                        <td>{{ convertDateTimeFormat($slider->created_at,'datetime') }}</td>
                                         <td>
-                                            <button type="button" wire:click="show({{$faq->id}})" class="btn btn-primary btn-rounded btn-icon">
+                                            <button type="button" wire:click="show({{$slider->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                 <i class="ti-eye"></i>
                                             </button>
-
-                                            <button type="button" wire:click="edit({{$faq->id}})" class="btn btn-info btn-rounded btn-icon">
+                                            
+                                            <button type="button" wire:click="edit({{$slider->id}})" class="btn btn-info btn-rounded btn-icon">
                                                 <i class="ti-pencil-alt"></i>
                                             </button>
 
-                                            <button type="button" wire:click="delete({{$faq->id}})" class="btn btn-danger btn-rounded btn-icon">
+                                            <button type="button" wire:click="delete({{$slider->id}})" class="btn btn-danger btn-rounded btn-icon">
                                                 <i class="ti-trash"></i>
                                             </button>
                                         </td>
@@ -74,7 +81,6 @@
                         </tbody>
                         </table>
                     
-                        {{ $allFaqs->links('vendor.pagination.bootstrap-5') }}
                     </div>
 
                 @endif
@@ -84,3 +90,18 @@
     </div>
 </div>
 </div>
+
+@push('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
+@endpush
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+<script type="text/javascript">
+    document.addEventListener('loadPlugins', function (event) {
+        $('.dropify').dropify();
+        $('.dropify-errors-container').remove();
+      
+    });
+</script>
+@endpush

@@ -35,7 +35,7 @@
                     Keep me signed in
                 </label>
                 </div>
-                <a href="#" class="auth-link text-black">{{__('global.forgot_password_title')}}</a>
+                <a href="{{ route('auth.forget-password') }}" class="auth-link text-black">{{__('global.forgot_password_title')}}</a>
             </div>
           
         </div>

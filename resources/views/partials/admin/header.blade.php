@@ -73,6 +73,18 @@
             <img src="{{ asset('admin/images/faces/face28.jpg') }}" alt="profile"/>
         </a>
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+            @php
+              $profileRoute = '';
+              if(auth()->user()->is_super_admin || auth()->user()->is_admin){
+                $profileRoute = 'auth.admin-profile';
+              }else if(auth()->user()->is_user){
+                $profileRoute = 'auth.user-profile';
+              }
+            @endphp
+            <a href="{{route($profileRoute)}}" class="dropdown-item">
+                <i class="ti-user text-primary"></i>
+                {{__('global.profile')}}
+            </a>
             <a class="dropdown-item">
             <i class="ti-settings text-primary"></i>
             Settings

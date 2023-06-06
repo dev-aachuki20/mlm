@@ -44,8 +44,8 @@
                                         <td>
                         
                                             <label class="toggle-switch">
-                                                <input wire:ignore type="checkbox" class="toggleSwitch"  wire:click="toggle({{$faq->id}})" {{ $faq->status == 1 ? 'checked' : '' }}>
-                                                <span class="switch-slider"></span>
+                                                <input type="checkbox" class="toggleSwitch" wire:click="toggle({{$faq->id}})" {{ $faq->status == 1 ? 'checked' : '' }}>
+                                                <div class="switch-slider round"></div>
                                             </label>
 
                                         </td>

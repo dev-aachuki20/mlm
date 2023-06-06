@@ -169,27 +169,27 @@ class PermissionsTableSeeder extends Seeder
             ],
 
             [
-                'title'      => 'slider_banner_access',
+                'title'      => 'slider_access',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
             [
-                'title'      => 'slider_banner_create',
+                'title'      => 'slider_create',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
             [   
-                'title'      => 'slider_banner_edit',
+                'title'      => 'slider_edit',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
             [
-                'title'      => 'slider_banner_show',
+                'title'      => 'slider_show',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
             [
-                'title'      => 'slider_banner_delete',
+                'title'      => 'slider_delete',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
