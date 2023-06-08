@@ -15,8 +15,7 @@
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.12",
         "mediconesystems/livewire-datatables": "^0.10.1",
-        "openspout/openspout": "4",
-        "power-components/livewire-powergrid": "^4.0"
+        "openspout/openspout": "4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
