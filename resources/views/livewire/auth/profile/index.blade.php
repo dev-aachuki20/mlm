@@ -1,177 +1,282 @@
+
+
 <div class="content-wrapper">
-<div class="row">
-    <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
 
-<section style="background-color: #eee;">
-  <div class="container py-5">
-    <div class="row">
-      <div class="col-lg-4">
-        <div class="card mb-4">
-          <div class="card-body text-center">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-              class="rounded-circle img-fluid" style="width: 150px;">
-            <h5 class="my-3">John Smith</h5>
-            <p class="text-muted mb-1">Full Stack Developer</p>
-            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
-            <div class="d-flex justify-content-center mb-2">
-              <button type="button" class="btn btn-primary">Follow</button>
-              <button type="button" class="btn btn-outline-primary ms-1">Message</button>
+   <div wire:loading wire:target="openEditSection,closedEditSection" class="loader" role="status" aria-hidden="true"></div>
+   
+   <section style="background-color: #f5f7ff;">
+      <div class="container py-1">
+        <!-- Start headsection -->
+       <div class="row">
+            <div class="col-lg-12 grid-margin ">
+                <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex float-left">
+                        <h4 class="font-weight-bold">{{($editMode) ? trans('global.edit').' Profile' : 'Profile' }} </h5>
+                      </div>
+                      <div class="d-flex float-right">
+                        @if(!$editMode)
+                        <button class="btn btn-sm btn-primary mr-1" wire:click="openEditSection">
+                            <i class="fa fa-edit pr-1"></i>{{__('global.edit')}}
+                        </button>
+                        @endif
+                        <button class="btn btn-sm btn-primary"><i class="fa fa-key pr-1"></i>{{__('global.change_password')}}</button>
+                      </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="card mb-4 mb-lg-0">
-          <div class="card-body p-0">
-            <ul class="list-group list-group-flush rounded-3">
-              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <i class="fas fa-globe fa-lg text-warning"></i>
-                <p class="mb-0">https://mdbootstrap.com</p>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <i class="fab fa-github fa-lg" style="color: #333333;"></i>
-                <p class="mb-0">mdbootstrap</p>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
-                <p class="mb-0">@mdbootstrap</p>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
-                <p class="mb-0">mdbootstrap</p>
-              </li>
-              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
-                <p class="mb-0">mdbootstrap</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-8">
-        <div class="card mb-4">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-sm-3">
-                <p class="mb-0">Full Name</p>
-              </div>
-              <div class="col-sm-9">
-                <p class="text-muted mb-0">Johnatan Smith</p>
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-3">
-                <p class="mb-0">Email</p>
-              </div>
-              <div class="col-sm-9">
-                <p class="text-muted mb-0">example@example.com</p>
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-3">
-                <p class="mb-0">Phone</p>
-              </div>
-              <div class="col-sm-9">
-                <p class="text-muted mb-0">(097) 234-5678</p>
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-3">
-                <p class="mb-0">Mobile</p>
-              </div>
-              <div class="col-sm-9">
-                <p class="text-muted mb-0">(098) 765-4321</p>
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-3">
-                <p class="mb-0">Address</p>
-              </div>
-              <div class="col-sm-9">
-                <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
-              <div class="card-body">
-                <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status
-                </p>
-                <p class="mb-1" style="font-size: .77rem;">Web Design</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 89%" aria-valuenow="89"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="55"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
-                <div class="progress rounded mb-2" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
-              <div class="card-body">
-                <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status
-                </p>
-                <p class="mb-1" style="font-size: .77rem;">Web Design</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 89%" aria-valuenow="89"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="55"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
-                <div class="progress rounded mb-2" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+        <!-- End headsection -->
+        @if(!$editMode)
+          <!--Start row-1  -->
+          <div class="row">
+          
+              @include('livewire.auth.profile.profile-image')
 
-</div>
-</div>
-</div>
-</div>
+            <div class="col-lg-8">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0 font-weight-bold">{{ __('cruds.user.fields.first_name') }}</p>
+                    </div>
+                    <div class="col-sm-3">
+                      <p class="text-muted mb-0">{{ ucfirst($authUser->first_name) }}</p>
+                    </div>
+                    <div class="col-sm-3">
+                      <p class="mb-0 font-weight-bold">{{ __('cruds.user.fields.last_name') }}</p>
+                    </div>
+                    <div class="col-sm-3">
+                      <p class="text-muted mb-0">{{ ucfirst($authUser->last_name) }}</p>
+                    </div>
+                  </div>
+                  <hr>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0 font-weight-bold">{{ __('cruds.user.fields.date_of_join') }}</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ convertDateTimeFormat($authUser->date_of_join,'date') }}</p>
+                    </div>
+                  </div>
+                  <hr>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0 font-weight-bold">{{ __('cruds.user.fields.email') }}</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ $authUser->email }}</p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0 font-weight-bold">{{ __('cruds.user.fields.phone') }}</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ $authUser->phone ?? ''}}</p>
+                    </div>
+                  </div>
+                  <hr>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.gender') }}</p>
+                    </div>
+                    <div class="col-sm-3">
+                      <p class="text-muted mb-0">{{ $authUser->profile->gender ?? ''}}</p>
+                    </div>
+                    <div class="col-sm-3">
+                      <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.marital_status') }}</p>
+                    </div>
+                    <div class="col-sm-3">
+                      <p class="text-muted mb-0">{{ $authUser->profile->marital_status ?? ''}}</p>
+                    </div>
+                  </div>
+                  <hr>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--End row-1  -->
+
+          <!-- Start row-2  -->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card mb-4 mb-md-0">
+                <div class="card-body">
+                <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.guardian_name') }}</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ $authUser->profile->guardian_name ?? ''}}</p>
+                </div>
+              </div>
+              <hr>
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.profession') }}</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ $authUser->profile->profession ?? ''}}</p>
+                </div>
+              </div>
+              <hr>
+
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.address') }}</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ $authUser->profile->address ?? ''}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.city') }}</p>
+                </div>
+                <div class="col-sm-3">
+                  <p class="text-muted mb-0">{{ $authUser->profile->city ?? ''}}</p>
+                </div>
+                <div class="col-sm-3">
+                  <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.pin_code') }}</p>
+                </div>
+                <div class="col-sm-3">
+                  <p class="text-muted mb-0">{{ $authUser->profile->pin_code ?? ''}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.state') }}</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{ $authUser->profile->state ?? ''}}</p>
+                </div>
+              </div>
+              <hr>
+
+              <!-- Referral Code -->
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0 font-weight-bold">{{ __('cruds.user.fields.referral_code') }}</p>
+                </div>
+                <div class="col-sm-3">
+                  <p class="text-muted mb-0">{{ $authUser->referral_code ?? '' }}</p>
+                </div>
+                <div class="col-sm-3">
+                  <p class="mb-0 font-weight-bold">{{ __('cruds.user.fields.referral_name') }}</p>
+                </div>
+                <div class="col-sm-3">
+                  <p class="text-muted mb-0">{{ ucfirst($authUser->referral_name) }}</p>
+                </div>
+              </div>
+              <hr>
+
+              <!-- Start nominee details -->
+                  <p class="mb-4">Nominee Details</p>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.nominee_name') }}</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ $authUser->profile->nominee_name ?? ''}}</p>
+                    </div>
+                  </div>
+                  <hr>
+
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.nominee_dob') }}</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ $authUser->profile->nominee_dob ?? ''}}</p>
+                    </div>
+                  </div>
+                  <hr>
+
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.nominee_relation') }}</p>
+                    </div>
+                    <div class="col-sm-8">
+                      <p class="text-muted mb-0">{{ $authUser->profile->nominee_relation ?? ''}}</p>
+                    </div>
+                  </div>
+                  <hr>
+              <!-- End nominee details -->
+
+                <!-- Start nominee details -->
+                    <p class="mb-4">Bank Details</p>
+
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.bank_name') }}</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{ $authUser->profile->bank_name ?? ''}}</p>
+                      </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.branch_name') }}</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{ $authUser->profile->branch_name ?? ''}}</p>
+                      </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.ifsc_code') }}</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{ $authUser->profile->ifsc_code ?? ''}}</p>
+                      </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.account_number') }}</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{ $authUser->profile->account_number ?? ''}}</p>
+                      </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.pan_card_number') }}</p>
+                      </div>
+                      <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{ $authUser->profile->pan_card_number ?? ''}}</p>
+                      </div>
+                    </div>
+                    <hr>
+
+                </div>
+              </div>
+            </div>
+      
+          </div>
+        @else
+
+          @include('livewire.auth.profile.edit')
+          
+        @endif
+
+      </div>
+    </section>
+
 </div>

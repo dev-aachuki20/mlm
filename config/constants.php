@@ -19,6 +19,7 @@ return [
         'short_logo' => 'assets/logo/short-logo.png',
         'admin_logo' => 'admin/images/logo.svg',
         'transparent_logo' => 'assets/logo/logo-transparent.png',
+        'profile_image' => 'default/default-user-man.png',
     ],
     
     'date_format' => 'd-m-Y',
