@@ -118,15 +118,15 @@ class Index extends Component
     }
 
     public function updateProfile(){
-       
+    //    dd($this->all());
         $validatedDate = $this->validate([
             'first_name'  => 'required',
             'last_name'   => 'required',
-            'phone'         => 'required|numeric|digits:10',
-            'guardian_name' => 'required',
+            'phone'         => 'required|digits:10',
+            'guardian_name' => '',
             'gender'        => 'required',
-            'profession'    => 'required',
-            'marital_status' => 'required',
+            'profession'    => '',
+            'marital_status' => '',
 
             'address'       => '',
             'state'         => '',
@@ -154,7 +154,8 @@ class Index extends Component
         $profileDetails['gender']             = $this->gender;
         $profileDetails['profession']         = $this->profession;
         $profileDetails['marital_status']     = $this->marital_status;
-        $profileDetails['state']            = $this->address;
+        $profileDetails['address']            = $this->address;
+        $profileDetails['state']            = $this->state;
         $profileDetails['city']             = $this->city;
         $profileDetails['pin_code']         = $this->pin_code;
         $profileDetails['nominee_name']     = $this->nominee_name;

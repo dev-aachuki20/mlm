@@ -33,7 +33,7 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label class="font-weight-bold">{{ __('cruds.user.fields.date_of_join') }}</label>
-                        <input type="date" class="form-control" wire:model.defer="date_of_join" />
+                        <input type="date" class="form-control" wire:model.defer="date_of_join" disabled />
                         @error('date_of_join') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
@@ -102,7 +102,7 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label class="font-weight-bold">{{ __('cruds.user.profile.guardian_name') }}</label>
-                    <input type="text" class="form-control" wire:model.defer="phone" placeholder="{{ __('cruds.user.profile.guardian_name') }}"/>
+                    <input type="text" class="form-control" wire:model.defer="guardian_name" placeholder="{{ __('cruds.user.profile.guardian_name') }}"/>
                     @error('guardian_name') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>
@@ -112,7 +112,7 @@
             <div class="col-sm-12">
                 <div class="form-group">
                     <label class="font-weight-bold">{{ __('cruds.user.profile.profession') }}</label>
-                    <input type="text" class="form-control" wire:model.defer="phone" placeholder="{{ __('cruds.user.profile.profession') }}"/>
+                    <input type="text" class="form-control" wire:model.defer="profession" placeholder="{{ __('cruds.user.profile.profession') }}"/>
                     @error('profession') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>

@@ -20,7 +20,7 @@
                             <i class="fa fa-edit pr-1"></i>{{__('global.edit')}}
                         </button>
                         @endif
-                        <button class="btn btn-sm btn-primary"><i class="fa fa-key pr-1"></i>{{__('global.change_password')}}</button>
+                        <button class="btn btn-sm btn-primary" id="changepassword"  data-bs-toggle="modal" data-bs-target="#changePasswordModal"><i class="fa fa-key pr-1"></i>{{__('global.change_password')}}</button>
                       </div>
                     </div>
                 </div>
@@ -278,5 +278,19 @@
 
       </div>
     </section>
+    @livewire('auth.profile.change-password')
 
 </div>
+@push('scripts')
+<script>
+  $(document).ready(function(){
+    $(document).on('click','#changepassword',function(){
+      $('#changePasswordModal').modal('show');
+    });
+    
+    $(document).on('click','.close-modal',function(){
+         $('#changePasswordModal').modal('hide');
+    });
+  });
+</script>
+@endpush

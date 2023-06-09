@@ -15,6 +15,7 @@
             @endif   
 
         <h5 class="my-3">{{ ucfirst($authUser->name) }}</h5>
+        <p class="text-muted mb-1">{{ $authUser->my_referral_code ?? ''  }}</p>
         <p class="text-muted mb-1">{{ $authUser->profile->profession ?? ''  }}</p>
         <div class="d-flex justify-content-center mb-2">
 

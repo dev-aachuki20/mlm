@@ -24,6 +24,8 @@ $(document).ready(function() {
             }
     });
 
-    
+    // Modal js
+  
+     
 });
 

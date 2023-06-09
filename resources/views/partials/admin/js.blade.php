@@ -18,6 +18,7 @@
   <script src="{{ asset('admin/js/template.js') }}"></script>
   <!-- endinject -->
 
+
 <!-- Custom js for this page-->
 <script src="{{ asset('admin/js/admin-custom.js') }}"></script>
 <!-- End custom js for this page-->
