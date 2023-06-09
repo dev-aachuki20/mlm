@@ -38,7 +38,7 @@ class Index extends Component
 
         $allPage = $this->pages;
 
-        return view('livewire.admin.page-manage.index');
+        return view('livewire.admin.page-manage.index',compact('allPage'));
     }
 
     public function create()
