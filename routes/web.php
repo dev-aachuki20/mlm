@@ -29,6 +29,8 @@ Route::group(['middleware' => ['web'], 'as' => 'auth.','prefix'=>'auth'], functi
     Route::view('login', 'auth.admin.login')->name('login');
     Route::view('forget-password', 'auth.admin.forget-password')->name('forget-password');
     Route::view('reset-password/{token}/{email}', 'auth.admin.reset-password')->name('reset-password');
+    Route::view('verify-mail', 'auth.admin.verify-mail')->name('verify-mail');
+
 });    
 
 

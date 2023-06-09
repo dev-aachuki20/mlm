@@ -6,23 +6,27 @@
     <form wire:submit.prevent="submit"  class="form">            
     <div class="form-outer">
         <div class="form-group">
-            <div class="login-icon"><img src="{{ asset('images/icons/password.svg') }}" ></div>
-            <label for="password" class="form-label">Password</label>
-            <input id="password-field" type="password" wire:model.defer="password" class="form-control" placeholder="Enter Your Password" autocomplete="off"/>
-            <span toggle="#password-field" class="fa-eye field-icon toggle-password">
-            <img src="{{ asset('images/icons/view-password.svg') }}" alt="view-password" class="view-password">
-            <img src="{{ asset('images/icons/hide-password.svg') }}" alt="hide-password" class="hide-password">
-            </span>
+            <div class="input-form">
+                <div class="login-icon"><img src="{{ asset('images/icons/password.svg') }}" ></div>
+                <label for="password" class="form-label">Password</label>
+                <input id="password-field" type="password" wire:model.defer="password" class="form-control" placeholder="Enter Your Password" autocomplete="off"/>
+                <span toggle="#password-field" class="fa-eye field-icon toggle-password">
+                <img src="{{ asset('images/icons/view-password.svg') }}" alt="view-password" class="view-password">
+                <img src="{{ asset('images/icons/hide-password.svg') }}" alt="hide-password" class="hide-password">
+                </span>
+            </div>
             @error('password') <span class="error text-danger">{{ $message }}</span>@enderror
         </div>
         <div class="form-group">
-            <div class="login-icon"><img src="{{ asset('images/icons/password.svg') }}" ></div>
-            <label for="password" class="form-label">Confirm password</label>
-            <input id="password-field" type="password" wire:model.defer="password_confirmation" class="form-control" placeholder="Enter Your Confirm Password" />
-            <span toggle="#password-field" class="fa-eye field-icon toggle-password">
-            <img src="{{ asset('images/icons/view-password.svg') }}" alt="view-password" class="view-password">
-            <img src="{{ asset('images/icons/hide-password.svg') }}" alt="hide-password" class="hide-password">
-            </span>
+            <div class="input-form">
+                <div class="login-icon"><img src="{{ asset('images/icons/password.svg') }}" ></div>
+                <label for="password" class="form-label">Confirm password</label>
+                <input id="password-field" type="password" wire:model.defer="password_confirmation" class="form-control" placeholder="Enter Your Confirm Password" />
+                <span toggle="#password-field" class="fa-eye field-icon toggle-password">
+                <img src="{{ asset('images/icons/view-password.svg') }}" alt="view-password" class="view-password">
+                <img src="{{ asset('images/icons/hide-password.svg') }}" alt="hide-password" class="hide-password">
+                </span>
+            </div>
             @error('password_confirmation') <span class="error text-danger">{{ $message }}</span>@enderror
         </div>
         </div>

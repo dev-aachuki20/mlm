@@ -62,7 +62,8 @@ class Login extends BaseComponent
         
                 $this->addError('email', trans('auth.failed'));
             }else{
-                $this->addError('email', trans('panel.message.email_verify_first'));
+                // $this->addError('email', trans('panel.message.email_verify_first'));
+                return redirect()->route('auth.verify-mail');
             }
             
             $this->resetInputFields();
