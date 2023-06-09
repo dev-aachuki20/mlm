@@ -125,6 +125,20 @@
       
     });
 
+    // $(document).ready(function(){
+    //     $('.rating label').click(function(){
+    //         console.log('check');
+    //         if($(this).is(':checked')){
+    //             console.log('yes');
+
+    //             $(this).removeAttr('checked');
+    //         }else{
+    //             console.log('no');
+
+    //             $(this).addttr('checked',true);
+    //         }
+    //     });
+    // });
    
 
 </script>

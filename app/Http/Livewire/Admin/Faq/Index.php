@@ -90,7 +90,7 @@ class Index extends Component
             'status'  => 'required',
         ]);
   
-        $validatedDate['status'] = !$this->status;
+        $validatedDate['status'] = $this->status;
 
         $faq = Faq::find($this->faq_id);
         $faq->update($validatedDate);
@@ -165,6 +165,10 @@ class Index extends Component
         $this->alert('success', trans('messages.change_status_success_message'));
     }
 
+    public function changeStatus($statusVal){
+        $this->status = (!$statusVal) ? 1 : 0;
+    }
+    
     public function initializePlugins(){
         $this->dispatchBrowserEvent('loadPlugins');
     }

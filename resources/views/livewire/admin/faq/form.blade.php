@@ -31,7 +31,7 @@
                 <label class="font-weight-bold">{{__('global.status')}}</label>
                 <div class="form-group">
                     <label class="toggle-switch">
-                        <input type="checkbox" class="toggleSwitch" value="{{ $status }}" {{ $status ==1 ? 'checked' : '' }}>
+                        <input type="checkbox" class="toggleSwitch" wire:change.prevent="changeStatus({{$status}})" value="{{ $status }}" {{ $status ==1 ? 'checked' : '' }}>
                         <span class="switch-slider"></span>
                     </label>
                 </div>

@@ -101,7 +101,7 @@ class Index extends Component
             $validatedData['image'] = 'required|image|max:'.config('constants.img_max_size');
         }
   
-        $validatedData['status'] = !$this->status;
+        $validatedData['status'] = $this->status;
 
         $slider = Slider::find($this->slider_id);
 
@@ -187,6 +187,9 @@ class Index extends Component
         $this->alert('success', trans('messages.change_status_success_message'));
     }
 
+    public function changeStatus($statusVal){
+        $this->status = (!$statusVal) ? 1 : 0;
+    }
 
     public function initializePlugins(){
         $this->dispatchBrowserEvent('loadPlugins');

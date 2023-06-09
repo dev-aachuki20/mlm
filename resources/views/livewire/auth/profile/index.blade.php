@@ -8,7 +8,7 @@
       <div class="container py-1">
         <!-- Start headsection -->
        <div class="row">
-            <div class="col-lg-12 grid-margin ">
+            <div class="col-lg-12 grid-margin">
                 <div class="card">
                     <div class="card-body">
                       <div class="d-flex float-left">
@@ -285,7 +285,7 @@
 <script>
   $(document).ready(function(){
     $(document).on('click','#changepassword',function(){
-      $('#changePasswordModal').modal('show');
+       $('#changePasswordModal').modal('show');
     });
     
     $(document).on('click','.close-modal',function(){
