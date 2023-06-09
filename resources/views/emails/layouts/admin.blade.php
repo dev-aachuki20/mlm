@@ -22,7 +22,7 @@
 			<td align="center" style="padding:0;">
 				<table role="presentation" style="width: 100%; max-width:602px;border-collapse:collapse;border-spacing:0;text-align:left;">
 					<tr>
-						<td align="center" style="padding:20px 0;background:#00235d;">
+						<td align="center" style="padding:20px 0;background:#f3cfbf;">
 							<img src="{{ asset(config('constants.default.logo')) }}" alt="" width="300" style="height:auto;display:block;" />
 						</td>
 					</tr>
@@ -39,12 +39,12 @@
 						</td>
 					</tr>
 					<tr>
-						<td style="padding:30px;background:#00235d;">
+						<td style="padding:30px;background:#f3cfbf;">
 							<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;">
 								<tr>
 									<td style="padding:0;width:50%;" align="center">
-										<p style="margin:0;font-size:14px;line-height:16px;color:#ffffff; text-align:center;">
-											© {{ date('Y') }} MLM. All Rights Reserved.
+										<p style="margin:0;font-size:14px;line-height:16px;color:#666363; text-align:center;">
+											© {{ date('Y') }} {{config('app.name')}}. All Rights Reserved.
 										</p>
 									</td>
 								</tr>

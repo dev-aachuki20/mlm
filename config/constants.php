@@ -13,7 +13,7 @@ return [
     'app_name' => 'MLM',
     'app_mode' => env('APP_MODE','staging'),
     'default' => [
-        'logo' => 'images/logo.svg',
+        'logo' => 'images/logo.png',
         'favicon' => 'admin/images/favicon.png',
         'admin_favicon' => 'admin/images/favicon.png',
         'short_logo' => 'assets/logo/short-logo.png',
