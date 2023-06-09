@@ -415,13 +415,16 @@ img.hide-password,
     stroke: var(--color-dark-blue);
 }
 span.error.text-danger {
-    position: absolute;
-    bottom: -24px;
+    margin-top: 5px;
     font-size: 14px;
+    display: block;
 }
 .fa-eye-slash:before{
   opacity: 0;
 }
 .fa-eye:before{
     opacity: 0;
+}
+.input-form {
+    position: relative;
 }

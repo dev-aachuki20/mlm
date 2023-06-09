@@ -12,7 +12,7 @@ class ResetPassword extends Component
 {
     use LivewireAlert;
 
-    protected $layout = null;
+    // protected $layout = null;
 
     public $token;
     public $email;

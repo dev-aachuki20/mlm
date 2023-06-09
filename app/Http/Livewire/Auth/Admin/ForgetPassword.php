@@ -9,13 +9,14 @@ use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Str;
+use App\Mail\ResetPasswordMail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ForgetPassword extends Component
 {
     use LivewireAlert;
 
-    protected $layout = null;
+    // protected $layout = null;
 
     public $email;
 
@@ -43,11 +44,14 @@ class ForgetPassword extends Component
                 'created_at' => Carbon::now()
             ]);
 
-            Mail::send('emails.auth.reset-password', $userDetails, function($message) use($email_id){
-                
-                $message->to($email_id)->subject('Reset Password Notification');
+            $subject = 'Reset Password Notification';
+            Mail::to($email_id)->queue(new ResetPasswordMail($userDetails['name'],$userDetails['reset_password_url'], $subject));
 
-            });
+            // Mail::send('emails.auth.reset-password', $userDetails, function($message) use($email_id){
+                
+            //     $message->to($email_id)->subject('Reset Password Notification');
+
+            // });
 
             // Set Flash Message
             $this->alert('success', trans('passwords.sent'));

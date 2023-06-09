@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Http\Controllers\Auth\VerificationController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,14 +25,17 @@ Route::get('/cache-clear', function() {
     return '<h1>All Cache cleared</h1>';
 });
 
+Auth::routes(['verify' => true]);
 
-Route::group(['middleware' => ['web'], 'as' => 'auth.','prefix'=>'auth'], function () {
+Route::get('email/verify/{id}/{hash}', [VerificationController::class,'verify'])->name('verification.verify');
+
+Route::group(['middleware' => ['web'], 'as' => 'auth.','prefix'=>''], function () {
     
+    Route::view('signup', 'auth.admin.register')->name('register');
     Route::view('login', 'auth.admin.login')->name('login');
     Route::view('forget-password', 'auth.admin.forget-password')->name('forget-password');
     Route::view('reset-password/{token}/{email}', 'auth.admin.reset-password')->name('reset-password');
-    Route::view('verify-mail', 'auth.admin.verify-mail')->name('verify-mail');
-
+ 
 });    
 
 
@@ -46,6 +51,10 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
         Route::view('testimonial', 'admin.testimonial.index')->name('testimonial');
         Route::view('faq', 'admin.faq.index')->name('faq');
         Route::view('slider', 'admin.slider.index')->name('slider');
+
+        Route::view('setting', 'admin.setting.index')->name('setting');
+        Route::view('page-manage', 'admin.page-manage.index')->name('page-manage');
+        Route::view('user-manage', 'admin.user-manage.index')->name('user-manage');
 
     });
 

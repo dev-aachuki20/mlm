@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Auth\Admin;
 
+use Mail;
 use Auth;
 use Livewire\Component;
 use App\Models\User;
@@ -12,11 +13,11 @@ class Login extends BaseComponent
 {
     use LivewireAlert;
 
-    protected $layout = null;
+    // protected $layout = null;
     
     public $email, $password,$remember_me;
 
-    public $redirectUri;
+    public $verifyMailComponent = false;
 
     public function render()
     {
@@ -63,7 +64,8 @@ class Login extends BaseComponent
                 $this->addError('email', trans('auth.failed'));
             }else{
                 // $this->addError('email', trans('panel.message.email_verify_first'));
-                return redirect()->route('auth.verify-mail');
+                $checkVerified->sendEmailVerificationNotification();
+                $this->verifyMailComponent = true;
             }
             
             $this->resetInputFields();
@@ -82,10 +84,14 @@ class Login extends BaseComponent
             'email'    => ['required','email'],
         ], getCommonValidationRuleMsgs());
 
-        $user = User::where('email', $this->email)->whereNull('email_verified_at')->first();
-        if ($user) {
-            // $this->showResetBtn = true;
-            $this->addError('email', trans('panel.message.email_verify_first'));
-        }
+        // $user = User::where('email', $this->email)->whereNull('email_verified_at')->first();
+        // if ($user) {
+        //     // $this->showResetBtn = true;
+        //     $this->addError('email', trans('panel.message.email_verify_first'));
+        // }
+    }
+
+    public function backToLogin(){
+        $this->verifyMailComponent = false;
     }
 }
