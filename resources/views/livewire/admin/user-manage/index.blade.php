@@ -30,7 +30,7 @@
                             <tr>
                                 <th>{{ trans('global.sno') }}</th>
                                 <th>{{ trans('cruds.user.fields.name') }}</th>
-                                <th>{{ trans('global.status') }}</th>
+                                {{--<th>{{ trans('global.status') }}</th>--}}
                                 <th>{{ trans('global.created_at') }}</th>
                                 <th>{{ trans('global.action') }}</th>
                             </tr>
@@ -41,23 +41,23 @@
                                     <tr>
                                         <td>{{ $serialNo+1 }}</td>
                                         <td>{{ $user->name }}</td>
-                                        <td>
+                                      {{--  <td>
                         
                                             <label class="toggle-switch">
                                                 <input type="checkbox" class="toggleSwitch" wire:click="toggle({{$user->id}})" {{ $user->is_active == 1 ? 'checked' : '' }}>
                                                 <div class="switch-slider round"></div>
                                             </label>
 
-                                        </td>
+                                        </td> --}}
                                         <td>{{ convertDateTimeFormat($user->created_at,'datetime') }}</td>
                                         <td>
                                             <button type="button" wire:click="show({{$user->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                 <i class="ti-eye"></i>
                                             </button>
 
-                                            <button type="button" wire:click="edit({{$user->id}})" class="btn btn-info btn-rounded btn-icon">
+                                           {{-- <button type="button" wire:click="edit({{$user->id}})" class="btn btn-info btn-rounded btn-icon">
                                                 <i class="ti-pencil-alt"></i>
-                                            </button>
+                                            </button> --}}
 
                                             <button type="button" wire:click="delete({{$user->id}})" class="btn btn-danger btn-rounded btn-icon">
                                                 <i class="ti-trash"></i>

@@ -2,14 +2,15 @@ $(document).ready(function() {
     $(document).on('change','.toggleSwitch', function() {
         // if ($(this).is(':checked')) {
         //     // Perform actions for "on" state
-        //     $(this).attr('wire:change.prevent','changeStatus(1)');
         //     $(this).val(1);
         // } else {
         //     // Perform actions for "off" state
-        //     $(this).attr('wire:change.prevent','changeStatus(0)');
         //     $(this).val(0);
         // }
+
+        // console.log('hello');
     });
+
 
     $(".show_hide_password i").on('click', function(event) {
         event.preventDefault();

@@ -15,14 +15,14 @@ class Index extends Component
 
     protected $layout = null;
 
-    public $search = '', $formMode = false , $updateMode = false, $viewMode = false, $viewDetails = null;
+    public $search = '', $formMode = false , $updateMode = false, $viewMode = false, $viewDetails = null, $status = 1;
 
-    public $page_id=null, $title;
+    public $page_id=null, $parent_page ,$title, $description, $template_name;
 
     protected $pages = null;
 
     protected $listeners = [
-        'confirmedToggleAction','deleteConfirm'
+        'confirmedToggleAction','deleteConfirm', 'cancelledToggleAction','refreshComponent' => 'render',
     ];
 
     public function mount(){
@@ -43,27 +43,72 @@ class Index extends Component
 
     public function create()
     {
-        dd('working..');
         $this->resetInputFields();
+        $this->initializePlugins();
         $this->formMode = true;
     }
 
     private function resetInputFields(){
-        $this->first_name = '';
-        $this->last_name = '';
+        $this->parent_page = '';
+        $this->title = '';
+        $this->description = '';
+        $this->template_name = '';
+        $this->status = 1;
     }
 
     public function store(){
-       
+
+        $validatedDate = $this->validate([
+            'title'           => ['required', 'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u', 'max:255','unique:pages,title'],
+            'template_name'   => ['required', 'alpha', 'max:255'],
+            'description'     => 'required',
+            'status'          => 'required',
+        ]);
+
+        $validatedDate['status'] = $this->status;
+    
+        Page::create($validatedDate);
+  
+        $this->formMode = false;
+
+        $this->resetInputFields();
+
+        $this->flash('success',trans('messages.add_success_message'));
+      
+        return redirect()->route('admin.page-manage');
     }
 
     public function edit($id){
-        dd('working..');
-
+        $this->initializePlugins();
+        $page = Page::findOrFail($id);
+        $this->page_id = $id;
+        $this->title           = $page->title;
+        $this->template_name   = $page->template_name;
+        $this->description     = $page->description;
+        $this->status          = $page->status;
+        $this->formMode = true;
+        $this->updateMode = true;
     }
 
     public function update(){
+        $validatedDate = $this->validate([
+            'title'           => ['required', 'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u','max:255','unique:pages,title,'.$this->page_id],
+            'template_name'   => ['required', 'alpha', 'max:255'],
+            'description'     => 'required',
+            'status'          => 'required',
+        ]);
+  
+        $validatedDate['status'] = $this->status;
 
+        $page = Page::find($this->page_id);
+        $page->update($validatedDate);
+  
+        $this->formMode = false;
+        $this->updateMode = false;
+  
+        $this->flash('success',trans('messages.edit_success_message'));
+        $this->resetInputFields();
+        return redirect()->route('admin.page-manage');
     }
 
     public function delete($id)
@@ -89,7 +134,9 @@ class Index extends Component
     }
 
     public function show($id){
-        dd('working..');
+        $this->page_id = $id;
+        $this->formMode = false;
+        $this->viewMode = true;
     }
 
     public function cancel(){
@@ -105,9 +152,7 @@ class Index extends Component
             'confirmButtonText' => 'Yes, change it!',
             'cancelButtonText' => 'No, cancel!',
             'onConfirmed' => 'confirmedToggleAction',
-            'onCancelled' => function () {
-                // Do nothing or perform any desired action
-            },
+            'onDismissed' => 'cancelledToggleAction',
             'inputAttributes' => ['pageId' => $id],
         ]);
     }
@@ -116,12 +161,25 @@ class Index extends Component
     {
         $pageId = $event['data']['inputAttributes']['pageId'];
         $model = Page::find($pageId);
-        $model->update(['status' => !$model->status]);
+        $statusVal = $model->status ? 0 : 1;
+        $model->status = $statusVal;
+        $model->save();
         $this->alert('success', trans('messages.change_status_success_message'));
+    }
+
+    public function cancelledToggleAction(){
+        $this->emit('refreshComponent');
+        // $this->dispatchBrowserEvent('updateStatusCancel');
+        // return redirect()->route('admin.page-manage');
     }
 
     public function changeStatus($statusVal){
         $this->status = (!$statusVal) ? 1 : 0;
+    }
+
+    
+    public function initializePlugins(){
+        $this->dispatchBrowserEvent('loadPlugins');
     }
     
 

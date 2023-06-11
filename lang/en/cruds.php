@@ -16,6 +16,7 @@ return [
             'full_name'                => 'Full name',
             'email'                    => 'Email',
             'phone'                    => 'Phone Number',
+            'dob'                      => 'Dob',
             'profile_image'            => 'Profile Image',
             'email_verified_at'        => 'Email verified at',
             'password'                 => 'Password',
@@ -115,5 +116,21 @@ return [
             'image'=>'Image'         
         ],
     ],
+
+    
+    'page' => [
+        'title' => 'Pages',
+        'title_singular' => 'Page',
+        'fields' => [
+            'parent_page' => 'Parent page',
+            'title' => 'Title',
+            'slug'  => 'Slug',
+            'description'    => 'Description',
+            'template_name'  => 'Template name',
+            'created_by'     => 'Created by',        
+        ],
+    ],
+
+
 
 ];

@@ -1,4 +1,4 @@
-<div class="content-wrapper">
+<div class="content-wrapper" wire:key="{{time()}}2023">
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
@@ -44,7 +44,7 @@
                                         <td>
                         
                                             <label class="toggle-switch">
-                                                <input type="checkbox" class="toggleSwitch" wire:click="toggle({{$user->id}})" {{ $page->status == 1 ? 'checked' : '' }}>
+                                                <input type="checkbox" class="toggleSwitch" wire:click="toggle({{$page->id}})" {{ $page->status == 1 ? 'checked' : '' }}>
                                                 <div class="switch-slider round"></div>
                                             </label>
 
@@ -86,11 +86,37 @@
 </div>
 
 @push('styles')
-
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 @endpush
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
 <script type="text/javascript">
+    document.addEventListener('loadPlugins', function (event) {
+      
+      $('textarea#summernote').summernote({
+          placeholder: 'Type somthing...',
+          tabsize: 2,
+          height: 100,
+          toolbar: [
+              ['style', ['style']],
+              ['font', ['bold', 'underline', 'clear']],
+              ['fontname', ['fontname']],
+              ['color', ['color']],
+              ['para', ['ul', 'ol', 'paragraph']],
+              ['table', ['table']],
+              ['insert', ['link', /*'picture', 'video'*/]],
+              // ['view', ['fullscreen', 'codeview', 'help']],
+          ],
+          callbacks: {
+              onChange: function(content) {
+                  // Update the Livewire property when the Summernote content changes
+                  @this.set('description', content);
+              }
+          }
+      });
+    });
 
 </script>
 @endpush
