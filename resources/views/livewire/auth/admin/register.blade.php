@@ -19,55 +19,95 @@
           <form wire:submit.prevent="storeRegister" class="form">            
             <div class="form-outer">
                 <div class="form-group col-50">
-                  <div class="login-icon"><img src="{{asset('images/icons/user.svg')}}" alt="User"></div>
-                  <label class="form-label">First Name</label>
-                  <input type="text" wire:model.defer = 'first_name' class="form-control" placeholder="First Name" />
+                  <div class="input-form">
+                    <div class="login-icon"><img src="{{asset('images/icons/user.svg')}}" alt="User"></div>
+                    <label class="form-label">First Name</label>
+                    <input type="text" wire:model.defer = 'first_name' class="form-control" placeholder="First Name" />
+                  </div>
+                  @error('first_name') <span class="error text-danger">{{ $message }}</span>@enderror
+
                 </div>
                 <div class="form-group col-50">
-                  <div class="login-icon"><img src="{{asset('images/icons/user.svg')}}" alt="User"></div>
-                  <label class="form-label">Last Name</label>
-                  <input type="text" class="form-control" wire:model.defer = 'last_name' placeholder="Last Name" />
+                  <div class="input-form">
+                    <div class="login-icon"><img src="{{asset('images/icons/user.svg')}}" alt="User"></div>
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-control" wire:model.defer = 'last_name' placeholder="Last Name" />
+                  </div>
+                  @error('last_name') <span class="error text-danger">{{ $message }}</span>@enderror
+
                 </div>
                 <div class="form-group">
-                  <div class="login-icon"><img src="{{asset('images/icons/email.svg')}}" alt="User"></div>
-                  <label class="form-label">Email</label>
-                  <input type="email" class="form-control" wire:model.defer='email' placeholder="Enter Your Email" />
+                  <div class="input-form">
+                    <div class="login-icon"><img src="{{asset('images/icons/email.svg')}}" alt="User"></div>
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" wire:model.defer='email' placeholder="Enter Your Email" />
+                  </div>
+                  @error('email') <span class="error text-danger">{{ $message }}</span>@enderror
+
                 </div>
                 <div class="form-group">
-                  <div class="login-icon"><img src="{{asset('images/icons/phone.svg')}}" alt="User"></div>
-                  <label class="form-label">Phone Number</label>
-                  <input type="number" class="form-control" wire:model.defer="phone" placeholder="Phone Number" />
+                  <div class="input-form">
+                    <div class="login-icon"><img src="{{asset('images/icons/phone.svg')}}" alt="User"></div>
+                    <label class="form-label">Phone Number</label>
+                    <input type="number" class="form-control" wire:model.defer="phone" placeholder="Phone Number" />
+                  </div>
+                  @error('phone') <span class="error text-danger">{{ $message }}</span>@enderror
+
                 </div>
                 <div class="form-group col-50">
-                  <div class="login-icon"><img src="{{asset('images/icons/date.svg')}}" alt="User"></div>
-                  <label class="form-label">DOB</label>
-                  <input type="date" class="form-control" wire:model.defer="dob" placeholder="Phone Number" />
+                  <div class="input-form">
+                    <div class="login-icon"><img src="{{asset('images/icons/date.svg')}}" alt="User"></div>
+                    <label class="form-label">DOB</label>
+                    <input type="date" id="dob" class="form-control" wire:model.defer="dob" placeholder="DOB" />
+                  </div>
+                  @error('dob') <span class="error text-danger">{{ $message }}</span>@enderror
+
                 </div>
                 <div class="form-group col-50">
-                  <label class="form-label">Gender</label>
-                  <select class="form-control">
-                    <option>Male</option>
-                    <option>Female</option>
-                    <option>Other</option>
-                  </select>
+                  <div class="input-form">
+                    <label class="form-label">Gender</label>
+                    <select class="form-control" wire:model.defer='gender'>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  @error('gender') <span class="error text-danger">{{ $message }}</span>@enderror
+
                 </div>
                 <div class="form-group no-icon col-50">
-                  <label class="form-label">Referral ID</label>
-                  <input type="text" class="form-control" placeholder="XXXXXXX" />
+                  <div class="input-form">
+                    <label class="form-label">Referral ID</label>
+                    <input type="text" class="form-control" placeholder="XXXXXXX"  wire:model.defer='referral_id'/>
+                  </div>
+                  @error('referral_id') <span class="error text-danger">{{ $message }}</span>@enderror
+
                 </div>
                 <div class="form-group no-icon col-50">
-                  <label class="form-label">Referral Name</label>
-                  <input type="text" class="form-control" placeholder="Referral Name" />
+                  <div class="input-form">
+                    <label class="form-label">Referral Name</label>
+                    <input type="text" class="form-control" placeholder="Referral Name" wire:model.defer='referral_name' />
+                  </div>
+                  @error('referral_name') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>
 
                 <div class="form-group">
-                  <div class="login-icon"><img src="{{asset('images/icons/map.svg')}}" alt="User"></div>
-                  <label class="form-label">Address</label>
-                  <input type="text" class="form-control" placeholder="Address here" />
+                  <div class="input-form">
+                    <div class="login-icon"><img src="{{asset('images/icons/map.svg')}}" alt="User"></div>
+                    <label class="form-label">Address</label>
+                    <input type="text" class="form-control" placeholder="Address here"  wire:model.defer='address'/>
+                  </div>
+                  @error('address') <span class="error text-danger">{{ $message }}</span>@enderror
+
                 </div>
               </div>
               <div class="submit-btn">
-                <button type="submit" class="btn ">SignUp</button>
+                <button type="submit" class="btn " wire:loading.attr="disabled">SignUp
+                        <span wire:loading wire:target="storeRegister">
+                            <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                </button>
+                
               </div>
               <div class="have-account">
                 <p>Already Have an account? <a href="{{ route('auth.login') }}">Login Now!</a></p>
@@ -77,3 +117,14 @@
       </div>
     </section>
 </div>
+
+@push('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" />
+@endpush
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript">
+
+</script>
+@endpush

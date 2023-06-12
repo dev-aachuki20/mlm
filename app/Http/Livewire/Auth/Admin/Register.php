@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire\Auth\Admin;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Illuminate\Support\Facades\DB;
+
 
 class Register extends Component
 {
@@ -22,14 +25,14 @@ class Register extends Component
     {
         return [
             'first_name' => ['required', 'string','regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
-            'last_name' => ['required', 'string','regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique((new User)->getTable(), 'email')],
-            'phone' => ['required'],
-            'dob'   => ['required'],
-            'gender'   => ['required'],
-            'referral_id'   => ['required'],
-            'referral_name'   => ['required'],
-            'address'   => ['required'],
+            'last_name'  => ['required', 'string','regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
+            'email'      => ['required', 'string', 'email', 'max:255', Rule::unique((new User)->getTable(), 'email')],
+            'phone'      => ['required','digits:10'],
+            'dob'        => ['required'],
+            'gender'     => ['required'],
+            'referral_id'   => ['required','regex:/^\S*$/u','exists:users,my_referral_code'],
+            'referral_name'   => ['required','regex:/^[A-Za-z]+( [A-Za-z]+)?$/u'],
+            'address'         => ['required'],
             // 'password' => ['required', 'string', 'min:8'],
             // 'password_confirmation' => 'min:8|same:password',
         ];
@@ -53,32 +56,59 @@ class Register extends Component
     {
         $validated = $this->validate($this->rules(),$this->messages());
  
-        $data = [ 
-            'first_name' => $this->first_name, 
-            'last_name'  => $this->last_name, 
-            'email'      => $this->email,
-            'password'   => Hash::make($this->password)
-        ];
-        $user = User::create($data);
-        if($user){
-            // Assign user Role
-            $user->roles()->sync([3]);
+        DB::beginTransaction();
+        try {
 
-            //Verification mail sent
-            $user->sendEmailVerificationNotification();
+            $data = [ 
+                'first_name' => $this->first_name, 
+                'last_name'  => $this->last_name, 
+                'name'       => $this->first_name.' '.$this->last_name,
+                'email'      => $this->email,
+                'phone'      => $this->phone,
+                'dob'        => Carbon::parse($this->dob)->format('Y-m-d'),
+                'date_of_join'   => Carbon::now()->format('Y-m-d'),
+                'my_referral_code' => generateRandomString(10),
+                'referral_code'   => $this->referral_id,
+                'referral_name'   => $this->referral_name,
 
-            $this->resetInputFields();
 
-            // Set Flash Message
-            $this->flash('success', trans('panel.message.check_email_verification'));
-            
-            return redirect()->route('auth.login');
-        }else{
-            $this->resetInputFields();
+                // 'password'   => Hash::make($this->password)
+            ];
+            $user = User::create($data);
+            if($user){
+                // Assign user Role
+                $user->roles()->sync([3]);
 
-            // Set Flash Message
-            $this->alert('error', trans('panel.message.error'));
-    
+                $profileData = [
+                    'user_id'        => $user->id,
+                    'gender'         => $this->gender,
+                    'address'        => $this->address,
+                ];
+
+                $user->profile()->create($profileData);
+
+                //Verification mail sent
+                $user->sendEmailVerificationNotification();
+
+                DB::commit();
+
+                $this->resetInputFields();
+
+                // Set Flash Message
+                $this->flash('success', trans('panel.message.check_email_verification'));
+                
+                return redirect()->route('auth.login');
+            }else{
+                $this->resetInputFields();
+
+                // Set Flash Message
+                $this->alert('error', trans('panel.message.error'));
+        
+            }
+        }catch (\Exception $e) {
+            DB::rollBack();
+            dd($e->getMessage().'->'.$e->getLine());
+            $this->alert('error',trans('messages.error_message'));
         }
     
     }

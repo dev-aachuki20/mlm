@@ -50,4 +50,8 @@ return [
     ],
     'copy_right_content'=>'All Rights Reserved.',
 
+    'support_email' => 'support@gmail.com',
+    'support_phone' => '9658456982'
+
+
 ];

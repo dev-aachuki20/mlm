@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Mail\SendPasswordMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Support\Facades\Hash;
+
 
 class VerificationController extends Controller
 {
@@ -50,6 +53,15 @@ class VerificationController extends Controller
         $user->markEmailAsVerified();
 
         event(new Verified($user));
+
+        $name = $user->name;
+        $email_id = $user->email;
+        $password = generateRandomString(8);
+        $user->password = Hash::make($password);
+        $user->password_set_at = Carbon::now();
+        $user->save();
+
+        Mail::to($email_id)->queue(new SendPasswordMail($name,$password, $subject));
 
         return redirect($this->redirectPath())->with('verified', true);
     }
