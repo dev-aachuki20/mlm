@@ -16,32 +16,32 @@
           <div class="form-head">
             <h3>Nice to see you again!</h3>
           </div>
-          <form class="form">            
+          <form wire:submit.prevent="storeRegister" class="form">            
             <div class="form-outer">
                 <div class="form-group col-50">
                   <div class="login-icon"><img src="{{asset('images/icons/user.svg')}}" alt="User"></div>
                   <label class="form-label">First Name</label>
-                  <input type="text" class="form-control" placeholder="First Name" />
+                  <input type="text" wire:model.defer = 'first_name' class="form-control" placeholder="First Name" />
                 </div>
                 <div class="form-group col-50">
                   <div class="login-icon"><img src="{{asset('images/icons/user.svg')}}" alt="User"></div>
                   <label class="form-label">Last Name</label>
-                  <input type="text" class="form-control" placeholder="Last Name" />
+                  <input type="text" class="form-control" wire:model.defer = 'last_name' placeholder="Last Name" />
                 </div>
                 <div class="form-group">
                   <div class="login-icon"><img src="{{asset('images/icons/email.svg')}}" alt="User"></div>
                   <label class="form-label">Email</label>
-                  <input type="email" class="form-control" placeholder="Enter Your Email" />
+                  <input type="email" class="form-control" wire:model.defer='email' placeholder="Enter Your Email" />
                 </div>
                 <div class="form-group">
                   <div class="login-icon"><img src="{{asset('images/icons/phone.svg')}}" alt="User"></div>
                   <label class="form-label">Phone Number</label>
-                  <input type="number" class="form-control" placeholder="Phone Number" />
+                  <input type="number" class="form-control" wire:model.defer="phone" placeholder="Phone Number" />
                 </div>
                 <div class="form-group col-50">
                   <div class="login-icon"><img src="{{asset('images/icons/date.svg')}}" alt="User"></div>
                   <label class="form-label">DOB</label>
-                  <input type="date" class="form-control" placeholder="Phone Number" />
+                  <input type="date" class="form-control" wire:model.defer="dob" placeholder="Phone Number" />
                 </div>
                 <div class="form-group col-50">
                   <label class="form-label">Gender</label>

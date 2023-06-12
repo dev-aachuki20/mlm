@@ -34,8 +34,8 @@
                     <div class="input-form">
                         <div class="login-icon"><img src="{{ asset('images/icons/password.svg') }}" ></div>
                         <label for="password" class="form-label">Confirm password</label>
-                        <input id="password-field" type="password" wire:model.defer="password_confirmation" class="form-control" placeholder="Enter Your Confirm Password" />
-                        <span toggle="#password-field" class="fa-eye field-icon toggle-password">
+                        <input id="confirm-password-field" type="password" wire:model.defer="password_confirmation" class="form-control" placeholder="Enter Your Confirm Password" />
+                        <span toggle="#confirm-password-field" class="fa-eye field-icon toggle-password">
                         <img src="{{ asset('images/icons/view-password.svg') }}" alt="view-password" class="view-password">
                         <img src="{{ asset('images/icons/hide-password.svg') }}" alt="hide-password" class="hide-password">
                         </span>

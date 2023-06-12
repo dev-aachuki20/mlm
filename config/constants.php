@@ -42,6 +42,12 @@ return [
         2 => "Female",
         3 => "Other",
     ],
+
+    'setting_types' => [   
+       "logo",
+       "social media",
+        "support",
+    ],
     'copy_right_content'=>'All Rights Reserved.',
 
 ];

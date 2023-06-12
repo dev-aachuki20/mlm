@@ -131,6 +131,17 @@ return [
         ],
     ],
 
+    'setting' => [
+        'title' => 'Settings',
+        'title_singular' => 'Setting',
+        'fields' => [
+            'key'   => 'Key',
+            'value' => 'Value',
+            'type'  => 'Type',
+            'created_by'     => 'Created by',        
+        ],
+    ],
+
 
 
 ];

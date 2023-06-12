@@ -3,7 +3,6 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-
                 @if($formMode)
     
                     @include('livewire.admin.user-manage.form')
@@ -40,8 +39,8 @@
                                 @foreach($allUser as $serialNo => $user)
                                     <tr>
                                         <td>{{ $serialNo+1 }}</td>
-                                        <td>{{ $user->name }}</td>
-                                      {{--  <td>
+                                        <td>{{ ucfirst($user->name) }}</td>
+                                      {{-- <td>
                         
                                             <label class="toggle-switch">
                                                 <input type="checkbox" class="toggleSwitch" wire:click="toggle({{$user->id}})" {{ $user->is_active == 1 ? 'checked' : '' }}>
@@ -51,11 +50,10 @@
                                         </td> --}}
                                         <td>{{ convertDateTimeFormat($user->created_at,'datetime') }}</td>
                                         <td>
-                                          {{--   <button type="button" wire:click="show({{$user->id}})" class="btn btn-primary btn-rounded btn-icon">
+                                            <button type="button" wire:click="show({{$user->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                 <i class="ti-eye"></i>
                                             </button>
-                                            --}}
-                                            
+
                                            {{-- <button type="button" wire:click="edit({{$user->id}})" class="btn btn-info btn-rounded btn-icon">
                                                 <i class="ti-pencil-alt"></i>
                                             </button> --}}
@@ -87,11 +85,55 @@
 </div>
 
 @push('styles')
-
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
 
 @push('scripts')
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript">
+
+ document.addEventListener('loadPlugins', function (event) {
+    
+    $('input[id="dob"],input[id="nominee_dob"]').daterangepicker({
+        // autoApply: true,
+        autoUpdateInput: false,
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: 1901,
+      
+        locale: {
+            format: 'DD-MM-YYYY'
+        },
+    });
+    $('input[id="dob"]').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD-MM-YYYY'));
+        Livewire.emit('updateDob',picker.startDate.format('DD-MM-YYYY'));
+    });
+
+    $('input[id="nominee_dob"]').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD-MM-YYYY'));
+        Livewire.emit('updateNomineeDob',picker.startDate.format('DD-MM-YYYY'));
+    });
+
+    var today = moment().format('DD-MM-YYYY');
+    $('input[id="date_of_join"]').daterangepicker({
+        // autoApply: true,
+        autoUpdateInput: false,
+        singleDatePicker: true,
+        showDropdowns: true,
+        minDate: today,
+        locale: {
+            format: 'DD-MM-YYYY'
+        },
+    });
+
+    $('input[id="date_of_join"]').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD-MM-YYYY'));
+        Livewire.emit('updateDateOfJoin',picker.startDate.format('DD-MM-YYYY'));
+    });
+
+});
 
 </script>
 @endpush

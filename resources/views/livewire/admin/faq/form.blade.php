@@ -16,12 +16,12 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
+        <div class="col-md-12 mb-4">
+            <div class="form-group mb-0" wire:ignore>
                 <label class="font-weight-bold">{{ __('cruds.faq.fields.answer')}}</label>
                 <textarea class="form-control" id="summernote" wire:model.defer="answer" rows="4"></textarea>
-                @error('answer') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
+            @error('answer') <span class="error text-danger">{{ $message }}</span>@enderror
         </div>
     </div>
     
