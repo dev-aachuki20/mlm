@@ -129,4 +129,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return "";
     }
    
+
+    public function referrer()
+    {
+        return $this->belongsTo(User::class, 'referral_user_id');
+    }
+
+    public function level2Referrer()
+    {
+        return $this->belongsTo(User::class, 'referral_user_id')
+                    ->with('referrer');
+    }
+
+    public function level3Referrer()
+    {
+        return $this->belongsTo(User::class, 'referral_user_id')
+                    ->with('level2Referrer.referrer');
+    }
 }

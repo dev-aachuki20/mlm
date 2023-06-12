@@ -8,6 +8,7 @@ use App\Models\User;
 use Livewire\WithPagination;
 use Symfony\Component\HttpFoundation\Response;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Carbon\Carbon;
 
 class Index extends Component
 {
@@ -48,6 +49,7 @@ class Index extends Component
     public function create()
     {
         $this->resetInputFields();
+        $this->resetValidation();
         $this->formMode = true;
     }
 
@@ -80,42 +82,53 @@ class Index extends Component
 
     public function store(){
         $validatedDate = $this->validate([
-            'first_name'  => 'required',
-            'last_name'   => 'required',
+            'first_name'  => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
+            'last_name'   => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
             'email'       => 'required|unique:users,email',
             'phone'         => 'required|digits:10',
-            'guardian_name' => 'required',
+            'dob'           => 'required',
+            'guardian_name' => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
             'gender'        => 'required',
-            'profession'    => 'required',
+            'profession'    => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
             'marital_status' => 'required',
 
-            'referral_code' => 'required',
-            'referral_name' => 'required',
+            'referral_code' => 'required|regex:/^\S*$/u|exists:users,my_referral_code',
+            'referral_name' => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
             'date_of_join'  => 'required',
             'address'       => 'required',
             'state'         => 'required',
             'city'          => 'required',
-            'pin_code'      => 'required',
-            'nominee_name'  => 'required',
-            'nominee_dob'  => 'required',
+            'pin_code'      => 'required|integer',
+            'nominee_name'  => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
+            'nominee_dob'   => 'required',
             'nominee_relation'  => 'required',
-            'bank_name'         => 'required',
-            'branch_name'       => 'required',
+            'bank_name'         => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
+            'branch_name'       => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
             'ifsc_code'         => 'required',
-            'account_number'    => 'required',
+            'account_number'    => 'required|integer',
             'pan_card_number'   => 'required',
         ]);
 
-        
+        $referral_user_id = User::where('my_referral_code',$this->referral_code)->value('id');
+
         $userDetails = [];
         $userDetails['first_name'] = $this->first_name;
         $userDetails['last_name']  = $this->last_name;
         $userDetails['name']       = $this->first_name.' '.$this->last_name;
+        $userDetails['email']      = $this->email;
         $userDetails['phone']      = $this->phone;
-        $userDetails['dob']        = date('Y-m-d',strtostring($this->dob));
-
-
+        $userDetails['dob']          = Carbon::parse($this->dob)->format('Y-m-d');
+        $userDetails['date_of_join'] = Carbon::parse($this->date_of_join)->format('Y-m-d');
+        
+        $userDetails['my_referral_code'] = generateRandomString(10);
+        $userDetails['referral_code'] = $this->referral_code;
+        $userDetails['referral_name'] = $this->referral_name;
+        $userDetails['referral_user_id'] = $referral_user_id;
+        
         $createdUser = User::create($userDetails);
+
+        //Send email verification link
+        $createdUser->sendEmailVerificationNotification();
 
         $createdUser->roles()->sync(3);
 
@@ -137,7 +150,13 @@ class Index extends Component
         $profileDetails['account_number']   = $this->account_number;
         $profileDetails['pan_card_number']  = $this->pan_card_number;
 
-        $this->authUser->profile()->update($profileDetails);
+        //Start user levels
+        $profileDetails['level_one_user_id']    = $createdUser->referrer;
+        $profileDetails['level_two_user_id']    = $createdUser->level2Referrer;
+        $profileDetails['level_three_user_id']  = $createdUser->level3Referrer;
+        //End user levels
+
+        $createdUser->profile()->create($profileDetails);
 
         $this->resetInputFields();
 
@@ -178,7 +197,9 @@ class Index extends Component
     }
 
     public function show($id){
-        dd('working..');
+        $this->user_id = $id;
+        $this->formMode = false;
+        $this->viewMode = true;
     }
 
     public function cancel(){

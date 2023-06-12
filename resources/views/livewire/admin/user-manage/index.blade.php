@@ -51,10 +51,11 @@
                                         </td> --}}
                                         <td>{{ convertDateTimeFormat($user->created_at,'datetime') }}</td>
                                         <td>
-                                            <button type="button" wire:click="show({{$user->id}})" class="btn btn-primary btn-rounded btn-icon">
+                                          {{--   <button type="button" wire:click="show({{$user->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                 <i class="ti-eye"></i>
                                             </button>
-
+                                            --}}
+                                            
                                            {{-- <button type="button" wire:click="edit({{$user->id}})" class="btn btn-info btn-rounded btn-icon">
                                                 <i class="ti-pencil-alt"></i>
                                             </button> --}}

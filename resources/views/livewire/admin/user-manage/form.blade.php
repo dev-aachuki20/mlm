@@ -3,6 +3,7 @@
     {{ $updateMode ? __('global.edit') : __('global.create') }} 
     {{ strtolower(__('cruds.user.title_singular'))}}</h4>
 
+ <div wire:loading wire:target="update,store" class="loader"></div>
  <form wire:submit.prevent="{{ $updateMode ? 'update' : 'store' }}">
  <!--Start row-1  -->
  <div class="row">
@@ -243,7 +244,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="font-weight-bold">{{ __('cruds.user.profile.pan_card_number') }}</label>
-                    <input type="text" class="form-control" wire:model.defer="branch_name" placeholder="{{ __('cruds.user.profile.pan_card_number') }}"/>
+                    <input type="text" class="form-control" wire:model.defer="pan_card_number" placeholder="{{ __('cruds.user.profile.pan_card_number') }}"/>
                     @error('pan_card_number') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>
@@ -260,7 +261,7 @@
 <div class="text-center mt-3">
     <button class="btn btn-success" type="submit" wire:loading.attr="disabled">
        {{ $updateMode ? __('global.update') : __('global.submit') }}     
-        <span wire:loading wire:target="updateProfile">
+        <span wire:loading wire:target="{{ $updateMode ? 'update' : 'store' }}">
             <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
         </span>
     </button>
