@@ -61,6 +61,7 @@ class Register extends Component
 
     public function render()
     {
+        
         // $encryptReferralId = encrypt(7);
         // $decryptReferralId = decrypt($encryptReferralId);
 
