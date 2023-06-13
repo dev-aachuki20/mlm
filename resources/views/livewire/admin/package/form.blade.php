@@ -51,7 +51,7 @@
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
                 <label class="font-weight-bold">{{ __('cruds.package.fields.description')}}</label>
-                <textarea class="form-control" id="summernote" wire:model.defer="description" rows="4"></textarea>
+                <textarea class="form-control" id="summernote" wire:model.defer="description" rows="10"></textarea>
             </div>
             @error('description') <span class="error text-danger">{{ $message }}</span>@enderror
         </div>

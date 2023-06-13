@@ -31,7 +31,7 @@
                             <th>{{ trans('global.sno') }}</th>
                             <th>{{ trans('cruds.testimonial.fields.name') }}</th>
                             <th>{{ trans('global.status') }}</th>
-                            <th>{{ trans('global.created_at') }}</th>
+                            <th>{{ trans('cruds.testimonial.fields.created_at') }}</th>
                             <th>{{ trans('global.action') }}</th>
                             </tr>
                         </thead>
@@ -104,7 +104,7 @@
         $('textarea#summernote').summernote({
             placeholder: 'Type somthing...',
             tabsize: 2,
-            height: 100,
+            height: 200,
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear']],
@@ -125,20 +125,17 @@
       
     });
 
-    // $(document).ready(function(){
-    //     $('.rating label').click(function(){
-    //         console.log('check');
-    //         if($(this).is(':checked')){
-    //             console.log('yes');
+    $(document).ready(function(){
+        $(document).on('click','.rating input[type=radio]',function(){
 
-    //             $(this).removeAttr('checked');
-    //         }else{
-    //             console.log('no');
+            if($(this).is(':checked')){
+                console.log('yes');
 
-    //             $(this).addttr('checked',true);
-    //         }
-    //     });
-    // });
+                $(this).prop('checked',true);
+            }
+        });
+
+    });
    
 
 </script>

@@ -86,10 +86,10 @@ class Register extends Component
                 'email'      => $this->email,
                 'phone'      => $this->phone,
                 'dob'        => Carbon::parse($this->dob)->format('Y-m-d'),
-                'date_of_join'   => Carbon::now()->format('Y-m-d'),
+                'date_of_join'     => Carbon::now()->format('Y-m-d'),
                 'my_referral_code' => generateRandomString(10),
-                'referral_code'   => $this->referral_id,
-                'referral_name'   => $this->referral_name,
+                'referral_code'    => $this->referral_id,
+                'referral_name'    => $this->referral_name,
                 'referral_user_id' => $referral_user_id,
 
                 // 'password'   => Hash::make($this->password)

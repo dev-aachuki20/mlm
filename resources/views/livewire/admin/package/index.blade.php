@@ -33,7 +33,7 @@
                             <th>{{ trans('cruds.package.fields.title') }}</th>
                             <th>{{ trans('cruds.package.fields.amount') }}</th>
                             <th>{{ trans('global.status') }}</th>
-                            <th>{{ trans('global.created_at') }}</th>
+                            <th>{{ trans('cruds.package.fields.created_at') }}</th>
                             <th>{{ trans('global.action') }}</th>
                             </tr>
                         </thead>
@@ -108,7 +108,7 @@
         $('textarea#summernote').summernote({
             placeholder: 'Type somthing...',
             tabsize: 2,
-            height: 100,
+            height: 200,
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear']],
