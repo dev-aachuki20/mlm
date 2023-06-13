@@ -7,7 +7,7 @@
 			<b>Hello</b> {{ $name ?? "" }},
 		</p>
 		<div class="mail-desc">
-			<p>Thank you for signing up for [service name]. Your password for accessing your account is {{$password}}. Please keep it safe and do not share it with anyone.</p>
+			<p>Thank you for signing up for {{ config('app.name') }}. Your password for accessing your account is <b>{{$password}}</b>. Please keep it safe and do not share it with anyone.</p>
 			<p>To log in to your account, please visit <a href="{{ route('auth.login') }}">{{ route('auth.login') }}</a> and enter your email address and password. You can also change your password anytime from your account settings.</p>
 		</div>
 	</td>
@@ -21,7 +21,7 @@
 
     <tr>
         <td>
-            <p style="font-size:14px;">Sincerely</p>
+            <p style="font-size:14px;">Regards,</p>
             <p>{{ config('app.name') }}</p>
         </td>
     </tr>

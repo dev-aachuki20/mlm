@@ -58,7 +58,7 @@
                   <div class="input-form">
                     <div class="login-icon"><img src="{{asset('images/icons/date.svg')}}" alt="User"></div>
                     <label class="form-label">DOB</label>
-                    <input type="date" id="dob" class="form-control" wire:model.defer="dob" placeholder="DOB" />
+                    <input type="text" id="dob" class="form-control" wire:model.defer="dob" placeholder="DOB" autocomplete="off" />
                   </div>
                   @error('dob') <span class="error text-danger">{{ $message }}</span>@enderror
 
@@ -67,6 +67,7 @@
                   <div class="input-form">
                     <label class="form-label">Gender</label>
                     <select class="form-control" wire:model.defer='gender'>
+                      <option value="">Select Gender</option>
                       <option value="male">Male</option>
                       <option value="female">Female</option>
                       <option value="other">Other</option>
@@ -119,12 +120,31 @@
 </div>
 
 @push('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript">
+
+
+    $('input[id="dob"]').daterangepicker({
+        autoApply: true,
+        // autoUpdateInput: false,
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'DD-MM-YYYY'
+        },
+    });
+
+    $('input[id="dob"]').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD-MM-YYYY'));
+        Livewire.emit('updateDOB',picker.startDate.format('DD-MM-YYYY'));
+    });
+
+  
 
 </script>
 @endpush

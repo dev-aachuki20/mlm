@@ -21,6 +21,9 @@ class Login extends BaseComponent
 
     public function render()
     {
+        if(session('verified')){
+            $this->flash('success','Your password has been sent to your mail id');
+        }
         return view('livewire.auth.admin.login');
     }
 

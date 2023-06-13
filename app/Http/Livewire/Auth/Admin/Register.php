@@ -21,6 +21,9 @@ class Register extends Component
 
     public $showResetBtn = false;
 
+    protected $listeners = [ 'updateDOB'
+    ];
+    
     protected function rules()
     {
         return [
@@ -59,6 +62,8 @@ class Register extends Component
         DB::beginTransaction();
         try {
 
+            $referral_user_id = User::where('my_referral_code',$this->referral_id)->value('id');
+
             $data = [ 
                 'first_name' => $this->first_name, 
                 'last_name'  => $this->last_name, 
@@ -70,7 +75,7 @@ class Register extends Component
                 'my_referral_code' => generateRandomString(10),
                 'referral_code'   => $this->referral_id,
                 'referral_name'   => $this->referral_name,
-
+                'referral_user_id' => $referral_user_id,
 
                 // 'password'   => Hash::make($this->password)
             ];
@@ -107,7 +112,7 @@ class Register extends Component
             }
         }catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage().'->'.$e->getLine());
+            // dd($e->getMessage().'->'.$e->getLine());
             $this->alert('error',trans('messages.error_message'));
         }
     
@@ -129,4 +134,22 @@ class Register extends Component
             $this->resetErrorBag('email');
         }
     }
+
+    public function updateDOB($date){
+        $this->dob = $date;
+    }
+
+    public function resetInputFields(){
+        $this->first_name   = ''; 
+        $this->last_name    = ''; 
+        $this->email        = '';
+        $this->phone        = '';
+        $this->dob          = '';
+        $this->date_of_join = '';
+        $this->gender       = '';
+        $this->referral_id  = '';
+        $this->referral_name = '';
+        $this->address = '';
+    }
+  
 }

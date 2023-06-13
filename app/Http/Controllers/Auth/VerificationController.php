@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Mail; 
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -61,6 +62,7 @@ class VerificationController extends Controller
         $user->password_set_at = Carbon::now();
         $user->save();
 
+        $subject = 'Your Password';
         Mail::to($email_id)->queue(new SendPasswordMail($name,$password, $subject));
 
         return redirect($this->redirectPath())->with('verified', true);
