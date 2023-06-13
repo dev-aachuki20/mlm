@@ -94,3 +94,20 @@
 
 </section>
 </div>
+@push('scripts')
+<script type="text/javascript">
+    var verified = {{session('verified') ?? 'false'}};
+    if(verified){
+        window.addEventListener('load', ()=>{
+            Livewire.emit('verifiedAlert');
+        });
+    }
+
+    var alreadyVerified = {{session('alreadyVerified') ?? 'false'}};
+    if(alreadyVerified){
+        window.addEventListener('load', ()=>{
+            Livewire.emit('alreadyVerifiedAlert');
+        });
+    }
+</script>
+@endpush

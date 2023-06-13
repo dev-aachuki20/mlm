@@ -8,7 +8,22 @@
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">Logo</label>
         <div class="col-sm-9 col-form-label">
-             <img class="rounded img-thumbnail" src="{{ $detail->image_url }}" width="100px"/>
+             <img class="rounded img-thumbnail" src="{{ ($detail->image_url) ? $detail->image_url : asset(config('constants.no_image_url')) }}" width="100px"/>
+        </div>
+    </div>
+    @endif
+
+    @if($detail->type == 'video')
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">Video</label>
+        <div class="col-sm-9 col-form-label">
+            @if($detail->video_url)
+                <video id="video-preview" class="video-js vjs-default-skin vjs-big-play-centered" controls>
+                    <source src="{{ $detail->video_url }}" type="video/{{$detail->uploads()->first()->extension}}">
+                </video>
+            @else
+                <img class="rounded img-thumbnail" src="{{ ($detail->image_url) ? $detail->image_url : asset(config('constants.no_image_url')) }}" width="100px"/>
+            @endif
         </div>
     </div>
     @endif

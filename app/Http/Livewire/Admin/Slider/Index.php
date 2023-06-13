@@ -140,6 +140,8 @@ class Index extends Component
     public function deleteConfirm($event){
         $deleteId = $event['data']['inputAttributes']['deleteId'];
         $model = Slider::find($deleteId);
+        $uploadId = $model->uploads()->first()->id;
+        deleteFile($uploadId);
         $model->delete();
         $this->alert('success', trans('messages.delete_success_message'));
     }

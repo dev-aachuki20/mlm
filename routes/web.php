@@ -29,9 +29,9 @@ Auth::routes(['verify' => true]);
 
 Route::get('email/verify/{id}/{hash}', [VerificationController::class,'verify'])->name('verification.verify');
 
-Route::group(['middleware' => ['web'], 'as' => 'auth.','prefix'=>''], function () {
+Route::group(['middleware' => ['web','guest','preventBackHistory'], 'as' => 'auth.','prefix'=>''], function () {
     
-    Route::view('signup', 'auth.admin.register')->name('register');
+    Route::view('signup/{referral_id?}', 'auth.admin.register')->name('register');
     Route::view('login', 'auth.admin.login')->name('login');
     Route::view('forget-password', 'auth.admin.forget-password')->name('forget-password');
     Route::view('reset-password/{token}/{email}', 'auth.admin.reset-password')->name('reset-password');
@@ -41,10 +41,10 @@ Route::group(['middleware' => ['web'], 'as' => 'auth.','prefix'=>''], function (
 
 Route::group(['middleware' => ['auth','preventBackHistory']], function () {
 
-    Route::view('admin/profile', 'auth.profile.index')->name('auth.admin-profile');
-    Route::view('user/profile', 'auth.profile.index')->name('auth.user-profile');
+    Route::view('admin/profile', 'auth.profile.index')->name('auth.admin-profile')->middleware('role:admin');
+    Route::view('user/profile', 'auth.profile.index')->name('auth.user-profile')->middleware('role:user');
 
-    Route::group(['as' => 'admin.','prefix'=>'admin'], function () {
+    Route::group(['middleware'=>['role:admin'],'as' => 'admin.','prefix'=>'admin'], function () {
         
         Route::view('dashboard', 'admin.index')->name('dashboard');
         Route::view('package', 'admin.package.index')->name('package');
@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
 
     });
 
-    Route::group(['as' => 'user.','prefix'=>'user'], function () {
+    Route::group(['middleware'=>['role:user'],'as' => 'user.','prefix'=>'user'], function () {
         
         Route::view('dashboard', 'user.index')->name('dashboard');
 

@@ -42,7 +42,7 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('signed:reviewer')->only('verify');
+        $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
@@ -51,20 +51,25 @@ class VerificationController extends Controller
         $userId = $request->route('id');
         $user = User::find($userId);
 
-        $user->markEmailAsVerified();
+        if($user->hasVerifiedEmail()){
+            return redirect($this->redirectPath())->with('alreadyVerified', true);
+        }else{
+            $user->markEmailAsVerified();
 
-        event(new Verified($user));
-
-        $name = $user->name;
-        $email_id = $user->email;
-        $password = generateRandomString(8);
-        $user->password = Hash::make($password);
-        $user->password_set_at = Carbon::now();
-        $user->save();
-
-        $subject = 'Your Password';
-        Mail::to($email_id)->queue(new SendPasswordMail($name,$password, $subject));
-
-        return redirect($this->redirectPath())->with('verified', true);
+            event(new Verified($user));
+    
+            $name = $user->name;
+            $email_id = $user->email;
+            $password = generateRandomString(8);
+            $user->password = Hash::make($password);
+            $user->password_set_at = Carbon::now();
+            $user->save();
+    
+            $subject = 'Your Password';
+            Mail::to($email_id)->queue(new SendPasswordMail($name,$password, $subject));
+    
+            return redirect($this->redirectPath())->with('verified', true);
+        }
+       
     }
 }

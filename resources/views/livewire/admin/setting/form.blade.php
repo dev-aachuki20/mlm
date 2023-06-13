@@ -9,7 +9,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label class="font-weight-bold">{{ __('cruds.setting.fields.key')}}</label>
-                <input type="text" class="form-control" wire:model.defer="key" placeholder="{{ __('cruds.setting.fields.key')}}" autocomplete="off">
+                <input type="text" class="form-control" wire:model.defer="key" placeholder="{{ __('cruds.setting.fields.key')}}" autocomplete="off" disabled>
                 @error('key') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
         </div>
@@ -46,14 +46,28 @@
         </div>
     </div>
 
-    
-    <div class="row value-section {{ $type != 'logo' ? '':'d-none'}}">
+    <div class="row logo-section {{ $type == 'video' ? '':'d-none'}}">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
-                <label class="font-weight-bold">{{ __('cruds.setting.fields.value')}}</label>
-                <textarea class="form-control" id="summernote" wire:model.defer="value" rows="4"></textarea>
+                <label class="font-weight-bold">Video</label>
+                <input type="file"  wire:model.defer="video" class="dropify" data-default-file="{{ $originalVideo }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="webm mp4 avi wmv flv mov" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="video/webm, video/mp4, video/avi,video/wmv,video/flv,video/mov">
             </div>
-            @error('value') <span class="error text-danger">{{ $message }}</span>@enderror
+            @if($errors->has('video'))
+            <span class="error text-danger">
+                {{ $errors->first('video') }}
+            </span>
+            @endif
+        </div>
+    </div>
+
+    
+    <div class="row value-section {{ $type != 'logo' && $type != 'video' ? '':'d-none'}}">
+        <div class="col-md-12">
+            <div class="form-group ">
+                <label class="font-weight-bold">{{ __('cruds.setting.fields.value')}}</label>
+                <input class="form-control"  wire:model.defer="value">
+                @error('value') <span class="error text-danger">{{ $message }}</span>@enderror
+            </div>
         </div>
     </div>
    
@@ -75,7 +89,7 @@
 
     <button type="submit" wire:loading.attr="disabled" class="btn btn-primary mr-2">
         {{ $updateMode ? __('global.update') : __('global.submit') }}
-        <span wire:loading wire:target="store">
+        <span wire:loading wire:target="{{ $updateMode ? 'update' : 'store' }}">
             <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
         </span>
     </button>

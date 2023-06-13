@@ -29,8 +29,10 @@ return [
     'logo_min_width' => '250', // logo min width
     'logo_min_height' => '150', // logo min height
    
-    'img_max_size' => '1024',
-    
+    'img_max_size'   => '1024',
+    'video_max_size' => '50000',
+    'no_image_url'   => 'default/no-image.jpg',
+
     'slider_limit' => '5',
 
     'slider_type' => [
@@ -46,7 +48,8 @@ return [
     'setting_types' => [   
        "logo",
        "social media",
-        "support",
+       "support",
+       "video",
     ],
     'copy_right_content'=>'All Rights Reserved.',
 

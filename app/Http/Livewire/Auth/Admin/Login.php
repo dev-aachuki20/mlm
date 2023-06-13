@@ -19,12 +19,14 @@ class Login extends BaseComponent
 
     public $verifyMailComponent = false;
 
+    protected $listeners = [ 'verifiedAlert','alreadyVerifiedAlert' ];
+    
     public function render()
     {
-        if(session('verified')){
-            $this->flash('success','Your password has been sent to your mail id');
-        }
-        return view('livewire.auth.admin.login');
+        $verified = session('verified') ?? 'false';
+        $alreadyVerified = session('alreadyVerified') ?? 'false';
+      
+        return view('livewire.auth.admin.login',compact('verified','alreadyVerified'));
     }
 
     private function resetInputFields(){
@@ -97,4 +99,13 @@ class Login extends BaseComponent
     public function backToLogin(){
         $this->verifyMailComponent = false;
     }
+
+    public function verifiedAlert(){
+        $this->alert('success', 'Verified successfully! your password has been sent to your mail id.');
+    }
+
+    public function alreadyVerifiedAlert(){
+        $this->alert('success', 'Your mail has been already verified!');
+    }
+
 }

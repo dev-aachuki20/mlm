@@ -75,6 +75,15 @@
 
     @endif
 
+    @can('setting_access')
+    <li class="nav-item {{ request()->is('admin/setting') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.setting') }}">
+            <i class="icon-grid menu-icon ti-settings"></i>
+            <span class="menu-title">Setting</span>
+        </a>
+    </li>
+    @endcan
+
     
     <!-- <li class="nav-item">
     <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">

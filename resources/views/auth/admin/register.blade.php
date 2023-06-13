@@ -3,6 +3,13 @@
 
 @section('content')
 
-    @livewire('auth.admin.register')
+    @php 
+      $referralId = '';
+      if(isset($referral_id)){
+        $referralId = $referral_id;
+      }
+    @endphp
+
+    @livewire('auth.admin.register',['referralId'=>$referralId])
 
 @stop

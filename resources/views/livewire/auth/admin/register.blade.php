@@ -49,7 +49,7 @@
                   <div class="input-form">
                     <div class="login-icon"><img src="{{asset('images/icons/phone.svg')}}" alt="User"></div>
                     <label class="form-label">Phone Number</label>
-                    <input type="number" class="form-control" wire:model.defer="phone" placeholder="Phone Number" />
+                    <input type="number" class="form-control" wire:model.defer="phone" placeholder="Phone Number" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight','Tab'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space' && this.value.length < 10 " step="1"  autocomplete="off" />
                   </div>
                   @error('phone') <span class="error text-danger">{{ $message }}</span>@enderror
 
@@ -79,7 +79,7 @@
                 <div class="form-group no-icon col-50">
                   <div class="input-form">
                     <label class="form-label">Referral ID</label>
-                    <input type="text" class="form-control" placeholder="XXXXXXX"  wire:model.defer='referral_id'/>
+                    <input type="text" class="form-control" placeholder="XXXXXXX"  wire:model.defer='referral_id' {{!empty($referral_id) ? 'disabled': ''}}/>
                   </div>
                   @error('referral_id') <span class="error text-danger">{{ $message }}</span>@enderror
 
@@ -87,7 +87,7 @@
                 <div class="form-group no-icon col-50">
                   <div class="input-form">
                     <label class="form-label">Referral Name</label>
-                    <input type="text" class="form-control" placeholder="Referral Name" wire:model.defer='referral_name' />
+                    <input type="text" class="form-control" placeholder="Referral Name" wire:model.defer='referral_name' {{!empty($referral_name) ? 'disabled': ''}}/>
                   </div>
                   @error('referral_name') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>

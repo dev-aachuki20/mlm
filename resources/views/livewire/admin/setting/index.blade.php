@@ -16,10 +16,11 @@
                     <div wire:loading wire:target="create" class="loader"></div>
                     <div class="card-title">
                         <h4 class="float-left">{{__('cruds.setting.title_singular')}}</h4>
-                        <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
+                       {{-- <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
                             <i class="ti-plus btn-icon-prepend"></i>                                                    
                                 {{__('global.add')}}
                         </button>
+                        --}}
                     </div>                
                     <div class="table-responsive">
                         <div class="table-additional-plugin">
@@ -77,6 +78,7 @@
                         </table>
                     
                         {{ $allSetting->links('vendor.pagination.bootstrap-5') }}
+                        
                     </div>
 
                 @endif
@@ -102,27 +104,27 @@
         $('.dropify').dropify();
         $('.dropify-errors-container').remove();
 
-        $('textarea#summernote').summernote({
-            placeholder: 'Type somthing...',
-            tabsize: 2,
-            height: 100,
-            toolbar: [
-                ['style', ['style']],
-                ['font', ['bold', 'underline', 'clear']],
-                ['fontname', ['fontname']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-                ['insert', ['link', /*'picture', 'video'*/]],
-                // ['view', ['fullscreen', 'codeview', 'help']],
-            ],
-            callbacks: {
-                onChange: function(content) {
-                    // Update the Livewire property when the Summernote content changes
-                    @this.set('value', content);
-                }
-            }
-        });
+        // $('textarea#summernote').summernote({
+        //     placeholder: 'Type somthing...',
+        //     tabsize: 2,
+        //     height: 100,
+        //     toolbar: [
+        //         ['style', ['style']],
+        //         ['font', ['bold', 'underline', 'clear']],
+        //         ['fontname', ['fontname']],
+        //         ['color', ['color']],
+        //         ['para', ['ul', 'ol', 'paragraph']],
+        //         ['table', ['table']],
+        //         ['insert', ['link', /*'picture', 'video'*/]],
+        //         // ['view', ['fullscreen', 'codeview', 'help']],
+        //     ],
+        //     callbacks: {
+        //         onChange: function(content) {
+        //             // Update the Livewire property when the Summernote content changes
+        //             @this.set('value', content);
+        //         }
+        //     }
+        // });
       
     });
 

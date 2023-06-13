@@ -88,7 +88,7 @@
 
             @if(auth()->user()->is_super_admin)
             <a class="dropdown-item" href="{{ route('admin.setting') }}">
-                <i class="ti-settings text-primary"></i> Settings
+                <i class="ti-settings text-primary"></i> Setting
             </a>
             @endif
 

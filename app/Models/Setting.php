@@ -59,6 +59,19 @@ class Setting extends Model
         return "";
     }
 
+    public function video()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','setting');
+    }
+
+    public function getVideoUrlAttribute()
+    {
+        if($this->video){
+            return $this->video->file_url;
+        }
+        return "";
+    }
+
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by', 'id');

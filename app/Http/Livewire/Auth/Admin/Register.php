@@ -50,8 +50,22 @@ class Register extends Component
         ];
     }
 
+    public function mount($referralId = ''){
+        if(!empty($referralId)){
+            $referralId = decrypt($referralId);
+            $getReferralUser     = User::find($referralId);
+            $this->referral_id   = $getReferralUser->my_referral_code;
+            $this->referral_name = $getReferralUser->name;
+        }
+    }
+
     public function render()
     {
+        // $encryptReferralId = encrypt(7);
+        // $decryptReferralId = decrypt($encryptReferralId);
+
+        // dd($encryptReferralId,$decryptReferralId);
+
         return view('livewire.auth.admin.register');
     }
 
