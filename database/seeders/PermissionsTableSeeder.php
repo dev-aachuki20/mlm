@@ -245,6 +245,32 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
+
+            [
+                'title'      => 'course_access',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'course_create',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [   
+                'title'      => 'course_edit',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'course_show',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'course_delete',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
         ];
 
         Permission::insert($permissions);

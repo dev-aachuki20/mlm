@@ -75,6 +75,15 @@
 
     @endif
 
+    @can('course_access')
+    <li class="nav-item {{ request()->is('admin/course') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.course') }}">
+            <i class="icon-grid menu-icon fa-sharp fa-solid fa-list"></i>
+            <span class="menu-title">Course</span>
+        </a>
+    </li>
+    @endcan
+
     @can('setting_access')
     <li class="nav-item {{ request()->is('admin/setting') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.setting') }}">

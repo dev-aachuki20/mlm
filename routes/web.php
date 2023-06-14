@@ -55,6 +55,8 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
         Route::view('setting', 'admin.setting.index')->name('setting');
         Route::view('page-manage', 'admin.page-manage.index')->name('page-manage');
         Route::view('user-manage', 'admin.user-manage.index')->name('user-manage');
+        Route::view('course', 'admin.course.index')->name('course');
+
 
     });
 

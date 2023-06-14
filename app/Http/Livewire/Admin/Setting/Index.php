@@ -11,21 +11,22 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Livewire\BaseComponent;
 
-class Index extends Component
+class Index extends BaseComponent
 {
     use WithPagination, LivewireAlert, WithFileUploads;
 
     protected $layout = null;
 
-    public $search = '', $formMode = false , $updateMode = false, $viewMode = false, $viewDetails = null;
+    public $search = '', $formMode = false , $updateMode = false, $viewMode = false;
 
     public $setting_id = null, $key, $value, $type, $status = 1, $image, $originalImage, $video, $originalVideo;
 
     protected $settings = null;
 
     protected $listeners = [
-        'confirmedToggleAction','deleteConfirm','changeType',
+       'updateStatus', 'confirmedToggleAction','cancelled','deleteConfirm','changeType',
     ];
 
     public function mount(){
@@ -236,6 +237,8 @@ class Index extends Component
             'onCancelled' => function () {
                 // Do nothing or perform any desired action
             },
+           
+            'onDismissed' => 'cancelled',
             'inputAttributes' => ['settingId' => $id],
         ]);
     }
@@ -246,6 +249,19 @@ class Index extends Component
         $model = Setting::find($settingId);
         $model->update(['status' => !$model->status]);
         $this->alert('success', trans('messages.change_status_success_message'));
+    }
+
+    public function cancelled(){
+        $this->dispatchBrowserEvent('dismissedAlert');
+    }
+
+    public function updateStatus($id){
+        if($this->isConfirmed){
+            $this->isConfirmed = false;
+            $model = Setting::find($id);
+            $model->update(['status' => !$model->status]);
+            $this->alert('success', trans('messages.change_status_success_message'));
+        }
     }
 
     public function changeStatus($statusVal){

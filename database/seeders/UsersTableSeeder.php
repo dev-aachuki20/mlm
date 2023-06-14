@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
@@ -11,6 +12,7 @@ class UsersTableSeeder extends Seeder
     {
         $users[0] = [
                 'id'             => 1,
+                'uuid'           => Str::uuid(),
                 'first_name'     => 'Super',
                 'last_name'      => 'Admin',
                 'name'           => 'Super Admin',
@@ -27,6 +29,7 @@ class UsersTableSeeder extends Seeder
         
         $users[1] = [
                 'id'             => 2,
+                'uuid'           => Str::uuid(),
                 'first_name'     => 'MLM',
                 'last_name'      => 'Admin',
                 'name'           => 'MLM Admin',

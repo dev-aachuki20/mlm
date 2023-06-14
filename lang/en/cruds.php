@@ -144,5 +144,18 @@ return [
     ],
 
 
+    'course' => [
+        'title' => 'Courses',
+        'title_singular' => 'Course',
+        'fields' => [
+            'name'        => 'Name',
+            'description' => 'Description',
+            'video_image' => 'Video Image',
+            'video'       => 'Video',
+            'created_by'  => 'Created By',        
+        ],
+    ],
+
+
 
 ];

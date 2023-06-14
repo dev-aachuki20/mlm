@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Auth\Admin;
 use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -51,8 +52,7 @@ class Register extends Component
 
     public function mount($referralId = ''){
         if(!empty($referralId)){
-            $referralId = decrypt($referralId);
-            $getReferralUser     = User::find($referralId);
+            $getReferralUser     = User::where('uuid',$referralId)->first();
             $this->referral_id   = $getReferralUser->my_referral_code;
             $this->referral_name = $getReferralUser->name;
         }
@@ -60,11 +60,6 @@ class Register extends Component
 
     public function render()
     {
-        // $encryptReferralId = encrypt(2);
-        // $decryptReferralId = decrypt($encryptReferralId);
-
-        // dd($encryptReferralId,$decryptReferralId);
-
         return view('livewire.auth.admin.register');
     }
 
@@ -78,6 +73,7 @@ class Register extends Component
             $referral_user_id = User::where('my_referral_code',$this->referral_id)->value('id');
 
             $data = [ 
+                'uuid'       => Str::uuid(),
                 'first_name' => $this->first_name, 
                 'last_name'  => $this->last_name, 
                 'name'       => $this->first_name.' '.$this->last_name,

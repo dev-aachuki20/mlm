@@ -22,7 +22,7 @@
 <body>
     <div class="container-scroller">
     
-        @include('partials.admin.header')
+        @livewire('partials.admin.header')
 
         <div class="container-fluid page-body-wrapper">
 
@@ -66,12 +66,53 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     
+    <script type="text/javascript">
+        // Confirm Alert
+         // Livewire hook to handle the Livewire component's JavaScript events
+         document.addEventListener('livewire:load', function() {
+            
+            document.addEventListener('confirm-alert', function (event) {
+                  // Get the Livewire component's root DOM element
+                    Swal.fire({
+                        icon: event.detail.type,
+                        // iconColor: '#30a702',
+                        title: event.detail.title,
+                        text: event.detail.text,
+                        position: 'center',
+                        showCancelButton: true,
+                        showConfirmButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'No, cancel!',
+                        confirmButtonColor: 'rgb(45 44 103)',
+                        // color: '#fff',
+                        // background: '#0e0e11',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // $('.page-loader').show();
+                            var str = `'${event.detail.parameter}'`;
+                            // console.log('str',str);       
+                            if( str.indexOf(',') != -1 ){
+                                // console.log("yes");
+                                const explodedArray = event.detail.parameter.split(',');
+                              
+                                livewire.emit(event.detail.functionName,explodedArray[0],explodedArray[1]);
+                    
+                            }else{
+                                livewire.emit(event.detail.functionName,event.detail.parameter);
+                            }
+                        }
+                    });
+            }); 
+
+        });
+    </script>
+
     <script src="{{ asset('vendor/livewire-alert/livewire-alert.js') }}"></script> 
 
     <x-livewire-alert::flash />
-    
-    @stack('scripts')
 
+    @stack('scripts')
+    
 </body>
 </html>
 <!-- new -->

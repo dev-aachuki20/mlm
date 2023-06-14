@@ -6,6 +6,7 @@ use Gate;
 use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
@@ -119,6 +120,7 @@ class Index extends Component
             $referral_user_id = User::where('my_referral_code',$this->referral_code)->value('id');
 
             $userDetails = [];
+            $userDetails['uuid']       = Str::uuid();
             $userDetails['first_name'] = $this->first_name;
             $userDetails['last_name']  = $this->last_name;
             $userDetails['name']       = $this->first_name.' '.$this->last_name;

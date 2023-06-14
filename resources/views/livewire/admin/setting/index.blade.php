@@ -47,7 +47,7 @@
 
                                         <td>
                                             <label class="toggle-switch">
-                                                <input type="checkbox" class="toggleSwitch" wire:click="toggle({{$setting->id}})" {{ $setting->status == 1 ? 'checked' : '' }}>
+                                                <input type="checkbox" class="toggleSwitch" wire:click="toggle({{$setting->id}})" wire:click.prevent="confirmAlert('You want to change the status.','updateStatus',{{$setting->id}})" {{ $setting->status == 1 ? 'checked' : '' }}>
                                                 <div class="switch-slider round"></div>
                                             </label>
 
@@ -62,9 +62,10 @@
                                                 <i class="ti-pencil-alt"></i>
                                             </button>
 
-                                            <button type="button" wire:click="delete({{$setting->id}})" class="btn btn-danger btn-rounded btn-icon">
+                                           {{--  <button type="button" wire:click="delete({{$setting->id}})" class="btn btn-danger btn-rounded btn-icon">
                                                 <i class="ti-trash"></i>
                                             </button>
+                                            --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -130,15 +131,11 @@
 
 
     $(document).ready(function(){
-
         $(document).on('change','.section-type',function(){
             var sectionType = $(this).val();
             Livewire.emit('changeType',sectionType);
 
         });
-
     });
-   
-
 </script>
 @endpush

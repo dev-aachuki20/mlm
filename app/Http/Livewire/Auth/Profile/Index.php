@@ -4,10 +4,10 @@ namespace App\Http\Livewire\Auth\Profile;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Http\Livewire\BaseComponent;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
-
-class Index extends Component
+class Index extends BaseComponent
 {
     use LivewireAlert,WithFileUploads;
 
@@ -67,6 +67,9 @@ class Index extends Component
 
         $this->render();
         if ($response) {
+            // Emit an event with updated profile image URL
+            $this->emit('profileImageUpdated', true);
+
             // Set Flash Message
             $this->alert('success', 'Profile image has been updated.');
         } else {
