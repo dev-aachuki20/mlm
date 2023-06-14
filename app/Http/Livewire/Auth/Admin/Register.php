@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Encryption\Encrypter;
 
 class Register extends Component
 {
@@ -21,8 +21,7 @@ class Register extends Component
 
     public $showResetBtn = false;
 
-    protected $listeners = [ 'updateDOB'
-    ];
+    protected $listeners = [ 'updateDOB' ];
     
     protected function rules()
     {
@@ -61,8 +60,7 @@ class Register extends Component
 
     public function render()
     {
-        
-        // $encryptReferralId = encrypt(7);
+        // $encryptReferralId = encrypt(2);
         // $decryptReferralId = decrypt($encryptReferralId);
 
         // dd($encryptReferralId,$decryptReferralId);

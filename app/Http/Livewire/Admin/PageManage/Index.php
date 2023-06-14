@@ -43,6 +43,7 @@ class Index extends Component
 
     public function create()
     {
+        $this->resetPage('page');
         $this->resetInputFields();
         $this->initializePlugins();
         $this->formMode = true;
@@ -60,7 +61,7 @@ class Index extends Component
 
         $validatedDate = $this->validate([
             'title'           => ['required', 'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u', 'max:255','unique:pages,title'],
-            'template_name'   => ['required', 'alpha', 'max:255'],
+            // 'template_name'   => ['required', 'alpha', 'max:255'],
             'description'     => 'required',
             'status'          => 'required',
         ]);
@@ -79,11 +80,12 @@ class Index extends Component
     }
 
     public function edit($id){
+        $this->resetPage('page');
         $this->initializePlugins();
         $page = Page::findOrFail($id);
         $this->page_id = $id;
         $this->title           = $page->title;
-        $this->template_name   = $page->template_name;
+        // $this->template_name   = $page->template_name;
         $this->description     = $page->description;
         $this->status          = $page->status;
         $this->formMode = true;
@@ -93,7 +95,7 @@ class Index extends Component
     public function update(){
         $validatedDate = $this->validate([
             'title'           => ['required', 'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u','max:255','unique:pages,title,'.$this->page_id],
-            'template_name'   => ['required', 'alpha', 'max:255'],
+            // 'template_name'   => ['required', 'alpha', 'max:255'],
             'description'     => 'required',
             'status'          => 'required',
         ]);
@@ -134,6 +136,7 @@ class Index extends Component
     }
 
     public function show($id){
+        $this->resetPage('page');
         $this->page_id = $id;
         $this->formMode = false;
         $this->viewMode = true;

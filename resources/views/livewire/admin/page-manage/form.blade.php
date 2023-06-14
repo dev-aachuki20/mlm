@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <div class="row">
+   {{-- <div class="row">
         <div class="col-md-12">
             <div class="form-group">
                 <label class="font-weight-bold">{{ __('cruds.page.fields.template_name')}}</label>
@@ -24,7 +24,8 @@
             </div>
         </div>
     </div>
-
+  --}}
+  
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>

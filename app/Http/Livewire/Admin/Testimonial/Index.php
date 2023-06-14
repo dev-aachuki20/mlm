@@ -33,7 +33,6 @@ class Index extends Component
 
     public function render()
     {
-
         $this->testimonials = Testimonial::query()
         ->where('name', 'like', '%'.$this->search.'%')
         ->orderBy('id','desc')
@@ -46,6 +45,7 @@ class Index extends Component
 
     public function create()
     {
+        $this->resetPage('page');
         $this->resetInputFields();
         $this->formMode = true;
         $this->initializePlugins();
@@ -80,6 +80,7 @@ class Index extends Component
 
     public function edit($id)
     {
+        $this->resetPage('page');
         $testimonial = Testimonial::findOrFail($id);
         $this->testimonial_id = $id;
         $this->name           = $testimonial->name;
@@ -152,6 +153,7 @@ class Index extends Component
     }
 
     public function show($id){
+        $this->resetPage('page');
         $this->testimonial_id = $id;
         $this->formMode = false;
         $this->viewMode = true;

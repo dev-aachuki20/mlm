@@ -49,6 +49,7 @@ class Index extends Component
 
     public function create()
     {
+        $this->resetPage('page');
         $this->resetInputFields();
         $this->resetValidation();
         $this->formMode = true;
@@ -179,6 +180,7 @@ class Index extends Component
     }
 
     public function edit($id){
+        $this->resetPage('page');
         dd('working..');
 
     }
@@ -210,6 +212,7 @@ class Index extends Component
     }
 
     public function show($id){
+        $this->resetPage('page');
         $this->user_id = $id;
         $this->formMode = false;
         $this->viewMode = true;

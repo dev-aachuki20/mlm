@@ -11,13 +11,14 @@
         </div>
     </div>
 
-    <div class="form-group row">
+   {{-- <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.page.fields.template_name') }}</label>
         <div class="col-sm-9">
              {{ $details->template_name }}
         </div>
     </div>
-
+   --}}
+   
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.page.fields.description') }}</label>
         <div class="col-sm-9">
@@ -31,7 +32,7 @@
              @if($details->status)
                 <div class="badge badge-success">Active</div>
              @else
-                <div class="badge badge-success">Inactive</div>
+                <div class="badge badge-danger">Inactive</div>
              @endif
              
         </div>

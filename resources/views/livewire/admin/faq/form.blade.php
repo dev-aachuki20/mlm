@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label class="font-weight-bold">{{ __('cruds.faq.fields.question')}}</label>
-                <textarea class="form-control" wire:model.defer="question" rows="4"></textarea>
+                <input class="form-control" wire:model.defer="question">
                 @error('question') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
         </div>

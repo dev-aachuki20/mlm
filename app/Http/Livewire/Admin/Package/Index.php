@@ -50,6 +50,7 @@ class Index extends Component
 
     public function create()
     {
+        $this->resetPage('page');
         $this->resetInputFields();
         $this->formMode = true;
         $this->initializePlugins();
@@ -89,6 +90,7 @@ class Index extends Component
 
     public function edit($id)
     {
+        $this->resetPage('page');
         $package = Package::findOrFail($id);
 
         $this->package_id = $id;
@@ -170,6 +172,7 @@ class Index extends Component
     }
 
     public function show($id){
+        $this->resetPage('page');
         $this->package_id = $id;
         $this->formMode = false;
         $this->viewMode = true;

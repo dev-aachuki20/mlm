@@ -24,7 +24,7 @@
              @if($details->status)
                 <div class="badge badge-success">Active</div>
              @else
-                <div class="badge badge-success">Inactive</div>
+                <div class="badge badge-danger">Inactive</div>
              @endif
              
         </div>
