@@ -23,7 +23,9 @@ return [
     ],
     
     'date_format' => 'd-m-Y',
-    'datetime_format' => 'd-m-Y h:i:s A',
+    'datetime_format' => 'd-m-Y H:i',
+    'search_datetime_format' => '%d-%m-%Y %H:%i',
+
     'set_timezone' => 'Asia/kolkata', // set timezone
     
     'logo_min_width' => '250', // logo min width
@@ -54,7 +56,8 @@ return [
     'copy_right_content'=>'All Rights Reserved.',
 
     'support_email' => 'support@gmail.com',
-    'support_phone' => '9658456982'
+    'support_phone' => '9658456982',
 
+    'datatable_paginations'=>[10,25,50,100]
 
 ];

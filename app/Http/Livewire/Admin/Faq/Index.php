@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Faq;
 use Gate;
 use Livewire\Component;
 use App\Models\Faq;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,26 +18,62 @@ class Index extends Component
 
     public $search = '', $formMode = false , $updateMode = false, $viewMode = false,$viewDetails = null;
 
+    public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
+
     public $faq_id = null, $question, $answer,$status = 1;
 
-    protected $faqs = null;
-
     protected $listeners = [
-        'confirmedToggleAction','deleteConfirm'
+        'updatePaginationLength','confirmedToggleAction','deleteConfirm'
     ];
 
     public function mount(){
         abort_if(Gate::denies('faq_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
     }
 
+    public function updatePaginationLength($length){
+        $this->paginationLength = $length;
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function sortBy($columnName)
+    {
+        $this->resetPage();
+
+        if ($this->sortColumnName === $columnName) {
+            $this->sortDirection = $this->swapSortDirection();
+        } else {
+            $this->sortDirection = 'asc';
+        }
+
+        $this->sortColumnName = $columnName;
+    }
+
+    public function swapSortDirection()
+    {
+        return $this->sortDirection === 'asc' ? 'desc' : 'asc';
+    }
+    
     public function render()
     {
-        $this->faqs = Faq::query()
-        ->where('question', 'like', '%'.$this->search.'%')
-        ->orderBy('id','desc')
-        ->paginate(10);
+        $statusSearch = null;
+        $searchValue = $this->search;
+        if(Str::contains('active', strtolower($searchValue))){
+            $statusSearch = 1;
+        }else if(Str::contains('inactive', strtolower($searchValue))){
+            $statusSearch = 0;
+        }
 
-        $allFaqs = $this->faqs;
+        $allFaqs = Faq::query()->where(function ($query) use($searchValue,$statusSearch) {
+            $query->where('question', 'like', '%'.$searchValue.'%')
+            ->orWhere('status', $statusSearch)
+            ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+        })
+        ->orderBy($this->sortColumnName, $this->sortDirection)
+        ->paginate(10);
 
         return view('livewire.admin.faq.index',compact('allFaqs'));
     }

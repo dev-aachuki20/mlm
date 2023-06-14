@@ -5,14 +5,14 @@ namespace App\Http\Livewire\Admin\Course;
 use Gate;
 use App\Models\Course;
 use Livewire\Component;
+use Illuminate\Support\Str; 
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
-use App\Http\Livewire\BaseComponent;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Symfony\Component\HttpFoundation\Response;
 
-class Index extends BaseComponent
+class Index extends Component
 {
     use WithPagination, LivewireAlert, WithFileUploads;
 
@@ -20,22 +20,65 @@ class Index extends BaseComponent
 
     public $search = '', $formMode = false , $updateMode = false, $viewMode = false, $course_id=null;
 
-    public $name, $description, $image, $originalImage, $video, $originalVideo, $status=1;
+    public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    protected $courses;
+    public $name, $description, $image, $originalImage, $video, $originalVideo, $status=1;
     
+
+    protected $listeners = [
+        'updatePaginationLength', 'updateStatus', 'confirmedToggleAction','deleteConfirm',
+    ];
+
+
     public function mount(){
         abort_if(Gate::denies('course_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
     }
 
+    public function updatePaginationLength($length){
+        $this->paginationLength = $length;
+    }
+    
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function sortBy($columnName)
+    {
+        $this->resetPage();
+
+        if ($this->sortColumnName === $columnName) {
+            $this->sortDirection = $this->swapSortDirection();
+        } else {
+            $this->sortDirection = 'asc';
+        }
+
+        $this->sortColumnName = $columnName;
+    }
+
+    public function swapSortDirection()
+    {
+        return $this->sortDirection === 'asc' ? 'desc' : 'asc';
+    }
+    
     public function render()
     {
-        $this->courses = Course::query()
-        ->where('name', 'like', '%'.$this->search.'%')
-        ->orderBy('id','desc')
-        ->paginate(10);
+        $statusSearch = null;
+        $searchValue = $this->search;
+        if(Str::contains('active', strtolower($searchValue))){
+            $statusSearch = 1;
+        }else if(Str::contains('inactive', strtolower($searchValue))){
+            $statusSearch = 0;
+        }
+
+        $allCourse = Course::query()->where(function ($query) use($searchValue,$statusSearch) {
+            $query->where('name', 'like', '%'.$searchValue.'%')
+            ->orWhere('status', $statusSearch)
+            ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+        })
+        ->orderBy($this->sortColumnName, $this->sortDirection)
+        ->paginate($this->paginationLength);
       
-        $allCourse = $this->courses;
 
         return view('livewire.admin.course.index',compact('allCourse'));
     }

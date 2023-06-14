@@ -134,6 +134,12 @@ input:checked + .switch-slider:after
   color: gray;
 }
 
+.table-header-plugins{
+  display: flex;
+  justify-content: space-between;
+}
+
+
 .rating {
   display: flex;
   flex-direction: row-reverse;
@@ -171,3 +177,4 @@ input:checked + .switch-slider:after
 .rating > input:checked ~ label {
   color: #ffa723;
 }
+

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Package;
 use Gate;
 use App\Models\Package;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -21,30 +22,68 @@ class Index extends Component
 
     public $search = '', $formMode = false , $updateMode = false;
 
-    protected $packages = null;
+    public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
     public  $title, $amount, $status = 1, $description='',$image=null,$viewMode = false,$originalImage;
 
     public $package_id =null, $level_one_commission, $level_two_commission, $level_three_commission;
 
     protected $listeners = [
-        'confirmedToggleAction','deleteConfirm'
+        'updatePaginationLength', 'confirmedToggleAction','deleteConfirm'
     ];
 
     public function mount(){
         abort_if(Gate::denies('package_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
     }
 
+    public function updatePaginationLength($length){
+        $this->paginationLength = $length;
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function sortBy($columnName)
+    {
+        $this->resetPage();
+
+        if ($this->sortColumnName === $columnName) {
+            $this->sortDirection = $this->swapSortDirection();
+        } else {
+            $this->sortDirection = 'asc';
+        }
+
+        $this->sortColumnName = $columnName;
+    }
+
+    public function swapSortDirection()
+    {
+        return $this->sortDirection === 'asc' ? 'desc' : 'asc';
+    }
+    
     public function render()
     {
         $this->search = str_replace(',', '', $this->search);
-         $this->packages = Package::query()
-            ->where('title', 'like', '%'.$this->search.'%')
-            ->orWhere('amount', 'like', '%'.$this->search.'%')
-            ->orderBy('id','desc')
-            ->paginate(10);
 
-        $allPackages = $this->packages;
+        $statusSearch = null;
+        $searchValue = $this->search;
+        if(Str::contains('active', strtolower($searchValue))){
+            $statusSearch = 1;
+        }else if(Str::contains('inactive', strtolower($searchValue))){
+            $statusSearch = 0;
+        }
+
+        $allPackages = Package::query()->where(function ($query) use($searchValue,$statusSearch) {
+            $query->where('title', 'like', '%'.$searchValue.'%')
+            ->orWhere('amount', 'like', '%'.$searchValue.'%')
+            ->orWhere('status', $statusSearch)
+            ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+        })
+        ->orderBy($this->sortColumnName, $this->sortDirection)
+        ->paginate($this->paginationLength);
+
         return view('livewire.admin.package.index',compact('allPackages'));
     }
 

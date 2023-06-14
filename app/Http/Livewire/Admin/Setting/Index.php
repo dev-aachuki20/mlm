@@ -5,43 +5,82 @@ namespace App\Http\Livewire\Admin\Setting;
 use Gate;
 use Livewire\Component;
 use App\Models\Setting;
+use Illuminate\Support\Str; 
+use Illuminate\Support\Arr;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Symfony\Component\HttpFoundation\Response;
-use App\Http\Livewire\BaseComponent;
 
-class Index extends BaseComponent
+
+class Index extends Component
 {
     use WithPagination, LivewireAlert, WithFileUploads;
 
     protected $layout = null;
 
     public $search = '', $formMode = false , $updateMode = false, $viewMode = false;
+    
+    public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
     public $setting_id = null, $key, $value, $type, $status = 1, $image, $originalImage, $video, $originalVideo;
 
-    protected $settings = null;
-
     protected $listeners = [
-       'updateStatus', 'confirmedToggleAction','cancelled','deleteConfirm','changeType',
+      'updatePaginationLength', 'updateStatus', 'confirmedToggleAction','cancelled','deleteConfirm','changeType',
     ];
 
     public function mount(){
         abort_if(Gate::denies('setting_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
     }
 
+    public function updatePaginationLength($length){
+        $this->paginationLength = $length;
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function sortBy($columnName)
+    {
+        $this->resetPage();
+
+        if ($this->sortColumnName === $columnName) {
+            $this->sortDirection = $this->swapSortDirection();
+        } else {
+            $this->sortDirection = 'asc';
+        }
+
+        $this->sortColumnName = $columnName;
+    }
+
+    public function swapSortDirection()
+    {
+        return $this->sortDirection === 'asc' ? 'desc' : 'asc';
+    }
+
+
     public function render()
     {
-        $this->settings = Setting::query()
-        ->where('key', 'like', '%'.$this->search.'%')
-        ->where('type', 'like', '%'.$this->search.'%')
-        ->orderBy('id','ASC')
-        ->paginate(10);
+        $statusSearch = null;
+        $searchValue = $this->search;
+        if(Str::contains('active', strtolower($searchValue))){
+            $statusSearch = 1;
+        }else if(Str::contains('inactive', strtolower($searchValue))){
+            $statusSearch = 0;
+        }
+
+        $allSetting = Setting::query()->where(function ($query) use($searchValue,$statusSearch) {
+            $query->where('key', 'like', '%'.$searchValue.'%')
+            ->orWhere('type', 'like', '%'.$searchValue.'%')
+            ->orWhere('status', $statusSearch)
+            ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+        })
+        ->orderBy($this->sortColumnName, $this->sortDirection)
+        ->paginate($this->paginationLength);
       
-        $allSetting = $this->settings;
 
         return view('livewire.admin.setting.index',compact('allSetting'));
     }

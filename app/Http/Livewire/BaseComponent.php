@@ -6,6 +6,7 @@ use Livewire\Component;
 
 class BaseComponent extends Component
 {
+
     public $profileImageUrlUpdated = false;
     public $isConfirmed = false,$isLoader = false;
     protected $listeners = ['successAlert' => 'showSuccess','errorAlert' => 'showError','confirmAlert'=>'confirmAlert','profileImageUpdated' => 'updateProfileImage'];

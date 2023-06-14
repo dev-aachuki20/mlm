@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Testimonial;
 
 use Gate;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use App\Models\Testimonial;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
@@ -19,26 +20,63 @@ class Index extends Component
 
     public $search = '', $formMode = false , $updateMode = false,$viewMode = false;
 
-    protected $testimonials = null ;
+    public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
     public $testimonial_id = null, $name, $designation, $description, $rating, $status = 1,$testimonial_image = null, $originalImage;
 
     protected $listeners = [
-        'confirmedToggleAction', 'deleteConfirm'
+        'updatePaginationLength','confirmedToggleAction', 'deleteConfirm'
     ];
 
     public function mount(){
         abort_if(Gate::denies('testimonial_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
     }
 
+    public function updatePaginationLength($length){
+        $this->paginationLength = $length;
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function sortBy($columnName)
+    {
+        $this->resetPage();
+
+        if ($this->sortColumnName === $columnName) {
+            $this->sortDirection = $this->swapSortDirection();
+        } else {
+            $this->sortDirection = 'asc';
+        }
+
+        $this->sortColumnName = $columnName;
+    }
+
+    public function swapSortDirection()
+    {
+        return $this->sortDirection === 'asc' ? 'desc' : 'asc';
+    }
+    
     public function render()
     {
-        $this->testimonials = Testimonial::query()
-        ->where('name', 'like', '%'.$this->search.'%')
-        ->orderBy('id','desc')
-        ->paginate(10);
+        $statusSearch = null;
+        $searchValue = $this->search;
+        if(Str::contains('active', strtolower($searchValue))){
+            $statusSearch = 1;
+        }else if(Str::contains('inactive', strtolower($searchValue))){
+            $statusSearch = 0;
+        }
 
-        $allTestimonials = $this->testimonials;
+        $allTestimonials = Testimonial::query()->where(function ($query) use($searchValue,$statusSearch) {
+            $query->where('name', 'like', '%'.$searchValue.'%')
+            ->orWhere('status', $statusSearch)
+            ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+        })
+        ->orderBy($this->sortColumnName, $this->sortDirection)
+        ->paginate($this->paginationLength);
+
 
         return view('livewire.admin.testimonial.index',compact('allTestimonials'));
     }

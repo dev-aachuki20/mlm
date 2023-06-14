@@ -20,31 +20,67 @@ class Index extends Component
 
     public $search = '', $formMode = false , $updateMode = false, $viewMode = false, $viewDetails = null;
 
+    public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
+
+
     public $user_id = null, $first_name, $last_name, $email,$phone, $dob, $date_of_join,$my_referral_code,$referral_code,$referral_name; 
 
     public $guardian_name, $gender, $profession, $marital_status, $address, $state, $city, $pin_code, $nominee_name, $nominee_dob, $nominee_relation, $bank_name, $branch_name, $ifsc_code, $account_number, $pan_card_number ; 
 
-    protected $users = null;
-
     protected $listeners = [
-        'confirmedToggleAction','deleteConfirm','updateDateOfJoin','updateDob','updateNomineeDob'
+        'updatePaginationLength','confirmedToggleAction','deleteConfirm','updateDateOfJoin','updateDob','updateNomineeDob'
     ];
 
     public function mount(){
         abort_if(Gate::denies('user_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
     }
 
+    public function updatePaginationLength($length){
+        $this->paginationLength = $length;
+    }
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function sortBy($columnName)
+    {
+        $this->resetPage();
+
+        if ($this->sortColumnName === $columnName) {
+            $this->sortDirection = $this->swapSortDirection();
+        } else {
+            $this->sortDirection = 'asc';
+        }
+
+        $this->sortColumnName = $columnName;
+    }
+
+    public function swapSortDirection()
+    {
+        return $this->sortDirection === 'asc' ? 'desc' : 'asc';
+    }
+    
     public function render()
     {
-        $this->users = User::query()
-        ->whereHas('roles',function($query){
-            $query->whereIn('id',[3]);
+        $statusSearch = null;
+        $searchValue = $this->search;
+        if(Str::contains('active', strtolower($searchValue))){
+            $statusSearch = 1;
+        }else if(Str::contains('inactive', strtolower($searchValue))){
+            $statusSearch = 0;
+        }
+        
+        $allUser = User::query()->where(function ($query) use($searchValue,$statusSearch) {
+            $query->where('name', 'like', '%'.$searchValue.'%')
+            ->orWhere('is_active', $statusSearch)
+            ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
         })
-        ->where('name', 'like', '%'.$this->search.'%')
-        ->orderBy('id','desc')
-        ->paginate(10);
+        ->has('roles','=',3)
+        ->orderBy($this->sortColumnName, $this->sortDirection)
+        ->paginate($this->paginationLength);
 
-        $allUser = $this->users;
         return view('livewire.admin.user-manage.index',compact('allUser'));
     }
 

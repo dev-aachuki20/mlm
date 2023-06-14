@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Slider;
 use Gate;
 use App\Models\Slider;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -16,30 +17,67 @@ class Index extends Component
 
     protected $layout = null;
 
-    protected $sliders = null;
-
     public $search = '', $formMode = false , $updateMode = false, $viewMode = false ,$originalImage;
+
+    public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
     public $slider_id = null, $name, $type, $image=null, $status = 1;
 
 
     protected $listeners = [
-        'confirmedToggleAction','deleteConfirm'
+        'updatePaginationLength','confirmedToggleAction','deleteConfirm'
     ];
 
     public function mount(){
         abort_if(Gate::denies('slider_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
     }
 
+    public function updatePaginationLength($length){
+        $this->paginationLength = $length;
+    }
+    
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function sortBy($columnName)
+    {
+        $this->resetPage();
+
+        if ($this->sortColumnName === $columnName) {
+            $this->sortDirection = $this->swapSortDirection();
+        } else {
+            $this->sortDirection = 'asc';
+        }
+
+        $this->sortColumnName = $columnName;
+    }
+
+    public function swapSortDirection()
+    {
+        return $this->sortDirection === 'asc' ? 'desc' : 'asc';
+    }
+    
     public function render()
     {
         $this->search = str_replace(',', '', $this->search);
-        $this->sliders = Slider::query()
-           ->where('name', 'like', '%'.$this->search.'%')
-           ->orderBy('id','desc')
-           ->paginate(10);
+        $statusSearch = null;
+        $searchValue = $this->search;
+        if(Str::contains('active', strtolower($searchValue))){
+            $statusSearch = 1;
+        }else if(Str::contains('inactive', strtolower($searchValue))){
+            $statusSearch = 0;
+        }
 
-       $allSliders = $this->sliders;
+        $allSliders = Slider::query()->where(function ($query) use($searchValue,$statusSearch) {
+            $query->where('name', 'like', '%'.$searchValue.'%')
+            ->orWhere('status', $statusSearch)
+            ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+        })
+        ->orderBy($this->sortColumnName, $this->sortDirection)
+        ->paginate($this->paginationLength);
+
         return view('livewire.admin.slider.index',compact('allSliders'));
     }
 

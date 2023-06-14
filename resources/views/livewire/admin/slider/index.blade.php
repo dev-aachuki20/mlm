@@ -25,10 +25,26 @@
                         @endif
 
                     </div>                
-                    <div class="table-responsive">
-                        <div class="table-additional-plugin">
+                    <div class="table-responsive pt-4">
+
+                        <div class="table-header-plugins">
+                            <!-- Start show length -->
+                            <div class="dataTables_length">
+                             <label>Show 
+                                <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                                    @foreach(config('constants.datatable_paginations') as $length)
+                                    <option value="{{ $length }}">{{ $length }}</option>
+                                    @endforeach
+                                </select> 
+                              entries</label>
+                            </div>
+                            <!-- End show length -->
+
+                            <!--Start search  -->
                             <input type="text" class="form-control col-2" wire:model="search" placeholder="{{ __('global.search')}}">
+                            <!-- End Search -->
                         </div>
+
                         <table class="table table-hover">
                         <thead>
                             <tr>
@@ -36,7 +52,12 @@
                                 <th>{{ __('cruds.slider.fields.name')}}</th>
                                 <th>{{ __('cruds.slider.fields.type')}}</th>
                                 <th>{{ trans('global.status') }}</th>
-                                <th>{{ trans('global.created_at') }}</th>
+                                <th>{{ trans('global.created_at') }}
+                                    <span wire:click="sortBy('created_at')" class="float-right text-sm" style="cursor: pointer;">
+                                        <i class="fa fa-arrow-up {{ $sortColumnName === 'created_at' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
+                                        <i class="fa fa-arrow-down {{ $sortColumnName === 'created_at' && $sortDirection === 'desc' ? '' : 'text-muted' }}"></i>
+                                    </span>
+                                </th>
                                 <th>{{ trans('global.action') }}</th>
                             </tr>
                         </thead>
@@ -51,22 +72,22 @@
                                         <td>
                         
                                             <label class="toggle-switch">
-                                                <input type="checkbox" class="toggleSwitch"  wire:click="toggle({{$slider->id}})" {{ $slider->status == 1 ? 'checked' : '' }}>
+                                                <input type="checkbox" class="toggleSwitch"  wire:click.prevent="toggle({{$slider->id}})" {{ $slider->status == 1 ? 'checked' : '' }}>
                                                 <span class="switch-slider"></span>
                                             </label>
 
                                         </td>
                                         <td>{{ convertDateTimeFormat($slider->created_at,'datetime') }}</td>
                                         <td>
-                                            <button type="button" wire:click="show({{$slider->id}})" class="btn btn-primary btn-rounded btn-icon">
+                                            <button type="button" wire:click.prevent="show({{$slider->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                 <i class="ti-eye"></i>
                                             </button>
                                             
-                                            <button type="button" wire:click="edit({{$slider->id}})" class="btn btn-info btn-rounded btn-icon">
+                                            <button type="button" wire:click.prevent="edit({{$slider->id}})" class="btn btn-info btn-rounded btn-icon">
                                                 <i class="ti-pencil-alt"></i>
                                             </button>
 
-                                            <button type="button" wire:click="delete({{$slider->id}})" class="btn btn-danger btn-rounded btn-icon">
+                                            <button type="button" wire:click.prevent="delete({{$slider->id}})" class="btn btn-danger btn-rounded btn-icon">
                                                 <i class="ti-trash"></i>
                                             </button>
                                         </td>
