@@ -10,11 +10,6 @@
                     <div wire:loading wire:target="create" class="loader"></div>
                     <div class="card-title">
                         <h4 class="float-left">{{__('cruds.user.title_singular')}} Management</h4>
-                        {{-- <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                            <i class="ti-plus btn-icon-prepend"></i>                                                    
-                                {{__('global.add')}}
-                        </button>
-                        --}}
                     </div>                
                     <div class="table-responsive pt-4">
                         

@@ -19,15 +19,15 @@ return new class extends Migration
 
             $table->foreign('user_id', 'user_id_fk_6798')->references('id')->on('users')->onDelete('cascade');
 
-            $table->string('guardian_name')->nullable();
-            $table->string('gender')->nullable();
-            $table->string('profession')->nullable();
-            $table->string('marital_status')->nullable();
+            $table->string('guardian_name',191)->nullable();
+            $table->string('gender',50)->nullable();
+            $table->string('profession',191)->nullable();
+            $table->string('marital_status',50)->nullable();
             $table->text('address')->nullable();
             $table->string('state')->nullable();
             $table->string('city')->nullable();
-            $table->string('pin_code')->nullable();
-            $table->string('nominee_name')->nullable();
+            $table->string('pin_code',50)->nullable();
+            $table->string('nominee_name',191)->nullable();
             $table->date('nominee_dob')->nullable();
             $table->string('nominee_relation',100)->nullable();
             $table->unsignedBigInteger('level_one_user_id')->nullable();

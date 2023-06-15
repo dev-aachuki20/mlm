@@ -41,11 +41,11 @@
             <!-- Step form content -->
             <div class="tab-content p-0 border-0">
                 <div class="tab-pane fade show active" id="personalInfo">
-                    @if($editMode)
+                    {{-- @if($editMode)
                         @include('livewire.admin.user-manage.form')
-                    @elseif(!$editMode)
+                    @elseif(!$editMode) --}}
                         @include('livewire.admin.user-manage.show-detail')
-                    @endif
+                    {{-- @endif --}}
                 </div>
                 <div class="tab-pane fade" id="paymentInfo">
                     <h4 class="font-weight-bold">Payment Information</h4>

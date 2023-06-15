@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\Admin\UserManage;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Show extends Component
@@ -12,14 +14,16 @@ class Show extends Component
 
     protected $layout = null;
     
-    public $detail,$editMode = false, $formType;
+    public $detail,$editMode = false, $formType, $editButtonStatus=['personal-detail'=>true,'nominee-detail'=>true,'kyc-detail'=>true];
 
     public $user_id = null, $first_name, $last_name, $email,$phone, $dob, $date_of_join,$my_referral_code,$referral_code,$referral_name; 
 
-    public $guardian_name, $gender, $profession, $marital_status, $address, $state, $city, $pin_code, $nominee_name, $nominee_dob, $nominee_relation, $bank_name, $branch_name, $ifsc_code, $account_number, $pan_card_number ; 
+    public $guardian_name, $gender, $profession, $marital_status, $address, $state, $city, $pin_code, $nominee_name, $nominee_dob, $nominee_relation; 
+
+    public $account_holder_name, $account_number, $bank_name, $branch_name, $ifsc_code, $aadhar_card_name, $aadhar_card_number,  $pan_card_name, $pan_card_number;
 
     protected $listeners = [
-        'editStepForm','update','cancel','updateDateOfJoin','updateDob','updateNomineeDob'
+        'updateDateOfJoin','updateDob','updateNomineeDob','refreshComponent'=>'$refresh'
     ];
 
     public function mount($user_id){
@@ -28,10 +32,49 @@ class Show extends Component
     }
 
     public function editStepForm($formType){
-        dd('hello');
+        $this->editButtonStatus = ['personal-detail'=>true,'nominee-detail'=>true,'kyc-detail'=>true];
         $this->formType = $formType;
-       
         $this->editMode = true;
+        $this->editButtonStatus[$this->formType] = false;
+
+        if($this->formType == 'personal-detail'){
+
+            $this->first_name = $this->detail->first_name;
+            $this->last_name  = $this->detail->last_name;
+            $this->dob        = $this->detail->dob;
+            $this->guardian_name    = $this->detail->profile->guardian_name;
+            $this->gender           = $this->detail->profile->gender;
+            $this->profession       = $this->detail->profile->profession;
+            $this->marital_status   = $this->detail->profile->marital_status;
+            $this->address          = $this->detail->profile->address;
+            $this->state            = $this->detail->profile->state;
+            $this->city             = $this->detail->profile->city;
+            $this->pin_code         = $this->detail->profile->pin_code;
+
+        }elseif($this->formType == 'nominee-detail'){
+            $this->nominee_name     = $this->detail->profile->nominee_name;
+            $this->nominee_dob      = $this->detail->profile->nominee_dob;
+            $this->nominee_relation = $this->detail->profile->nominee_relation;
+
+        }elseif($this->formType == 'kyc-detail'){
+
+            $this->account_holder_name  = $this->detail->kycDetail->account_holder_name;
+            $this->account_number   = $this->detail->kycDetail->account_number;
+            $this->bank_name        = $this->detail->kycDetail->bank_name;
+            $this->branch_name      = $this->detail->kycDetail->branch_name;
+            $this->ifsc_code        = $this->detail->kycDetail->ifsc_code;
+            $this->aadhar_card_name = $this->detail->kycDetail->aadhar_card_name;
+            $this->aadhar_card_number = $this->detail->kycDetail->aadhar_card_number;
+            $this->pan_card_name      = $this->detail->kycDetail->pan_card_name;
+            $this->pan_card_number    = $this->detail->kycDetail->pan_card_number;
+
+        }
+        
+        $this->emitUp('initializePlugins');
+    }
+
+    public function cancelStepForm(){
+       $this->reset(['formType','editMode','editButtonStatus']);
     }
     
     
@@ -39,131 +82,120 @@ class Show extends Component
         $this->emitUp('cancel');
     }
 
-    public function edit(){
-        $this->editMode = true;
-       
-        $this->first_name = $this->detail->first_name;
-        $this->last_name  = $this->detail->first_name;
-        $this->email  = $this->detail->email;
-        $this->phone  = $this->detail->phone;
-        $this->dob    = $this->detail->dob;
-        $this->date_of_join     = $this->detail->date_of_join;
-        $this->my_referral_code = $this->detail->my_referral_code;
-        $this->referral_code    = $this->detail->referral_code;
-        $this->referral_name    = $this->detail->referral_name;
-
-        $this->guardian_name    = $this->detail->profile->guardian_name;
-        $this->gender           = $this->detail->profile->gender;
-        $this->profession       = $this->detail->profile->profession;
-        $this->marital_status   = $this->detail->profile->marital_status;
-        $this->address          = $this->detail->profile->address;
-        $this->state            = $this->detail->profile->state;
-        $this->city             = $this->detail->profile->city;
-        $this->pin_code         = $this->detail->profile->pin_code;
-        $this->nominee_name     = $this->detail->profile->nominee_name;
-        $this->nominee_dob      = $this->detail->profile->nominee_dob;
-        $this->nominee_relation = $this->detail->profile->nominee_relation;
-        $this->bank_name        = $this->detail->profile->bank_name;
-        $this->branch_name      = $this->detail->profile->branch_name;
-        $this->ifsc_code        = $this->detail->profile->ifsc_code;
-        $this->account_number   = $this->detail->profile->account_number;
-        $this->pan_card_number  = $this->detail->profile->pan_card_number;
-    }
 
     public function update(){
-        $validatedDate = $this->validate([
-            'first_name'  => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
-            'last_name'   => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
-            // 'email'       => 'required|unique:users,email',
-            // 'phone'         => 'required|digits:10',
-            'dob'           => 'required',
-            'guardian_name' => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
-            'gender'        => 'required',
-            'profession'    => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
-            'marital_status' => 'required',
+        $validateDataArray = [];
+        if($this->formType == 'personal-detail'){
+            $validateDataArray['first_name'] = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['last_name']  = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['dob']        = 'required';
+            $validateDataArray['guardian_name']  = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['gender']         = 'required|in:male,female,other';
+            $validateDataArray['marital_status'] = 'required|in:married,unmarried';
+            $validateDataArray['profession']     = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['address']        = 'required';
+            $validateDataArray['state']          = 'required';
+            $validateDataArray['city']           = 'required';
+            $validateDataArray['pin_code']       = 'required';
 
-            // 'referral_code' => 'required|regex:/^\S*$/u|exists:users,my_referral_code',
-            // 'referral_name' => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
-            // 'date_of_join'  => 'required',
-            'address'       => 'required',
-            'state'         => 'required',
-            'city'          => 'required',
-            'pin_code'      => 'required|integer',
-            'nominee_name'  => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
-            'nominee_dob'   => 'required',
-            'nominee_relation'  => 'required',
-            'bank_name'         => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
-            'branch_name'       => 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',
-            'ifsc_code'         => 'required',
-            'account_number'    => 'required|integer',
-            'pan_card_number'   => 'required',
-        ]);
+        }else if($this->formType == 'nominee-detail'){
+            $validateDataArray['nominee_name']       = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['nominee_dob']        = 'required';
+            $validateDataArray['nominee_relation']   = 'required';
+
+        }else if($this->formType == 'kyc-detail'){
+            $validateDataArray['account_number']      = 'required|numeric|digits_between:10,14|regex:/^\S*$/u';
+            $validateDataArray['account_holder_name'] = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['bank_name']          = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['branch_name']        = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['ifsc_code']          = 'required|regex:/^\S*$/u';
+            $validateDataArray['aadhar_card_name']   = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['aadhar_card_number'] = 'required|digits:12|regex:/^\S*$/u';
+            $validateDataArray['pan_card_name']      = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['pan_card_number']    = 'required|min:10|regex:/^\S*$/u';
+
+        }
+
+        $validatedData = $this->validate($validateDataArray);
 
         DB::beginTransaction();
         try {
-           
-            $referral_user_id = User::where('my_referral_code',$this->referral_code)->value('id');
-
             $userDetails = [];
-            $userDetails['uuid']       = Str::uuid();
-            $userDetails['first_name'] = $this->first_name;
-            $userDetails['last_name']  = $this->last_name;
-            $userDetails['name']       = $this->first_name.' '.$this->last_name;
-            $userDetails['email']      = $this->email;
-            $userDetails['phone']      = $this->phone;
-            $userDetails['dob']          = Carbon::parse($this->dob)->format('Y-m-d');
-            $userDetails['date_of_join'] = Carbon::parse($this->date_of_join)->format('Y-m-d');
-            
-            $userDetails['my_referral_code'] = generateRandomString(10);
-            $userDetails['referral_code'] = $this->referral_code;
-            $userDetails['referral_name'] = $this->referral_name;
-            $userDetails['referral_user_id'] = $referral_user_id;
-            
-            $createdUser = User::create($userDetails);
-
-            //Send email verification link
-            $createdUser->sendEmailVerificationNotification();
-
-            $createdUser->roles()->sync(3);
-
             $profileDetails = [];
-            $profileDetails['guardian_name']      = $this->guardian_name;
-            $profileDetails['gender']             = $this->gender;
-            $profileDetails['profession']         = $this->profession;
-            $profileDetails['marital_status']     = $this->marital_status;
-            $profileDetails['address']            = $this->address;
-            $profileDetails['state']            = $this->state;
-            $profileDetails['city']             = $this->city;
-            $profileDetails['pin_code']         = $this->pin_code;
-            $profileDetails['nominee_name']     = $this->nominee_name;
-            $profileDetails['nominee_dob']      = Carbon::parse($this->nominee_dob)->format('Y-m-d');
-            $profileDetails['nominee_relation'] = $this->nominee_relation;
-            $profileDetails['bank_name']        = $this->bank_name;
-            $profileDetails['branch_name']      = $this->branch_name;
-            $profileDetails['ifsc_code']        = $this->ifsc_code;
-            $profileDetails['account_number']   = $this->account_number;
-            $profileDetails['pan_card_number']  = $this->pan_card_number;
+            $kycDetails = [];
 
-            //Start user levels
-            $profileDetails['level_one_user_id']    = $createdUser->referrer;
-            $profileDetails['level_two_user_id']    = $createdUser->level2Referrer;
-            $profileDetails['level_three_user_id']  = $createdUser->level3Referrer;
-            //End user levels
+            $updatedUser = User::find($this->user_id);
 
-            $createdUser->profile()->create($profileDetails);
+            if($this->formType == 'personal-detail'){
+
+                $userDetails['first_name'] = $this->first_name;
+                $userDetails['last_name']  = $this->last_name;
+                $userDetails['dob']        = Carbon::parse($this->dob)->format('Y-m-d');
+
+                $updatedUser->update($userDetails);
+
+                $profileDetails['guardian_name']  = $this->guardian_name;
+                $profileDetails['gender']         = $this->gender;
+                $profileDetails['marital_status'] = $this->marital_status;
+                $profileDetails['profession']     = $this->profession;
+                $profileDetails['address']        = $this->address;
+                $profileDetails['state']          = $this->state;
+                $profileDetails['city']           = $this->city;
+                $profileDetails['pin_code']       = $this->pin_code;
+
+                $updatedUser->profile()->update($profileDetails);
+
+            }elseif($this->formType == 'nominee-detail'){
+
+                $profileDetails['nominee_name']     = $this->nominee_name;
+                $profileDetails['nominee_dob']      = Carbon::parse($this->nominee_dob)->format('Y-m-d');
+                $profileDetails['nominee_relation'] = $this->nominee_relation;
+
+                $updatedUser->profile()->update($profileDetails);
+
+            }elseif($this->formType == 'kyc-detail'){
+
+                $kycDetails['account_number']      = $this->account_number;
+                $kycDetails['account_holder_name'] = $this->account_holder_name;
+                $kycDetails['bank_name']           = $this->bank_name;
+                $kycDetails['branch_name']         = $this->branch_name;
+                $kycDetails['ifsc_code']           = $this->ifsc_code;
+                $kycDetails['aadhar_card_name']    = $this->aadhar_card_name;
+                $kycDetails['aadhar_card_number']  = $this->aadhar_card_number;
+                $kycDetails['pan_card_name']       = $this->pan_card_name;
+                $kycDetails['pan_card_number']     = $this->pan_card_number;
+
+                $updatedUser->kycDetail()->update($kycDetails);
+
+            }
 
             DB::commit();
-            
-            $this->resetInputFields();
 
-            $this->flash('success',trans('messages.add_success_message'));
+            $this->reset(array_keys($validatedData));
+
+            $this->emit('refreshComponent');
+
+            $this->cancelStepForm();
+
+            $this->alert('success',trans('messages.edit_success_message'));
         
-            return redirect()->route('admin.user-manage');
         }catch (\Exception $e) {
             DB::rollBack();
             // dd($e->getMessage().'->'.$e->getLine());
             $this->alert('error',trans('messages.error_message'));
         }
+    }
+
+    public function updateDateOfJoin($date){
+        $this->date_of_join = $date;
+    }
+
+    public function updateDob($date){
+        $this->dob = $date;
+    }
+
+    public function updateNomineeDob($date){
+        $this->nominee_dob = $date;
     }
 
     public function render()
