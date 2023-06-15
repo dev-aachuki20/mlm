@@ -44,11 +44,6 @@ return [
             'nominee_name'             => 'Nominee name',
             'nominee_dob'              => 'Nominee DOB',
             'nominee_relation'         => 'Nominee relation',
-            'bank_name'                => 'Bank Name',
-            'branch_name'              => 'Branch Name',
-            'ifsc_code'                => 'Ifsc Code',
-            'account_number'           => 'Account number',
-            'pan_card_number'          => 'Pan card number',
             'level_one_user'           => 'Level 1 user',
             'level_two_user'           => 'Level 2 user',
             'level_three_user'         => 'Level 3 user',
@@ -56,6 +51,18 @@ return [
             'updated_at'               => 'Updated at',
             'deleted_at'               => 'Deleted at',
         ],
+
+        'kyc'        => [
+            'aadhar_card_name'         => 'Aadhar Card Name',
+            'aadhar_card_number'       => 'Aadhar Card Number',
+            'bank_name'                => 'Bank Name',
+            'branch_name'              => 'Branch Name',
+            'ifsc_code'                => 'Ifsc Code',
+            'account_holder_name'      => 'Account Holder Name',
+            'account_number'           => 'Account number',
+            'pan_card_name'            => 'Pan Card Name',
+            'pan_card_number'          => 'Pan Card Number',
+        ]
     ],
     'permission'     => [
         'title'          => 'Permissions',

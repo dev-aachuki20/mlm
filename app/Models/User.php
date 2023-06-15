@@ -70,6 +70,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Profile::class);
     }
 
+    public function kycDetail()
+    {
+        return $this->hasOne(Kyc::class);
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class);

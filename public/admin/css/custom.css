@@ -138,7 +138,19 @@ input:checked + .switch-slider:after
   display: flex;
   justify-content: space-between;
 }
+.background-purple-color{
+  background: #dfdef7;
+}
 
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #4b49ac;
+}
+.nav-pills .nav-link {
+  color:#4b49ac;
+  border: 1px solid #4b49ac;
+  padding: 0.5rem 1.75rem;
+}
 
 .rating {
   display: flex;

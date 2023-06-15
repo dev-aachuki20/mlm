@@ -1,7 +1,10 @@
  
- <div wire:loading wire:target="update" class="loader"></div>
- 
- <form wire:submit.prevent="update">
+ <h4 class="card-title">
+    {{ $updateMode ? __('global.edit') : __('global.create') }} 
+    {{ strtolower(__('cruds.user.title_singular'))}}</h4>
+
+ <div wire:loading wire:target="update,store" class="loader"></div>
+ <form wire:submit.prevent="{{ $updateMode ? 'update' : 'store' }}">
  <!--Start row-1  -->
  <div class="row">
     
@@ -257,8 +260,14 @@
 
 <div class="text-center mt-3">
     <button class="btn btn-success" type="submit" wire:loading.attr="disabled">
-       {{ __('global.update') }}     
-        <span wire:loading wire:target="update">
+       {{ $updateMode ? __('global.update') : __('global.submit') }}     
+        <span wire:loading wire:target="{{ $updateMode ? 'update' : 'store' }}">
+            <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+        </span>
+    </button>
+    <button class="btn btn-secondary" wire:loading.attr="disabled" wire:click.prevent="cancel">
+        {{ __('global.cancel')}}
+        <span wire:loading wire:target="cancel">
             <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
         </span>
     </button>

@@ -30,11 +30,6 @@ return new class extends Migration
             $table->string('nominee_name')->nullable();
             $table->date('nominee_dob')->nullable();
             $table->string('nominee_relation',100)->nullable();
-            $table->text('bank_name')->nullable();
-            $table->text('branch_name')->nullable();
-            $table->string('ifsc_code')->nullable();
-            $table->string('account_number')->nullable();
-            $table->string('pan_card_number',100)->nullable();
             $table->unsignedBigInteger('level_one_user_id')->nullable();
             $table->unsignedBigInteger('level_two_user_id')->nullable();
             $table->unsignedBigInteger('level_three_user_id')->nullable();

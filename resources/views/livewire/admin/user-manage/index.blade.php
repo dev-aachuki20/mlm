@@ -1,37 +1,33 @@
 <div class="content-wrapper">
-<div class="row">
-    <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                @if($formMode)
-    
-                    @include('livewire.admin.user-manage.form')
-
-                @elseif($viewMode)
-
-                    @livewire('admin.user-manage.show', ['user_id' => $user_id])
-                  
-                @else
+    @if($viewMode)
+         @livewire('admin.user-manage.show', ['user_id' => $user_id])
+    @else
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                
                     <div wire:loading wire:target="create" class="loader"></div>
                     <div class="card-title">
                         <h4 class="float-left">{{__('cruds.user.title_singular')}} Management</h4>
-                        <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
+                        {{-- <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
                             <i class="ti-plus btn-icon-prepend"></i>                                                    
                                 {{__('global.add')}}
                         </button>
+                        --}}
                     </div>                
                     <div class="table-responsive pt-4">
                         
                         <div class="table-header-plugins">
                             <!-- Start show length -->
                             <div class="dataTables_length">
-                             <label>Show 
+                                <label>Show 
                                 <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
                                     @foreach(config('constants.datatable_paginations') as $length)
                                     <option value="{{ $length }}">{{ $length }}</option>
                                     @endforeach
                                 </select> 
-                              entries</label>
+                                entries</label>
                             </div>
                             <!-- End show length -->
 
@@ -61,7 +57,7 @@
                                     <tr>
                                         <td>{{ $serialNo+1 }}</td>
                                         <td>{{ ucfirst($user->name) }}</td>
-                                      {{-- <td>
+                                        {{-- <td>
                         
                                             <label class="toggle-switch">
                                                 <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$user->id}})" {{ $user->is_active == 1 ? 'checked' : '' }}>
@@ -75,13 +71,14 @@
                                                 <i class="ti-eye"></i>
                                             </button>
 
-                                           {{-- <button type="button" wire:click.prevent="edit({{$user->id}})" class="btn btn-info btn-rounded btn-icon">
+                                            {{-- <button type="button" wire:click.prevent="edit({{$user->id}})" class="btn btn-info btn-rounded btn-icon">
                                                 <i class="ti-pencil-alt"></i>
-                                            </button> --}}
+                                            </button> 
 
                                             <button type="button" wire:click.prevent="delete({{$user->id}})" class="btn btn-danger btn-rounded btn-icon">
                                                 <i class="ti-trash"></i>
                                             </button>
+                                            --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -97,12 +94,11 @@
                         {{ $allUser->links('vendor.pagination.bootstrap-5') }}
                     </div>
 
-                @endif
-
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endif
 </div>
 
 @push('styles')

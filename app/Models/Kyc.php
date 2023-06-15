@@ -5,32 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Profile extends Model
+class Kyc extends Model
 {
     use SoftDeletes;
 
-    protected $guard = 'web';
+    public $table = 'kyc';
 
-    public $table = 'profile';
-
-    /**
+     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
         'user_id',
-        'guardian_name',
-        'gender',
-        'profession',
-        'marital_status',
-        'address',
-        'state',
-        'city',
-        'pin_code',
-        'nominee_name',
-        'nominee_dob',
-        'nominee_relation',
+        'account_holder_name',
+        'account_number',
+        'bank_name',
+        'branch_name',
+        'ifsc_code',
+        'aadhar_card_name',
+        'aadhar_card_number',
+        'pan_card_name',
+        'pan_card_number',
+        'status',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -42,10 +39,8 @@ class Profile extends Model
         'deleted_at',
     ];
 
-
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
 }

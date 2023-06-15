@@ -92,7 +92,8 @@ class Register extends Component
             if($user){
                 // Assign user Role
                 $user->roles()->sync([3]);
-
+                
+                // Profile records 
                 $profileData = [
                     'user_id'        => $user->id,
                     'gender'         => $this->gender,
@@ -100,6 +101,14 @@ class Register extends Component
                 ];
 
                 $user->profile()->create($profileData);
+
+                // Kyc records 
+                $kycRecords = [
+                    'user_id'        => $user->id,
+                    'created_at'     => date('Y-m-d H:i:s'),
+                    'updated_at'     => date('Y-m-d H:i:s'),
+                ];
+                $user->kycDetail()->create($kycRecords);
 
                 //Verification mail sent
                 $user->sendEmailVerificationNotification();

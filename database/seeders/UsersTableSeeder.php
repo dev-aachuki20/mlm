@@ -46,7 +46,9 @@ class UsersTableSeeder extends Seeder
 
         foreach($users as $key=>$user){
             $createdUser =  User::create($user);
+            $userId = $createdUser->id;
 
+            // Profile Details
             $profile = [
                     'id'             => $key+1,
                     'user_id'        => $createdUser->id,
@@ -55,6 +57,15 @@ class UsersTableSeeder extends Seeder
             ];
     
             $createdUser->profile()->create($profile);
+
+            // Kyc Details
+            $kycRecords = [
+                    'id'             => $key+1,
+                    'user_id'        => $createdUser->id,
+                    'created_at'     => date('Y-m-d H:i:s'),
+                    'updated_at'     => date('Y-m-d H:i:s'),
+            ];
+            $createdUser->kycDetail()->create($kycRecords);
         }
        
     }
