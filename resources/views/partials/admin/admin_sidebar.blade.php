@@ -20,7 +20,7 @@
                 <li class="nav-item {{ request()->is('admin/package') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.package') }}">
                         <!-- <i class="icon-grid menu-icon ti-package"></i> -->
-                        <span class="menu-title">{{__('cruds.package.title_singular')}}</span>
+                        <span class="menu-title">{{__('cruds.package.title')}}</span>
                     </a>
                 </li>
                 @endcan
@@ -29,7 +29,7 @@
                 <li class="nav-item {{ request()->is('admin/testimonial') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.testimonial') }}">
                         <!-- <i class="icon-grid menu-icon ti-comment-alt"></i> -->
-                        <span class="menu-title">{{__('cruds.testimonial.title_singular')}}</span>
+                        <span class="menu-title">{{__('cruds.testimonial.title')}}</span>
                     </a>
                 </li>
                 @endcan
@@ -38,7 +38,7 @@
                 <li class="nav-item {{ request()->is('admin/slider') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.slider') }}">
                         <!-- <i class="icon-grid menu-icon ti-help-alt"></i> -->
-                        <span class="menu-title">Slider</span>
+                        <span class="menu-title">{{__('cruds.slider.title')}}</span>
                     </a>
                 </li>
                 @endcan
@@ -47,7 +47,7 @@
                 <li class="nav-item {{ request()->is('admin/faq') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.faq') }}">
                         <!-- <i class="icon-grid menu-icon ti-help-alt"></i> -->
-                        <span class="menu-title">{{__('cruds.faq.title_singular')}}</span>
+                        <span class="menu-title">{{__('cruds.faq.title')}}</span>
                     </a>
                 </li>
                 @endcan
@@ -76,19 +76,19 @@
     @endif
 
     @can('course_access')
-    <li class="nav-item {{ request()->is('admin/course') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->is('admin/courses') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.course') }}">
             <i class="icon-grid menu-icon fa-sharp fa-solid fa-list"></i>
-            <span class="menu-title">Course</span>
+            <span class="menu-title">Courses</span>
         </a>
     </li>
     @endcan
 
     @can('setting_access')
-    <li class="nav-item {{ request()->is('admin/setting') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->is('admin/settings') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.setting') }}">
             <i class="icon-grid menu-icon ti-settings"></i>
-            <span class="menu-title">Setting</span>
+            <span class="menu-title">Settings</span>
         </a>
     </li>
     @endcan

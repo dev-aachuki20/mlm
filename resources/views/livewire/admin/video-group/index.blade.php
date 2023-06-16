@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-   
+
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
@@ -7,16 +7,16 @@
 
                     @if($formMode)
         
-                        @include('livewire.admin.course.form')
+                        @include('livewire.admin.video-group.form')
 
                     @elseif($viewMode)
 
-                        @livewire('admin.course.show', ['course_id' => $course_id])
+                        @livewire('admin.video-group.show', ['group_video_id' => $group_video_id])
                     
                     @else
                         <div wire:loading wire:target="create" class="loader"></div>
                         <div class="card-title">
-                            <h4 class="float-left">{{__('cruds.course.title')}}</h4>
+                            <h4 class="float-left">{{__('cruds.course.title_singular')}} :- {{ ucfirst($courseName) }}</h4>
 
                             @can('course_create')
                             <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
@@ -49,7 +49,7 @@
                             <thead>
                                 <tr>
                                     <th>{{ trans('global.sno') }}</th>
-                                    <th>{{ trans('cruds.course.fields.name') }}</th>
+                                    <th>Title</th>
                                     <th>{{ trans('global.status') }}</th>
                                     <th>{{ ucwords(trans('global.created_at')) }}
                                         <span wire:click="sortBy('created_at')" class="float-right text-sm" style="cursor: pointer;">
@@ -65,10 +65,10 @@
                                     @foreach($allCourse as $serialNo => $course)
                                         <tr>
                                             <td>{{ $serialNo+1 }}</td>
-                                            <td>{{ $course->name }}</td>
+                                            <td>{{ ucfirst($course->title) }}</td>
                                             <td>
                                                 <label class="toggle-switch">
-                                                    <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$course->id}})" wire:click.prevent="confirmAlert('You want to change the status.','updateStatus',{{$course->id}})" {{ $course->status == 1 ? 'checked' : '' }}>
+                                                    <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$course->id}})" {{ $course->status == 1 ? 'checked' : '' }}>
                                                     <div class="switch-slider round"></div>
                                                 </label>
 
@@ -94,9 +94,6 @@
                                                 </button>
                                                 @endcan
 
-                                                <a type="button" href="{{route('admin.getAllVideos',$course->id)}}" class="btn btn-warning btn-rounded btn-icon">
-                                                    <i class="ti-list"></i>
-                                                </a>
                                             
                                             </td>
                                         </tr>
@@ -120,7 +117,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 
 @push('styles')

@@ -86,32 +86,32 @@ class Show extends Component
     public function update(){
         $validateDataArray = [];
         if($this->formType == 'personal-detail'){
-            $validateDataArray['first_name'] = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
-            $validateDataArray['last_name']  = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['first_name'] = 'required';
+            $validateDataArray['last_name']  = 'required';
             $validateDataArray['dob']        = 'required';
-            $validateDataArray['guardian_name']  = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['guardian_name']  = 'required';
             $validateDataArray['gender']         = 'required|in:male,female,other';
             $validateDataArray['marital_status'] = 'required|in:married,unmarried';
-            $validateDataArray['profession']     = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['profession']     = 'required';
             $validateDataArray['address']        = 'required';
             $validateDataArray['state']          = 'required';
             $validateDataArray['city']           = 'required';
             $validateDataArray['pin_code']       = 'required';
 
         }else if($this->formType == 'nominee-detail'){
-            $validateDataArray['nominee_name']       = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['nominee_name']       = 'required';
             $validateDataArray['nominee_dob']        = 'required';
             $validateDataArray['nominee_relation']   = 'required';
 
         }else if($this->formType == 'kyc-detail'){
             $validateDataArray['account_number']      = 'required|numeric|digits_between:10,14|regex:/^\S*$/u';
-            $validateDataArray['account_holder_name'] = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
-            $validateDataArray['bank_name']          = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
-            $validateDataArray['branch_name']        = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['account_holder_name'] = 'required';
+            $validateDataArray['bank_name']          = 'required';
+            $validateDataArray['branch_name']        = 'required';
             $validateDataArray['ifsc_code']          = 'required|regex:/^\S*$/u';
-            $validateDataArray['aadhar_card_name']   = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['aadhar_card_name']   = 'required';
             $validateDataArray['aadhar_card_number'] = 'required|digits:12|regex:/^\S*$/u';
-            $validateDataArray['pan_card_name']      = 'required|regex:/^[A-Za-z]+( [A-Za-z]+)?$/u';
+            $validateDataArray['pan_card_name']      = 'required';
             $validateDataArray['pan_card_number']    = 'required|min:10|regex:/^\S*$/u';
 
         }

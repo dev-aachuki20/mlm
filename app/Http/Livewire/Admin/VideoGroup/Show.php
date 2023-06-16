@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Course;
+namespace App\Http\Livewire\Admin\VideoGroup;
 
-use App\Models\Course;
 use Livewire\Component;
+use App\Models\VideoGroup;
+
 
 class Show extends Component
 {
@@ -11,13 +12,13 @@ class Show extends Component
     
     public $detail;
 
-    public function mount($course_id){
-        $this->detail = Course::find($course_id);
+    public function mount($group_video_id){
+        $this->detail = VideoGroup::find($group_video_id);
     }
 
     public function render()
     {
-        return view('livewire.admin.course.show');
+        return view('livewire.admin.video-group.show');
     }
 
     public function cancel(){

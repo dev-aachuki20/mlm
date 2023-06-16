@@ -37,17 +37,30 @@ class Course extends Model
         });    
         
         static::creating(function (Course $model) {
-            $model->slug = $model->generateSlug($model->title);
+            $model->slug = $model->generateSlug($model->name);
         });
 
         static::updating(function (Course $model) {
-            $model->slug = $model->generateSlug($model->title);
+            $model->slug = $model->generateSlug($model->name);
         });
     }
 
     public function uploads()
     {
         return $this->morphMany(Uploads::class, 'uploadsable');
+    }
+
+    public function courseImage()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','course-image');
+    }
+
+    public function getCourseImageUrlAttribute()
+    {
+        if($this->courseImage){
+            return $this->courseImage->file_url;
+        }
+        return "";
     }
 
     public function courseVideo()
@@ -63,31 +76,6 @@ class Course extends Model
         return "";
     }
 
-    public function courseVideoBanner()
-    {
-        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','course-video-banner');
-    }
-
-    public function getCourseVideoBannerUrlAttribute()
-    {
-        if($this->courseVideo){
-            return $this->courseVideo->file_url;
-        }
-        return "";
-    }
-
-    public function courseImage()
-    {
-        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','course-image');
-    }
-
-    public function getCourseImageUrlAttribute()
-    {
-        if($this->courseVideo){
-            return $this->courseVideo->file_url;
-        }
-        return "";
-    }
 
     public function videoGroup()
     {

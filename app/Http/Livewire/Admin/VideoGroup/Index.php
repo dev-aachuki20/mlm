@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Course;
+namespace App\Http\Livewire\Admin\VideoGroup;
 
 use Gate;
 use App\Models\Course;
+use App\Models\VideoGroup;
 use Livewire\Component;
 use Illuminate\Support\Str; 
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +23,7 @@ class Index extends Component
 
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    public $course_id=null, $name, $description, $image, $originalImage, $video, $originalVideo,$videoExtenstion, $status=1;
+    public $course_id=null, $courseName, $group_video_id=null, $title, $description, $image, $originalImage, $video, $originalVideo,$videoExtenstion, $status=1;
     
 
     protected $listeners = [
@@ -31,8 +31,10 @@ class Index extends Component
     ];
 
 
-    public function mount(){
+    public function mount($course_id){
         abort_if(Gate::denies('course_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->course_id = $course_id;
+        $this->courseName = Course::find($this->course_id)->value('name');
     }
 
     public function updatePaginationLength($length){
@@ -72,16 +74,15 @@ class Index extends Component
             $statusSearch = 0;
         }
 
-        $allCourse = Course::query()->where(function ($query) use($searchValue,$statusSearch) {
-            $query->where('name', 'like', '%'.$searchValue.'%')
+        $allCourse = VideoGroup::query()->where('course_id',$this->course_id)->where(function ($query) use($searchValue,$statusSearch) {
+            $query->where('title', 'like', '%'.$searchValue.'%')
             ->orWhere('status', $statusSearch)
             ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
         })
         ->orderBy($this->sortColumnName, $this->sortDirection)
         ->paginate($this->paginationLength);
       
-
-        return view('livewire.admin.course.index',compact('allCourse'));
+        return view('livewire.admin.video-group.index',compact('allCourse'));
     }
 
     public function create()
@@ -93,7 +94,7 @@ class Index extends Component
 
     public function store(){
         $validatedData = $this->validate([
-            'name'        => 'required|'.Rule::unique('courses')->whereNull('deleted_at'),
+            'title'       => 'required',
             'description' => 'required',
             'status'      => 'required',
             'image'       => 'required|image|max:'.config('constants.img_max_size'),
@@ -101,22 +102,23 @@ class Index extends Component
         ]);
 
         $validatedData['status'] = $this->status;
+        $validatedData['course_id'] = $this->course_id;
 
-        $course = Course::create($validatedData);
+        $videoGroup = VideoGroup::create($validatedData);
 
         //Upload Image
-        uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'save', null);
+        uploadImage($videoGroup, $this->image, 'course/image/',"course-image", 'original', 'save', null);
 
         //Upload video
-        uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'save', null);
+        uploadImage($videoGroup, $this->video, 'course/video/',"course-video", 'original', 'save', null);
 
         $this->formMode = false;
 
-        $this->reset(['name','description','status','image','video']);
+        $this->reset(['title','description','status','image','video']);
 
         $this->flash('success',trans('messages.add_success_message'));
       
-        return redirect()->route('admin.course');
+        return redirect()->route('admin.getAllVideos',$this->course_id);
     }
 
 
@@ -127,20 +129,19 @@ class Index extends Component
         $this->formMode = true;
         $this->updateMode = true;
 
-        $course = Course::findOrFail($id);
-        $this->course_id      =  $course->id;
-        $this->name           =  $course->name;
-        $this->description    =  $course->description;
-        $this->status         =  $course->status;
-        $this->originalImage  =  $course->course_image_url;
-        $this->originalVideo  =  $course->course_video_url;
+        $group_video = VideoGroup::findOrFail($id);
+        $this->group_video_id  =  $group_video->id;
+        $this->title           =  $group_video->title;
+        $this->description    =  $group_video->description;
+        $this->status         =  $group_video->status;
+        $this->originalImage  =  $group_video->course_image_url;
+        $this->originalVideo  =  $group_video->course_video_url;
 
-        $this->videoExtenstion = $course->courseVideo->extension;
-
+        $this->videoExtenstion = $group_video->courseVideo->extension;
     }
 
     public function update(){
-        $validatedArray['name']        = 'required|'.Rule::unique('courses')->ignore($this->course_id)->whereNull('deleted_at');
+        $validatedArray['title']        = 'required';
         $validatedArray['description'] = 'required';
         $validatedArray['status']      = 'required';
 
@@ -154,50 +155,42 @@ class Index extends Component
 
         $validatedData = $this->validate($validatedArray);
 
+        $validatedData['course_id'] = $this->course_id;
         $validatedData['status'] = $this->status;
 
-        $course = Course::find($this->course_id);
+        $videoGroup = VideoGroup::find($this->course_id);
       
         // Check if the image has been changed
         $uploadImageId = null;
         if ($this->image) {
-            $uploadImageId = $course->courseImage->id;
-            uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'update', $uploadImageId);
+            $uploadImageId = $videoGroup->courseImage->id;
+            uploadImage($videoGroup, $this->image, 'course/image/',"course-image", 'original', 'update', $uploadImageId);
         }
 
         // Check if the video has been changed
         $uploadVideoId = null;
         if ($this->video) {
-            $uploadVideoId = $course->courseVideo->id;
-            uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'update', $uploadVideoId);
+            $uploadVideoId = $videoGroup->courseVideo->id;
+            uploadImage($videoGroup, $this->video, 'course/video/',"course-video", 'original', 'update', $uploadVideoId);
         }
 
-        $course->update($validatedData);
+        $videoGroup->update($validatedData);
      
         $this->formMode = false;
         $this->updateMode = false;
   
         $this->flash('success',trans('messages.edit_success_message'));
 
-        $this->reset(['name','description','status','image','video']);
+        $this->reset(['title','description','status','image','video']);
 
-        return redirect()->route('admin.course');
+        return redirect()->route('admin.getAllVideos',$this->course_id);
     }
 
     public function show($id){
         $this->resetPage('page');
-        $this->course_id = $id;
+        $this->group_video_id = $id;
         $this->formMode = false;
         $this->viewMode = true;
-    }
-
-    public function updateStatus($id){
-        if($this->isConfirmed){
-            $this->isConfirmed = false;
-            $model = Course::find($id);
-            $model->update(['status' => !$model->status]);
-            $this->alert('success', trans('messages.change_status_success_message'));
-        }
     }
 
     public function initializePlugins(){
@@ -228,7 +221,7 @@ class Index extends Component
 
     public function deleteConfirm($event){
         $deleteId = $event['data']['inputAttributes']['deleteId'];
-        $model    = Course::find($deleteId);
+        $model    = VideoGroup::find($deleteId);
         $uploadImageId = $model->courseImage->id;
         $uploadVideoId = $model->courseVideo->id;
         deleteFile($uploadImageId);
@@ -254,10 +247,9 @@ class Index extends Component
     public function confirmedToggleAction($event)
     {
         $courseId = $event['data']['inputAttributes']['courseId'];
-        $model = Course::find($courseId);
+        $model = VideoGroup::find($courseId);
         $model->update(['status' => !$model->status]);
         $this->alert('success', trans('messages.change_status_success_message'));
     }
 
-   
 }

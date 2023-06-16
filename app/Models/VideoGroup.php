@@ -51,9 +51,22 @@ class VideoGroup extends Model
         return $this->morphMany(Uploads::class, 'uploadsable');
     }
 
+    public function courseImage()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','course-image');
+    }
+
+    public function getCourseImageUrlAttribute()
+    {
+        if($this->courseImage){
+            return $this->courseImage->file_url;
+        }
+        return "";
+    }
+
     public function courseVideo()
     {
-        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','video-group');
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','course-video');
     }
 
     public function getCourseVideoUrlAttribute()
@@ -64,31 +77,9 @@ class VideoGroup extends Model
         return "";
     }
 
-    public function courseVideoBanner()
-    {
-        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','video-group-banner');
-    }
+   
 
-    public function getCourseVideoBannerUrlAttribute()
-    {
-        if($this->courseVideo){
-            return $this->courseVideo->file_url;
-        }
-        return "";
-    }
-
-    public function courseImage()
-    {
-        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','video-group-image');
-    }
-
-    public function getCourseImageUrlAttribute()
-    {
-        if($this->courseVideo){
-            return $this->courseVideo->file_url;
-        }
-        return "";
-    }
+   
 
     public function course()
     {

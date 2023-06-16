@@ -22,7 +22,7 @@ return [
             'password'                 => 'Password',
             'confirm_password'         => 'Password Confirm',
             'role'                     => 'User Level',
-            'date_of_join'             => 'Date of join',
+            'date_of_join'             => 'Date Of Join',
             'my_referral_code'         => 'My referral code',
             'referral_code'            => 'Referral code',
             'referral_name'            => 'Referral Name',

@@ -8,9 +8,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.course.fields.name')}}</label>
-                <input type="text" class="form-control" wire:model.defer="name" placeholder="{{ __('cruds.course.fields.name')}}" autocomplete="off">
-                @error('name') <span class="error text-danger">{{ $message }}</span>@enderror
+                <label class="font-weight-bold">Title</label>
+                <input type="text" class="form-control" wire:model.defer="title" placeholder="Title" autocomplete="off">
+                @error('title') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
         </div>
     </div>

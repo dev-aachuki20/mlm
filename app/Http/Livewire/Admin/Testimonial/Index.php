@@ -133,18 +133,18 @@ class Index extends Component
     }
 
     public function update(){
-        $validatedData = $this->validate([
-            'name'        => 'required',
-            'designation' => 'required',
-            'description' => 'required',
-            'rating'      => 'required|digits_between:1,5',
-            'status' => 'required',
-        ]);
+        $validatedArray['name']        = 'required';
+        $validatedArray['designation'] = 'required';
+        $validatedArray['description'] = 'required';
+        $validatedArray['rating']      = 'required|digits_between:1,5';
+        $validatedArray['status']      = 'required';
 
         if($this->testimonial_image){
-            $validatedData['testimonial_image'] = 'required|image|max:'.config('constants.img_max_size');
+            $validatedArray['testimonial_image'] = 'required|image|max:'.config('constants.img_max_size');
         }
   
+        $validatedData = $this->validate($validatedArray);
+
         $validatedData['status'] = $this->status;
 
         $testimonial = Testimonial::find($this->testimonial_id);

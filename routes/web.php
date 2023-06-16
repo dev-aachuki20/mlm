@@ -47,15 +47,16 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     Route::group(['middleware'=>['role:admin'],'as' => 'admin.','prefix'=>'admin'], function () {
         
         Route::view('dashboard', 'admin.index')->name('dashboard');
-        Route::view('package', 'admin.package.index')->name('package');
-        Route::view('testimonial', 'admin.testimonial.index')->name('testimonial');
-        Route::view('faq', 'admin.faq.index')->name('faq');
-        Route::view('slider', 'admin.slider.index')->name('slider');
+        Route::view('packages', 'admin.package.index')->name('package');
+        Route::view('testimonials', 'admin.testimonial.index')->name('testimonial');
+        Route::view('faqs', 'admin.faq.index')->name('faq');
+        Route::view('sliders', 'admin.slider.index')->name('slider');
 
-        Route::view('setting', 'admin.setting.index')->name('setting');
+        Route::view('settings', 'admin.setting.index')->name('setting');
         Route::view('page-manage', 'admin.page-manage.index')->name('page-manage');
         Route::view('user-manage', 'admin.user-manage.index')->name('user-manage');
-        Route::view('course', 'admin.course.index')->name('course');
+        Route::view('courses', 'admin.course.index')->name('course');
+        Route::view('courses/{course_id}', 'admin.video-group.index')->name('getAllVideos');
 
 
     });
