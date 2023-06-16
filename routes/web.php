@@ -58,7 +58,6 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
         Route::view('courses', 'admin.course.index')->name('course');
         Route::view('courses/{course_id}', 'admin.video-group.index')->name('getAllVideos');
 
-
     });
 
     Route::group(['middleware'=>['role:user'],'as' => 'user.','prefix'=>'user'], function () {

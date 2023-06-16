@@ -19,7 +19,7 @@
 
                         @if($allSliders->count() <= (int)config('constants.slider_limit'))
                             <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                                <i class="ti-plus btn-icon-prepend"></i>                                                    
+                                <i class="fa-solid fa-plus"></i>                                                   
                                     {{__('global.add')}}
                             </button>
                         @endif

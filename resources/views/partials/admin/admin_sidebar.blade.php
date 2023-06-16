@@ -17,7 +17,7 @@
         <div class="collapse" id="ui-basic">
             <ul class="nav flex-column sub-menu">
                 @can('package_access')
-                <li class="nav-item {{ request()->is('admin/package') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('admin/packages') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.package') }}">
                         <!-- <i class="icon-grid menu-icon ti-package"></i> -->
                         <span class="menu-title">{{__('cruds.package.title')}}</span>
@@ -26,7 +26,7 @@
                 @endcan
 
                 @can('testimonial_access')
-                <li class="nav-item {{ request()->is('admin/testimonial') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('admin/testimonials') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.testimonial') }}">
                         <!-- <i class="icon-grid menu-icon ti-comment-alt"></i> -->
                         <span class="menu-title">{{__('cruds.testimonial.title')}}</span>
@@ -35,7 +35,7 @@
                 @endcan
 
                 @can('slider_access')
-                <li class="nav-item {{ request()->is('admin/slider') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('admin/sliders') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.slider') }}">
                         <!-- <i class="icon-grid menu-icon ti-help-alt"></i> -->
                         <span class="menu-title">{{__('cruds.slider.title')}}</span>
@@ -44,7 +44,7 @@
                 @endcan
 
                 @can('faq_access')
-                <li class="nav-item {{ request()->is('admin/faq') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('admin/faqs') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.faq') }}">
                         <!-- <i class="icon-grid menu-icon ti-help-alt"></i> -->
                         <span class="menu-title">{{__('cruds.faq.title')}}</span>
@@ -76,7 +76,7 @@
     @endif
 
     @can('course_access')
-    <li class="nav-item {{ request()->is('admin/courses') ? 'active' : '' }}">
+    <li class="nav-item {{ request()->is('admin/courses') || request()->is('admin/courses/*')? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.course') }}">
             <i class="icon-grid menu-icon fa-sharp fa-solid fa-list"></i>
             <span class="menu-title">Courses</span>

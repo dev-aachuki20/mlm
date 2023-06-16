@@ -20,7 +20,7 @@
 
                             @can('course_create')
                             <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                                <i class="ti-plus btn-icon-prepend"></i>                                                    
+                                <i class="fa-solid fa-plus"></i>                                                   
                                     {{__('global.add')}}
                             </button>
                             @endcan
@@ -94,7 +94,7 @@
                                                 </button>
                                                 @endcan
 
-                                                <a type="button" href="{{route('admin.getAllVideos',$course->id)}}" class="btn btn-warning btn-rounded btn-icon">
+                                                <a href="{{route('admin.getAllVideos',$course->id)}}" class="btn btn-warning btn-rounded btn-icon list-all-btn">
                                                     <i class="ti-list"></i>
                                                 </a>
                                             

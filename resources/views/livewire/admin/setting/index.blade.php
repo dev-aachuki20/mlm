@@ -15,7 +15,7 @@
                 @else
                     <div wire:loading wire:target="create" class="loader"></div>
                     <div class="card-title">
-                        <h4 class="float-left">{{__('cruds.setting.title_singular')}}</h4>
+                        <h4 class="float-left">{{__('cruds.setting.title')}}</h4>
                        {{-- <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
                             <i class="ti-plus btn-icon-prepend"></i>                                                    
                                 {{__('global.add')}}
@@ -67,7 +67,7 @@
                                     <tr>
                                         <td>{{ $serialNo+1 }}</td>
                                         <td>{{ $setting->key }}</td>
-                                        <td>{{ $setting->type }}</td>
+                                        <td>{{ ucfirst($setting->type) }}</td>
 
                                         <td>
                                             <label class="toggle-switch">

@@ -17,7 +17,7 @@
                     <div class="card-title">
                         <h4 class="float-left">{{__('cruds.faq.title')}}</h4>
                         <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                            <i class="ti-plus btn-icon-prepend"></i>                                                    
+                            <i class="fa-solid fa-plus"></i>                                                    
                                 {{__('global.add')}}
                         </button>
                     </div>                

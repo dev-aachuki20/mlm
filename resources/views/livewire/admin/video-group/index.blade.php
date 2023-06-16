@@ -20,10 +20,14 @@
 
                             @can('course_create')
                             <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                                <i class="ti-plus btn-icon-prepend"></i>                                                    
+                                <i class="fa-solid fa-plus"></i>                                                   
                                     {{__('global.add')}}
                             </button>
                             @endcan
+
+                            <a  href="{{ route('admin.course') }}" class="btn btn-sm btn-primary btn-icon-text mr-1 float-right">
+                                <i class="fa-solid fa-arrow-left "></i> Back
+                            </a>
 
                         </div>                
                         <div class="table-responsive pt-4">
