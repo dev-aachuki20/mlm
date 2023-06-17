@@ -93,16 +93,22 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.profile.city') }}</label>
-                            <input type="text" class="form-control" wire:model.defer="city" placeholder="{{ __('cruds.user.profile.city') }}"/>
-                            @error('city') <span class="error text-danger">{{ $message }}</span>@enderror
+                            <label class="font-weight-bold">{{ __('cruds.user.profile.state') }}</label>
+                            {{-- <input type="text" class="form-control" wire:model.defer="state" placeholder="{{ __('cruds.user.profile.state') }}"/> --}}
+                            <select wire:model.defer="state" id="state_id" class="form-control">
+                                <option value="">Select State</option>
+                            </select>
+                            @error('state') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.profile.state') }}</label>
-                            <input type="text" class="form-control" wire:model.defer="state" placeholder="{{ __('cruds.user.profile.state') }}"/>
-                            @error('state') <span class="error text-danger">{{ $message }}</span>@enderror
+                            <label class="font-weight-bold">{{ __('cruds.user.profile.city') }}</label>
+                            {{-- <input type="text" class="form-control" wire:model.defer="city" placeholder="{{ __('cruds.user.profile.city') }}"/> --}}
+                            <select wire:model.defer="city" id="city_id" class="form-control">
+                                <option value="">Select City</option>
+                            </select>
+                            @error('city') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                     <div class="col-sm-4">

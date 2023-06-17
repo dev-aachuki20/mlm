@@ -132,18 +132,25 @@
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="font-weight-bold">{{ __('cruds.user.profile.city') }}</label>
-                    <input type="text" class="form-control" wire:model.defer="city" placeholder="{{ __('cruds.user.profile.city') }}"/>
-                    @error('city') <span class="error text-danger">{{ $message }}</span>@enderror
+                    <label class="font-weight-bold">{{ __('cruds.user.profile.state') }}</label>
+                    <input type="text" class="form-control" wire:model.defer="state" placeholder="{{ __('cruds.user.profile.state') }}"/>
+                    {{-- <select wire:model.defer="state" id="state_id" class="form-control">
+                        <option value="">Select State</option>
+                    </select> --}}
+                    @error('state') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="font-weight-bold">{{ __('cruds.user.profile.state') }}</label>
-                    <input type="text" class="form-control" wire:model.defer="state" placeholder="{{ __('cruds.user.profile.state') }}"/>
-                    @error('state') <span class="error text-danger">{{ $message }}</span>@enderror
+                    <label class="font-weight-bold">{{ __('cruds.user.profile.city') }}</label>
+                    <input type="text" class="form-control" wire:model.defer="city" placeholder="{{ __('cruds.user.profile.city') }}"/>
+                    {{-- <select wire:model.defer="city" id="city_id" class="form-control">
+                        <option value="">Select City</option>
+                    </select> --}}
+                    @error('city') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>
+           
             <div class="col-sm-4">
                 <div class="form-group">
                     <label class="font-weight-bold">{{ __('cruds.user.profile.pin_code') }}</label>
@@ -205,57 +212,6 @@
             
         </div>
         <!-- End nominee details -->
-
-        <!-- Start nominee details -->
-        <p class="mb-4">Bank Details</p>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label class="font-weight-bold">{{ __('cruds.user.profile.bank_name') }}</label>
-                    <input type="text" class="form-control" wire:model.defer="bank_name" placeholder="{{ __('cruds.user.profile.bank_name') }}"/>
-                    @error('bank_name') <span class="error text-danger">{{ $message }}</span>@enderror
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label class="font-weight-bold">{{ __('cruds.user.profile.branch_name') }}</label>
-                    <input type="text" class="form-control" wire:model.defer="branch_name" placeholder="{{ __('cruds.user.profile.branch_name') }}"/>
-                    @error('branch_name') <span class="error text-danger">{{ $message }}</span>@enderror
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label class="font-weight-bold">{{ __('cruds.user.profile.account_number') }}</label>
-                    <input type="text" class="form-control" wire:model.defer="account_number" placeholder="{{ __('cruds.user.profile.account_number') }}"/>
-                    @error('account_number') <span class="error text-danger">{{ $message }}</span>@enderror
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label class="font-weight-bold">{{ __('cruds.user.profile.ifsc_code') }}</label>
-                    <input type="text" class="form-control" wire:model.defer="ifsc_code" placeholder="{{ __('cruds.user.profile.ifsc_code') }}"/>
-                    @error('ifsc_code') <span class="error text-danger">{{ $message }}</span>@enderror
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label class="font-weight-bold">{{ __('cruds.user.profile.pan_card_number') }}</label>
-                    <input type="text" class="form-control" wire:model.defer="branch_name" placeholder="{{ __('cruds.user.profile.pan_card_number') }}"/>
-                    @error('pan_card_number') <span class="error text-danger">{{ $message }}</span>@enderror
-                </div>
-            </div>
-        </div>
-
         </div>
         </div>
     </div>

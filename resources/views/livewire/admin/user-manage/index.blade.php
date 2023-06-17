@@ -98,15 +98,32 @@
 
 @push('styles')
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="{{ asset('admin/assets/select2/select2.min.css')}}">
+<link rel="stylesheet" href="{{ asset('admin/assets/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
+<script type="text/javascript" src="{{ asset('admin/cities.js') }}"></script>
+
 @endpush
 
 @push('scripts')
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="{{ asset('admin/assets/select2/select2.min.js') }}"></script>
+
 <script type="text/javascript">
 
  document.addEventListener('loadPlugins', function (event) {
     
+    print_state("state_id");
+
+    if ($(".js-example-basic-single").length) {
+        $(".js-example-basic-single").select2();
+    }
+
+    $(document).on('change','#state_id',function(){
+        var stateId = $(this).find('option:selected').attr('data-key');
+        print_city('city_id', stateId);
+    });
+
     $('input[id="dob"],input[id="nominee_dob"]').daterangepicker({
         // autoApply: true,
         autoUpdateInput: false,
@@ -144,6 +161,8 @@
         $(this).val(picker.startDate.format('DD-MM-YYYY'));
         Livewire.emit('updateDateOfJoin',picker.startDate.format('DD-MM-YYYY'));
     });
+
+   
 
 });
 

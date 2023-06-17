@@ -55,11 +55,11 @@
         </div>
     </li> 
 
-    @can('user_access')
-    <li class="nav-item {{ request()->is('admin/user-manage') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.user-manage') }}">
-            <i class="icon-grid menu-icon fa-solid fa-users"></i>
-            <span class="menu-title">User Management</span>
+    @can('course_access')
+    <li class="nav-item {{ request()->is('admin/courses') || request()->is('admin/courses/*')? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.course') }}">
+            <i class="icon-grid menu-icon fa-sharp fa-solid fa-list"></i>
+            <span class="menu-title">Courses</span>
         </a>
     </li>
     @endcan
@@ -75,11 +75,11 @@
 
     @endif
 
-    @can('course_access')
-    <li class="nav-item {{ request()->is('admin/courses') || request()->is('admin/courses/*')? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('admin.course') }}">
-            <i class="icon-grid menu-icon fa-sharp fa-solid fa-list"></i>
-            <span class="menu-title">Courses</span>
+    @can('user_access')
+    <li class="nav-item {{ request()->is('admin/user-manage') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.user-manage') }}">
+            <i class="icon-grid menu-icon fa-solid fa-users"></i>
+            <span class="menu-title">User Management</span>
         </a>
     </li>
     @endcan

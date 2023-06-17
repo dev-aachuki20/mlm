@@ -116,6 +116,8 @@ class Show extends Component
 
         }
 
+        $this->emitUp('initializePlugins');
+
         $validatedData = $this->validate($validateDataArray);
 
         DB::beginTransaction();
@@ -192,6 +194,7 @@ class Show extends Component
 
     public function updateDob($date){
         $this->dob = $date;
+        $this->emitUp('initializePlugins');
     }
 
     public function updateNomineeDob($date){

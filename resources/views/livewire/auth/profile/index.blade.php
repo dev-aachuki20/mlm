@@ -217,50 +217,50 @@
 
                     <div class="row">
                       <div class="col-sm-3">
-                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.bank_name') }}</p>
+                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.kyc.bank_name') }}</p>
                       </div>
                       <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{ $authUser->profile->bank_name ?? ''}}</p>
+                        <p class="text-muted mb-0">{{ $authUser->kycDetail->bank_name ?? ''}}</p>
                       </div>
                     </div>
                     <hr>
 
                     <div class="row">
                       <div class="col-sm-3">
-                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.branch_name') }}</p>
+                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.kyc.branch_name') }}</p>
                       </div>
                       <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{ $authUser->profile->branch_name ?? ''}}</p>
+                        <p class="text-muted mb-0">{{ $authUser->kycDetail->branch_name ?? ''}}</p>
                       </div>
                     </div>
                     <hr>
 
                     <div class="row">
                       <div class="col-sm-3">
-                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.ifsc_code') }}</p>
+                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.kyc.ifsc_code') }}</p>
                       </div>
                       <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{ $authUser->profile->ifsc_code ?? ''}}</p>
+                        <p class="text-muted mb-0">{{ $authUser->kycDetail->ifsc_code ?? ''}}</p>
                       </div>
                     </div>
                     <hr>
 
                     <div class="row">
                       <div class="col-sm-3">
-                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.account_number') }}</p>
+                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.kyc.account_number') }}</p>
                       </div>
                       <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{ $authUser->profile->account_number ?? ''}}</p>
+                        <p class="text-muted mb-0">{{ $authUser->kycDetail->account_number ?? ''}}</p>
                       </div>
                     </div>
                     <hr>
 
                     <div class="row">
                       <div class="col-sm-3">
-                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.pan_card_number') }}</p>
+                        <p class="mb-0 font-weight-bold">{{ __('cruds.user.kyc.pan_card_number') }}</p>
                       </div>
                       <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{ $authUser->profile->pan_card_number ?? ''}}</p>
+                        <p class="text-muted mb-0">{{ $authUser->kycDetail->pan_card_number ?? ''}}</p>
                       </div>
                     </div>
                     <hr>

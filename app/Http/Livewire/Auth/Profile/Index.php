@@ -107,11 +107,11 @@ class Index extends BaseComponent
         $this->pin_code           = $this->authUser->profile->pin_code;
         $this->nominee_name       = $this->authUser->profile->nominee_name;
         $this->nominee_relation   = $this->authUser->profile->nominee_relation;
-        $this->bank_name          = $this->authUser->profile->bank_name;
-        $this->branch_name        = $this->authUser->profile->branch_name;
-        $this->ifsc_code          = $this->authUser->profile->ifsc_code;
-        $this->account_number     = $this->authUser->profile->account_number;
-        $this->pan_card_number    = $this->authUser->profile->pan_card_number;
+        // $this->bank_name          = $this->authUser->profile->bank_name;
+        // $this->branch_name        = $this->authUser->profile->branch_name;
+        // $this->ifsc_code          = $this->authUser->profile->ifsc_code;
+        // $this->account_number     = $this->authUser->profile->account_number;
+        // $this->pan_card_number    = $this->authUser->profile->pan_card_number;
     
     }
 
@@ -163,11 +163,11 @@ class Index extends BaseComponent
         $profileDetails['pin_code']         = $this->pin_code;
         $profileDetails['nominee_name']     = $this->nominee_name;
         $profileDetails['nominee_relation'] = $this->nominee_relation;
-        $profileDetails['bank_name']        = $this->bank_name;
-        $profileDetails['branch_name']      = $this->branch_name;
-        $profileDetails['ifsc_code']        = $this->ifsc_code;
-        $profileDetails['account_number']   = $this->account_number;
-        $profileDetails['pan_card_number']  = $this->pan_card_number;
+        // $profileDetails['bank_name']        = $this->bank_name;
+        // $profileDetails['branch_name']      = $this->branch_name;
+        // $profileDetails['ifsc_code']        = $this->ifsc_code;
+        // $profileDetails['account_number']   = $this->account_number;
+        // $profileDetails['pan_card_number']  = $this->pan_card_number;
 
         $this->authUser->profile()->update($profileDetails);
 
