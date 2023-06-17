@@ -16,8 +16,11 @@
                     @else
                         <div wire:loading wire:target="create" class="loader"></div>
                         <div class="card-title">
-                            <h4 class="float-left">{{__('cruds.course.title_singular')}} :- {{ ucfirst($courseName) }}</h4>
-
+                            <div class="float-left">
+                                <h4>{{__('cruds.course.title_singular')}} Name :- {{ ucfirst($courseName) }}</h4>
+                                <h6>Video List</h6>
+                            </div>
+                         
                             @can('course_create')
                             <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
                                 <i class="fa-solid fa-plus"></i>                                                   

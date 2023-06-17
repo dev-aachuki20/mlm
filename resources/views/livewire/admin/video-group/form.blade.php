@@ -1,7 +1,7 @@
 
 <h4 class="card-title">
-    {{ $updateMode ? __('global.edit') : __('global.create') }} 
-    {{ strtolower(__('cruds.course.title_singular'))}}</h4>
+    {{ $updateMode ? __('global.edit') : __('global.add') }} 
+     Video</h4>
 
 <form wire:submit.prevent="{{ $updateMode ? 'update' : 'store' }}" class="forms-sample">
     

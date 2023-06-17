@@ -283,6 +283,10 @@
 </div>
 @push('scripts')
 <script>
+  window.addEventListener('close-modal', event => {
+    $(event.detail.element).modal('hide');
+  });
+
   $(document).ready(function(){
     $(document).on('click','#changepassword',function(){
        $('#changePasswordModal').modal('show');

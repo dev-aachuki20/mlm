@@ -60,7 +60,7 @@ class ChangePassword extends Component
         $this->dispatchBrowserEvent('close-modal',['element'=>'#changePasswordModal']);
 
         // Set Flash Message
-        $this->alert('success', trans('passwords.updated'));
+        $this->alert('success', 'Your password has been changed!');
 
     }
 

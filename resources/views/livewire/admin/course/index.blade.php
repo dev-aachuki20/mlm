@@ -77,24 +77,24 @@
                                             <td>
 
                                                 @can('course_show')
-                                                <button type="button" wire:click.prevent="show({{$course->id}})" class="btn btn-primary btn-rounded btn-icon">
+                                                <button title="Show" type="button" wire:click.prevent="show({{$course->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                     <i class="ti-eye"></i>
                                                 </button>
                                                 @endcan
 
                                                 @can('course_edit')
-                                                <button type="button" wire:click.prevent="edit({{$course->id}})" class="btn btn-info btn-rounded btn-icon">
+                                                <button title="Edit" type="button" wire:click.prevent="edit({{$course->id}})" class="btn btn-info btn-rounded btn-icon">
                                                     <i class="ti-pencil-alt"></i>
                                                 </button>
                                                 @endcan
 
                                                 @can('course_delete')
-                                                <button type="button" wire:click.prevent="delete({{$course->id}})" class="btn btn-danger btn-rounded btn-icon">
+                                                <button title="Delete" type="button" wire:click.prevent="delete({{$course->id}})" class="btn btn-danger btn-rounded btn-icon">
                                                     <i class="ti-trash"></i>
                                                 </button>
                                                 @endcan
 
-                                                <a href="{{route('admin.getAllVideos',$course->id)}}" class="btn btn-warning btn-rounded btn-icon list-all-btn">
+                                                <a title="Video List" href="{{route('admin.getAllVideos',$course->id)}}" class="btn btn-warning btn-rounded btn-icon list-all-btn">
                                                     <i class="ti-list"></i>
                                                 </a>
                                             
