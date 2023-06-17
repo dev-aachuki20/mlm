@@ -57,4 +57,9 @@ class Package extends Model
         }
         return "";
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'package_user');
+    }
 }

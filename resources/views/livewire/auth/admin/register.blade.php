@@ -16,6 +16,9 @@
           <div class="form-head">
             <h3>Nice to see you again!</h3>
           </div>
+
+          @if(!$paymentMode)
+          
           <form wire:submit.prevent="storeRegister" class="form">            
             <div class="form-outer">
                 <div class="form-group col-50">
@@ -101,6 +104,21 @@
                   @error('address') <span class="error text-danger">{{ $message }}</span>@enderror
 
                 </div>
+
+                <div class="form-group">
+                  <div class="input-form">
+                    <label class="form-label">Package</label>
+                    <select class="form-control" wire:model.defer='package'>
+                      <option value="">Select Package</option>
+                      @foreach($packages as $package)
+                        <option value="{{ $package->id }}">{{ $package->title }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  @error('package') <span class="error text-danger">{{ $message }}</span>@enderror
+
+                </div>
+
               </div>
               <div class="submit-btn">
                 <button type="submit" class="btn " wire:loading.attr="disabled">SignUp
@@ -113,7 +131,14 @@
               <div class="have-account">
                 <p>Already Have an account? <a href="{{ route('auth.login') }}">Login Now!</a></p>
               </div>
-            </form>
+          </form>
+
+          @else
+          
+            @livewire('auth.payment-component')
+
+          @endif
+            
         </div>
       </div>
     </section>

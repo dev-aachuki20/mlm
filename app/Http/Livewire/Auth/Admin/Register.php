@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\Auth\Admin;
 
+
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Package;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -18,7 +20,7 @@ class Register extends Component
 
     public $first_name, $last_name, $email, $phone ,$dob, $gender, $password ,$password_confirmation;
 
-    public $referral_id, $referral_name, $address;
+    public $referral_id, $referral_name, $address, $package, $paymentMode = false,$paymentSuccess = false;
 
     public $showResetBtn = false;
 
@@ -36,6 +38,7 @@ class Register extends Component
             'referral_id'   => ['required','regex:/^\S*$/u','exists:users,my_referral_code'],
             'referral_name'   => ['required','regex:/^[A-Za-z]+( [A-Za-z]+)?$/u'],
             'address'         => ['required'],
+            'package'         => ['required'],
             // 'password' => ['required', 'string', 'min:8'],
             // 'password_confirmation' => 'min:8|same:password',
         ];
@@ -60,80 +63,86 @@ class Register extends Component
 
     public function render()
     {
-        return view('livewire.auth.admin.register');
+        $packages = Package::where('status',1)->get();
+        return view('livewire.auth.admin.register',compact('packages'));
     }
 
     public function storeRegister()
     {
         $validated = $this->validate($this->rules(),$this->messages());
  
-        DB::beginTransaction();
-        try {
-
-            $referral_user_id = User::where('my_referral_code',$this->referral_id)->value('id');
-
-            $data = [ 
-                'uuid'       => Str::uuid(),
-                'first_name' => $this->first_name, 
-                'last_name'  => $this->last_name, 
-                'name'       => $this->first_name.' '.$this->last_name,
-                'email'      => $this->email,
-                'phone'      => $this->phone,
-                'dob'        => Carbon::parse($this->dob)->format('Y-m-d'),
-                'date_of_join'     => Carbon::now()->format('Y-m-d'),
-                'my_referral_code' => generateRandomString(10),
-                'referral_code'    => $this->referral_id,
-                'referral_name'    => $this->referral_name,
-                'referral_user_id' => $referral_user_id,
-
-                // 'password'   => Hash::make($this->password)
-            ];
-            $user = User::create($data);
-            if($user){
-                // Assign user Role
-                $user->roles()->sync([3]);
-                
-                // Profile records 
-                $profileData = [
-                    'user_id'        => $user->id,
-                    'gender'         => $this->gender,
-                    'address'        => $this->address,
-                ];
-
-                $user->profile()->create($profileData);
-
-                // Kyc records 
-                $kycRecords = [
-                    'user_id'        => $user->id,
-                    'created_at'     => date('Y-m-d H:i:s'),
-                    'updated_at'     => date('Y-m-d H:i:s'),
-                ];
-                $user->kycDetail()->create($kycRecords);
-
-                //Verification mail sent
-                $user->sendEmailVerificationNotification();
-
-                DB::commit();
-
-                $this->resetInputFields();
-
-                // Set Flash Message
-                $this->flash('success', trans('panel.message.check_email_verification'));
-                
-                return redirect()->route('auth.login');
-            }else{
-                $this->resetInputFields();
-
-                // Set Flash Message
-                $this->alert('error', trans('panel.message.error'));
-        
-            }
-        }catch (\Exception $e) {
-            DB::rollBack();
-            // dd($e->getMessage().'->'.$e->getLine());
-            $this->alert('error',trans('messages.error_message'));
-        }
+        $this->paymentMode = true;
+       
+        if($this->paymentSuccess){
+            DB::beginTransaction();
+            try {
     
+                $referral_user_id = User::where('my_referral_code',$this->referral_id)->value('id');
+    
+                $data = [ 
+                    'uuid'       => Str::uuid(),
+                    'first_name' => $this->first_name, 
+                    'last_name'  => $this->last_name, 
+                    'name'       => $this->first_name.' '.$this->last_name,
+                    'email'      => $this->email,
+                    'phone'      => $this->phone,
+                    'dob'        => Carbon::parse($this->dob)->format('Y-m-d'),
+                    'date_of_join'     => Carbon::now()->format('Y-m-d'),
+                    'my_referral_code' => generateRandomString(10),
+                    'referral_code'    => $this->referral_id,
+                    'referral_name'    => $this->referral_name,
+                    'referral_user_id' => $referral_user_id,
+    
+                    // 'password'   => Hash::make($this->password)
+                ];
+                $user = User::create($data);
+                if($user){
+                    // Assign user Role
+                    $user->roles()->sync([3]);
+                    $user->packages()->sync([$this->package]);
+                    
+                    // Profile records 
+                    $profileData = [
+                        'user_id'        => $user->id,
+                        'gender'         => $this->gender,
+                        'address'        => $this->address,
+                    ];
+    
+                    $user->profile()->create($profileData);
+    
+                    // Kyc records 
+                    $kycRecords = [
+                        'user_id'        => $user->id,
+                        'created_at'     => date('Y-m-d H:i:s'),
+                        'updated_at'     => date('Y-m-d H:i:s'),
+                    ];
+                    $user->kycDetail()->create($kycRecords);
+    
+                    //Verification mail sent
+                    $user->sendEmailVerificationNotification();
+    
+                    DB::commit();
+    
+                    $this->resetInputFields();
+    
+                    // Set Flash Message
+                    $this->flash('success', trans('panel.message.check_email_verification'));
+                    
+                    return redirect()->route('auth.login');
+                }else{
+                    $this->resetInputFields();
+    
+                    // Set Flash Message
+                    $this->alert('error', trans('panel.message.error'));
+            
+                }
+            }catch (\Exception $e) {
+                DB::rollBack();
+                // dd($e->getMessage().'->'.$e->getLine());
+                $this->alert('error',trans('messages.error_message'));
+            }
+        }
+      
     }
     
     public function checkEmail()

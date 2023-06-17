@@ -156,4 +156,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(User::class, 'referral_user_id')
                     ->with('level2Referrer.referrer');
     }
+
+    public function packages()
+    {
+        return $this->belongsToMany(Package::class, 'package_user');
+    }
 }
