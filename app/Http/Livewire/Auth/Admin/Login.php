@@ -50,7 +50,7 @@ class Login extends BaseComponent
         try {
             $checkVerified = User::where('email',$this->email)->whereNull('email_verified_at')->first();
             if(!$checkVerified){
-                if (Auth::guard('web')->attempt($credentialsOnly, $remember_me)) {
+                if (Auth::attempt($credentialsOnly, $remember_me)) {
             
                     $this->resetInputFields();
                     $this->resetErrorBag();

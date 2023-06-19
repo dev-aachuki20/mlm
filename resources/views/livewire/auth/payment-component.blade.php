@@ -1,7 +1,5 @@
 <div>
-    <div wire:loading wire:target="paymentSuccessful" class="loader"></div>
     <section class="login signup-plan-sec d-flex flex-wrap">
-       
         <div class="login-left bg-white">
         <div class="login-left-inner">
             <div class="signup-plans">

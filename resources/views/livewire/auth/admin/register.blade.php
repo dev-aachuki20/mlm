@@ -1,4 +1,6 @@
 <div>
+  <div wire:loading wire:target="paymentSuccessful" class="loader"></div>
+
   @if(!$paymentMode)
     <section class="login d-flex flex-wrap">
       <div class="login-left bg-white">
@@ -138,6 +140,8 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript">
 
+    var today = new Date();
+    var minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
 
     $('input[id="dob"]').daterangepicker({
         autoApply: true,
@@ -147,6 +151,9 @@
         locale: {
             format: 'DD-MM-YYYY'
         },
+        // minDate: minDate,
+        maxDate: today
+
     });
 
     $('input[id="dob"]').on('apply.daterangepicker', function(ev, picker) {

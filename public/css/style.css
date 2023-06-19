@@ -383,6 +383,12 @@ img.hide-password,
 .fa-eye-slash img.hide-password{
     display: block;
 }
+.fa-eye-slash:before{
+    opacity: 0;
+}
+.fa-eye:before{
+    opacity: 0;
+}
 /*login page css*/
 .login-header {
     width: 100%;

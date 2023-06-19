@@ -111,7 +111,8 @@
 
 <script type="text/javascript">
 
- document.addEventListener('loadPlugins', function (event) {
+//  document.addEventListener('loadPlugins', function (event) {
+    window.addEventListener('loadPlugins', event => {
     
     print_state("state_id");
 
@@ -124,21 +125,35 @@
         print_city('city_id', stateId);
     });
 
+    var today = new Date();
+    var minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+
     $('input[id="dob"],input[id="nominee_dob"]').daterangepicker({
         // autoApply: true,
-        autoUpdateInput: false,
+        // autoUpdateInput: false,
         singleDatePicker: true,
         showDropdowns: true,
-        minYear: 1901,
-      
         locale: {
             format: 'DD-MM-YYYY'
         },
-    });
+        // minYear: 1901,
+         // minDate: minDate,
+         maxDate: today,
+    },
+    // function(start, end, label) {
+    //     // For example, you can log the selected date to the console
+    //     // console.log('Selected date: ' + start.format('YYYY-MM-DD'));
+    //     Livewire.emit('updateDOB',start.format('DD-MM-YYYY'));
+    // }
+    );
+
+
     $('input[id="dob"]').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('DD-MM-YYYY'));
-        Livewire.emit('updateDob',picker.startDate.format('DD-MM-YYYY'));
+        Livewire.emit('updateDOB',picker.startDate.format('DD-MM-YYYY'));
     });
+
 
     $('input[id="nominee_dob"]').on('apply.daterangepicker', function(ev, picker) {
         $(this).val(picker.startDate.format('DD-MM-YYYY'));
