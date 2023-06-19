@@ -21,7 +21,7 @@ class Register extends Component
 
     public $from_url_referral_id, $from_url_referral_name, $referral_id, $referral_name, $address;
     
-    public $paymentMode = true, $paymentSuccess = false;
+    public $paymentMode = false, $paymentSuccess = false;
 
     public $showResetBtn = false;
 
