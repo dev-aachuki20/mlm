@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Auth\Admin;
 
-
+use Mail; 
 use Carbon\Carbon;
 use App\Models\User;
 use Livewire\Component;
@@ -11,7 +11,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Encryption\Encrypter;
+use App\Mail\SendRegisteredUserMail;
+use App\Mail\SendPlanPurchasedMail;
 
 class Register extends Component
 {
@@ -126,9 +127,18 @@ class Register extends Component
                     ];
                     $user->kycDetail()->create($kycRecords);
     
+                    //Send welcome mail for user
+                    $subject = 'Welcome to '.config('app.name');
+                    Mail::to($user->email)->queue(new SendRegisteredUserMail($subject,$user->name));
+
+                    //Send mail for plan purchased
+                    $subject = 'Plan Purchased';
+                    $planName = $user->packages()->first()->title;
+                    Mail::to($user->email)->queue(new SendPlanPurchasedMail($subject,$user->name,$planName));
+
                     //Verification mail sent
                     $user->sendEmailVerificationNotification();
-    
+
                     DB::commit();
 
                     $this->resetInputFields();
@@ -136,8 +146,8 @@ class Register extends Component
                     // Set Flash Message
                     $this->flash('success', trans('panel.message.check_email_verification'));
                     
-                    // Redirect to the Razorpay checkout form
-                    $this->dispatchBrowserEvent('closedLoader');
+                    // // Redirect to the Razorpay checkout form
+                    // $this->dispatchBrowserEvent('closedLoader');
 
                     return redirect()->route('auth.payment-success');
 

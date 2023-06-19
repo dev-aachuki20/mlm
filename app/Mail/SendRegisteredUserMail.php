@@ -7,24 +7,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SendPasswordMail extends Mailable
+class SendRegisteredUserMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     
     public $name,$subject;
-    protected $password;
-
+  
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name, $password , $subject)
+    public function __construct($subject,$name)
     {
-        $this->name = $name;
-        $this->password = $password;
         $this->subject = $subject;
+        $this->name    = $name;
 
     }
 
@@ -36,9 +34,8 @@ class SendPasswordMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.auth.send-password', [
+        return $this->markdown('emails.auth.send-registered', [
                 'name' => $this->name,
-                'password' => $this->password,
             ])->subject($this->subject);
     }
 }

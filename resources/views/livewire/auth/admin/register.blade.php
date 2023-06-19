@@ -42,7 +42,7 @@
                   <div class="input-form">
                     <div class="login-icon"><img src="{{asset('images/icons/email.svg')}}" alt="User"></div>
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-control" wire:model.defer='email' placeholder="Enter Your Email" />
+                    <input type="email" class="form-control" wire:model='email' wire:change="checkEmail" placeholder="Enter Your Email" />
                   </div>
                   @error('email') <span class="error text-danger">{{ $message }}</span>@enderror
 
@@ -201,6 +201,9 @@
               if (confirm("Are you sure, you want to close the form?")) {
                   txt = "You pressed OK!";
                   console.log("Checkout form closed by the user");
+                  // Show the loader element
+                  document.querySelector('.loader').style.display = 'block';
+
                   window.location.replace('{{route('auth.register')}}');
               } else {
                   txt = "You pressed Cancel!";
@@ -212,12 +215,13 @@
 
     var rzp1 = new Razorpay(options);
     rzp1.open();
-      
+   
   });
 
-  window.addEventListener('closedLoader', event => {
-    document.querySelector('.loader').style.display = 'none';
-  });
+  // window.addEventListener('closedLoader', event => {
+  //   console.log('closed loader');
+  //   document.querySelector('.loader').style.display = 'none';
+  // });
   
 </script>
 @endpush

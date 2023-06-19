@@ -44,14 +44,14 @@ class PaymentComponent extends Component
 
         $package = Package::find($this->select_package);
         $this->packageId = $package->id;
-        $this->amount = number_format($package->amount,2);
+        $this->amount = $package->amount;
       
         // Redirect to the Razorpay checkout form
         $this->dispatchBrowserEvent('openRazorpayCheckout', [
             'name' => $this->getData['first_name'].' '.$this->getData['last_name'],
             'email' => $this->getData['email'],
             'phone' => $this->getData['phone'],
-            'amount' => $this->amount*100,
+            'amount' => (float)$this->amount * 100,
         ]);
     }
 
@@ -73,7 +73,7 @@ class PaymentComponent extends Component
                     'method'        => $response['method'],
                     'currency'      => $response['currency'],
                     'user_email'    => $response['email'],
-                    'amount'        => $response['amount']/100,
+                    'amount'        => (float)$response['amount']/100,
                     'json_response' => json_encode((array)$response)
                 ]);
 

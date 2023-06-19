@@ -32,7 +32,9 @@
 
                                 @yield('email-content') 
                                 <tr>
-                                    <td style="color:#153643;"><p style="margin:0 0 12px 0;">Thank you</p></td>
+                                    {{-- <td style="color:#153643;"><p style="margin:0 0 12px 0;">Thank you</p></td> --}}
+
+                                    <td style="font-size:14px;"><p style="margin:0 0 12px 0;">Thank you</p></td>
                                 </tr>
 
                             </table>
