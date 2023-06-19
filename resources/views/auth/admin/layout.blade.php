@@ -27,7 +27,9 @@
     @yield('content')
     
     <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.bundle.min.js')}} "></script>
+    <script src="{{ asset('js/bootstrap.min.js')}} "></script>
+    {{-- <script src="{{ asset('js/bootstrap.bundle.min.js')}} "></script> --}}
+
     <script src="{{ asset('vendor/livewire-alert/livewire-alert.js') }}"></script> 
 
 

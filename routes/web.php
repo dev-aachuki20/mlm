@@ -31,6 +31,8 @@ Route::get('email/verify/{id}/{hash}', [VerificationController::class,'verify'])
 
 Route::group(['middleware' => ['web','guest','preventBackHistory'], 'as' => 'auth.','prefix'=>''], function () {
     
+    Route::view('payment-success', 'auth.payment-success')->name('payment-success');
+
     Route::view('signup/{referral_id?}', 'auth.admin.register')->name('register');
     Route::view('login', 'auth.admin.login')->name('login');
     Route::view('forget-password', 'auth.admin.forget-password')->name('forget-password');

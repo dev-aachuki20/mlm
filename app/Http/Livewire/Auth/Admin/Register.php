@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Auth\Admin;
 
 use Carbon\Carbon;
 use App\Models\User;
-use App\Models\Package;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -20,11 +19,13 @@ class Register extends Component
 
     public $first_name, $last_name, $email, $phone ,$dob, $gender, $password ,$password_confirmation;
 
-    public $referral_id, $referral_name, $address, $package, $paymentMode = false,$paymentSuccess = false;
+    public $from_url_referral_id, $from_url_referral_name, $referral_id, $referral_name, $address;
+    
+    public $paymentMode = true, $paymentSuccess = false;
 
     public $showResetBtn = false;
 
-    protected $listeners = [ 'updateDOB' ];
+    protected $listeners = [ 'updateDOB','updatePaymentStatus' ];
     
     protected function rules()
     {
@@ -38,7 +39,6 @@ class Register extends Component
             'referral_id'   => ['required','regex:/^\S*$/u','exists:users,my_referral_code'],
             'referral_name'   => ['required','regex:/^[A-Za-z]+( [A-Za-z]+)?$/u'],
             'address'         => ['required'],
-            'package'         => ['required'],
             // 'password' => ['required', 'string', 'min:8'],
             // 'password_confirmation' => 'min:8|same:password',
         ];
@@ -58,19 +58,27 @@ class Register extends Component
             $getReferralUser     = User::where('uuid',$referralId)->first();
             $this->referral_id   = $getReferralUser->my_referral_code;
             $this->referral_name = $getReferralUser->name;
+            $this->from_url_referral_id   = $this->referral_id;
+            $this->from_url_referral_name = $this->referral_name;
         }
     }
 
-    public function render()
-    {
-        $packages = Package::where('status',1)->get();
-        return view('livewire.auth.admin.register',compact('packages'));
+    public function updatePaymentStatus($package_id){
+        $this->paymentMode = false;
+        $this->paymentSuccess = true;
+        $this->storeRegister($package_id);
     }
 
-    public function storeRegister()
+
+    public function render()
+    {
+        return view('livewire.auth.admin.register');
+    }
+
+    public function storeRegister($package_id='')
     {
         $validated = $this->validate($this->rules(),$this->messages());
- 
+
         $this->paymentMode = true;
        
         if($this->paymentSuccess){
@@ -99,7 +107,7 @@ class Register extends Component
                 if($user){
                     // Assign user Role
                     $user->roles()->sync([3]);
-                    $user->packages()->sync([$this->package]);
+                    $user->packages()->sync([$package_id=>['created_at'=>date('Y-m-d H:i:s'),'updated_at'=>date('Y-m-d H:i:s')]]);
                     
                     // Profile records 
                     $profileData = [
@@ -122,13 +130,18 @@ class Register extends Component
                     $user->sendEmailVerificationNotification();
     
                     DB::commit();
-    
+
                     $this->resetInputFields();
     
                     // Set Flash Message
                     $this->flash('success', trans('panel.message.check_email_verification'));
                     
-                    return redirect()->route('auth.login');
+                    // Redirect to the Razorpay checkout form
+                    $this->dispatchBrowserEvent('closedLoader');
+
+                    return redirect()->route('auth.payment-success');
+
+                    // return redirect()->route('auth.login');
                 }else{
                     $this->resetInputFields();
     

@@ -159,6 +159,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function packages()
     {
-        return $this->belongsToMany(Package::class, 'package_user');
+        return $this->belongsToMany(Package::class, 'package_user')->withPivot(['created_at','updated_at']);
     }
 }

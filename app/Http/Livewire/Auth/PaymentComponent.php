@@ -5,55 +5,68 @@ namespace App\Http\Livewire\Auth;
 use Livewire\Component;
 use Razorpay\Api\Api;
 use App\Models\Payment;
+use App\Models\Package;
 use Illuminate\Support\Facades\DB;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class PaymentComponent extends Component
 {
-    public $amount=10;
-    public $razorpay_payment_id;
+    use LivewireAlert;
+
+    public $amount=0.00, $getData;
+    
+    public $defaultSelectedPackage = 2, $select_package, $packageId;
+
 
     protected $listeners = ['pay','paymentSuccessful'];
 
+    public function mount($data){
+        $this->getData = $data;
+        $this->handleOptionSelection($this->defaultSelectedPackage);
+    }
+    
+    public function handleOptionSelection($seletPackage)
+    {
+        $this->select_package = $seletPackage;
+    }
+
     public function render()
     {
-        return view('livewire.auth.payment-component');
+        $packages = Package::where('status',1)->get();
+        return view('livewire.auth.payment-component',compact('packages'));
     }
 
     public function pay()
     {
-        // Create a new instance of the Razorpay API
-        $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
-
-        // Create an order
-        $order = $api->order->create([
-            'amount' => $this->amount * 100,
-            'currency' => 'INR',
-            'receipt' => uniqid(),
+        $validated = $this->validate([
+            'select_package' => 'required',
         ]);
 
-        $this->razorpay_payment_id = $order->id;
-        dd($order);
-
-        // $this->paymentSuccessful();
-        // Redirect to the Razorpay payment page
-        // return redirect()->to($order['short_url']);
-
-        // return redirect()->to('https://rzp.io/l/ikmbG9Jeb');
-        
+        $package = Package::find($this->select_package);
+        $this->packageId = $package->id;
+        $this->amount = number_format($package->amount,2);
+      
+        // Redirect to the Razorpay checkout form
+        $this->dispatchBrowserEvent('openRazorpayCheckout', [
+            'name' => $this->getData['first_name'].' '.$this->getData['last_name'],
+            'email' => $this->getData['email'],
+            'phone' => $this->getData['phone'],
+            'amount' => $this->amount*100,
+        ]);
     }
 
-    public function paymentSuccessful()
+    public function paymentSuccessful($payment_id)
     {
         $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
 
         DB::beginTransaction();
      
-        if($this->razorpay_payment_id){
-            dd($api->payment);
-            $payment = $api->payment->fetch($this->razorpay_payment_id);
+        if($payment_id){
+         
+            $payment = $api->payment->fetch($payment_id);
             try {
 
-                $response = $api->payment->fetch($this->razorpay_payment_id)->capture(array('amount' => $payment['amount']));
+                $response = $api->payment->fetch($payment_id)->capture(array('amount' => $payment['amount']));
 
                 $payment = Payment::create([
                     'r_payment_id'  => $response['id'],
@@ -65,11 +78,14 @@ class PaymentComponent extends Component
                 ]);
 
                 DB::commit();
-                $this->alert('error',trans('Payment Successful'));
+
+                $this->emit('updatePaymentStatus',$this->packageId);
+
+                // $this->alert('success',trans('Payment Successful'));
 
             }catch (\Exception $e) {
                 DB::rollBack();
-                dd($e->getMessage().'->'.$e->getLine());
+                // dd($e->getMessage().'->'.$e->getLine());
                 $this->alert('error',trans('messages.error_message'));
             }
         }

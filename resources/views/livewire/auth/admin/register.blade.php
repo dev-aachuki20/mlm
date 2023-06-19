@@ -1,4 +1,5 @@
 <div>
+  @if(!$paymentMode)
     <section class="login d-flex flex-wrap">
       <div class="login-left bg-white">
         <div class="login-left-inner">
@@ -13,12 +14,10 @@
       </div>
       <div class="login-right bg-light-orange">
         <div class="login-form">
+         
           <div class="form-head">
             <h3>Nice to see you again!</h3>
           </div>
-
-          @if(!$paymentMode)
-          
           <form wire:submit.prevent="storeRegister" class="form">            
             <div class="form-outer">
                 <div class="form-group col-50">
@@ -71,9 +70,9 @@
                     <label class="form-label">Gender</label>
                     <select class="form-control" wire:model.defer='gender'>
                       <option value="">Select Gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
+                      <option value="male" {{$gender == 'male'? 'selected' : '' }}>Male</option>
+                      <option value="female" {{$gender == 'female'? 'selected' : '' }}>Female</option>
+                      <option value="other" {{$gender == 'other'? 'selected' : '' }}>Other</option>
                     </select>
                   </div>
                   @error('gender') <span class="error text-danger">{{ $message }}</span>@enderror
@@ -82,7 +81,7 @@
                 <div class="form-group no-icon col-50">
                   <div class="input-form">
                     <label class="form-label">Referral ID</label>
-                    <input type="text" class="form-control" placeholder="XXXXXXX"  wire:model.defer='referral_id' {{!empty($referral_id) ? 'disabled': ''}}/>
+                    <input type="text" class="form-control" placeholder="XXXXXXX"  wire:model.defer='referral_id' {{!empty($from_url_referral_id) ? 'disabled': ''}}/>
                   </div>
                   @error('referral_id') <span class="error text-danger">{{ $message }}</span>@enderror
 
@@ -90,7 +89,7 @@
                 <div class="form-group no-icon col-50">
                   <div class="input-form">
                     <label class="form-label">Referral Name</label>
-                    <input type="text" class="form-control" placeholder="Referral Name" wire:model.defer='referral_name' {{!empty($referral_name) ? 'disabled': ''}}/>
+                    <input type="text" class="form-control" placeholder="Referral Name" wire:model.defer='referral_name' {{!empty($from_url_referral_name)  ? 'disabled': ''}}/>
                   </div>
                   @error('referral_name') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>
@@ -102,20 +101,6 @@
                     <input type="text" class="form-control" placeholder="Address here"  wire:model.defer='address'/>
                   </div>
                   @error('address') <span class="error text-danger">{{ $message }}</span>@enderror
-
-                </div>
-
-                <div class="form-group">
-                  <div class="input-form">
-                    <label class="form-label">Package</label>
-                    <select class="form-control" wire:model.defer='package'>
-                      <option value="">Select Package</option>
-                      @foreach($packages as $package)
-                        <option value="{{ $package->id }}">{{ $package->title }}</option>
-                      @endforeach
-                    </select>
-                  </div>
-                  @error('package') <span class="error text-danger">{{ $message }}</span>@enderror
 
                 </div>
 
@@ -132,16 +117,16 @@
                 <p>Already Have an account? <a href="{{ route('auth.login') }}">Login Now!</a></p>
               </div>
           </form>
-
-          @else
-          
-            @livewire('auth.payment-component')
-
-          @endif
-            
         </div>
       </div>
     </section>
+
+  @else
+          
+    @livewire('auth.payment-component',['data'=>$this->all()])
+
+  @endif
+    
 </div>
 
 @push('styles')
@@ -170,6 +155,69 @@
     });
 
   
+</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  window.addEventListener('openRazorpayCheckout', event => {
 
+    var options = {
+          "key": "{{ config('services.razorpay.key') }}", // Enter the Key ID generated from the Dashboard
+          "amount": event.detail.amount,
+          "currency": "INR",
+          "description": "{{ config('app.name') }}",
+          "image": "{{ asset(config('constants.default.logo')) }}",
+          "prefill":
+          {
+          "name": event.detail.name,
+          "email": event.detail.email,
+          "contact": '+91'+event.detail.phone,
+          },
+          config: {
+          display: {
+              // blocks: {
+              //   banks: {
+              //     name: 'Methods with Offers',
+              //     instruments: [
+              //       {
+              //         method: 'wallet',
+              //         wallets: ['olamoney']
+              //       }]
+              //   },
+              // },
+              // sequence: ['block.banks'],
+              preferences: {
+                show_default_blocks: true,
+              },
+            },
+          },
+          "handler": function (response) {
+              // console.log('response',response);
+              document.querySelector('.loader').style.display = 'block';
+
+              Livewire.emit('paymentSuccessful',response.razorpay_payment_id);
+          },
+          "modal": {
+          "ondismiss": function () {
+              if (confirm("Are you sure, you want to close the form?")) {
+                  txt = "You pressed OK!";
+                  console.log("Checkout form closed by the user");
+                  window.location.replace('{{route('auth.register')}}');
+              } else {
+                  txt = "You pressed Cancel!";
+                  console.log("Complete the Payment")
+              }
+          }
+          }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+      
+  });
+
+  window.addEventListener('closedLoader', event => {
+    document.querySelector('.loader').style.display = 'none';
+  });
+  
 </script>
 @endpush
