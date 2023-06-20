@@ -22,7 +22,7 @@ class Register extends Component
 
     public $from_url_referral_id, $from_url_referral_name, $referral_id, $referral_name, $address;
     
-    public $paymentMode = false, $paymentSuccess = false;
+    public $paymentMode = false, $paymentSuccess = false, $share_email, $share_password;
 
     public $showResetBtn = false;
 
@@ -99,7 +99,9 @@ class Register extends Component
             try {
     
                 $referral_user_id = User::where('my_referral_code',$this->referral_id)->value('id');
-    
+
+                $password = generateRandomString(8);
+              
                 $data = [ 
                     'uuid'       => Str::uuid(),
                     'first_name' => $this->first_name, 
@@ -113,8 +115,9 @@ class Register extends Component
                     'referral_code'    => $this->referral_id,
                     'referral_name'    => $this->referral_name,
                     'referral_user_id' => $referral_user_id,
-    
-                    // 'password'   => Hash::make($this->password)
+                    'password'         => Hash::make($password),
+                    'password_set_at'   => Carbon::now(),
+                    'email_verified_at' => Carbon::now(),
                 ];
                 $user = User::create($data);
                 if($user){
@@ -149,21 +152,20 @@ class Register extends Component
                     Mail::to($user->email)->queue(new SendPlanPurchasedMail($subject,$user->name,$planName));
 
                     //Verification mail sent
-                    $user->sendEmailVerificationNotification();
+                    // $user->sendEmailVerificationNotification();
 
                     DB::commit();
+
+                    $this->share_email = $this->email;
+                    $this->share_password = $password;
 
                     $this->resetInputFields();
     
                     // Set Flash Message
-                    $this->flash('success', trans('panel.message.check_email_verification'));
+                    $this->alert('success', trans('panel.message.register_success'));
+                    // $this->flash('success', trans('panel.message.register_success'));
                     
-                    // // Redirect to the Razorpay checkout form
-                    // $this->dispatchBrowserEvent('closedLoader');
-
-                    return redirect()->route('auth.payment-success');
-
-                    // return redirect()->route('auth.login');
+                    // return redirect()->route('auth.payment-success');
                 }else{
                     $this->resetInputFields();
     

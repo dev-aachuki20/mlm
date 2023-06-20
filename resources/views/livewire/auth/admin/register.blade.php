@@ -1,4 +1,6 @@
 <div>
+
+@if(!$paymentSuccess)
   <div wire:loading wire:target="paymentSuccessful" class="loader"></div>
 
   @if(!$paymentMode)
@@ -128,7 +130,14 @@
     @livewire('auth.payment-component',['data'=>$this->all()])
 
   @endif
-    
+
+@else
+
+  @livewire('auth.payment-success',['share_email'=>$share_email,'share_password'=>$share_password])
+
+@endif
+
+
 </div>
 
 @push('styles')

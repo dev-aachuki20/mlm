@@ -16,6 +16,7 @@ return [
         'question_deleted'    => 'Question deleted successfully!',
         'not_for_deletion'  => 'You can not delete this record!',
         'login_success'     => 'You have logged in successfully!',
+        'register_success'  => 'You have register successfully!',
         'not_allowed'       => 'You cannot access this resource!',
         'qr_history_added'  => 'History updated!',
         // 'thank_one_for_reel_feed'  => "Thank you for watching the video don't forget there's a few questions below!",
