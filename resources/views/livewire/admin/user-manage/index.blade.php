@@ -112,8 +112,6 @@
 <script type="text/javascript">
 
  document.addEventListener('loadPlugins', function (event) {
-    // window.addEventListener('loadPlugins', event => {
-    
     // print_state("state_id");
 
     if ($(".js-example-basic-single").length) {
@@ -141,8 +139,7 @@
     },
     function(start, end, label) {
         Livewire.emit('updatedDob',start.format('YYYY-MM-DD'));
-    }
-    );
+    });
 
 
     $('input[id="nominee_dob"]').daterangepicker({

@@ -32,9 +32,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.fields.date_of_join') }}</label>
-                        <input type="date" class="form-control" wire:model.defer="date_of_join" disabled />
-                        @error('date_of_join') <span class="error text-danger">{{ $message }}</span>@enderror
+                        <label class="font-weight-bold">{{ __('cruds.user.fields.dob') }}</label>
+                        <input type="text" class="form-control" id="dob" wire:model.defer="dob" placeholder="{{ __('cruds.user.fields.dob') }}" autocomplete="off"/>
+                        @error('dob') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
             </div>
@@ -197,7 +197,7 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label class="font-weight-bold">{{ __('cruds.user.profile.nominee_dob') }}</label>
-                    <input type="date" class="form-control" wire:model.defer="nominee_dob" placeholder="{{ __('cruds.user.profile.nominee_dob') }}"/>
+                    <input type="text" class="form-control" id="nominee_dob" wire:model.defer="nominee_dob" placeholder="{{ __('cruds.user.profile.nominee_dob') }}"/>
                     @error('nominee_dob') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>
             </div>

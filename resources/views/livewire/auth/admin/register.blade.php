@@ -83,7 +83,7 @@
                 <div class="form-group no-icon col-50">
                   <div class="input-form">
                     <label class="form-label">Referral ID</label>
-                    <input type="text" class="form-control" placeholder="XXXXXXX"  wire:model.defer='referral_id' {{!empty($from_url_referral_id) ? 'disabled': ''}}/>
+                    <input type="text" class="form-control" placeholder="XXXXXXX"  wire:model='referral_id' wire:input="checkReferral" {{!empty($from_url_referral_id) ? 'disabled': ''}}/>
                   </div>
                   @error('referral_id') <span class="error text-danger">{{ $message }}</span>@enderror
 

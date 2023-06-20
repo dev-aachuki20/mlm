@@ -64,6 +64,18 @@ class Register extends Component
         }
     }
 
+    public function checkReferral(){
+        $checkReferal =  User::where('my_referral_code',$this->referral_id)->first();
+        if ($checkReferal) {
+            $this->resetErrorBag('referral_id');
+            $this->referral_id = $checkReferal->my_referral_code;
+            $this->referral_name = $checkReferal->name;
+        }else{
+            $this->referral_name = '';
+            $this->addError('referral_id', 'Invalid referral Id');
+        }
+    }
+
     public function updatePaymentStatus($package_id){
         $this->paymentMode = false;
         $this->paymentSuccess = true;
@@ -108,7 +120,7 @@ class Register extends Component
                 if($user){
                     // Assign user Role
                     $user->roles()->sync([3]);
-                    $user->packages()->sync([$package_id=>['created_at'=>date('Y-m-d H:i:s'),'updated_at'=>date('Y-m-d H:i:s')]]);
+                    $user->packages()->sync([$package_id]);
                     
                     // Profile records 
                     $profileData = [

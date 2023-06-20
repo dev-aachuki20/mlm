@@ -15,13 +15,13 @@
     <tr>
         <td>
             <p style="font-size:14px;">Feel free to explore our MLM platform, where you can:</p>
-            <div class="mail-desc" style="font-size:14px;">
+            <div class="mail-desc">
                 <ul>
-                    <li>Access your personalized dashboard.</li>
-                    <li>Explore available products and services.</li>
-                    <li>Connect with your upline and downline members.</li>
-                    <li>Attend training sessions and webinars.</li>
-                    <li>Track your earnings and commission.</li>
+                    <li style="font-size:14px;">Access your personalized dashboard.</li>
+                    <li style="font-size:14px;">Explore available products and services.</li>
+                    <li style="font-size:14px;">Connect with your upline and downline members.</li>
+                    <li style="font-size:14px;">Attend training sessions and webinars.</li>
+                    <li style="font-size:14px;">Track your earnings and commission.</li>
 
                 </ul>
             </div>

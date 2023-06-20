@@ -12,6 +12,21 @@
                 font-weight: 600;
             }
             table, td, div, h1, p {font-family: 'Nunito', sans-serif;}
+			@media only screen and (max-width: 600px) {
+				.inner-body {
+				width: 100% !important;
+				}
+
+				.footer {
+				width: 100% !important;
+				}
+				}
+
+				@media only screen and (max-width: 500px) {
+				.button {
+				width: 100% !important;
+			}
+			}
         </style>
         @yield('styles')
     </head>
@@ -20,7 +35,7 @@
 	<table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
 		<tr>
 			<td align="center" style="padding:0;">
-				<table role="presentation" style="width: 100%; max-width:602px;border-collapse:collapse;border-spacing:0;text-align:left;">
+				<table role="presentation" style="width: 100%; max-width:747px;border-collapse:collapse;border-spacing:0;text-align:left;">
 					<tr>
 						<td align="center" style="padding:20px 0;background:#f3cfbf;">
 							<img src="{{ asset(config('constants.default.logo')) }}" alt="" width="300" style="height:auto;display:block;" />
@@ -31,9 +46,12 @@
 						<td style="padding:36px 30px 0px 30px;">
                             <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
 
-                                @yield('email-content') 
+                                {{ Illuminate\Mail\Markdown::parse($slot) }}
+
+                                {{ $subcopy ?? '' }}
+                                
                                 <tr>
-                                    <td style="font-size:14px;"><p style="margin:0 0 12px 27;">Thank you</p></td>
+                                    <td style="font-size:14px;"><p style="margin:0 0 12px 27px;">Thank you</p></td>
                                 </tr>
 
                             </table>
@@ -58,4 +76,5 @@
 	</table>
 </body>
 </html>
+
 

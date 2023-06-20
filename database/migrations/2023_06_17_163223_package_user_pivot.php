@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('package_id');
             $table->foreign('package_id', 'package_id_fk_6778')->references('id')->on('package');
 
-            $table->timestamps();
         });
     }
 

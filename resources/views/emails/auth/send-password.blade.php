@@ -6,9 +6,9 @@
 		<p class="mail-title" style="font-size:14px;">
 			<b>Hello</b> {{ $name ?? "" }},
 		</p>
-		<div class="mail-desc" style="font-size:14px;">
-			<p>Thank you for signing up for {{ config('app.name') }}. Your password for accessing your account is <b>{{$password}}</b>. Please keep it safe and do not share it with anyone.</p>
-			<p>To log in to your account, please visit <a href="{{ route('auth.login') }}">{{ route('auth.login') }}</a> and enter your email address and password. You can also change your password anytime from your account settings.</p>
+		<div class="mail-desc">
+			<p style="font-size:14px;">Thank you for signing up for {{ config('app.name') }}. Your password for accessing your account is <b>"{{$password}}"</b>. Please keep it safe and do not share it with anyone.</p>
+			<p style="font-size:14px;">To log in to your account, please visit <a href="{{ route('auth.login') }}">{{ route('auth.login') }}</a> and enter your email address and password. You can also change your password anytime from your account settings.</p>
 		</div>
 	</td>
     <tr>

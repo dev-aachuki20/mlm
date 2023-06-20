@@ -54,10 +54,10 @@
 
                   <div class="row">
                     <div class="col-sm-3">
-                      <p class="mb-0 font-weight-bold">{{ __('cruds.user.fields.date_of_join') }}</p>
+                      <p class="mb-0 font-weight-bold">{{ __('cruds.user.fields.dob') }}</p>
                     </div>
                     <div class="col-sm-9">
-                      <p class="text-muted mb-0">{{ convertDateTimeFormat($authUser->date_of_join,'date') }}</p>
+                      <p class="text-muted mb-0">{{ convertDateTimeFormat($authUser->dob,'date') }}</p>
                     </div>
                   </div>
                   <hr>
@@ -186,7 +186,7 @@
                       <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.nominee_name') }}</p>
                     </div>
                     <div class="col-sm-9">
-                      <p class="text-muted mb-0">{{ $authUser->profile->nominee_name ?? ''}}</p>
+                      <p class="text-muted mb-0">{{ ucfirst($authUser->profile->nominee_name) ?? ''}}</p>
                     </div>
                   </div>
                   <hr>
@@ -196,17 +196,17 @@
                       <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.nominee_dob') }}</p>
                     </div>
                     <div class="col-sm-9">
-                      <p class="text-muted mb-0">{{ $authUser->profile->nominee_dob ?? ''}}</p>
+                      <p class="text-muted mb-0">{{ convertDateTimeFormat($authUser->profile->nominee_dob,'date') ?? ''}}</p>
                     </div>
                   </div>
                   <hr>
 
                   <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                       <p class="mb-0 font-weight-bold">{{ __('cruds.user.profile.nominee_relation') }}</p>
                     </div>
-                    <div class="col-sm-8">
-                      <p class="text-muted mb-0">{{ $authUser->profile->nominee_relation ?? ''}}</p>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0">{{ ucfirst($authUser->profile->nominee_relation) ?? ''}}</p>
                     </div>
                   </div>
                   <hr>
@@ -281,8 +281,55 @@
     @livewire('auth.profile.change-password')
 
 </div>
+
+@push('styles')
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<link rel="stylesheet" href="{{ asset('admin/assets/select2/select2.min.css')}}">
+<link rel="stylesheet" href="{{ asset('admin/assets/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
+@endpush
+
 @push('scripts')
-<script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="{{ asset('admin/assets/select2/select2.min.js') }}"></script>
+<script type="text/javascript">
+  document.addEventListener('loadPlugins', function (event) {
+ 
+      var today = new Date();
+      var minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+      var dateToSet = '{{ $dob ?? null}}';
+
+      $('input[id="dob"]').daterangepicker({
+          autoApply: true,
+          singleDatePicker: true,
+          showDropdowns: true,
+          locale: {
+              format: 'DD-MM-YYYY'
+          },
+          maxDate: today,
+      },
+      function(start, end, label) {
+        console.log('hello');
+          Livewire.emit('updatedDob',start.format('YYYY-MM-DD'));
+      });
+
+      $('input[id="nominee_dob"]').daterangepicker({
+          autoApply: true,
+          singleDatePicker: true,
+          showDropdowns: true,
+          locale: {
+              format: 'DD-MM-YYYY'
+          },
+          maxDate: today,
+      },
+      function(start, end, label) {
+          Livewire.emit('updateNomineeDob',start.format('YYYY-MM-DD'));
+      });
+      
+  });
+</script>
+<script type="text/javascript">
   window.addEventListener('close-modal', event => {
     $(event.detail.element).modal('hide');
   });
@@ -296,5 +343,7 @@
          $('#changePasswordModal').modal('hide');
     });
   });
+
+ 
 </script>
 @endpush

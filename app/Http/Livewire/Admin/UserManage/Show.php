@@ -189,16 +189,16 @@ class Show extends Component
     }
 
     public function updateDateOfJoin($date){
-        $this->date_of_join = $date;
+        $this->date_of_join = Carbon::parse($date)->format('d-m-Y');
     }
 
     public function updatedDob($date){
-        $this->dob = $date;
+        $this->dob = Carbon::parse($date)->format('d-m-Y');
         $this->emitUp('initializePlugins');
     }
 
     public function updateNomineeDob($date){
-        $this->nominee_dob = $date;
+        $this->nominee_dob = Carbon::parse($date)->format('d-m-Y');
     }
 
     public function render()

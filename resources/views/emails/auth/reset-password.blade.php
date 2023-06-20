@@ -3,12 +3,12 @@
 @section('email-content')
 <tr>
 	<td>
-		<p class="mail-title">
+		<p class="mail-title" style="font-size:14px;">
 			<b>Hello</b> {{ $name ?? "" }},
 		</p>
 		<div class="mail-desc">
-			<p>You are receiving this email because we received a password reset request for your account</p>
-			<p>Please click on the link below to reset your password and get access to your account :</p>
+			<p style="font-size:14px;">You are receiving this email because we received a password reset request for your account</p>
+			<p style="font-size:14px;">Please click on the link below to reset your password and get access to your account :</p>
 		</div>
 	</td>
     <tr>

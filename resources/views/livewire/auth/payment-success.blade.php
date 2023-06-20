@@ -18,11 +18,7 @@
               <img src="{{ asset('images/icons/completed.svg') }}">
             </div>
             <h3>Payment Successful!</h3>
-            <p>Find your login detail below & on your mail.</p>
-            <ul>
-              <li><span>Username : </span>XXXXXXXXX</li>
-              <li><span>Password : </span>XXXXXXXXX</li>
-            </ul>
+            <p>Please verify mail and get your password.</p>
           </div>
           <div class="go-back mb-0">
             <a class="btn w-100 text-center back-login" href="{{ route('auth.login') }}">login Now</a>

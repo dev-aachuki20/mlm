@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Auth\Profile;
 
+use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Http\Livewire\BaseComponent;
@@ -14,19 +15,27 @@ class Index extends BaseComponent
     protected $layout = null;
 
     public $editMode =false, $showConfirmCancel = false;
-
+    
     public $authUser, $profile_image = null;
 
-    public $first_name, $last_name, $email,$phone,$date_of_join,$my_referral_code,$referral_code,$referral_name; 
+    public $first_name, $last_name, $email, $dob, $phone,$my_referral_code,$referral_code,$referral_name; 
 
-    public $guardian_name, $gender, $profession, $marital_status, $address, $state, $city, $pin_code, $nominee_name, $nominee_dob, $nominee_relation, $bank_name, $branch_name, $ifsc_code, $account_number, $pan_card_number ; 
+    public $guardian_name, $gender, $profession, $marital_status, $address, $state, $city, $pin_code, $nominee_name, $nominee_dob, $nominee_relation; 
 
     protected $listeners = [
-        'confirmUpdateProfileImage','cancelUpdateProfileImage','openEditSection','closedEditSection'
+        'updatedDob','updateNomineeDob','confirmUpdateProfileImage','cancelUpdateProfileImage','openEditSection','closedEditSection',
     ];
 
     public function mount(){
         $this->authUser = auth()->user();
+    }
+
+    public function updatedDob($date){
+        $this->dob = Carbon::parse($date)->format('d-m-Y');
+    }
+
+    public function updateNomineeDob($date){
+        $this->nominee_dob = Carbon::parse($date)->format('d-m-Y');
     }
 
     public function render()
@@ -85,7 +94,6 @@ class Index extends BaseComponent
         $this->reset(['profile_image']);
     }
 
-
     public function openEditSection(){
         $this->editMode = true;
       
@@ -93,7 +101,7 @@ class Index extends BaseComponent
         $this->last_name  = $this->authUser->last_name;
         $this->email      = $this->authUser->email;
         $this->phone      = $this->authUser->phone;
-        $this->date_of_join      = $this->authUser->date_of_join;
+        $this->dob        = Carbon::parse($this->authUser->dob)->format('d-m-Y');
         $this->referral_code      = $this->authUser->referral_code;
         $this->referral_name      = $this->authUser->referral_name;
 
@@ -107,12 +115,9 @@ class Index extends BaseComponent
         $this->pin_code           = $this->authUser->profile->pin_code;
         $this->nominee_name       = $this->authUser->profile->nominee_name;
         $this->nominee_relation   = $this->authUser->profile->nominee_relation;
-        // $this->bank_name          = $this->authUser->profile->bank_name;
-        // $this->branch_name        = $this->authUser->profile->branch_name;
-        // $this->ifsc_code          = $this->authUser->profile->ifsc_code;
-        // $this->account_number     = $this->authUser->profile->account_number;
-        // $this->pan_card_number    = $this->authUser->profile->pan_card_number;
+        $this->nominee_dob        = Carbon::parse($this->authUser->profile->nominee_dob)->format('d-m-Y');
     
+        $this->initializePlugins();
     }
 
     public function closedEditSection(){
@@ -126,6 +131,7 @@ class Index extends BaseComponent
             'first_name'  => 'required',
             'last_name'   => 'required',
             'phone'         => 'required|digits:10',
+            'dob'           => 'required',
             'guardian_name' => '',
             'gender'        => 'required',
             'profession'    => '',
@@ -137,11 +143,8 @@ class Index extends BaseComponent
             'pin_code'      => '',
             'nominee_name'  => '',
             'nominee_relation'  => '',
-            'bank_name'         => '',
-            'branch_name'       => '',
-            'ifsc_code'         => '',
-            'account_number'    => '',
-            'pan_card_number'   => '',
+            'nominee_dob'       => '',
+          
         ]);
 
         $userDetails = [];
@@ -149,6 +152,7 @@ class Index extends BaseComponent
         $userDetails['last_name']  = $this->last_name;
         $userDetails['name']       = $this->first_name.' '.$this->last_name;
         $userDetails['phone']      = $this->phone;
+        $userDetails['dob']        = Carbon::parse($this->dob)->format('Y-m-d');
 
         $this->authUser->update($userDetails);
 
@@ -163,16 +167,19 @@ class Index extends BaseComponent
         $profileDetails['pin_code']         = $this->pin_code;
         $profileDetails['nominee_name']     = $this->nominee_name;
         $profileDetails['nominee_relation'] = $this->nominee_relation;
-        // $profileDetails['bank_name']        = $this->bank_name;
-        // $profileDetails['branch_name']      = $this->branch_name;
-        // $profileDetails['ifsc_code']        = $this->ifsc_code;
-        // $profileDetails['account_number']   = $this->account_number;
-        // $profileDetails['pan_card_number']  = $this->pan_card_number;
+        $profileDetails['nominee_dob']      = Carbon::parse($this->nominee_dob)->format('Y-m-d');
 
         $this->authUser->profile()->update($profileDetails);
 
         $this->closedEditSection();
-        $this->alert('success', 'Profile has been updated.');
+        $this->flash('success', 'Profile has been updated.');
+
+        if(auth()->user()->is_super_admin || auth()->user()->is_admin){
+            $profileRoute = 'auth.admin-profile';
+        }else if(auth()->user()->is_user){
+            $profileRoute = 'auth.user-profile';
+        }
+        return redirect()->route($profileRoute);
     }
 
     public function resetFields(){
@@ -180,7 +187,7 @@ class Index extends BaseComponent
         $this->last_name  = '';
         $this->email      = '';
         $this->phone      = '';
-        $this->date_of_join       = '';
+        $this->dob        = '';
         $this->referral_code      = '';
         $this->referral_name      = '';
 
@@ -194,11 +201,11 @@ class Index extends BaseComponent
         $this->pin_code           = '';
         $this->nominee_name       = '';
         $this->nominee_relation   = '';
-        $this->bank_name          = '';
-        $this->branch_name        = '';
-        $this->ifsc_code          = '';
-        $this->account_number     = '';
-        $this->pan_card_number    = '';
+        $this->nominee_dob        = '';
+       
     }
 
+    public function initializePlugins(){
+        $this->dispatchBrowserEvent('loadPlugins');
+    }
 }

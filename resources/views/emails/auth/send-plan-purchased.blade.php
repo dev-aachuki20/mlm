@@ -20,7 +20,7 @@
 
     <tr>
         <td>
-            <p style="font-size:14px;">Best regards,</p>
+            <p style="font-size:14px;">Regards,</p>
             <p style="font-size:14px;">{{ config('app.name') }}</p>
         </td>
     </tr>

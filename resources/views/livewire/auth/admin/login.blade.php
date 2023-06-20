@@ -75,7 +75,7 @@
                 <img src="{{ asset('images/icons/send-icon.svg') }}">
             </div>
             <h3>Please Verify the Mail</h3>
-            <p>We have send the verification mail on you mail id</p>
+            <p>We have send the verification mail on you mail id and get your password.</p>
             </div>
             <div class="go-back">
             <a href="javascript:void(0)" wire:click.prevent="backToLogin">
