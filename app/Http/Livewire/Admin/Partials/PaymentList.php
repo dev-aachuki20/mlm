@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\Partials;
 
 use Gate;
 use App\Models\User;
+use App\Models\Payment;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
@@ -19,12 +20,16 @@ class PaymentList extends Component
     public $search = '', $formMode = false , $updateMode = false, $viewMode = false;
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
+    public $payments;
+
     protected $listeners = [
         'updatePaginationLength'
     ];
 
-    public function mount(){
+    public function mount($user_id=''){
         abort_if(Gate::denies('transactions_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->user_id = $user_id;
+        $this->userDetail = User::find($user_id);
     }
 
     public function updatePaginationLength($length){
@@ -60,6 +65,8 @@ class PaymentList extends Component
 
     public function render()
     {
+        $this->search = str_replace(',', '', $this->search);
+
         // $statusSearch = null;
         // $searchValue = $this->search;
         // if(Str::contains('active', strtolower($searchValue))){
@@ -67,6 +74,17 @@ class PaymentList extends Component
         // }else if(Str::contains('inactive', strtolower($searchValue))){
         //     $statusSearch = 0;
         // }
-        return view('livewire.admin.partials.payment-list');
+
+        $searchValue = $this->search;
+
+        $allPayments = $this->userDetail->payments()->where(function ($query) use($searchValue) {
+            $query->where('r_payment_id', 'like', $searchValue.'%')
+            ->orWhere('amount', 'like', '%'.$searchValue.'%')
+            ->orWhere('method', 'like', '%'.$searchValue.'%')
+            ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+        })->orderBy($this->sortColumnName, $this->sortDirection)
+        ->paginate($this->paginationLength);
+
+        return view('livewire.admin.partials.payment-list',compact('allPayments'));
     }
 }

@@ -22,41 +22,33 @@
         <thead>
             <tr>
                 <th>{{ trans('global.sno') }}</th>
-                <th>Transaction Id</th>
+                <th>Payment ID</th>
+                <th>Method</th>
                 <th>Amount</th>
-                <th>{{ trans('global.status') }}</th>
                 <th>{{ trans('global.created_at') }}
                     <span wire:click="sortBy('created_at')" class="float-right text-sm" style="cursor: pointer;">
                         <i class="fa fa-arrow-up {{ $sortColumnName === 'created_at' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
                         <i class="fa fa-arrow-down {{ $sortColumnName === 'created_at' && $sortDirection === 'desc' ? '' : 'text-muted' }}"></i>
                     </span>
                 </th>
-                <th>{{ trans('global.action') }}</th>
             </tr>
         </thead>
         <tbody>
+            @if($allPayments->count() > 0)
+            @foreach($allPayments as $key=>$payment)
             <tr>
-                <td>1</td>
-                <td>DFEFE45</td>
-                <td><i class="fa-sharp fa-solid fa-indian-rupee-sign"></i> 100.00</td>
-                <td><label class="badge badge-success">Success</label></td>
-                <td>16-06-2023 11:00</td>
-                <td>
-                    <button type="button"  class="btn btn-primary btn-rounded btn-icon">
-                        <i class="ti-eye"></i>
-                    </button>
-                </td>
-            </tr>
+                <td>{{ $key+1 }}</td>
+                <td>{{ $payment->r_payment_id }}</td>
+                <td>{{ $payment->method }}</td>
+                <td><i class="fa-sharp fa-solid fa-indian-rupee-sign"></i> {{ number_format($payment->amount,2) }}</td>
+                <td>{{ convertDateTimeFormat($payment->created_at,'datetime') }}</td>
 
-           
-            {{-- <tr>
-                <td colspan="5">{{ __('messages.no_record_found')}}</td>
             </tr>
-             --}}
-        
+            @endforeach
+            @endif
         </tbody>
         </table>
     
-        {{-- {{ $allFaqs->links('vendor.pagination.bootstrap-5') }} --}}
+        {{ $allPayments->links('vendor.pagination.bootstrap-5') }}
     </div>
 </div>

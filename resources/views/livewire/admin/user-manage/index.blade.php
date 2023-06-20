@@ -100,7 +100,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="{{ asset('admin/assets/select2/select2.min.css')}}">
 <link rel="stylesheet" href="{{ asset('admin/assets/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
-<script type="text/javascript" src="{{ asset('admin/cities.js') }}"></script>
+{{-- <script type="text/javascript" src="{{ asset('admin/cities.js') }}"></script> --}}
 
 @endpush
 
@@ -111,10 +111,10 @@
 
 <script type="text/javascript">
 
-//  document.addEventListener('loadPlugins', function (event) {
-    window.addEventListener('loadPlugins', event => {
+ document.addEventListener('loadPlugins', function (event) {
+    // window.addEventListener('loadPlugins', event => {
     
-    print_state("state_id");
+    // print_state("state_id");
 
     if ($(".js-example-basic-single").length) {
         $(".js-example-basic-single").select2();
@@ -128,55 +128,50 @@
     var today = new Date();
     var minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
 
+    var dateToSet = '{{ $dob ?? null}}';
 
-    $('input[id="dob"],input[id="nominee_dob"]').daterangepicker({
-        // autoApply: true,
-        // autoUpdateInput: false,
+    $('input[id="dob"]').daterangepicker({
+        autoApply: true,
         singleDatePicker: true,
         showDropdowns: true,
         locale: {
             format: 'DD-MM-YYYY'
         },
-        // minYear: 1901,
-         // minDate: minDate,
-         maxDate: today,
+        maxDate: today,
     },
-    // function(start, end, label) {
-    //     // For example, you can log the selected date to the console
-    //     // console.log('Selected date: ' + start.format('YYYY-MM-DD'));
-    //     Livewire.emit('updateDOB',start.format('DD-MM-YYYY'));
-    // }
+    function(start, end, label) {
+        Livewire.emit('updatedDob',start.format('YYYY-MM-DD'));
+    }
     );
 
 
-    $('input[id="dob"]').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('DD-MM-YYYY'));
-        Livewire.emit('updateDOB',picker.startDate.format('DD-MM-YYYY'));
-    });
-
-
-    $('input[id="nominee_dob"]').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('DD-MM-YYYY'));
-        Livewire.emit('updateNomineeDob',picker.startDate.format('DD-MM-YYYY'));
-    });
+    $('input[id="nominee_dob"]').daterangepicker({
+        autoApply: true,
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'DD-MM-YYYY'
+        },
+        maxDate: today,
+    },
+    function(start, end, label) {
+        Livewire.emit('updateNomineeDob',start.format('DD-MM-YYYY'));
+    }
+    );
 
     var today = moment().format('DD-MM-YYYY');
     $('input[id="date_of_join"]').daterangepicker({
-        // autoApply: true,
-        autoUpdateInput: false,
+        autoApply: true,
         singleDatePicker: true,
         showDropdowns: true,
         minDate: today,
         locale: {
             format: 'DD-MM-YYYY'
         },
+    },
+    function(start, end, label) {
+        Livewire.emit('updateDateOfJoin',start.format('DD-MM-YYYY'));
     });
-
-    $('input[id="date_of_join"]').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('DD-MM-YYYY'));
-        Livewire.emit('updateDateOfJoin',picker.startDate.format('DD-MM-YYYY'));
-    });
-
    
 
 });

@@ -23,7 +23,7 @@ class Show extends Component
     public $account_holder_name, $account_number, $bank_name, $branch_name, $ifsc_code, $aadhar_card_name, $aadhar_card_number,  $pan_card_name, $pan_card_number;
 
     protected $listeners = [
-        'updateDateOfJoin','updateDob','updateNomineeDob','refreshComponent'=>'$refresh'
+        'updateDateOfJoin','updatedDob','updateNomineeDob','refreshComponent'=>'$refresh'
     ];
 
     public function mount($user_id){
@@ -41,7 +41,7 @@ class Show extends Component
 
             $this->first_name = $this->detail->first_name;
             $this->last_name  = $this->detail->last_name;
-            $this->dob        = $this->detail->dob;
+            $this->dob        = Carbon::parse($this->detail->dob)->format('d-m-Y');
             $this->guardian_name    = $this->detail->profile->guardian_name;
             $this->gender           = $this->detail->profile->gender;
             $this->profession       = $this->detail->profile->profession;
@@ -53,7 +53,7 @@ class Show extends Component
 
         }elseif($this->formType == 'nominee-detail'){
             $this->nominee_name     = $this->detail->profile->nominee_name;
-            $this->nominee_dob      = $this->detail->profile->nominee_dob;
+            $this->nominee_dob      = Carbon::parse($this->detail->profile->nominee_dob)->format('d-m-Y');
             $this->nominee_relation = $this->detail->profile->nominee_relation;
 
         }elseif($this->formType == 'kyc-detail'){
@@ -192,7 +192,7 @@ class Show extends Component
         $this->date_of_join = $date;
     }
 
-    public function updateDob($date){
+    public function updatedDob($date){
         $this->dob = $date;
         $this->emitUp('initializePlugins');
     }
