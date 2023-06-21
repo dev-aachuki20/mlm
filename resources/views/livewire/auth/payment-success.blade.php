@@ -25,7 +25,11 @@
             </ul>
           </div>
           <div class="go-back mb-0">
-            <a class="btn w-100 text-center back-login" href="{{ route('auth.login') }}">login Now</a>
+            <button class="btn w-100 text-center back-login " wire:click="submitLogin" wire:loading.attr="disabled">login Now
+                    <span wire:loading wire:target="submitLogin">
+                        <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                    </span>
+            </button>
           </div>
         </div>
       </div>
