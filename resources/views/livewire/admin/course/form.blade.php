@@ -18,6 +18,22 @@
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
+                <label class="font-weight-bold">{{ __('cruds.course.fields.package')}}</label>
+                
+                <select class="js-example-basic-single select-package w-100" wire:model.defer="package_id" >
+                    <option>Select Package</option>
+                    @foreach($allPackage as $package)
+                        <option value="{{$package->id}}" {{$package_id == $package->id ? 'selected':''}}>{{$package->title}}</option>
+                    @endforeach
+                </select>
+            </div>
+            @error('package_id') <span class="error text-danger">{{ $message }}</span>@enderror
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="form-group mb-0" wire:ignore>
                 <label class="font-weight-bold">{{ __('cruds.course.fields.description')}}</label>
                 <textarea class="form-control" id="summernote" wire:model.defer="description" rows="4"></textarea>
             </div>
@@ -91,6 +107,6 @@
 </form>
 
 @if($updateMode)
-    @include('livewire.admin.video-group.partials.preview-video')
+    @include('livewire.admin.partials.includes.preview-video')
 @endif
                

@@ -19,6 +19,7 @@ class Course extends Model
     ];
 
     protected $fillable = [
+        'package_id',
         'name',
         'slug',
         'description',
@@ -80,6 +81,11 @@ class Course extends Model
     public function videoGroup()
     {
         return $this->belongsToMany(VideoGroup::class);
+    }
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class, 'package_id');
     }
 
 

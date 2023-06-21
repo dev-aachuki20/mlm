@@ -8,6 +8,7 @@ use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
+use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Symfony\Component\HttpFoundation\Response;
 use App\Rules\CommissionRule;
@@ -24,7 +25,7 @@ class Index extends Component
 
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    public  $title, $amount, $status = 1, $description='',$image=null,$viewMode = false,$originalImage;
+    public  $title, $sub_title, $amount, $status = 1, $features, $description='', $duration, $level, $image=null,$viewMode = false,$originalImage,$video, $originalVideo,$videoExtenstion;
 
     public $package_id =null, $level_one_commission, $level_two_commission, $level_three_commission;
 
@@ -98,14 +99,22 @@ class Index extends Component
     public function store()
     {
         $validatedData = $this->validate([
-            'title'  => 'required',
-            'amount' => 'required',
+            'title'      => 'required|'.Rule::unique('package')->whereNull('deleted_at'),
+            'sub_title'  => 'required',
+            'amount'     => 'required',
             'level_one_commission'   => [new CommissionRule($this->amount)],
             'level_two_commission'   => [new CommissionRule($this->amount)],
             'level_three_commission' => [new CommissionRule($this->amount)],
-            'description' => 'required',
-            'status' => 'required',
-            'image' => 'required|image|max:'.config('constants.img_max_size'),
+            'features'      => 'required',
+            'description'   => 'required',
+            'duration'      => 'required',
+            'level'         => 'required',
+            'status'        => 'required',
+            'image'         => 'required|image|max:'.config('constants.img_max_size'),
+            'video'         => 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size'),
+        ],[
+            'title.required' => 'The package name field is required.',
+            'amount.required' => 'The package price field is required.',
         ]);
         
         $validatedData['status'] = $this->status;
@@ -114,7 +123,11 @@ class Index extends Component
 
         $package = Package::create($insertRecord);
     
+        //Image
         uploadImage($package, $this->image, 'package/image/',"package", 'original', 'save', null);
+
+        //Upload video
+        uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'save', null);
 
         $this->formMode = false;
 
@@ -134,13 +147,19 @@ class Index extends Component
 
         $this->package_id = $id;
         $this->title  = $package->title;
+        $this->sub_title  = $package->sub_title;
         $this->amount = $package->amount;
         $this->level_one_commission = $package->level_one_commission;
         $this->level_two_commission = $package->level_two_commission;
         $this->level_three_commission = $package->level_three_commission;
+        $this->features = $package->features;
         $this->description = $package->description;
+        $this->duration = $package->duration;
+        $this->level    = $package->level;
         $this->status = $package->status;
         $this->originalImage = $package->image_url;
+        $this->originalVideo = $package->video_url;
+        $this->videoExtenstion = $package->packageVideo->extension;
 
         $this->formMode = true;
         $this->updateMode = true;
@@ -148,20 +167,36 @@ class Index extends Component
     }
 
     public function update(){
-        $validatedData = $this->validate([
-            'title' => 'required',
-            'amount' => 'required',
+        $validatedArray = [
+            'title'      => 'required|'.Rule::unique('package')->ignore($this->package_id)->whereNull('deleted_at'),
+            'sub_title'  => 'required',
+            'amount'     => 'required',
             'level_one_commission'   => '',
             'level_two_commission'   => '',
             'level_three_commission' => '',
+            'features'    => 'required',
             'description' => 'required',
-            'status' => 'required',
-        ]);
+            'duration'    => 'required',
+            'level'       => 'required',
+            'status'      => 'required',
+        ];
 
         if($this->image){
-            $validatedData['image'] = 'required|image|max:'.config('constants.img_max_size');
+            $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
+        }
+
+        if($this->video){
+            $validatedArray['video'] = 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size');
         }
   
+        $validatedData = $this->validate(
+            $validatedArray,
+            [
+                'title.required'  => 'The package name field is required.',
+                'amount.required' => 'The package price field is required.',
+            ]
+        );
+
         $validatedData['status'] = $this->status;
 
         $package = Package::find($this->package_id);
@@ -171,6 +206,13 @@ class Index extends Component
         if ($this->image) {
             $uploadId = $package->packageImage->id;
             uploadImage($package, $this->image, 'package/image/',"package", 'original', 'update', $uploadId);
+        }
+
+        // Check if the video has been changed
+        $uploadVideoId = null;
+        if ($this->video) {
+            $uploadVideoId = $package->packageVideo->id;
+            uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'update', $uploadVideoId);
         }
         
         $updateRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators']);
@@ -204,8 +246,10 @@ class Index extends Component
     public function deleteConfirm($event){
         $deleteId = $event['data']['inputAttributes']['deleteId'];
         $model = Package::find($deleteId);
-        $uploadId = $model->uploads()->first()->id;
-        deleteFile($uploadId);
+        $uploadImageId = $model->packageImage->id;
+        $uploadVideoId = $model->packageVideo->id;
+        deleteFile($uploadImageId);
+        deleteFile($uploadVideoId);
         $model->delete();
         $this->alert('success', trans('messages.delete_success_message'));
     }
@@ -219,13 +263,18 @@ class Index extends Component
 
     private function resetInputFields(){
         $this->title = '';
+        $this->sub_title = '';
         $this->amount = '';
         $this->level_one_commission = '';
         $this->level_two_commission = '';
         $this->level_three_commission = '';
+        $this->features = '';
         $this->description = '';
+        $this->duration = '';
+        $this->level = '';
         $this->status = 1;
-        $this->package_image =null;
+        $this->image = null;
+        $this->viedeo = null;
     }
 
     public function cancel(){

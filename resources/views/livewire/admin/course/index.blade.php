@@ -126,15 +126,30 @@
 @push('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('admin/assets/select2/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('admin/assets/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('admin/css/vertical-layout-light/style.css') }}">
 @endpush
 
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="{{ asset('admin/assets/select2/select2.min.js') }}"></script>
 <script type="text/javascript">
 
     document.addEventListener('loadPlugins', function (event) {
       
+        if ($(".js-example-basic-single").length) {
+            $(".js-example-basic-single").select2({
+                placeholder: 'Select Package',
+            });
+        }
+
+        $(document).on('change','.select-package',function(){
+            var selectPackage = $(this).val();
+            @this.set('package_id', selectPackage);
+        });
+
         $('.dropify').dropify();
         $('.dropify-errors-container').remove();
 

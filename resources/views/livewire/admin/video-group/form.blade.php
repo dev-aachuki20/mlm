@@ -91,6 +91,6 @@
 </form>
 
 @if($updateMode)
-    @include('livewire.admin.video-group.partials.preview-video')
+    @include('livewire.admin.partials.includes.preview-video')
 @endif
                

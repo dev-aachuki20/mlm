@@ -113,18 +113,73 @@
 @push('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('admin/assets/select2/select2.min.css') }}">
+<link rel="stylesheet" href="{{ asset('admin/assets/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('admin/css/vertical-layout-light/style.css') }}">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
 
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="{{ asset('admin/assets/select2/select2.min.js') }}"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript">
 
     document.addEventListener('loadPlugins', function (event) {
       
+        if ($(".js-example-basic-single").length) {
+            $(".js-example-basic-single").select2({
+                placeholder: 'Select Level',
+            });
+        }
+
+        $('input[id="duration"]').daterangepicker({
+            autoApply: true,
+            timePicker: true,
+            timePicker24Hour: true,
+            singleDatePicker: true,
+            timePickerIncrement: 15,
+            // minDate: moment().startOf('day'),
+            // maxDate: moment().startOf('day').add(12, 'hour'),
+            locale: {
+            format: 'HH:mm'
+            }
+        }).on('show.daterangepicker', function(ev, picker) {
+            picker.container.find(".calendar-table").hide();
+        });
+
+        $(document).on('change','.select-level',function(){
+            var selectLevel = $(this).val();
+            @this.set('level', selectLevel);
+        });
+
         $('.dropify').dropify();
         $('.dropify-errors-container').remove();
       
+        $('textarea#summernote-features').summernote({
+            placeholder: 'Type somthing...',
+            tabsize: 2,
+            height: 200,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', /*'picture', 'video'*/]],
+                // ['view', ['fullscreen', 'codeview', 'help']],
+            ],
+            callbacks: {
+                onChange: function(content) {
+                    // Update the Livewire property when the Summernote content changes
+                    @this.set('features', content);
+                }
+            }
+        });
+
         $('textarea#summernote').summernote({
             placeholder: 'Type somthing...',
             tabsize: 2,

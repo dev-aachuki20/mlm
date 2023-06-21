@@ -13,6 +13,13 @@
     </div>
 
     <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.course.fields.package')}}</label>
+        <div class="col-sm-9">
+             {{ $detail->package->title }}
+        </div>
+    </div>
+
+    <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">Video</label>
         <div class="col-sm-9">
             <video controls="" width="200" preload="none" poster="{{ $detail->course_image_url }}" id="clip-video" playsinline>

@@ -20,7 +20,9 @@ class Package extends Model
 
     protected $fillable = [
         'title',
+        'sub_title',
         'amount',
+        'features',
         'description',
         'level_one_commission',
         'level_two_commission',
@@ -58,8 +60,26 @@ class Package extends Model
         return "";
     }
 
+    public function packageVideo()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','package-video');
+    }
+
+    public function getVideoUrlAttribute()
+    {
+        if($this->packageVideo){
+            return $this->packageVideo->file_url;
+        }
+        return "";
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'package_user');
+    }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class, 'package_id', 'id');
     }
 }

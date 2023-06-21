@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Course;
 
 use Gate;
+use App\Models\Package;
 use App\Models\Course;
 use Livewire\Component;
 use Illuminate\Support\Str; 
@@ -23,7 +24,7 @@ class Index extends Component
 
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    public $course_id=null, $name, $description, $image, $originalImage, $video, $originalVideo,$videoExtenstion, $status=1;
+    public $course_id=null, $name, $allPackage, $package_id, $description, $image, $originalImage, $video, $originalVideo,$videoExtenstion, $status=1;
     
 
     protected $listeners = [
@@ -88,18 +89,23 @@ class Index extends Component
     {
         $this->resetPage('page');
         $this->initializePlugins();
+        $this->allPackage = Package::where('status',1)->get();
         $this->formMode = true;
     }
 
     public function store(){
         $validatedData = $this->validate([
             'name'        => 'required|'.Rule::unique('courses')->whereNull('deleted_at'),
+            'package_id'  => 'required',
             'description' => 'required',
             'status'      => 'required',
             'image'       => 'required|image|max:'.config('constants.img_max_size'),
             'video'       => 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size'),
+        ],[
+            'package_id.required' => 'The package field is required.'
         ]);
 
+        $validatedData['status'] = $this->status;
         $validatedData['status'] = $this->status;
 
         $course = Course::create($validatedData);
@@ -112,7 +118,7 @@ class Index extends Component
 
         $this->formMode = false;
 
-        $this->reset(['name','description','status','image','video']);
+        $this->reset(['name','description','status','image','video','allPackage','package_id']);
 
         $this->flash('success',trans('messages.add_success_message'));
       
@@ -127,9 +133,12 @@ class Index extends Component
         $this->formMode = true;
         $this->updateMode = true;
 
+        $this->allPackage = Package::where('status',1)->get();
+
         $course = Course::findOrFail($id);
         $this->course_id      =  $course->id;
         $this->name           =  $course->name;
+        $this->package_id     =  $course->package_id;
         $this->description    =  $course->description;
         $this->status         =  $course->status;
         $this->originalImage  =  $course->course_image_url;
@@ -141,6 +150,8 @@ class Index extends Component
 
     public function update(){
         $validatedArray['name']        = 'required|'.Rule::unique('courses')->ignore($this->course_id)->whereNull('deleted_at');
+        
+        $validatedArray['package_id']  = 'required';
         $validatedArray['description'] = 'required';
         $validatedArray['status']      = 'required';
 
@@ -152,7 +163,12 @@ class Index extends Component
             $validatedArray['video'] = 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size');
         }
 
-        $validatedData = $this->validate($validatedArray);
+        $validatedData = $this->validate(
+            $validatedArray,
+            [
+                'package_id.required' => 'The package field is required.'
+            ]
+        );
 
         $validatedData['status'] = $this->status;
 
@@ -179,7 +195,7 @@ class Index extends Component
   
         $this->flash('success',trans('messages.edit_success_message'));
 
-        $this->reset(['name','description','status','image','video']);
+        $this->reset(['name','description','status','image','video','allPackage','package_id']);
 
         return redirect()->route('admin.course');
     }

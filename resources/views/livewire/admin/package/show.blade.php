@@ -5,16 +5,25 @@
 
 
     <div class="form-group row">
-        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.package.fields.image')}}</label>
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.package.fields.title')}}</label>
         <div class="col-sm-9">
-             <img class="rounded img-thumbnail" src="{{ $details->image_url }}" width="100px"/>
+             {{ $details->title }}
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">Video</label>
+        <div class="col-sm-9">
+            <video controls="" width="200" preload="none" poster="{{ $details->image_url }}" id="clip-video" playsinline>
+                <source class="js-video" src="{{ $details->video_url }}" type="video/{{ $details->packageVideo->extension }}">
+            </video>
         </div>
     </div>
 
     <div class="form-group row">
-        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.package.fields.title')}}</label>
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.package.fields.sub_title')}}</label>
         <div class="col-sm-9">
-             {{ $details->title }}
+             {{ $details->sub_title }}
         </div>
     </div>
 
@@ -46,6 +55,13 @@
         <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.package.fields.level_three_commission')}}</label>
         <div class="col-sm-9">
             <i class="fa-solid fa-indian-rupee-sign"></i>  {{ number_format($details->level_three_commission,2) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.package.fields.features')}}</label>
+        <div class="col-sm-9">
+            {!! $details->features !!}
         </div>
     </div>
 

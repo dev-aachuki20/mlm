@@ -58,6 +58,11 @@ return [
     'support_email' => 'support@gmail.com',
     'support_phone' => '9658456982',
 
-    'datatable_paginations'=>[10,25,50,100]
+    'datatable_paginations'=>[10,25,50,100],
 
+    'levels' => [   
+        1=> "beginner",
+        2=> "intermediate",
+        3=> "advanced",
+     ],
 ];

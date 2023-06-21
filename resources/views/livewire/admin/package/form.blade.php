@@ -20,6 +20,34 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="font-weight-bold">{{ __('cruds.package.fields.sub_title')}}</label>
+                <input type="text" class="form-control" wire:model.defer="sub_title" placeholder="{{ __('cruds.package.fields.sub_title')}}">
+                @error('sub_title') <span class="error text-danger">{{ $message }}</span>@enderror
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="font-weight-bold">{{ __('cruds.package.fields.duration')}}</label>
+                <input type="text" class="form-control" id="duration" wire:model.defer="duration" placeholder="{{ __('cruds.package.fields.duration')}}" autocomplete="off">
+                @error('duration') <span class="error text-danger">{{ $message }}</span>@enderror
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="form-group mb-0" wire:ignore>
+                <label class="font-weight-bold">{{ __('cruds.package.fields.level')}}</label>
+                <select class="js-example-basic-single select-level w-100" wire:model.defer="level" >
+                    <option>Select Level</option>
+                    @foreach(config('constants.levels') as $id=>$level)
+                        <option value="{{$id}}" {{$level == $id ? 'selected':''}}>{{ ucfirst($level) }}</option>
+                    @endforeach
+                </select>
+            </div>
+            @error('level') <span class="error text-danger">{{ $message }}</span>@enderror
+        </div>
+    </div>
 
     <p class="card-description">{{ __('cruds.package.fields.commission')}}</p>
     <div class="row">
@@ -50,6 +78,16 @@
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
+                <label class="font-weight-bold">{{ __('cruds.package.fields.features')}}</label>
+                <textarea class="form-control" id="summernote-features" wire:model.defer="features" rows="10"></textarea>
+            </div>
+            @error('features') <span class="error text-danger">{{ $message }}</span>@enderror
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="form-group mb-0" wire:ignore>
                 <label class="font-weight-bold">{{ __('cruds.package.fields.description')}}</label>
                 <textarea class="form-control" id="summernote" wire:model.defer="description" rows="10"></textarea>
             </div>
@@ -71,6 +109,27 @@
         </div>
     </div>
    
+    <div class="row logo-section">
+        <div class="col-md-12 mb-4">
+            <div class="form-group mb-0" wire:ignore>
+                <label class="font-weight-bold">Video</label> 
+
+                @if($updateMode)
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-sm mb-1" data-toggle="modal" data-target="#videoModal">
+                Preview
+                </button>
+                @endif
+
+                <input type="file"  wire:model.defer="video" class="dropify" data-default-file="{{ $originalVideo }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="webm mp4 avi wmv flv mov" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="video/webm, video/mp4, video/avi,video/wmv,video/flv,video/mov">
+            </div>
+            @if($errors->has('video'))
+            <span class="error text-danger">
+                {{ $errors->first('video') }}
+            </span>
+            @endif
+        </div>
+    </div>
     
     <div class="row">
         <div class="col-md-12">
@@ -100,3 +159,7 @@
         </span>
     </button>
 </form>
+
+@if($updateMode)
+    @include('livewire.admin.partials.includes.preview-video')
+@endif
