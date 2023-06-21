@@ -15,7 +15,7 @@
                         <label class="signupplan-inner" for="basic-package-{{$key}}">
                         <div class="plan-package">
                             <h5>{{ $package->title }}</h5>
-                            <p>Powerful & Awesome Features</p>
+                            <p>{{ $package->sub_title }}</p>
                             <div class="plan-price">
                             <span>
                                 <svg width="26" height="39" viewBox="0 0 26 39" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="package-include">
-                            {!! $package->description !!}
+                            {!! $package->features !!}
                         </div>
                         </label>                  
                     </div>

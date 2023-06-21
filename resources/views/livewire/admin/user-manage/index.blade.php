@@ -155,20 +155,6 @@
         Livewire.emit('updateNomineeDob',start.format('DD-MM-YYYY'));
     }
     );
-
-    var today = moment().format('DD-MM-YYYY');
-    $('input[id="date_of_join"]').daterangepicker({
-        autoApply: true,
-        singleDatePicker: true,
-        showDropdowns: true,
-        minDate: today,
-        locale: {
-            format: 'DD-MM-YYYY'
-        },
-    },
-    function(start, end, label) {
-        Livewire.emit('updateDateOfJoin',start.format('DD-MM-YYYY'));
-    });
    
 
 });

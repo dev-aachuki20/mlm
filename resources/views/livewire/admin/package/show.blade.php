@@ -34,6 +34,21 @@
         </div>
     </div>
 
+    
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.package.fields.duration')}}</label>
+        <div class="col-sm-9">
+             {{ convertDateTimeFormat($details->duration,'time') }} Hr
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.package.fields.level')}}</label>
+        <div class="col-sm-9">
+             {{ ucfirst(config('constants.levels')[$details->level]) }}
+        </div>
+    </div>
+
     <p class="card-description">{{ __('cruds.package.fields.commission')}}</p>
 
     <div class="form-group row">

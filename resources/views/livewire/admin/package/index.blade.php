@@ -144,11 +144,21 @@
             // minDate: moment().startOf('day'),
             // maxDate: moment().startOf('day').add(12, 'hour'),
             locale: {
-            format: 'HH:mm'
+             format: 'HH:mm'
             }
+
+        },function(start, end, label) {
+            // Handle your apply button logic here
+            // console.log(start.format('HH:mm'));
+
+            @this.set('duration', start.format('HH:mm'));
+            
+
         }).on('show.daterangepicker', function(ev, picker) {
             picker.container.find(".calendar-table").hide();
         });
+
+
 
         $(document).on('change','.select-level',function(){
             var selectLevel = $(this).val();

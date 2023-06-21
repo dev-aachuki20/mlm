@@ -22,12 +22,26 @@ class Index extends BaseComponent
 
     public $guardian_name, $gender, $profession, $marital_status, $address, $state, $city, $pin_code, $nominee_name, $nominee_dob, $nominee_relation; 
 
+    public $stateId, $allCities;
+
     protected $listeners = [
-        'updatedDob','updateNomineeDob','confirmUpdateProfileImage','cancelUpdateProfileImage','openEditSection','closedEditSection',
+        'updatedState','updatedCity','updatedDob','updateNomineeDob','confirmUpdateProfileImage','cancelUpdateProfileImage','openEditSection','closedEditSection',
     ];
 
     public function mount(){
         $this->authUser = auth()->user();
+    }
+
+    public function updatedState($stateName,$stateId){
+        $this->state = $stateName;
+        $this->stateId = (int)$stateId;
+        $this->allCities = explode(' | ' ,config('indian-regions.cities')[$this->stateId+1]);
+        $this->initializePlugins();
+    }
+
+    public function updatedCity($cityName){
+        $this->city = $cityName;
+        $this->initializePlugins();
     }
 
     public function updatedDob($date){
@@ -203,9 +217,14 @@ class Index extends BaseComponent
         $this->nominee_relation   = '';
         $this->nominee_dob        = '';
        
+        //Other
+        $this->stateId = '';
+        $this->allCities = [];
+
     }
 
     public function initializePlugins(){
         $this->dispatchBrowserEvent('loadPlugins');
     }
+
 }

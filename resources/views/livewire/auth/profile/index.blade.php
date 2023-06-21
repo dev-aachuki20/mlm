@@ -286,6 +286,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="{{ asset('admin/assets/select2/select2.min.css')}}">
 <link rel="stylesheet" href="{{ asset('admin/assets/select2-bootstrap-theme/select2-bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{ asset('admin/css/vertical-layout-light/style.css') }}">
 @endpush
 
 @push('scripts')
@@ -295,6 +296,37 @@
 <script type="text/javascript">
   document.addEventListener('loadPlugins', function (event) {
  
+    // Start select 2 for state
+      $(".select-state").trigger("{{$state}}").change();
+
+      if ($(".select-state").length) {
+        $(".select-state").select2({
+            placeholder: 'Select State',
+        });
+      }
+      
+      $(document).on('change','.select-state',function(){
+          var selectState = $(this).val();
+          var stateId = $('.select-state option:selected').attr('data-stateId');
+          // @this.set('state', selectState);
+          Livewire.emit('updatedState',selectState,stateId);
+      });
+      // End select2 for state
+
+      // Start select2 for city
+      if ($(".select-city").length) {
+        $(".select-city").select2({
+            placeholder: 'Select City',
+        });
+      }
+      
+      $(document).on('change','.select-city',function(){
+          var selectCity = $(this).val();
+          // @this.set('city', selectCity);
+          Livewire.emit('updatedCity',selectCity);
+      });
+      // End select2 for city
+
       var today = new Date();
       var minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
 
@@ -310,7 +342,7 @@
           maxDate: today,
       },
       function(start, end, label) {
-        console.log('hello');
+        // console.log('hello');
           Livewire.emit('updatedDob',start.format('YYYY-MM-DD'));
       });
 

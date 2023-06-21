@@ -178,11 +178,23 @@ if (!function_exists('convertDateTimeFormat')) {
 	function convertDateTimeFormat($value,$type='date')
 	{
 		$changeFormatValue = Carbon::parse($value);
-		if ($type == 'date') {
-			return $changeFormatValue->format(config('constants.date_format'));
-		}else if($type='datetime'){
-			return $changeFormatValue->format(config('constants.datetime_format'));
+
+		$result = null;
+		switch ($type) {
+			case 'time':
+				$result = $changeFormatValue->format(config('constants.time_format'));
+				break;
+				
+			case 'datetime':
+				$result = $changeFormatValue->format(config('constants.datetime_format'));
+				break;
+				
+			default:
+				$result =  $changeFormatValue->format(config('constants.date_format'));
+				break;
 		}
-		return $changeFormatValue;
+
+		return $result;
+
 	}
 }

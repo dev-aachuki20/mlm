@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Package;
 
 use Gate;
+use Carbon\Carbon;
 use App\Models\Package;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -117,7 +118,9 @@ class Index extends Component
             'amount.required' => 'The package price field is required.',
         ]);
         
+        $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
         $validatedData['status'] = $this->status;
+
 
         $insertRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators']);
 
@@ -197,6 +200,7 @@ class Index extends Component
             ]
         );
 
+        $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
         $validatedData['status'] = $this->status;
 
         $package = Package::find($this->package_id);

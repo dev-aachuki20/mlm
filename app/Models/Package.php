@@ -27,6 +27,8 @@ class Package extends Model
         'level_one_commission',
         'level_two_commission',
         'level_three_commission',
+        'duration',
+        'level',
         'status',
         'created_by',
         'created_at',
