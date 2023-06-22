@@ -294,11 +294,22 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="{{ asset('admin/assets/select2/select2.min.js') }}"></script>
 <script type="text/javascript">
+  
+  document.addEventListener('reinitializePlugins', function (event) {
+    $(".select-city").select2({
+            placeholder: 'Select City',
+      });
+      $(document).on('change','.select-city',function(){
+          var selectCity = $(this).val();
+          // @this.set('city', selectCity);
+          Livewire.emit('updatedCity',selectCity);
+      });
+  });
+ 
+
   document.addEventListener('loadPlugins', function (event) {
  
     // Start select 2 for state
-      $(".select-state").trigger("{{$state}}").change();
-
       if ($(".select-state").length) {
         $(".select-state").select2({
             placeholder: 'Select State',

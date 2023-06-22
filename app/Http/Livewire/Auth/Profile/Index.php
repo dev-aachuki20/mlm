@@ -131,6 +131,13 @@ class Index extends BaseComponent
         $this->nominee_relation   = $this->authUser->profile->nominee_relation;
         $this->nominee_dob        = Carbon::parse($this->authUser->profile->nominee_dob)->format('d-m-Y');
     
+        
+        $keyIndex = array_search ($this->state, config('indian-regions.states'));
+        if($keyIndex){
+            $this->stateId = (int)$keyIndex;
+            $this->allCities = explode(' | ' ,config('indian-regions.cities')[$this->stateId+1]);    
+        }
+      
         $this->initializePlugins();
     }
 
@@ -141,6 +148,7 @@ class Index extends BaseComponent
 
     public function updateProfile(){
     //    dd($this->all());
+        $this->dispatchBrowserEvent('reinitializePlugins');
         $validatedDate = $this->validate([
             'first_name'  => 'required',
             'last_name'   => 'required',

@@ -20,20 +20,21 @@ return [
         'admin_logo' => 'images/logo.png',
         'transparent_logo' => 'assets/logo/logo-transparent.png',
         'profile_image' => 'default/default-user-man.png',
+        'footer-logo'   => 'images/light-logo.png'
     ],
     
-    'date_format' => 'd-m-Y',
+    'date_format'     => 'd-m-Y',
     'datetime_format' => 'd-m-Y H:i',
-    'time_format' => 'H:i',
+    'time_format'     => 'H:i',
     'search_datetime_format' => '%d-%m-%Y %H:%i',
 
     'set_timezone' => 'Asia/kolkata', // set timezone
     
-    'logo_min_width' => '250', // logo min width
-    'logo_min_height' => '150', // logo min height
+    'logo_min_width' => '1000', // logo min width
+    'logo_min_height' => '1000', // logo min height
    
-    'img_max_size'   => '1024',
-    'video_max_size' => '50000',
+    'img_max_size'   => '2048',
+    'video_max_size' => '100240',
     'no_image_url'   => 'default/no-image.jpg',
 
     'slider_limit' => '5',

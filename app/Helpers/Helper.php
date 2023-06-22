@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Models\Uploads;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 
@@ -196,5 +197,13 @@ if (!function_exists('convertDateTimeFormat')) {
 
 		return $result;
 
+	}
+}
+
+if (!function_exists('getSetting')) {
+	function getSetting($key)
+	{
+		$result = Setting::where('key',$key)->value('value');
+		return $result;
 	}
 }

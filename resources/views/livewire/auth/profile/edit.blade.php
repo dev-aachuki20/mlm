@@ -145,14 +145,18 @@
             <div class="col-sm-4 mb-4">
                 <div class="form-group mb-0">
                     <label class="font-weight-bold">{{ __('cruds.user.profile.city')}}</label>
+                    
                     <select class="js-example-basic-single select-city w-100" wire:model.defer="city" >
                         <option>Select City</option>
-                        @if($allCities)
-                        @foreach($allCities as $cityName)
-                            <option value="{{$cityName}}" {{ucwords($city) == $cityName ? 'selected':''}}>{{ ucwords($cityName) }}</option>
-                        @endforeach
+                      
+                            @if($allCities)
+                            @foreach($allCities as $cityName)
+                                <option value="{{$cityName}}" {{ucwords($city) == $cityName ? 'selected':''}}>{{ ucwords($cityName) }}</option>
+                            @endforeach
+                          
                         @endif
                     </select>
+                   
                 </div>
                 @error('city') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>

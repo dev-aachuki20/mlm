@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerificationController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 //Clear Cache facade value:
 Route::get('/cache-clear', function() {
@@ -29,6 +29,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('email/verify/{id}/{hash}', [VerificationController::class,'verify'])->name('verification.verify');
 
+// Auth Routes
 Route::group(['middleware' => ['web','guest','preventBackHistory'], 'as' => 'auth.','prefix'=>''], function () {
     
     Route::view('signup/{referral_id?}', 'auth.admin.register')->name('register');
@@ -38,7 +39,16 @@ Route::group(['middleware' => ['web','guest','preventBackHistory'], 'as' => 'aut
  
 });    
 
+// Frontend Routes
+Route::group(['middleware' => [], 'as' => 'front.','prefix'=>''], function () {
 
+    Route::view('/', 'frontend.home')->name('home');
+    Route::view('/about-us', 'frontend.about-us')->name('about-us');
+    Route::view('/contact-us', 'frontend.contact-us')->name('contact-us');
+
+});
+
+// Admin Routes
 Route::group(['middleware' => ['auth','preventBackHistory']], function () {
 
     Route::view('admin/profile', 'auth.profile.index')->name('auth.admin-profile')->middleware('role:admin');
