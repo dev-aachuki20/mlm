@@ -14,7 +14,7 @@
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">Answer</label>
         <div class="col-sm-9">
-             {{ $details->answer }}
+             {!! $details->answer !!}
         </div>
     </div>
 

@@ -30,6 +30,9 @@
             <div class="form-group mb-0" wire:ignore>
                 <label class="font-weight-bold">Image</label>
                 <input type="file"  wire:model.defer="image" class="dropify" data-default-file="{{ $originalImage }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
+                <span wire:loading wire:target="image">
+                    <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
+                </span>
             </div>
             @if($errors->has('image'))
             <span class="error text-danger">
@@ -52,6 +55,9 @@
                 @endif
 
                 <input type="file"  wire:model.defer="video" class="dropify" data-default-file="{{ $originalVideo }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="webm mp4 avi wmv flv mov" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="video/webm, video/mp4, video/avi,video/wmv,video/flv,video/mov">
+                <span wire:loading wire:target="video">
+                    <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
+                </span>
             </div>
             @if($errors->has('video'))
             <span class="error text-danger">

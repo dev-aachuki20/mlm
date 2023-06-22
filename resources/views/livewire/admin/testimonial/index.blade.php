@@ -16,10 +16,10 @@
                     <div wire:loading wire:target="create" class="loader"></div>
                     <div class="card-title">
                         <h4 class="float-left">{{__('cruds.testimonial.title')}}</h4>
-                        <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
+                        {{-- <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
                             <i class="fa-solid fa-plus"></i>                                                    
                                 {{__('global.add')}}
-                        </button>
+                        </button> --}}
                     </div>                
                     <div class="table-responsive pt-4">
                         <div class="table-header-plugins">
@@ -74,13 +74,13 @@
                                                 <i class="ti-eye"></i>
                                             </button>
 
-                                            <button type="button" wire:click.prevent="edit({{$testimonial->id}})" class="btn btn-info btn-rounded btn-icon">
+                                            {{-- <button type="button" wire:click.prevent="edit({{$testimonial->id}})" class="btn btn-info btn-rounded btn-icon">
                                                 <i class="ti-pencil-alt"></i>
                                             </button>
 
                                             <button type="button" wire:click.prevent="delete({{$testimonial->id}})" class="btn btn-danger btn-rounded btn-icon">
                                                 <i class="ti-trash"></i>
-                                            </button>
+                                            </button> --}}
                                         </td>
                                     </tr>
                                 @endforeach

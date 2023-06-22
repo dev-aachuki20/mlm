@@ -1,7 +1,7 @@
 
 <h4 class="card-title">
     {{__('global.show')}}
-    {{ strtolower(__('cruds.package.title_singular'))}}</h4>
+    {{ strtolower(__('cruds.testimonial.title_singular'))}}</h4>
 
 
     <div class="form-group row">

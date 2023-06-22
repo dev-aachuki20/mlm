@@ -34,7 +34,8 @@ return [
     'logo_min_height' => '1000', // logo min height
    
     'img_max_size'   => '2048',
-    'video_max_size' => '100240',
+    'video_max_size' => '50240',
+    'data_max_file_size'=> "50M",
     'no_image_url'   => 'default/no-image.jpg',
 
     'slider_limit' => '5',
