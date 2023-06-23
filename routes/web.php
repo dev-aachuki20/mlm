@@ -32,7 +32,7 @@ Route::get('email/verify/{id}/{hash}', [VerificationController::class,'verify'])
 // Auth Routes
 Route::group(['middleware' => ['web','guest','preventBackHistory'], 'as' => 'auth.','prefix'=>''], function () {
     
-    Route::view('signup/{referral_id?}', 'auth.admin.register')->name('register');
+    Route::view('signup/{referral_id?}/{package_uuid?}', 'auth.admin.register')->name('register');
     Route::view('login', 'auth.admin.login')->name('login');
     Route::view('forget-password', 'auth.admin.forget-password')->name('forget-password');
     Route::view('reset-password/{token}/{email}', 'auth.admin.reset-password')->name('reset-password');
@@ -45,6 +45,8 @@ Route::group(['middleware' => [], 'as' => 'front.','prefix'=>''], function () {
     Route::view('/', 'frontend.home')->name('home');
     Route::view('/about-us', 'frontend.about-us')->name('about-us');
     Route::view('/contact-us', 'frontend.contact-us')->name('contact-us');
+    Route::view('/package/{uuid}', 'frontend.package.show')->name('package.show');
+
 
 });
 

@@ -127,7 +127,7 @@
 
   @else
           
-    @livewire('auth.payment-component',['data'=>$this->all()])
+    @livewire('auth.payment-component',['data'=>$this->all(),'packageUUID'=>$packageUUID])
 
   @endif
 

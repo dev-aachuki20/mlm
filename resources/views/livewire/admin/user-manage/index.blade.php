@@ -1,6 +1,6 @@
 <div class="content-wrapper">
     @if($viewMode)
-         @livewire('admin.user-manage.show', ['user_id' => $user_id])
+        @livewire('admin.user-manage.show', ['user_id' => $user_id])
     @else
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
@@ -66,14 +66,16 @@
                                                 <i class="ti-eye"></i>
                                             </button>
 
-                                            {{-- <button type="button" wire:click.prevent="edit({{$user->id}})" class="btn btn-info btn-rounded btn-icon">
+                                            {{-- @if($user->is_ceo || $user->is_management)
+                                            <button type="button" wire:click.prevent="edit({{$user->id}})" class="btn btn-info btn-rounded btn-icon">
                                                 <i class="ti-pencil-alt"></i>
                                             </button> 
+                                            @endif --}}
 
                                             <button type="button" wire:click.prevent="delete({{$user->id}})" class="btn btn-danger btn-rounded btn-icon">
                                                 <i class="ti-trash"></i>
                                             </button>
-                                            --}}
+                                        
                                         </td>
                                     </tr>
                                 @endforeach
@@ -93,7 +95,7 @@
             </div>
         </div>
     </div>
-@endif
+    @endif
 </div>
 
 @push('styles')

@@ -68,7 +68,7 @@
   
     // video js
       $(".box-video").click(function(){
-        $('iframe',this)[0].src += "&amp;autoplay=1";
+        $('video source',this)[0].src;
         $(this).addClass('open');
       });
       // team slider

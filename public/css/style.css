@@ -92,6 +92,9 @@ h6{
 .ptb-120{
     padding: 120px 0;
 }
+.pb-227{
+    padding-bottom: 227px;
+}
 /*body text css*/
 .body-size-large {font-size: 20px;line-height: 31px;}
 .body-size-normal {font-size: 18px;line-height: 31px;}
@@ -202,10 +205,24 @@ h6{
 .bg-dark-blue .fill:hover {
     background-color: var(--color-white) !important;
     border-color: #fff;
+    color: var(--color-orange);
+}
+.bg-dark-blue .fill:hover svg{
+    stroke: var(--color-orange);
+}
+.bg-gray {
+    background: #F7F8FA;
+    border-color: #F7F8FA;
+    margin: 20px 0 0;
+    color: var(--color-dark-blue);
+}
+.bg-gray:hover {
+    color: var(--color-dark-blue);
 }
 /*section header*/
 .other-sec-head h2 {
     margin: 0 0 19px;
+    text-transform: capitalize;
 }
 .other-sec-head{
     margin-bottom: 60px;
@@ -612,8 +629,19 @@ span.error.text-danger {
     padding: 30px 100px 30px 40px;
     border: solid 1px #ACB0C7;
     position: relative;
-    cursor: pointer;
     display: flex;
+}
+
+.inactive-plan .signupplan-inner{    
+    pointer-events: none;
+    cursor: not-allowed;
+    filter: blur(4px);
+}
+.inactive-plan .signupplan-inner .plan-price {
+    filter: blur(5px);
+}
+.plan-list input:checked + .signupplan-inner .plan-price {
+    filter: blur(0px);
 }
 .signupplan-inner:after {
     content: "";
@@ -635,6 +663,9 @@ span.error.text-danger {
     border: solid 1px #0A2540;
     background-color: #0A2540;
     color: var(--color-white);
+    filter: blur(0px);
+    cursor: pointer;
+    pointer-events: auto;
 }
 .plan-list input:checked + .signupplan-inner:after{
     border: solid 1px var(--color-orange);    
@@ -1270,21 +1301,21 @@ span.outline-text {
     border-radius: 5px;
     padding: 11px 13px;
 }
-.our-team-slider .team-member-details .team-member {
+.team-member-details .team-member {
     width: 100%;
     height: 219px;
     overflow: hidden;
     border-radius: 5px;
 }
-.our-team-slider .team-member-details .team-member img {
+.team-member-details .team-member img {
     height: 100%;
     object-fit: cover;
 }
-.our-team-slider .team-member-details .team-member-data {
+.team-member-details .team-member-data {
     text-align: center;
     padding: 16px 0 0;
 }
-.our-team-slider .team-member-details .team-member-data h6 {
+.team-member-details .team-member-data h6 {
     font-size: 16px;
     line-height: normal;
     margin: 0;
@@ -1652,6 +1683,117 @@ span.outline-text {
     -ms-transform: scale(1);
     transform: scale(1);
 }
+/*Standard Package page*/
+.ptb-100-70 {
+    padding-top: 100px;
+    padding-bottom: 70px;
+}
+.pt-55 {
+    padding-top: 55px;
+}
+.course-detail-list {
+    width: 100%;
+    margin: 30px 0 0;
+}
+.course-detail-list ul.list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+.course-detail-list ul.list li {
+    width: 100%;
+    margin: 0;
+}
+.other-page-banner .box-video {
+    margin: 0;
+}
+.course-price-list {
+    border-radius: 5px;
+    box-shadow: 0 5px 16px rgb(8 15 52 / 6%);
+    background-color: var(--color-white);
+    margin: -86px 0 0;
+}
+.course-price-list ul{
+    padding: 42px 30px 45px;
+}
+.course-price-list ul li:not(:last-child) {
+    margin-bottom: 37px;
+}
+.course-price-list ul li {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--color-dark-blue);
+}
+.course-price-list ul li .details-course {
+    font-weight: 700;
+}
+.course-price-list ul li span {
+    margin: 0 8px 0 0;
+}
+.course-price-list ul li span svg {
+    max-width: 16px;
+}
+.standard-price {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 30px 17px;
+}
+.standard-price .course-price {
+    font-weight: 700;
+    color: var(--color-orange);
+}
+.buy-now-btn{
+    padding: 40px 30px 50px;
+}
+/*founder page*/
+.other-page-banner .section-text{
+    max-width: 648px;
+}
+.founder-details .founder-meet {
+    width: 41%;
+    position: relative;
+}
+.founder-details .founder-meet:before {
+    width: 5px;
+    height: 100%;
+    border-radius: 10px;
+    background: var(--color-orange);
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.founder-details .founder-meet {
+    width: 41%;
+    position: relative;
+    padding-left: 23px;
+}
+.founder-details  .founder-details-outer {
+    width: 59%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.plr-68{
+    padding-left: 65px;
+    padding-right: 68px;
+}
+
+.management-team .team-member-details {
+    height: 100%;
+    border-radius: 5px;
+    padding: 11px 13px;
+}
+.management-team .team-member-details .team-member {
+    height: 276px;
+}
+.management-team .team-member-details .team-member img {
+    width: 100%;
+}
+.management-team-outer > .row{
+    row-gap: 24px;
+}
 /*responsive css*/
 @media only screen and (max-width: 1750px){
     .slider-counter {
@@ -1875,6 +2017,16 @@ span.outline-text {
     .services-icon img {
         max-width: 35px;
     }
+    .ptb-100-70 {
+        padding-top: 30px;
+        padding-bottom: 60px;
+    }
+    .founder-details .founder-meet {
+        width: 35%;
+    }
+    .founder-details  .founder-details-outer {
+        width: 65%;
+    }
 }
 @media only screen and (max-width: 991px){
     .login > div {
@@ -1996,6 +2148,21 @@ span.outline-text {
     }
     .our-services-head .justify-content-end {
         justify-content: flex-start !important;
+    }
+    .course-detail-list ul.list {
+        grid-template-columns: 1fr;
+        grid-gap: 10px;
+    }
+    .founder-details  .founder-details-outer {
+        width: 100%;
+    }
+    .founder-details.plr-68 {
+        border-radius: 20px;
+        margin: 0;
+    }
+    .founder-details .founder-meet {
+        width: 100%;
+        margin: 0 0 30px;
     }
 }
 @media only screen and (max-width: 767px){
@@ -2227,6 +2394,18 @@ span.outline-text {
     .banner-img {
         padding-bottom: 60px;
     }
+    .course-price-list {
+        margin: 30px 0 0;
+    }
+    .course-price-list ul {
+        padding: 30px 15px;
+    }
+    .standard-price {
+        padding: 10px 15px 9px;
+    }
+    .buy-now-btn {
+        padding: 20px 15px 30px;
+    }
 }
 @media only screen and (max-width: 480px){
     
@@ -2298,7 +2477,9 @@ span.outline-text {
     .footer-link h4 {
         margin: 0 0 15px !important;
     }
-
+    .management-team .team-member-details .team-member {
+        height: 176px;
+    }
 }
 @media only screen and (max-width: 380px){
     .form-outer {
@@ -2307,4 +2488,58 @@ span.outline-text {
     .why-myfuturebuz-counter ul {
         grid-template-columns: 1fr;
     }
+    .management-team-outer > .row > div {
+        width: 100%;
+    }
+    .management-team .team-member-details {
+        max-width: 220px;
+        margin: auto;
+    }
+    .management-team .team-member-details .team-member {
+        height: 200px;
+    }
 }
+
+
+
+.loader {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    background: #2125298f;
+  }
+  
+  .loader:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    width: 25px;
+    height: 25px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    border-color: #ffffff transparent #ffffff transparent;
+    animation: loader 1.2s linear infinite;
+  }
+  
+  @keyframes loader {
+    0% {
+        transform: rotate(0deg);
+    }
+  
+    100% {
+        transform: rotate(360deg);
+    }
+  }
+  
+  .loading-wrapper {
+    font-size: 12px;
+    color: #fff;
+  }

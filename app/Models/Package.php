@@ -19,6 +19,7 @@ class Package extends Model
     ];
 
     protected $fillable = [
+        'uuid',
         'title',
         'sub_title',
         'amount',

@@ -12,6 +12,8 @@ return [
     */ 
     'app_name' => 'MLM',
     'app_mode' => env('APP_MODE','staging'),
+    'owner_email_id' => 'rohithelpfullinsight@gmail.com',
+    
     'default' => [
         'logo' => 'images/logo.png',
         'favicon' => 'images/favicon.png',

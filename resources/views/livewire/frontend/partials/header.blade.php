@@ -5,7 +5,7 @@
         <div class="col-md-6 col-sm-6 col-8">
         <div class="logo">
             <a href="{{ route('front.home') }}">
-                <img src="{{ config('constants.default.logo') }}" alt="logo">
+                <img src="{{ asset(config('constants.default.logo')) }}" alt="logo">
             </a>
         </div>
         </div>

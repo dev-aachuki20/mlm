@@ -15,13 +15,19 @@ class PaymentComponent extends Component
 
     public $amount=0.00, $getData;
     
-    public $defaultSelectedPackage = 2, $select_package, $packageId;
+    public $defaultSelectedPackage = 1, $fromURLPackageSelected=false, $select_package, $packageId;
 
 
     protected $listeners = ['pay','paymentSuccessful'];
 
-    public function mount($data){
+    public function mount($data,$packageUUID = ''){
         $this->getData = $data;
+
+        if(!empty($packageUUID)){
+            $this->fromURLPackageSelected = true;
+            $this->defaultSelectedPackage = Package::where('uuid',$packageUUID)->value('id');
+        }
+
         $this->handleOptionSelection($this->defaultSelectedPackage);
     }
     

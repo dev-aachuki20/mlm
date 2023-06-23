@@ -30,37 +30,50 @@
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                   </div>
                 </div>
-                <form class="form">            
+                <form class="form" wire:submit.prevent="sendContactMail">            
                   <div class="form-outer">
                     <div class="form-group col-50">
-                      <div class="input-form">
-                        <div class="login-icon"><img src="{{ asset('images/icons/user.svg')}}" alt="User"></div>
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control" placeholder="Enter Your name" />
+                      <div class="form-group">
+                        <div class="input-form">
+                          <div class="login-icon"><img src="{{ asset('images/icons/user.svg')}}" alt="User"></div>
+                          <label class="form-label">Name</label>
+                          <input type="text" wire:model.defer="name" class="form-control" placeholder="Enter Your name" />
+                        </div>
+                        @error('name') <span class="error text-danger">{{ $message }}</span>@enderror
                       </div>
+
                     </div>
                     <div class="form-group col-50">
-                      <div class="input-form">
-                        <div class="login-icon"><img src="{{ asset('images/icons/email.svg')}}" alt="User"></div>
-                        <label class="form-label">Email ID</label>
-                        <input type="email" class="form-control" placeholder="Enter Your Email" />
+                      <div class="form-group">
+                        <div class="input-form">
+                          <div class="login-icon"><img src="{{ asset('images/icons/email.svg')}}" alt="User"></div>
+                          <label class="form-label">Email ID</label>
+                          <input type="email" wire:model.defer="email" class="form-control" placeholder="Enter Your Email" />
+                        </div>
+                        @error('email') <span class="error text-danger">{{ $message }}</span>@enderror
                       </div>
                     </div>
                     <div class="form-group">
                       <div class="input-form">
                         <label class="form-label">Message</label>
-                        <textarea class="form-control" placeholder="Enter Message" ></textarea>
+                        <textarea class="form-control" wire:model.defer="message" placeholder="Enter Message" ></textarea>
+                        @error('message') <span class="error text-danger">{{ $message }}</span>@enderror
                       </div>
                     </div>
                   </div>
                   <div class="submit-btn">
-                    <button type="submit" class="btn fill">Submit Now  
+                    <button type="submit" class="btn fill" wire:loading.attr="disabled">Submit Now
                       <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8 11L13 6L8 1" stroke-width="1.5" stroke-linecap="round"
                           stroke-linejoin="round" />
                         <path d="M1 11L6 6L1 1" stroke-width="1.5" stroke-linecap="round"
                           stroke-linejoin="round" />
                       </svg>
+
+                      <span wire:loading wire:target="sendContactMail">
+                          <i class="ml-1 fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                      </span>
+                     
                     </button>
                   </div>
                 </form>

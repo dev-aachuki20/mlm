@@ -90,7 +90,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function canImpersonate()
     {
-        if(in_array(auth()->user()->roles->first()->id, ['1','2','3'])){
+        if(in_array(auth()->user()->roles->first()->id, ['1','2','3','4','5'])){
             return true;
         }
         return false;
@@ -120,6 +120,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getIsUserAttribute()
     {
         return $this->roles()->where('id', 3)->exists();
+    }
+
+    public function getIsCeoAttribute()
+    {
+        return $this->roles()->where('id', 4)->exists();
+    }
+
+    public function getIsManagementAttribute()
+    {
+        return $this->roles()->where('id', 5)->exists();
     }
 
     public function profileImage()

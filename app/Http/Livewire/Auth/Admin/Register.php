@@ -20,7 +20,7 @@ class Register extends Component
 
     public $first_name, $last_name, $email, $phone ,$dob, $gender, $password ,$password_confirmation;
 
-    public $from_url_referral_id, $from_url_referral_name, $referral_id, $referral_name, $address;
+    public $from_url_referral_id, $from_url_referral_name,$packageUUID, $referral_id, $referral_name, $address;
     
     public $paymentMode = false, $paymentSuccess = false, $share_email, $share_password;
 
@@ -54,13 +54,17 @@ class Register extends Component
         ];
     }
 
-    public function mount($referralId = ''){
+    public function mount($referralId = '',$packageUUID = ''){
         if(!empty($referralId)){
             $getReferralUser     = User::where('uuid',$referralId)->first();
             $this->referral_id   = $getReferralUser->my_referral_code;
             $this->referral_name = $getReferralUser->name;
             $this->from_url_referral_id   = $this->referral_id;
             $this->from_url_referral_name = $this->referral_name;
+
+            if(!empty($packageUUID)){
+                $this->packageUUID = $packageUUID;
+            }
         }
     }
 

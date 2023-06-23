@@ -26,7 +26,7 @@ class Index extends Component
 
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    public  $title, $sub_title, $amount, $status = 1, $features, $description='', $duration, $level, $image=null,$viewMode = false,$originalImage,$video, $originalVideo,$videoExtenstion;
+    public  $uuid, $title, $sub_title, $amount, $status = 1, $features, $description='', $duration, $level, $image=null,$viewMode = false,$originalImage,$video, $originalVideo,$videoExtenstion;
 
     public $package_id =null, $level_one_commission, $level_two_commission, $level_three_commission;
 
@@ -119,8 +119,9 @@ class Index extends Component
         ]);
         
         $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
-        $validatedData['status'] = $this->status;
+        $validatedData['status']   = $this->status;
 
+        $this->uuid     = Str::uuid();
 
         $insertRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators']);
 
@@ -219,7 +220,7 @@ class Index extends Component
             uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'update', $uploadVideoId);
         }
         
-        $updateRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators']);
+        $updateRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators','uuid']);
 
         $package->update($updateRecord);
   
@@ -266,6 +267,7 @@ class Index extends Component
     }
 
     private function resetInputFields(){
+        $this->uuid = '';
         $this->title = '';
         $this->sub_title = '';
         $this->amount = '';
