@@ -40,7 +40,7 @@
             <div class="col-lg-8 col-md-6 col-sm-12">
               <div class="course-detail-outer">
                 <h4>Course Detail</h4>
-                <div class="section-text body-size-normal">
+                {{-- <div class="section-text body-size-normal">
                   <p>Influencing traffic to buy your products or services comes with a promise of quality of content. To learn specific skills and master them. This bundle helps you learn specific high paying skills that with practice will ensure more conversions and allow you to start your journey as a professional super fast.</p>
                   <p>Influencing traffic to buy your products or services comes with a promise of quality of content. To learn specific skills and master them. This bundle helps you learn specific high paying skills that with practice will ensure more conversions and allow you to start your journey as a professional super fast.</p>
                 </div>
@@ -55,7 +55,9 @@
                     <li>Social Media Marketing Included</li>
                     <li>MyFutureBiz Certificate</li>
                   </ul>
-                </div>
+                </div> --}}
+
+                {!! $package->courses[0]->description !!}
               </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12">
@@ -65,38 +67,73 @@
                     <div class="name-list">
                       <span><img src="{{ asset('images/package/clock.svg') }}"></span>Duration
                     </div>
-                    <div class="details-course">2.5hr</div>
+                    <div class="details-course">{{ convertDateTimeFormat($package->duration,'time') }}hr</div>
                   </li>
                   <li>
                     <div class="name-list">
                       <span><img src="{{ asset('images/package/level.svg') }}"></span>Level
                     </div>
-                    <div class="details-course">Beginner</div>
+                    <div class="details-course">{{ ucfirst(config('constants.levels')[$package->level]) }}</div>
                   </li>
                   <li>
                     <div class="name-list">
                       <span><img src="{{ asset('images/package/lectures.svg') }}"></span>Lectures
                     </div>
-                    <div class="details-course">450 Enrolled</div>
+                    <div class="details-course">{{ $package->users->count() }} Enrolled</div>
                   </li>
                   <li>
                     <div class="name-list">
                       <span><img src="{{ asset('images/package/enrolled.svg') }}"></span>Enrolled
                     </div>
-                    <div class="details-course">450 Enrolled</div>
+                    <div class="details-course">{{ $package->users->count() }} Enrolled</div>
                   </li>
                 </ul>
                 <div class="standard-price bg-light-orange">                  
-                  <div class="course-name">Standard Package</div>
-                  <div class="course-price">&#8377 2499</div>
+                  <div class="course-name">{{ ucwords($package->title) }}</div>
+                  <div class="course-price">&#8377 {{ number_format($package->amount,2)}}</div>
                 </div>
                 <div class="buy-now-btn">
-                  <button type="submit" class="btn w-100 fill">Buy Now!</button>
-                  <button type="button" class="btn w-100 fill bg-gray">Copy & Share Referral Link</button>
+
+                  @if(!auth()->check())
+                  <a href="{{ route('auth.registerWithPlan',$package->uuid) }}" class="btn w-100 fill">Buy Now!</a>
+                  @else
+                    @php
+                     $referralUUID = $package->users()->find(auth()->user()->id)->uuid;
+                     $packageUUID = $package->uuid;
+                     $referralLink = route('auth.register',[$referralUUID,$packageUUID]);
+                    @endphp
+                    <a href="javascript:void(0)" onclick="copyToClipboard('{{$referralLink}}')" id="copy_share_link"  class="btn w-100 fill bg-gray">Copy & Share Referral Link</a>
+                  @endif
                 </div>
               </div>
             </div>
           </div>
         </div>
     </section>
+
+    
+@push('scripts')
+<script type="text/javascript">
+  function copyToClipboard(url) {
+      // Create a temporary input element
+      var tempInput = document.createElement('input');
+      tempInput.setAttribute('value', url);
+      document.body.appendChild(tempInput);
+
+      // Select the input element's content
+      tempInput.select();
+      tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+      // Copy the selected text
+      document.execCommand('copy');
+
+      // Remove the temporary input element
+      document.body.removeChild(tempInput);
+
+      // alert('Link copied to clipboard: ' + url);
+
+      Livewire.emit('copyLinkSuccessAlert');
+    }
+</script>
+@endpush
 </div>

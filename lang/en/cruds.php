@@ -169,6 +169,22 @@ return [
         ],
     ],
 
+    'team' => [
+        'title' => 'Teams',
+        'title_singular' => 'Team',
+        'fields' => [
+            'name'        => 'Name',
+            'first_name'  => 'First Name',
+            'last_name'   => 'Last Name',
+            'email'       => 'Email',
+            'phone_number'=> 'Phone Number',
+            'profile_image' => 'Profile Image',
+            'password'      => 'Password',
+            'password_confirmation'      => 'Password Confirmation',
+            'created_by'  => 'Created By',        
+        ],
+    ],
+
 
 
 ];

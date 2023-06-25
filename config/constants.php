@@ -35,6 +35,7 @@ return [
     'logo_min_width' => '1000', // logo min width
     'logo_min_height' => '1000', // logo min height
    
+    'profile_image_size'=> '1024',
     'img_max_size'   => '2048',
     'video_max_size' => '50240',
     'data_max_file_size'=> "50M",
@@ -69,5 +70,5 @@ return [
         1=> "beginner",
         2=> "intermediate",
         3=> "advanced",
-     ],
+    ],
 ];

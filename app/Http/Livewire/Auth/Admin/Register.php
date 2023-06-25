@@ -61,10 +61,10 @@ class Register extends Component
             $this->referral_name = $getReferralUser->name;
             $this->from_url_referral_id   = $this->referral_id;
             $this->from_url_referral_name = $this->referral_name;
+        }
 
-            if(!empty($packageUUID)){
-                $this->packageUUID = $packageUUID;
-            }
+        if(!empty($packageUUID)){
+            $this->packageUUID = $packageUUID;
         }
     }
 

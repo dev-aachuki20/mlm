@@ -62,7 +62,7 @@ class Index extends BaseComponent
         $this->showConfirmCancel = true;
 
         $this->validate([
-            'profile_image' => 'image|max:1024', // Maximum file size of 1MB
+            'profile_image' => 'image|max:'.config('constants.profile_image_size'), // Maximum file size of 1MB
         ]);
        
     }

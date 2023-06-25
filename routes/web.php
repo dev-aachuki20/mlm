@@ -32,6 +32,7 @@ Route::get('email/verify/{id}/{hash}', [VerificationController::class,'verify'])
 // Auth Routes
 Route::group(['middleware' => ['web','guest','preventBackHistory'], 'as' => 'auth.','prefix'=>''], function () {
     
+    Route::view('signup-with-package/{package_uuid?}', 'auth.admin.register')->name('registerWithPlan');
     Route::view('signup/{referral_id?}/{package_uuid?}', 'auth.admin.register')->name('register');
     Route::view('login', 'auth.admin.login')->name('login');
     Route::view('forget-password', 'auth.admin.forget-password')->name('forget-password');
@@ -43,10 +44,10 @@ Route::group(['middleware' => ['web','guest','preventBackHistory'], 'as' => 'aut
 Route::group(['middleware' => [], 'as' => 'front.','prefix'=>''], function () {
 
     Route::view('/', 'frontend.home')->name('home');
+    Route::view('/teams', 'frontend.teams')->name('teams');
     Route::view('/about-us', 'frontend.about-us')->name('about-us');
     Route::view('/contact-us', 'frontend.contact-us')->name('contact-us');
     Route::view('/package/{uuid}', 'frontend.package.show')->name('package.show');
-
 
 });
 
@@ -66,6 +67,7 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
 
         Route::view('settings', 'admin.setting.index')->name('setting');
         Route::view('page-manage', 'admin.page-manage.index')->name('page-manage');
+        Route::view('teams', 'admin.team.index')->name('team');
         Route::view('user-manage', 'admin.user-manage.index')->name('user-manage');
         Route::view('courses', 'admin.course.index')->name('course');
         Route::view('courses/{course_id}', 'admin.video-group.index')->name('getAllVideos');

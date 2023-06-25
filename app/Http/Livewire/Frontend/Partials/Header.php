@@ -13,4 +13,9 @@ class Header extends BaseComponent
     {
         return view('livewire.frontend.partials.header');
     }
+
+    public function authLogout(){
+        auth()->logout();
+        return redirect()->route('front.home');
+    }
 }

@@ -272,6 +272,33 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => $updateDate,
             ],
 
+            
+            [
+                'title'      => 'team_access',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'team_create',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [   
+                'title'      => 'team_edit',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'team_show',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'team_delete',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+
             [
                 'title'      => 'kyc_access',
                 'created_at' => $createDate,

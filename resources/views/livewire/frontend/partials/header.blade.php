@@ -11,8 +11,12 @@
         </div>
         <div class="col-md-6 col-sm-6 col-4">
         <div class="login-signup button-group justify-content-end desktop-login">
+            @if(auth()->check())
+            <a href="javascript:void(0)" wire:click.prevent="authLogout" class="btn fill">Logout!</a>
+            @else
             <a href="{{ route('auth.login') }}" class="btn fill">Login Now!</a>
             <a href="{{ route('auth.register') }}" class="btn outline-btn">Join Now!</a>
+            @endif
         </div>
         </div>
     </div>
@@ -35,16 +39,10 @@
             <a class="nav-link" href="javascript:void(0)">how myFutureBiz Works</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)">My Courses</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)">Founder</a>
+            <a class="nav-link {{ request()->is('teams') ? 'active' : '' }}" href="{{ route('front.teams') }}">Founder & Team</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="javascript:void(0)">Testimonials</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0)">Pricing</a>
         </li>
         <li class="nav-item">
             <a class="nav-link {{ request()->is('contact-us') ? 'active' : '' }}" href="{{ route('front.contact-us') }}">Get in Touch</a>

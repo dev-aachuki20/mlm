@@ -1,16 +1,16 @@
 @extends('layouts.front')
-@section('title','Package')
+@section('title','Teams')
 
 @section('styles')
 @stop
 
 @section('content')
 
-    @livewire('frontend.pages.package.show',['uuid'=>$uuid])
+    @livewire('frontend.pages.teams')
 
     @livewire('frontend.sections.get-in-touch')
 
 @stop
 
-@section('scripts')
+@section('script')
 @stop

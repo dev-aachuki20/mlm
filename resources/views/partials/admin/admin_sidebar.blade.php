@@ -64,6 +64,15 @@
     </li>
     @endcan
 
+    @can('team_access')
+    <li class="nav-item {{ request()->is('admin/teams') || request()->is('admin/teams/*')? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.team') }}">
+            <i class="icon-grid menu-icon fas fa-users"></i>
+            <span class="menu-title">Team Management</span>
+        </a>
+    </li>
+    @endcan
+
     @can('page_access')
     <li class="nav-item {{ request()->is('admin/page-manage') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.page-manage') }}">

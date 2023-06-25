@@ -172,15 +172,16 @@
             placeholder: 'Type somthing...',
             tabsize: 2,
             height: 200,
+            fontNames: ['Arial', 'Helvetica', 'Times New Roman', 'Courier New','sans-serif'],
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear']],
                 ['fontname', ['fontname']],
-                ['color', ['color']],
+                // ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
+                // ['table', ['table']],
                 ['insert', ['link', /*'picture', 'video'*/]],
-                // ['view', ['fullscreen', 'codeview', 'help']],
+                ['view', [/*'fullscreen',*/ 'codeview', /*'help'*/]],
             ],
             callbacks: {
                 onChange: function(content) {
@@ -194,15 +195,16 @@
             placeholder: 'Type somthing...',
             tabsize: 2,
             height: 200,
+            fontNames: ['Arial', 'Helvetica', 'Times New Roman', 'Courier New','sans-serif'],
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear']],
                 ['fontname', ['fontname']],
-                ['color', ['color']],
+                // ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
+                // ['table', ['table']],
                 ['insert', ['link', /*'picture', 'video'*/]],
-                // ['view', ['fullscreen', 'codeview', 'help']],
+                ['view', [/*'fullscreen',*/ 'codeview', /*'help'*/]],
             ],
             callbacks: {
                 onChange: function(content) {

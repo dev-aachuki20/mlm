@@ -10,7 +10,7 @@
                 <div class="signupplan">
                 @if($packages->count() > 0)
                     @foreach($packages as $key=>$package)
-                    <div class="plan-list">
+                    <div class="plan-list {{ ($fromURLPackageSelected && ($package->id != $defaultSelectedPackage)) ? 'inactive-plan' : ''}}">
                         <input type="radio" name="radio" id="basic-package-{{$key}}" value="{{ $package->id }}"  @if($defaultSelectedPackage == $package->id) checked @endif wire:model.defer = "select_package" wire:change="handleOptionSelection({{ $package->id }})" {{ ($fromURLPackageSelected && ($package->id != $defaultSelectedPackage)) ? 'disabled' : ''}}>
                         <label class="signupplan-inner" for="basic-package-{{$key}}">
                         <div class="plan-package">

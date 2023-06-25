@@ -1,45 +1,50 @@
-<div>
-   
+
 <h4 class="card-title">
     {{__('global.show')}}
-    {{ strtolower(__('cruds.course.title_singular'))}}</h4>
+    {{ strtolower(__('cruds.package.title_singular'))}}</h4>
 
 
     <div class="form-group row">
-        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.course.fields.name')}}</label>
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.team.fields.profile_image')}}</label>
         <div class="col-sm-9 col-form-label">
-             {{ $detail->name }}
+             <img class="rounded img-thumbnail" src="{{ $details->profile_image_url }}" width="100px"/>
         </div>
     </div>
 
     <div class="form-group row">
-        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.course.fields.package')}}</label>
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.team.fields.name')}}</label>
         <div class="col-sm-9 col-form-label">
-             {{ $detail->package->title }}
+             {{ $details->name }}
+        </div>
+    </div>
+    
+
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.team.fields.email')}}</label>
+        <div class="col-sm-9 col-form-label">
+             {{ $details->email }}
         </div>
     </div>
 
     <div class="form-group row">
-        <label class="col-sm-3 col-form-label font-weight-bold">Video</label>
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.team.fields.phone_number')}}</label>
         <div class="col-sm-9 col-form-label">
-            <video controls="" width="200" preload="none" poster="{{ $detail->course_image_url }}" id="clip-video" playsinline>
-                <source class="js-video" src="{{ $detail->course_video_url }}" type="video/{{ $detail->courseVideo->extention }}">
-            </video>
+              {{ $details->phone }}
         </div>
     </div>
 
     <div class="form-group row">
-        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.course.fields.description')}}</label>
+        <label class="col-sm-3 col-form-label font-weight-bold">Role</label>
         <div class="col-sm-9 col-form-label">
-            {!! $detail->description !!}
+              {{ $details->roles()->first()->title }}
         </div>
     </div>
 
-
+    
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">Status</label>
         <div class="col-sm-9 col-form-label">
-             @if($detail->status)
+             @if($details->is_active)
                 <div class="badge badge-success">Active</div>
              @else
                 <div class="badge badge-danger">Inactive</div>
@@ -55,4 +60,4 @@
         </span>
     </button>
 
-</div>
+               

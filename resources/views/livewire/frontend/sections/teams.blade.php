@@ -12,7 +12,7 @@
         <div class="col-lg-5 col-sm-12">
           <div class="d-flex justify-content-end">
             <div class="button-group">
-              <a href="#" class="btn fill">Learn More 
+              <a href="{{ route('front.teams') }}" class="btn fill">Learn More 
                 <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8 11L13 6L8 1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                   <path d="M1 11L6 6L1 1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -26,11 +26,11 @@
         <div class="col-lg-7 col-sm-12">
           <div class="founder-details">
             <div class="founder-img">
-              <img src="{{ asset('images/founder.png') }}">
+              <img src="{{ $ceoUserDetail->profile_image_url }}">
             </div>
             <div class="founder-about">
               <label class="color-orange body-size-normal">Founder</label>
-              <h4>Rahul Kumar Meena</h4>
+              <h4>{{ ucwords($ceoUserDetail->name) }}</h4>
               <div class="section-text">
                 <p>He Is An Entreprenuer, Trainer & Youtuber. He Has 3 Years Plus Experience In Sales And Marketing.</p>
               </div>
@@ -64,42 +64,21 @@
         <div class="col-lg-5 col-sm-12">
           <div class="our-team-slider">
             <div id="team-slider" class="owl-carousel">
-              <div class="owl-slide team-member-details bg-light-orange">
-                <div class="team-member">
-                  <img src="{{ asset('images/team-1.png') }}">
-                </div>
-                <div class="team-member-data">
-                  <h6>Rahul Kumar Meena</h6>
-                  <p>Management</p>
-                </div>
-              </div>
-              <div class="owl-slide team-member-details bg-light-orange">
-                <div class="team-member">
-                  <img src="{{ asset('images/team-2.png') }}">
-                </div>
-                <div class="team-member-data">
-                  <h6>Rapa Kumari Meena</h6>
-                  <p>Management</p>
-                </div>
-              </div>
-              <div class="owl-slide team-member-details bg-light-orange">
-                <div class="team-member">
-                  <img src="{{ asset('images/team-1.png') }}">
-                </div>
-                <div class="team-member-data">
-                  <h6>Rahul Kumar Meena</h6>
-                  <p>Management</p>
-                </div>
-              </div>
-              <div class="owl-slide team-member-details bg-light-orange">
-                <div class="team-member">
-                  <img src="{{ asset('images/team-2.png') }}">
-                </div>
-                <div class="team-member-data">
-                  <h6>Rapa Kumari Meena</h6>
-                  <p>Management</p>
-                </div>
-              </div>
+
+                @if($managementTeams)
+                @foreach($managementTeams as $team)
+                  <div class="owl-slide team-member-details bg-light-orange">
+                    <div class="team-member">
+                      <img src="{{ $team->profile_image_url }}">
+                    </div>
+                    <div class="team-member-data">
+                      <h6>{{ ucwords($team->name) }}</h6>
+                      <p>{{ $team->roles()->first()->title }}</p>
+                    </div>
+                  </div>
+                @endforeach
+                @endif
+                
             </div>
             <div class="custom-nav owl-nav"></div>
           </div>
