@@ -26,7 +26,7 @@
         <div class="col-lg-7 col-sm-12">
           <div class="founder-details">
             <div class="founder-img">
-              <img src="{{ $ceoUserDetail->profile_image_url }}">
+              <img src="{{ $ceoUserDetail->profile_image_url ? $ceoUserDetail->profile_image_url : asset(config('constants.default_user_logo')) }}">
             </div>
             <div class="founder-about">
               <label class="color-orange body-size-normal">Founder</label>
@@ -37,7 +37,7 @@
               <div class="founder-social">
                 <ul>
                   <li>
-                    <a href="#">
+                    <a href="{{ getSetting('youtube') }}">
                       <div class="social-icon">
                         <img src="{{ asset('images/youtube.svg') }}">
                       </div>
@@ -47,7 +47,7 @@
                     </a>
                   </li>
                   <li>
-                    <a href="#">
+                    <a href="{{ getSetting('instagram') }}">
                       <div class="social-icon">
                         <img src="{{ asset('images/instagram.svg') }}">
                       </div>

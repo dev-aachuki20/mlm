@@ -204,6 +204,8 @@ class Index extends Component
 
             $setting->update($filteredData);
         
+            DB::commit();
+            
             $this->formMode = false;
            
             $this->resetInputFields();

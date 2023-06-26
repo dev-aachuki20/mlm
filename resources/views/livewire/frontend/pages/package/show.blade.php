@@ -40,23 +40,6 @@
             <div class="col-lg-8 col-md-6 col-sm-12">
               <div class="course-detail-outer">
                 <h4>Course Detail</h4>
-                {{-- <div class="section-text body-size-normal">
-                  <p>Influencing traffic to buy your products or services comes with a promise of quality of content. To learn specific skills and master them. This bundle helps you learn specific high paying skills that with practice will ensure more conversions and allow you to start your journey as a professional super fast.</p>
-                  <p>Influencing traffic to buy your products or services comes with a promise of quality of content. To learn specific skills and master them. This bundle helps you learn specific high paying skills that with practice will ensure more conversions and allow you to start your journey as a professional super fast.</p>
-                </div>
-                <div class="course-detail-list">
-                  <ul class="list">
-                    <li>Live Q&A Support</li>
-                    <li>How To Become A Successful Affiliate Marketer</li>
-                    <li>Social Media Marketing Included</li>
-                    <li>MyFutureBiz Certificate</li>
-                    <li>Live Q&A Support</li>
-                    <li>How To Become A Successful Affiliate Marketer</li>
-                    <li>Social Media Marketing Included</li>
-                    <li>MyFutureBiz Certificate</li>
-                  </ul>
-                </div> --}}
-
                 @if($package->courses->count() > 0)
                   {!! $package->courses[0]->description !!}
                 @endif
@@ -81,7 +64,7 @@
                     <div class="name-list">
                       <span><img src="{{ asset('images/package/lectures.svg') }}"></span>Lectures
                     </div>
-                    <div class="details-course">{{ $package->users->count() }} Enrolled</div>
+                    <div class="details-course">{{ $package->courses()->first()->courseVideo()->count() }} Enrolled</div>
                   </li>
                   <li>
                     <div class="name-list">
@@ -100,11 +83,16 @@
                   <a href="{{ route('auth.registerWithPlan',$package->uuid) }}" class="btn w-100 fill">Buy Now!</a>
                   @else
                     @php
-                     $referralUUID = $package->users()->find(auth()->user()->id)->uuid;
-                     $packageUUID = $package->uuid;
-                     $referralLink = route('auth.register',[$referralUUID,$packageUUID]);
+                     $referralLink = null;
+                     if($package->users()->count() > 0){
+                      $referralUUID = $package->users()->find(auth()->user()->id)->uuid;
+                      $packageUUID = $package->uuid;
+                      $referralLink = route('auth.register',[$referralUUID,$packageUUID]);
+                     }
                     @endphp
-                    <a href="javascript:void(0)" onclick="copyToClipboard('{{$referralLink}}')" id="copy_share_link"  class="btn w-100 fill bg-gray">Copy & Share Referral Link</a>
+                    @if($referralLink)
+                      <a href="javascript:void(0)" onclick="copyToClipboard('{{$referralLink}}')" id="copy_share_link"  class="btn w-100 fill bg-gray">Copy & Share Referral Link</a>
+                    @endif
                   @endif
                 </div>
               </div>

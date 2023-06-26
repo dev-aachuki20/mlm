@@ -40,6 +40,7 @@ return [
     'video_max_size' => '50240',
     'data_max_file_size'=> "50M",
     'no_image_url'   => 'default/no-image.jpg',
+    'default_user_logo' => 'default/default-user.png',
 
     'slider_limit' => '5',
 

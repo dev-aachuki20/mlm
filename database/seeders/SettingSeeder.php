@@ -23,6 +23,7 @@ class SettingSeeder extends Seeder
                 'type'   => 'logo',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
             ],
             [
                 'id'     => 2,
@@ -31,6 +32,8 @@ class SettingSeeder extends Seeder
                 'type'   => 'video',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+
             ],
 
             [
@@ -40,6 +43,7 @@ class SettingSeeder extends Seeder
                 'type'   => 'social media',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
             ],
 
             [
@@ -49,6 +53,7 @@ class SettingSeeder extends Seeder
                 'type'   => 'social media',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
             ],
 
             [
@@ -58,6 +63,7 @@ class SettingSeeder extends Seeder
                 'type'   => 'social media',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
             ],
             
             [
@@ -67,6 +73,7 @@ class SettingSeeder extends Seeder
                 'type'   => 'social media',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
             ],
 
             [
@@ -76,6 +83,7 @@ class SettingSeeder extends Seeder
                 'type'   => 'social media',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
             ],
 
             [
@@ -85,51 +93,57 @@ class SettingSeeder extends Seeder
                 'type'   => 'social media',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
             ],
 
             [
                 'id'     => 9,
                 'key'    => 'support_email',
-                'value'  => '',
+                'value'  => 'Info@Myfuturebiz.In',
                 'type'   => 'support',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
             ],
 
             [
                 'id'     => 10,
                 'key'    => 'support_phone',
-                'value'  => '',
+                'value'  => '1234567890',
                 'type'   => 'support',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
             ],
 
             [
                 'id'     => 11,
                 'key'    => 'support_whatsapp_number',
-                'value'  => '',
+                'value'  => '1234567890',
                 'type'   => 'support',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
             ],
 
             [
                 'id'     => 12,
                 'key'    => 'support_available',
-                'value'  => '',
+                'value'  => '24*7',
                 'type'   => 'support',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
             ],
 
             [
                 'id'     => 13,
                 'key'    => 'company_address',
-                'value'  => '',
+                'value'  => 'MyFutureBiz Marketing Private Limited Meena Bhawan, Near Water Tank Tilwar, Tehsil, Rajgarh, Alwar, Rajasthan, India',
                 'type'   => 'support',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
             ],
         ];
 

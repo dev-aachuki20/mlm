@@ -203,7 +203,15 @@ if (!function_exists('convertDateTimeFormat')) {
 if (!function_exists('getSetting')) {
 	function getSetting($key)
 	{
-		$result = Setting::where('key',$key)->value('value');
+		$result = null;
+		$setting = Setting::where('key',$key)->where('status',1)->first();
+		if($setting->type == 'logo'){
+			$result = $setting->image_url;
+		}elseif($setting->type == 'video'){
+			$result = $setting->video_url;
+		}else{
+			$result = $setting->value;
+		}
 		return $result;
 	}
 }

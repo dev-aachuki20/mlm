@@ -49,6 +49,13 @@ Route::group(['middleware' => [], 'as' => 'front.','prefix'=>''], function () {
     Route::view('/contact-us', 'frontend.contact-us')->name('contact-us');
     Route::view('/package/{uuid}', 'frontend.package.show')->name('package.show');
 
+    //Other pages
+    Route::view('/disclaimer', 'frontend.other.disclaimer')->name('disclaimer');
+    Route::view('/privacy-policy', 'frontend.other.privacy-policy')->name('privacy-policy');
+    Route::view('/terms-condition', 'frontend.other.terms-condition')->name('terms-condition');
+    Route::view('/refund-policy', 'frontend.other.refund-policy')->name('refund-policy');
+    Route::view('/user-license-agreement', 'frontend.other.license-agreement')->name('end-user-license-agreement');
+
 });
 
 // Admin Routes

@@ -16,7 +16,7 @@
                 </div>
                 <div class="contact-detail">
                     <span class="color-dark-gray">Email Us</span>
-                    <a href="mailto:info@myfuturebiz.in" class="color-dark-blue">info@myfuturebiz.in</a> 
+                    <a href="mailto:{{ getSetting('support_email') }}" class="color-dark-blue">{{ getSetting('support_email') }}</a> 
                 </div>
                 </li>
                 <li>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="contact-detail">
                     <span class="color-dark-gray">Connect with us</span>
-                    <a href="tel:+91-123-4567-890" class="color-dark-blue">+91-123-4567-890</a> 
+                    <a href="tel:+91-{{ getSetting('support_phone') }}" class="color-dark-blue">+91-{{ getSetting('support_phone') }}</a> 
                 </div>
                 </li>
                 <li>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="contact-detail">
                     <span class="color-dark-gray">Connect On Whatsapp</span>
-                    <a href="https://api.whatsapp.com/send?phone=9876543210" target="blank" class="color-dark-blue">+91-123-4567-890</a> 
+                    <a href="https://api.whatsapp.com/send?phone={{ getSetting('support_whatsapp_number') }}" target="blank" class="color-dark-blue">+91-{{ getSetting('support_whatsapp_number') }}</a> 
                 </div>
                 </li>
             </ul>
@@ -42,7 +42,7 @@
             <div class="founder-social">
             <ul>
                 <li>
-                <a href="#">
+                <a href="{{ getSetting('youtube') }}">
                     <div class="social-icon">
                     <img src="{{ asset('images/youtube.svg') }}">
                     </div>
@@ -52,7 +52,7 @@
                 </a>
                 </li>
                 <li>
-                <a href="#">
+                <a href="{{ getSetting('instagram') }}">
                     <div class="social-icon">
                     <img src="{{ asset('images/instagram.svg') }}">
                     </div>
