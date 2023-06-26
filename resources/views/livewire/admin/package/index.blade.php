@@ -121,13 +121,18 @@
 
 @push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script src="{{ asset('admin/assets/select2/select2.min.js') }}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 <script type="text/javascript">
 
     document.addEventListener('loadPlugins', function (event) {
+      
+        $('.dropify').dropify();
+        $('.dropify-errors-container').remove();
       
         if ($(".js-example-basic-single").length) {
             $(".js-example-basic-single").select2({
@@ -165,9 +170,7 @@
             @this.set('level', selectLevel);
         });
 
-        $('.dropify').dropify();
-        $('.dropify-errors-container').remove();
-      
+       
         $('textarea#summernote-features').summernote({
             placeholder: 'Type somthing...',
             tabsize: 2,

@@ -82,10 +82,12 @@
                                                 <button type="button" wire:click.prevent="edit({{$team->id}})" class="btn btn-info btn-rounded btn-icon">
                                                     <i class="ti-pencil-alt"></i>
                                                 </button>
-    
+                                                
+                                                @if(!$team->is_ceo)
                                                 <button type="button" wire:click.prevent="delete({{$team->id}})" class="btn btn-danger btn-rounded btn-icon">
                                                     <i class="ti-trash"></i>
                                                 </button>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

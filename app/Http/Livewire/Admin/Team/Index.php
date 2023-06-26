@@ -228,8 +228,13 @@ class Index extends Component
                 //Upload profile image
                 $uploadId = null;
                 if($this->profile_image){
-                    $uploadId = $teamUpdated->profileImage->id;
-                    uploadImage($teamUpdated, $this->profile_image, 'user/profile-images',"profile", 'original', 'update', $uploadId);
+                    $uploadId = ($teamUpdated->profileImage) ? $teamUpdated->profileImage->id : null;
+                    if($uploadId){
+                        uploadImage($teamUpdated, $this->profile_image, 'user/profile-images',"profile", 'original', 'update', $uploadId);
+                    }else{
+                        uploadImage($teamUpdated, $this->profile_image, 'user/profile-images',"profile", 'original', 'save', null);
+                    }
+                 
                 }
                 // Assign user Role
                 // $teamUpdated->roles()->sync([4]);
@@ -269,7 +274,7 @@ class Index extends Component
 
         }catch (\Exception $e) {
             DB::rollBack();
-            // dd($e->getMessage().'->'.$e->getLine());
+            dd($e->getMessage().'->'.$e->getLine());
             $this->alert('error',trans('messages.error_message'));
         }
 

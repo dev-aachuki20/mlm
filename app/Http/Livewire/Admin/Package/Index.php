@@ -121,6 +121,7 @@ class Index extends Component
         $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
         $validatedData['status']   = $this->status;
 
+    try{
         $this->uuid     = Str::uuid();
 
         $insertRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators']);
@@ -140,7 +141,12 @@ class Index extends Component
         $this->flash('success',trans('messages.add_success_message'));
         
         return redirect()->route('admin.package');
-       
+    }catch (\Exception $e) {
+        DB::rollBack();
+        // dd($e->getMessage().'->'.$e->getLine());
+        $this->alert('error',trans('messages.error_message'));
+    }
+
     }
 
 
@@ -280,7 +286,7 @@ class Index extends Component
         $this->level = '';
         $this->status = 1;
         $this->image = null;
-        $this->viedeo = null;
+        $this->video = null;
     }
 
     public function cancel(){

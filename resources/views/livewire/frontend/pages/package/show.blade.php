@@ -57,7 +57,9 @@
                   </ul>
                 </div> --}}
 
-                {!! $package->courses[0]->description !!}
+                @if($package->courses->count() > 0)
+                  {!! $package->courses[0]->description !!}
+                @endif
               </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12">

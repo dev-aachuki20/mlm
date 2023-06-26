@@ -124,11 +124,12 @@
                 </button>
                 @endif
 
-                <input type="file"  wire:model.defer="video" class="dropify" data-max-file-size="25600" data-default-file="{{ $originalVideo }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="webm mp4 avi wmv flv mov" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="video/webm, video/mp4, video/avi,video/wmv,video/flv,video/mov">
+                <input type="file"  wire:model.defer="video" class="dropify" data-default-file="{{ $originalVideo }}"  accept="video/webm, video/mp4, video/avi,video/wmv,video/flv,video/mov">
                 <span wire:loading wire:target="video">
                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
                 </span>
             </div>
+            
             @if($errors->has('video'))
             <span class="error text-danger">
                 {{ $errors->first('video') }}
