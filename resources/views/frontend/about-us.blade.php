@@ -44,5 +44,5 @@
 
 @stop
 
-@section('script')
+@section('scripts')
 @stop

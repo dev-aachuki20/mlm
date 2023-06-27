@@ -45,6 +45,7 @@
                             <tr>
                                 <th>{{ trans('global.sno') }}</th>
                                 <th>Title</th>
+                                <th>Type</th>
                                 <th>{{ trans('global.status') }}</th>
                                 <th>{{ trans('global.created_at') }}
                                     <span wire:click="sortBy('created_at')" class="float-right text-sm" style="cursor: pointer;">
@@ -61,6 +62,7 @@
                                     <tr>
                                         <td>{{ $serialNo+1 }}</td>
                                         <td>{{ $page->title }}</td>
+                                        <td>{{ ucwords(config('constants.page_types')[$page->type]) }}</td>
                                         <td>
                         
                                             <label class="toggle-switch">
@@ -119,6 +121,7 @@
           placeholder: 'Type somthing...',
           tabsize: 2,
           height: 200,
+          fontNames: ['Arial', 'Helvetica', 'Times New Roman', 'Courier New','sans-serif'],
           toolbar: [
               ['style', ['style']],
               ['font', ['bold', 'underline', 'clear']],
@@ -126,8 +129,8 @@
               ['color', ['color']],
               ['para', ['ul', 'ol', 'paragraph']],
               ['table', ['table']],
-              ['insert', ['link', /*'picture', 'video'*/]],
-              // ['view', ['fullscreen', 'codeview', 'help']],
+              ['insert', ['link', 'picture', /*'video'*/]],
+              ['view', [/*'fullscreen', */'codeview', /*'help'*/]],
           ],
           callbacks: {
               onChange: function(content) {

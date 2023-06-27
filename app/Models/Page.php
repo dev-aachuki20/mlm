@@ -22,6 +22,7 @@ class Page extends Model
         'parent_page_id',
         'title',
         'slug',
+        'type',
         'description',
         'template_name',
         'created_by'

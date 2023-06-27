@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\PageController;
 
 
 // Route::get('/', function () {
@@ -45,16 +46,13 @@ Route::group(['middleware' => [], 'as' => 'front.','prefix'=>''], function () {
 
     Route::view('/', 'frontend.home')->name('home');
     Route::view('/teams', 'frontend.teams')->name('teams');
+    Route::view('/testimonials', 'frontend.testimonial')->name('testimonials');
     Route::view('/about-us', 'frontend.about-us')->name('about-us');
     Route::view('/contact-us', 'frontend.contact-us')->name('contact-us');
     Route::view('/package/{uuid}', 'frontend.package.show')->name('package.show');
 
     //Other pages
-    Route::view('/disclaimer', 'frontend.other.disclaimer')->name('disclaimer');
-    Route::view('/privacy-policy', 'frontend.other.privacy-policy')->name('privacy-policy');
-    Route::view('/terms-condition', 'frontend.other.terms-condition')->name('terms-condition');
-    Route::view('/refund-policy', 'frontend.other.refund-policy')->name('refund-policy');
-    Route::view('/user-license-agreement', 'frontend.other.license-agreement')->name('end-user-license-agreement');
+    Route::get('/{slug}', [PageController::class,'show'])->name('pages.show');
 
 });
 

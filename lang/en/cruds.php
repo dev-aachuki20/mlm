@@ -137,6 +137,7 @@ return [
         'fields' => [
             'parent_page' => 'Parent page',
             'title' => 'Title',
+            'type'  => 'Type',
             'slug'  => 'Slug',
             'description'    => 'Description',
             'template_name'  => 'Template name',

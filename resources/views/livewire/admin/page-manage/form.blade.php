@@ -6,11 +6,25 @@
 <form wire:submit.prevent="{{ $updateMode ? 'update' : 'store' }}" class="forms-sample">
     
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <label class="font-weight-bold">{{ __('cruds.page.fields.title')}}</label>
                 <input type="text" class="form-control" wire:model.defer="title" placeholder="{{ __('cruds.page.fields.title')}}">
                 @error('title') <span class="error text-danger">{{ $message }}</span>@enderror
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="font-weight-bold">{{ __('cruds.page.fields.type')}}</label>
+                <select class="form-control" wire:model.defer="type">
+                    <option value="">Select Type</option>
+                    @if(config('constants.page_types'))
+                        @foreach(config('constants.page_types') as $id=>$name)
+                          <option value="{{$id}}" {{$type == $id ? 'selected' : ''}}>{{ ucwords($name) }}</option>
+                        @endforeach
+                    @endif
+                </select>
+                @error('type') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
         </div>
     </div>

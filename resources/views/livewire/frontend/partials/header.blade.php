@@ -50,7 +50,7 @@
                 <a class="nav-link {{ request()->is('teams') ? 'active' : '' }}" href="{{ route('front.teams') }}">Founder & Team</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="javascript:void(0)">Testimonials</a>
+              <a class="nav-link {{ request()->is('testimonials') ? 'active' : '' }}" href="{{ route('front.testimonials') }}">Testimonials</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('contact-us') ? 'active' : '' }}" href="{{ route('front.contact-us') }}">Get in Touch</a>

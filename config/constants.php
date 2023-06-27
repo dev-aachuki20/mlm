@@ -72,4 +72,12 @@ return [
         2=> "intermediate",
         3=> "advanced",
     ],
+
+    'page_types' => [   
+        1=> "support menu",
+        2=> "useful links",
+        // 3=> "other",
+    ],
+
+    'max_review_length' => '200'
 ];

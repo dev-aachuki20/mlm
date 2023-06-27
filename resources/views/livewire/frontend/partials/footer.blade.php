@@ -73,14 +73,26 @@
                 </ul>
               </div>
             </div>
+
+            @php
+              $pageTypes = config('constants.page_types');
+              $pages = getOtherPages();
+            @endphp
+
             <div class="col-lg-4 col-md-4 col-sm-12">
               <div class="footer-link">
                 <h4 class="text-white">Support Menu</h4>
                 <ul>
-                    <li><a href="{{ route('front.contact-us') }}">Contact Us</a></li>
-                    <li><a href="{{ route('front.disclaimer') }}">Disclaimer</a></li>
-                    <li><a href="{{ route('front.privacy-policy') }}">Privacy Policy</a></li>
-                    <li><a href="{{ route('front.terms-condition') }}">Terms & Condition</a></li>
+                  <li><a href="{{ route('front.contact-us') }}">Contact Us</a></li>
+
+                  @if($pages)
+                  @foreach($pages as $key=>$page)
+                    @if($page->type == 1)
+                     <li><a href="{{ route('front.pages.show',$page->slug) }}">{{ ucwords($page->title) }}</a></li>
+                    @endif
+                  @endforeach
+                  @endif
+                   
                 </ul>
               </div>
             </div>
@@ -90,8 +102,13 @@
                 <ul>
                     <li><a href="{{ route('front.about-us') }}">About Us</a></li>
                     <li><a href="{{ route('front.teams') }}">Founder & Team</a></li>
-                    <li><a href="{{ route('front.refund-policy') }}">Refund Policy</a></li>
-                    <li><a href="{{ route('front.end-user-license-agreement') }}">End user license Agreement</a></li>
+                    @if($pages)
+                    @foreach($pages as $key=>$page)
+                      @if($page->type == 2)
+                       <li><a href="{{ route('front.pages.show',$page->slug) }}">{{ ucwords($page->title) }}</a></li>
+                      @endif
+                    @endforeach
+                    @endif
                 </ul>
               </div>
             </div>

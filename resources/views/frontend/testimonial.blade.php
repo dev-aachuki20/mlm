@@ -1,12 +1,12 @@
 @extends('layouts.front')
-@section('title','Contact Us')
+@section('title','Testimonials')
 
 @section('styles')
 @stop
 
 @section('content')
 
-    @livewire('frontend.pages.contactus')
+    @livewire('frontend.pages.testimonials')
 
     @livewire('frontend.sections.get-in-touch')
 

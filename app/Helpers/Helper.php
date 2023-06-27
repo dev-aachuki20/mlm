@@ -7,6 +7,7 @@ use App\Models\Uploads;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Setting;
+use App\Models\Page;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 
@@ -212,6 +213,22 @@ if (!function_exists('getSetting')) {
 		}else{
 			$result = $setting->value;
 		}
+		return $result;
+	}
+}
+
+if (!function_exists('getOtherPages')) {
+	function getOtherPages()
+	{
+		$result = Page::where('status',1)->get();
+		return $result;
+	}
+}
+
+if (!function_exists('getPageContent')) {
+	function getPageContent($slug)
+	{
+		$result = Page::where('slug',$slug)->where('status',1)->value('description');
 		return $result;
 	}
 }

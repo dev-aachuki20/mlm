@@ -20,7 +20,7 @@ class Index extends Component
 
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    public $page_id=null, $parent_page ,$title, $description, $template_name;
+    public $page_id=null, $parent_page ,$title, $type, $description, $template_name;
 
     protected $listeners = [
         'updatePaginationLength','confirmedToggleAction','deleteConfirm', 'cancelledToggleAction','refreshComponent' => 'render',
@@ -67,8 +67,16 @@ class Index extends Component
             $statusSearch = 0;
         }
 
-        $allPage = Page::query()->where(function ($query) use($searchValue,$statusSearch) {
+        $typeSearch = null;
+        foreach(config('constants.page_types') as $key=>$typeName){
+            if(Str::contains($typeName, strtolower($searchValue))){
+                $typeSearch =  $key;
+            }
+        }
+
+        $allPage = Page::query()->where(function ($query) use($searchValue,$statusSearch,$typeSearch) {
             $query->where('title', 'like', '%'.$searchValue.'%')
+            ->orWhere('type', $typeSearch)
             ->orWhere('status', $statusSearch)
             ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
         })
@@ -90,6 +98,7 @@ class Index extends Component
     private function resetInputFields(){
         $this->parent_page = '';
         $this->title = '';
+        $this->type = '';
         $this->description = '';
         $this->template_name = '';
         $this->status = 1;
@@ -97,16 +106,17 @@ class Index extends Component
 
     public function store(){
 
-        $validatedDate = $this->validate([
+        $validatedData = $this->validate([
             'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/ 'max:255','unique:pages,title'],
             // 'template_name'   => ['required', 'alpha', 'max:255'],
             'description'     => 'required',
+            'type'            => 'required',
             'status'          => 'required',
         ]);
 
-        $validatedDate['status'] = $this->status;
+        $validatedData['status'] = $this->status;
     
-        Page::create($validatedDate);
+        Page::create($validatedData);
   
         $this->formMode = false;
 
@@ -123,6 +133,7 @@ class Index extends Component
         $page = Page::findOrFail($id);
         $this->page_id = $id;
         $this->title           = $page->title;
+        $this->type            = $page->type;
         // $this->template_name   = $page->template_name;
         $this->description     = $page->description;
         $this->status          = $page->status;
@@ -131,17 +142,18 @@ class Index extends Component
     }
 
     public function update(){
-        $validatedDate = $this->validate([
+        $validatedData = $this->validate([
             'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/'max:255','unique:pages,title,'.$this->page_id],
+            'type'  => 'required',
             // 'template_name'   => ['required', 'alpha', 'max:255'],
             'description'     => 'required',
             'status'          => 'required',
         ]);
   
-        $validatedDate['status'] = $this->status;
+        $validatedData['status'] = $this->status;
 
         $page = Page::find($this->page_id);
-        $page->update($validatedDate);
+        $page->update($validatedData);
   
         $this->formMode = false;
         $this->updateMode = false;
