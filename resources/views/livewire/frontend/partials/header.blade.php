@@ -44,13 +44,13 @@
                 <a class="nav-link {{ request()->is('about-us') ? 'active' : '' }}" href="{{ route('front.about-us') }}">About us</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="how-myfuturebiz-works.html">how myFutureBiz Works</a>
+              <a class="nav-link" href="javascript:void(0)">how myFutureBiz Works</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('teams') ? 'active' : '' }}" href="{{ route('front.teams') }}">Founder & Team</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="testimonials.html">Testimonials</a>
+              <a class="nav-link" href="javascript:void(0)">Testimonials</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('contact-us') ? 'active' : '' }}" href="{{ route('front.contact-us') }}">Get in Touch</a>

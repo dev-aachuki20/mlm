@@ -98,7 +98,7 @@ class Index extends Component
     public function store(){
 
         $validatedDate = $this->validate([
-            'title'           => ['required', 'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u', 'max:255','unique:pages,title'],
+            'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/ 'max:255','unique:pages,title'],
             // 'template_name'   => ['required', 'alpha', 'max:255'],
             'description'     => 'required',
             'status'          => 'required',
@@ -132,7 +132,7 @@ class Index extends Component
 
     public function update(){
         $validatedDate = $this->validate([
-            'title'           => ['required', 'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u','max:255','unique:pages,title,'.$this->page_id],
+            'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/'max:255','unique:pages,title,'.$this->page_id],
             // 'template_name'   => ['required', 'alpha', 'max:255'],
             'description'     => 'required',
             'status'          => 'required',

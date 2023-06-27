@@ -46,7 +46,7 @@
                                 <tr>
                                 <th>{{ trans('global.sno') }}</th>
                                 <th>{{ trans('cruds.team.fields.name') }}</th>
-                                {{-- <th>Role</th> --}}
+                                <th>Role</th>
                                 <th>{{ trans('global.status') }}</th>
                                 <th>{{ trans('cruds.package.fields.created_at') }}
                                     <span wire:click="sortBy('created_at')" class="float-right text-sm" style="cursor: pointer;">
@@ -63,7 +63,7 @@
                                         <tr>
                                             <td>{{ $serialNo+1 }}</td>
                                             <td>{{ ucwords($team->name) }}</td>
-                                            {{-- <td>{{ $team->roles()->first()->title }}</td> --}}
+                                            <td>{{ $team->roles()->first()->title }}</td>
 
                                             <td>
                             

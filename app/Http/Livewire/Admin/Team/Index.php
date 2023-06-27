@@ -79,6 +79,7 @@ class Index extends Component
         $allTeam = User::query()->where(function ($query) use($searchValue,$statusSearch) {
             $query->where('name', 'like', '%'.$searchValue.'%')
             ->orWhere('is_active', $statusSearch)
+            ->orWhereRelation('roles','title','like',  $searchValue . '%')
             ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
         })
         ->whereHas('roles',function($query){

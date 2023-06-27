@@ -25,7 +25,7 @@
                 </div>
                 <div class="contact-detail">
                     <span class="color-dark-gray">Connect with us</span>
-                    <a href="tel:+91-{{ getSetting('support_phone') }}" class="color-dark-blue">+91-{{ getSetting('support_phone') }}</a> 
+                    <a href="tel:+91-{{ getSetting('support_phone') }}" class="color-dark-blue">{{ getSetting('support_phone') }}</a> 
                 </div>
                 </li>
                 <li>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="contact-detail">
                     <span class="color-dark-gray">Connect On Whatsapp</span>
-                    <a href="https://api.whatsapp.com/send?phone={{ getSetting('support_whatsapp_number') }}" target="blank" class="color-dark-blue">+91-{{ getSetting('support_whatsapp_number') }}</a> 
+                    <a href="https://api.whatsapp.com/send?phone={{ getSetting('support_whatsapp_number') }}" target="blank" class="color-dark-blue">{{ getSetting('support_whatsapp_number') }}</a> 
                 </div>
                 </li>
             </ul>
