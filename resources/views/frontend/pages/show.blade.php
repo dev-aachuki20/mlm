@@ -1,5 +1,5 @@
 @extends('layouts.front')
-@section('title',$page->title)
+@section('title',ucwords($page->title))
 
 @section('styles')
 @stop
