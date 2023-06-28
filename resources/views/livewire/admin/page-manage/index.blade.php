@@ -61,7 +61,7 @@
                                 @foreach($allPage as $serialNo => $page)
                                     <tr>
                                         <td>{{ $serialNo+1 }}</td>
-                                        <td>{{ $page->title }}</td>
+                                        <td>{{ ucwords($page->title) }}</td>
                                         <td>{{ ucwords(config('constants.page_types')[$page->type]) }}</td>
                                         <td>
                         
