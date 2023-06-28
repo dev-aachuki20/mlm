@@ -59,14 +59,19 @@ class ResetPassword extends Component
             $this->alert('error', trans('passwords.token'));
            
         }else{
-            $user = User::where('email', $email_id)
-            ->update(['password' => Hash::make($this->password)]);
-
-            DB::table('password_resets')->where(['email'=> $email_id])->delete();
-
-            // Set Flash Message
-            $this->flash('success', trans('passwords.reset'));
-
+            $isActive = User::where('email',$email_id)->value('is_active');
+            if($isActive){
+                $user = User::where('email', $email_id)
+                ->update(['password' => Hash::make($this->password)]);
+    
+                DB::table('password_resets')->where(['email'=> $email_id])->delete();
+    
+                // Set Flash Message
+                $this->flash('success', trans('passwords.reset'));
+            }else{
+                $this->alert('error', trans('messages.suspened'));
+            }
+           
         }
 
         $this->resetInputFields();

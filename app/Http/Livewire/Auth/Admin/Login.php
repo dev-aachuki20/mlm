@@ -6,6 +6,7 @@ use Mail;
 use Auth;
 use Livewire\Component;
 use App\Models\User;
+use App\Rules\IsActive;
 use App\Http\Livewire\BaseComponent;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -37,7 +38,7 @@ class Login extends BaseComponent
     public function submitLogin()
     {
         $validated = $this->validate([
-            'email'    => ['required','email'],
+            'email'    => ['required','email',new IsActive],
             'password' => 'required',
         ]);
          
@@ -50,6 +51,7 @@ class Login extends BaseComponent
         try {
             $checkVerified = User::where('email',$this->email)->whereNull('email_verified_at')->first();
             if(!$checkVerified){
+               
                 if (Auth::attempt($credentialsOnly, $remember_me)) {
             
                     $this->resetInputFields();
@@ -63,10 +65,11 @@ class Login extends BaseComponent
                     }else{
                         return redirect()->route('admin.dashboard');
                     }
-                  
+                
                 }
         
                 $this->addError('email', trans('auth.failed'));
+              
             }else{
                 // $this->addError('email', trans('panel.message.email_verify_first'));
                 // $checkVerified->sendEmailVerificationNotification();
@@ -86,7 +89,7 @@ class Login extends BaseComponent
     public function checkEmail()
     {
         $validated = $this->validate([
-            'email'    => ['required','email'],
+            'email'    => ['required','email',new IsActive],
         ], getCommonValidationRuleMsgs());
 
         // $user = User::where('email', $this->email)->whereNull('email_verified_at')->first();

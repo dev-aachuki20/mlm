@@ -63,7 +63,7 @@
                     <div class="form-group">
                       <div class="input-form">
                         <label class="form-label">Review Here</label>
-                        <textarea class="form-control" wire:model.defer="description"  placeholder="Write Your Review" ></textarea>
+                        <textarea class="form-control" wire:model="description"  placeholder="Write Your Review" ></textarea>
                         @error('description') <span class="error text-danger">{{ $message }}</span>@enderror
 
                       </div>
@@ -108,10 +108,21 @@
             <div class="col-lg-4 col-md-6 col-sm-12">
               <div class="testimonial-details bg-white">
                 <div class="testimonial-img">
-                  <img src="{{ $testimonial->user->profile_image_url }}">
+                  <img src="{{ $testimonial->user->profile_image_url ? $testimonial->user->profile_image_url : asset(config('constants.default_user_logo')) }}">
                 </div>
-                <div class="author-name body-size-large">Robert Denial</div>
-                <div class="author-rating"><img src="images/rating.png"></div>
+                <div class="author-name body-size-large">{{ ucfirst($testimonial->user->name) }}</div>
+                <div class="author-rating">
+                  @php
+                      $rating = (int)$testimonial->rating;
+                  @endphp
+                  @for($i=1; $i<=5; $i++)
+                      @if($i <= $rating)
+                        <img src="{{ asset('images/Star.svg') }}">
+                      @else
+                        <img src="{{ asset('images/Star-Border.svg') }}">
+                      @endif
+                  @endfor
+                </div>
                 <div class="testimonial-dis">
                   <p>{{ $testimonial->description }}</p>
                 </div>
@@ -120,7 +131,7 @@
             @endforeach
           </div>
 
-          @if ($testimonials->count() < $count)
+          @if ($testimonials->hasMorePages())
           <div class="row justify-content-center">
             <div class="col-lg-4">
               <div class="button-group mt-60 justify-content-center">

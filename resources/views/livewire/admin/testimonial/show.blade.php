@@ -7,14 +7,14 @@
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.testimonial.fields.image')}}</label>
         <div class="col-sm-9 col-form-label">
-             <img class="rounded img-thumbnail" src="{{ $details->image_url }}" width="100px"/>
+             <img class="rounded img-thumbnail" src="{{ $details->user->profile_image_url ? $details->user->profile_image_url : asset(config('constants.default_user_logo')) }}" width="100px"/>
         </div>
     </div>
 
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.testimonial.fields.name')}}</label>
         <div class="col-sm-9 col-form-label">
-             {{ $details->name }}
+             {{ $details->user->name }}
         </div>
     </div>
 

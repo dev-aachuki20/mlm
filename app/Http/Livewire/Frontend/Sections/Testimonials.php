@@ -12,7 +12,7 @@ class Testimonials extends Component
     public $allTestimonial;
 
     public function mount(){
-        $this->allTestimonial = Testimonial::where('status',1)->get(); 
+        $this->allTestimonial = Testimonial::where('status',1)->latest()->get(); 
     } 
 
     public function render()

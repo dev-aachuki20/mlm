@@ -7,6 +7,7 @@ use Mail;
 use Hash;
 use Carbon\Carbon; 
 use App\Models\User;
+use App\Rules\IsActive;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use App\Mail\ResetPasswordMail;
@@ -26,7 +27,7 @@ class ForgetPassword extends Component
     }
 
     public function submit(){
-        $this->validate(['email' => 'required|email|exists:users'], getCommonValidationRuleMsgs());
+        $this->validate(['email' => ['required','email','exists:users',new IsActive]], getCommonValidationRuleMsgs());
 
         $user = User::where('email',$this->email)->first();
         if($user){
@@ -55,6 +56,7 @@ class ForgetPassword extends Component
 
             // Set Flash Message
             $this->alert('success', trans('passwords.sent'));
+          
         }else{
             // Set Flash Message
             $this->alert('error', 'Something went wrong!');

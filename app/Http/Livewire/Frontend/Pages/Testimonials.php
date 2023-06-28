@@ -12,38 +12,38 @@ class Testimonials extends Component
 
     public $rating, $description;
 
-    public $count=9, $testimonials;
+    public $perPage = 6;
 
     public function mount(){
-        $this->testimonials = Testimonial::where('status',1)->take($this->count)->get();
     }
 
     public function loadMore()
     {
-        $this->count += 9;
+        $this->perPage = $this->perPage + 6;
     }
 
     public function render()
     {
-        return view('livewire.frontend.pages.testimonials');
+        $testimonials = Testimonial::where('status',1)->latest()->paginate($this->perPage);
+        return view('livewire.frontend.pages.testimonials',compact('testimonials'));
     }
 
     public function updatedDescription(){
         $validatedData = $this->validate([
-            'description' => ['required','max:'.config('constants.max_review_length')],
+            'description' => ['required','min:'.config('constants.min_review_length')],
         ],[
             'description.required' => 'The review field is required.',
-            'description.max' => 'The review must be at least '.config('constants.max_review_length').' characters long.'
+            'description.min' => 'The review must be at least '.config('constants.min_review_length').' characters long.'
         ]);
     }
 
     public function storeReview(){
         $validatedData = $this->validate([
             'rating'      => ['required'],
-            'description' => ['required','max:'.config('constants.max_review_length')],
+            'description' => ['required','min:'.config('constants.min_review_length')],
         ],[
             'description.required' => 'The review field is required.',
-            'description.max' => 'The review must not be longer than '.config('constants.max_review_length').' characters.'
+            'description.min' => 'The review must be at least '.config('constants.min_review_length').' characters long.'
         ]);
 
       

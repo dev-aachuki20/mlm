@@ -21,7 +21,7 @@ return [
         'short_logo' => 'images/favicon.png',
         'admin_logo' => 'images/logo.png',
         'transparent_logo' => 'assets/logo/logo-transparent.png',
-        'profile_image' => 'default/default-user-man.png',
+        'profile_image' => 'default/default-user.svg',
         'footer-logo'   => 'images/light-logo.png'
     ],
     
@@ -40,7 +40,7 @@ return [
     'video_max_size' => '50240',
     'data_max_file_size'=> "50M",
     'no_image_url'   => 'default/no-image.jpg',
-    'default_user_logo' => 'default/default-user.png',
+    'default_user_logo' => 'default/default-user.svg',
 
     'slider_limit' => '5',
 
@@ -79,5 +79,5 @@ return [
         // 3=> "other",
     ],
 
-    'max_review_length' => '200'
+    'min_review_length' => '200'
 ];

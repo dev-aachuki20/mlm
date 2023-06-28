@@ -59,7 +59,7 @@
                                 @foreach($allTestimonials as $serialNo => $testimonial)
                                     <tr>
                                         <td>{{ $serialNo+1 }}</td>
-                                        <td>{{ ucfirst($testimonial->name) }}</td>
+                                        <td>{{ ucfirst($testimonial->user->name) }}</td>
                                         <td>
                         
                                             <label class="toggle-switch">
