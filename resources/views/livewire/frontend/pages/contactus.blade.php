@@ -4,15 +4,15 @@
           <div class="row justify-content-between">
             <div class="col-lg-6 col-sm-12 align-self-center">
               <div class="other-page-text">
-                <h1>Contact Us</h1>
+                <h1>{{ $pageDetail ? ucwords($pageDetail->title) : 'Title' }}</h1>
                 <div class="section-text body-size-normal">
-                  <p>The vision of MyFutureBiz is to develop entrepreneurial mindset and create financially independent person's excellent.</p>
+                  <p>{{  $pageDetail ? $pageDetail->sub_title : '' }}</p>
                 </div>
               </div>
             </div>
             <div class="col-lg-5 col-sm-12 align-self-end">
               <div class="other-page-img">
-                <img src="{{ asset('images/contact-img.png') }}">
+                <img src="{{  $pageDetail ? $pageDetail->slider_image_url : asset(config('constants.no_image_url'))  }}">
               </div>
             </div>
           </div>

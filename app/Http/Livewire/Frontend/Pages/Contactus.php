@@ -14,7 +14,13 @@ class Contactus extends Component
 
     // public $layouts = null;
 
+    public $pageDetail;
+
     public $name,$email,$message;
+
+    public function mount(){
+        $this->pageDetail = getPageContent('contact-us');
+    }
 
     public function render()
     {

@@ -45,9 +45,10 @@ Route::group(['middleware' => ['web','guest','preventBackHistory'], 'as' => 'aut
 Route::group(['middleware' => [], 'as' => 'front.','prefix'=>''], function () {
 
     Route::view('/', 'frontend.home')->name('home');
+    Route::view('/about-us', 'frontend.about-us')->name('about-us');
+    Route::view('/how-myfuturebiz-works', 'frontend.how-myfuturebiz-works')->name('how-myfuturebiz-works');
     Route::view('/teams', 'frontend.teams')->name('teams');
     Route::view('/testimonials', 'frontend.testimonial')->name('testimonials');
-    Route::view('/about-us', 'frontend.about-us')->name('about-us');
     Route::view('/contact-us', 'frontend.contact-us')->name('contact-us');
     Route::view('/package/{uuid}', 'frontend.package.show')->name('package.show');
 

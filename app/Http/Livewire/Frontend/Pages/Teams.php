@@ -9,10 +9,13 @@ class Teams extends Component
 {
     // public $layouts = null;
 
+    public $pageDetail;
     
     public $ceoUserDetail,$managementTeams;
 
     public function mount(){
+        $this->pageDetail = getPageContent('founder-team');
+
         $this->ceoUserDetail = User::whereHas('roles',function($query){
             $query->whereIn('id',[4]);
         })->where('is_active',1)->first();

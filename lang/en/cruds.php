@@ -137,11 +137,14 @@ return [
         'fields' => [
             'parent_page' => 'Parent page',
             'title' => 'Title',
+            'sub_title' => 'Sub title',
             'type'  => 'Type',
             'slug'  => 'Slug',
             'description'    => 'Description',
             'template_name'  => 'Template name',
-            'created_by'     => 'Created by',        
+            'created_by'     => 'Created by',  
+            'slider_image'   => 'Slider Image',        
+
         ],
     ],
 

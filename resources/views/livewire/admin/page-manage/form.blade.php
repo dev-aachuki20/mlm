@@ -13,10 +13,11 @@
                 @error('title') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
         </div>
+        
         <div class="col-md-6">
             <div class="form-group">
                 <label class="font-weight-bold">{{ __('cruds.page.fields.type')}}</label>
-                <select class="form-control" wire:model.defer="type">
+                <select class="form-control" wire:model.defer="type" {{ $type == 3 ? 'disabled':'' }}>
                     <option value="">Select Type</option>
                     @if(config('constants.page_types'))
                         @foreach(config('constants.page_types') as $id=>$name)
@@ -25,6 +26,16 @@
                     @endif
                 </select>
                 @error('type') <span class="error text-danger">{{ $message }}</span>@enderror
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="font-weight-bold">{{ __('cruds.page.fields.sub_title')}}</label>
+                <input type="text" class="form-control" wire:model.defer="sub_title" placeholder="{{ __('cruds.page.fields.sub_title')}}">
+                @error('sub_title') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
         </div>
     </div>
@@ -39,6 +50,23 @@
         </div>
     </div>
   --}}
+
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="form-group mb-0" wire:ignore>
+                <label class="font-weight-bold">{{ __('cruds.page.fields.slider_image')}}</label>
+                <input type="file"  wire:model.defer="slider_image" class="dropify" data-default-file="{{ $originalsliderImage }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
+                <span wire:loading wire:target="slider_image">
+                    <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
+                </span>
+            </div>
+            @if($errors->has('slider_image'))
+            <span class="error text-danger">
+                {{ $errors->first('slider_image') }}
+            </span>
+            @endif
+        </div>
+    </div>
   
     <div class="row">
         <div class="col-md-12 mb-4">
@@ -68,7 +96,7 @@
 
     <button type="submit" wire:loading.attr="disabled" class="btn btn-primary mr-2">
         {{ $updateMode ? __('global.update') : __('global.submit') }}
-        <span wire:loading wire:target="store">
+        <span wire:loading wire:target="{{ $updateMode ? 'update' :'store' }}">
             <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
         </span>
     </button>

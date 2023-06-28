@@ -12,6 +12,20 @@
     </div>
 
     <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.page.fields.sub_title') }}</label>
+        <div class="col-sm-9 col-form-label">
+             {{ $details->sub_title }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.page.fields.slider_image')}}</label>
+        <div class="col-sm-9 col-form-label">
+             <img class="rounded img-thumbnail" src="{{ $details->slider_image_url ? $details->slider_image_url : asset(config('constants.no_image_url')) }}" width="200px"/>
+        </div>
+    </div>
+
+    <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.page.fields.type') }}</label>
         <div class="col-sm-9 col-form-label">
              {{ ucwords(config('constants.page_types')[$details->type]) }}

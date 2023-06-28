@@ -9,6 +9,8 @@ use App\Models\Role;
 use App\Models\Setting;
 use App\Models\Page;
 use Illuminate\Support\Facades\Mail;
+use App\Models\MailContentSetting;
+use App\Mail\SendMailContentFromSetting;
 use Carbon\Carbon;
 
 
@@ -228,7 +230,7 @@ if (!function_exists('getOtherPages')) {
 if (!function_exists('getPageContent')) {
 	function getPageContent($slug)
 	{
-		$result = Page::where('slug',$slug)->where('status',1)->value('description');
+		$result = Page::where('slug',$slug)->where('status',1)->first();
 		return $result;
 	}
 }

@@ -32,9 +32,9 @@
                             <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
 
                                 @yield('email-content') 
-                                <tr>
+                                {{-- <tr>
                                     <td><p style="font-size:14px; margin:0 0 12px 27;">Thank you</p></td>
-                                </tr>
+                                </tr> --}}
 
                             </table>
 						</td>

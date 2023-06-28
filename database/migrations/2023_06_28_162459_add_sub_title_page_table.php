@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('pages', function (Blueprint $table) {
-            $table->tinyInteger('type')->default(null)->comment('1=> support menu, 2=> useful links, 3=> header')->after('slug');
+            $table->text('sub_title')->default(null)->nullable()->after('title');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('pages', function (Blueprint $table) {
-            $table->dropColumn('type');
+            $table->dropColumn('sub_title');
         });
     }
 };

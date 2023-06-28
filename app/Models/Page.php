@@ -21,6 +21,7 @@ class Page extends Model
     protected $fillable = [
         'parent_page_id',
         'title',
+        'sub_title',
         'slug',
         'type',
         'description',
@@ -33,15 +34,33 @@ class Page extends Model
         parent::boot();
         static::creating(function(Page $model) {
             $model->created_by = auth()->user()->id;
+            $model->slug = $model->generateSlug($model->title);
         });            
         
-        static::creating(function (Page $model) {
-            $model->slug = $model->generateSlug($model->title);
-        });
-
         static::updating(function (Page $model) {
-            $model->slug = $model->generateSlug($model->title);
+            if($model->type != 3){
+                $model->slug = $model->generateSlug($model->title);
+            }
+           
         });
+    }
+
+    public function uploads()
+    {
+        return $this->morphMany(Uploads::class, 'uploadsable');
+    }
+
+    public function sliderImage()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','page-slider');
+    }
+
+    public function getSliderImageUrlAttribute()
+    {
+        if($this->sliderImage){
+            return $this->sliderImage->file_url;
+        }
+        return "";
     }
 
 }

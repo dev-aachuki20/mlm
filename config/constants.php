@@ -76,7 +76,7 @@ return [
     'page_types' => [   
         1=> "support menu",
         2=> "useful links",
-        // 3=> "other",
+        3=> "header",
     ],
 
     'min_review_length' => '200'

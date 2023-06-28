@@ -81,9 +81,12 @@
                                                 <i class="ti-pencil-alt"></i>
                                             </button>
 
-                                            <button type="button" wire:click.prevent="delete({{$page->id}})" class="btn btn-danger btn-rounded btn-icon">
-                                                <i class="ti-trash"></i>
-                                            </button>
+                                            @if($page->type != 3)
+                                                <button type="button" wire:click.prevent="delete({{$page->id}})" class="btn btn-danger btn-rounded btn-icon">
+                                                    <i class="ti-trash"></i>
+                                                </button>
+                                            @endif
+                                            
                                         </td>
                                     </tr>
                                 @endforeach
@@ -109,14 +112,19 @@
 
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
 @endpush
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 
 <script type="text/javascript">
     document.addEventListener('loadPlugins', function (event) {
       
+      $('.dropify').dropify();
+      $('.dropify-errors-container').remove();
+
       $('textarea#summernote').summernote({
           placeholder: 'Type somthing...',
           tabsize: 2,

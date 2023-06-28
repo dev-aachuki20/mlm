@@ -4,22 +4,22 @@
           <div class="row justify-content-between">
             <div class="col-lg-6 col-sm-12 align-self-center">
               <div class="other-page-text">
-                <h1>Testimonials</h1>
+                <h1>{{ $pageDetail ? ucwords($pageDetail->title) : 'Title' }}</h1>
                 <div class="section-text body-size-normal">
-                  <p>The vision of MyFutureBiz is to develop entrepreneurial mindset and create financially independent person's excellent.</p>
+                  <p>{{  $pageDetail ? $pageDetail->sub_title : '' }}</p>
                 </div>
               </div>
             </div>
             <div class="col-lg-5 col-sm-12 align-self-end">
               <div class="other-page-img">
-                <img src="{{ asset('images/contact-img.png') }}">
+                <img src="{{  $pageDetail ? $pageDetail->slider_image_url : asset(config('constants.no_image_url'))  }}">
               </div>
             </div>
           </div>
         </div>
     </section>
 
-    @if(auth()->check())
+    @if(auth()->check() && (!auth()->user()->testimonial()->exists()))
     <section class="contact-form ptb-120 bg-white">
         <div class="container">
           <div class="row">
@@ -105,6 +105,32 @@
           </div>
           <div class="row testimonial-outer">
             @foreach ($testimonials as $testimonial)
+            @if(auth()->check() && auth()->user()->testimonial()->first()->status == 0)
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <div class="testimonial-details bg-white">
+                <div class="testimonial-img">
+                  <img src="{{ $testimonial->user->profile_image_url ? $testimonial->user->profile_image_url : asset(config('constants.default_user_logo')) }}">
+                </div>
+                <div class="author-name body-size-large">{{ ucfirst($testimonial->user->name) }}</div>
+                <div class="author-rating">
+                  @php
+                      $rating = (int)$testimonial->rating;
+                  @endphp
+                  @for($i=1; $i<=5; $i++)
+                      @if($i <= $rating)
+                        <img src="{{ asset('images/Star.svg') }}">
+                      @else
+                        <img src="{{ asset('images/Star-Border.svg') }}">
+                      @endif
+                  @endfor
+                </div>
+                <div class="testimonial-dis">
+                  <p>{{ $testimonial->description }}</p>
+                    <span class="badge bg-secondary float-right">Pending</span>
+                </div>
+              </div>
+            </div>
+            @elseif($testimonial->status)
             <div class="col-lg-4 col-md-6 col-sm-12">
               <div class="testimonial-details bg-white">
                 <div class="testimonial-img">
@@ -128,6 +154,8 @@
                 </div>
               </div>
             </div>
+            @endif
+
             @endforeach
           </div>
 

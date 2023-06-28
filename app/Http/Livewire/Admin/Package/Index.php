@@ -121,31 +121,31 @@ class Index extends Component
         $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
         $validatedData['status']   = $this->status;
 
-    try{
-        $this->uuid     = Str::uuid();
+        try{
+            $this->uuid     = Str::uuid();
 
-        $insertRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators']);
+            $insertRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators']);
 
-        $package = Package::create($insertRecord);
-    
-        //Image
-        uploadImage($package, $this->image, 'package/image/',"package", 'original', 'save', null);
-
-        //Upload video
-        uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'save', null);
-
-        $this->formMode = false;
-
-        $this->resetInputFields();
-
-        $this->flash('success',trans('messages.add_success_message'));
+            $package = Package::create($insertRecord);
         
-        return redirect()->route('admin.package');
-    }catch (\Exception $e) {
-        DB::rollBack();
-        // dd($e->getMessage().'->'.$e->getLine());
-        $this->alert('error',trans('messages.error_message'));
-    }
+            //Image
+            uploadImage($package, $this->image, 'package/image/',"package", 'original', 'save', null);
+
+            //Upload video
+            uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'save', null);
+
+            $this->formMode = false;
+
+            $this->resetInputFields();
+
+            $this->flash('success',trans('messages.add_success_message'));
+            
+            return redirect()->route('admin.package');
+        }catch (\Exception $e) {
+            DB::rollBack();
+            // dd($e->getMessage().'->'.$e->getLine());
+            $this->alert('error',trans('messages.error_message'));
+        }
 
     }
 

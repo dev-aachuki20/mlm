@@ -44,7 +44,7 @@
                 <a class="nav-link {{ request()->is('about-us') ? 'active' : '' }}" href="{{ route('front.about-us') }}">About us</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="javascript:void(0)">how myFutureBiz Works</a>
+              <a class="nav-link {{ request()->is('how-myfuturebiz-works') ? 'active' : '' }}" href="{{ route('front.how-myfuturebiz-works') }}">how myFutureBiz Works</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('teams') ? 'active' : '' }}" href="{{ route('front.teams') }}">Founder & Team</a>
