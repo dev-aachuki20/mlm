@@ -13,13 +13,13 @@
                 <div class="other-page-text">
                 <h1>{{ ucwords($page->title) }}</h1>
                 <div class="section-text body-size-normal">
-                    <p></p>
+                    <p>{{ $page->sub_title ?? ''}}</p>
                 </div>
                 </div>
             </div>
             <div class="col-lg-5 col-sm-12 align-self-end">
                 <div class="other-page-img">
-                <img src="{{ asset('images/contact-img.png') }}">
+                  <img src="{{  $page ? $page->slider_image_url : asset(config('constants.no_image_url'))  }}">
                 </div>
             </div>
             </div>
