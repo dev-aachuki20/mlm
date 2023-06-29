@@ -22,6 +22,8 @@ class Setting extends Model
         'key',
         'value',
         'type',
+        'group',
+        'display_name',
         'status',
         'created_at',
         'created_by',

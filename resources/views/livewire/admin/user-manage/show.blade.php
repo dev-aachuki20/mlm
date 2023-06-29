@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex float-left">
-                <h4 class="font-weight-bold">View all</h5>
+                <h4 class="font-weight-bold">View User</h5>
                 </div>
                 <div class="d-flex float-right">
                     <button class="btn btn-primary btn-sm" wire:loading.attr="disabled" wire:click.prevent="cancel">

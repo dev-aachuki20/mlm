@@ -154,6 +154,8 @@ return [
         'fields' => [
             'key'   => 'Key',
             'value' => 'Value',
+            'display_name' => 'Display Name',
+            'group' => 'Group',
             'type'  => 'Type',
             'created_by'     => 'Created by',        
         ],
