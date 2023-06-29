@@ -156,6 +156,9 @@
         }]
       },
       options: {
+        legend: {
+            display: false
+        },
         scales: {
           y: {
             beginAtZero: true // Start the y-axis from zero

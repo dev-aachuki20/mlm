@@ -28,18 +28,6 @@
 
             </div>
            
-
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.fields.dob') }}</label>
-                        <input type="text" class="form-control" id="dob" wire:model.defer="dob" placeholder="{{ __('cruds.user.fields.dob') }}" autocomplete="off"/>
-                        @error('dob') <span class="error text-danger">{{ $message }}</span>@enderror
-                    </div>
-                </div>
-            </div>
-         
-
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
@@ -49,12 +37,78 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="font-weight-bold">{{ __('cruds.user.fields.dob') }}</label>
+                        <input type="text" class="form-control" id="dob" wire:model.defer="dob" placeholder="{{ __('cruds.user.fields.dob') }}" autocomplete="off"/>
+                        @error('dob') <span class="error text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="font-weight-bold">{{ __('cruds.user.fields.phone') }}</label>
+                        <input type="text" class="form-control" wire:model.defer="phone" placeholder="{{ __('cruds.user.fields.phone') }}" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight','Tab'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space' && this.value.length < 10 " step="1"  autocomplete="off"/>
+                        @error('phone') <span class="error text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="font-weight-bold">{{ __('cruds.user.profile.gender') }}</label>
+                        <select wire:model.defer="gender" class="form-control">
+                            <option value="">Select gender</option>
+                            <option value="male" {{$gender == 'male' ? 'selected' : ''}}>Male</option>
+                            <option value="female" {{$gender == 'female' ? 'selected' : ''}}>Female</option>
+                            <option value="other" {{$gender == 'other' ? 'selected' : ''}}>Other</option>
+                        </select>
+                        @error('gender') <span class="error text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+    
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="font-weight-bold">{{ __('cruds.user.profile.marital_status') }}</label>
+                        <select wire:model.defer="marital_status" class="form-control">
+                            <option value="">Select marital status</option>
+                            <option value="married" {{$gender == 'married' ? 'selected' : ''}}>Married</option>
+                            <option value="unmarried" {{$gender == 'unmarried' ? 'selected' : ''}}>Unmarried</option>
+                        </select>
+                        @error('marital_status') <span class="error text-danger">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+            </div>
+    
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="text-right mt-3">
+                        <button class="btn btn-success" type="submit" wire:loading.attr="disabled">
+                            {{ __('global.update')}}
+                            <span wire:loading wire:target="updateProfile">
+                                <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                        <button class="btn btn-info" wire:loading.attr="disabled" wire:click.prevent="closedEditSection">
+                            {{ __('global.cancel')}}
+                            <span wire:loading wire:target="closedEditSection">
+                                <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
         </div>
         </div>
+
     </div>
 </div>
 <!--End row-1  -->
 
+{{-- 
 <!--Start row-2  -->
 <div class="row">
     <div class="col-md-12">
@@ -226,8 +280,9 @@
         </div>
     </div>
 </div>
+--}}
 
-<div class="text-center mt-3">
+{{-- <div class="text-center mt-3">
     <button class="btn btn-success" type="submit" wire:loading.attr="disabled">
         {{ __('global.update')}}
         <span wire:loading wire:target="updateProfile">
@@ -240,6 +295,6 @@
             <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
         </span>
     </button>
-</div>
+</div> --}}
 
 </form>

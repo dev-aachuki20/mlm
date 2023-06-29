@@ -102,6 +102,7 @@
           </div>
           <!--End row-1  -->
 
+          {{-- 
           <!-- Start row-2  -->
           <div class="row">
             <div class="col-md-12">
@@ -270,6 +271,7 @@
             </div>
       
           </div>
+          --}}
         @else
 
           @include('livewire.auth.profile.edit')

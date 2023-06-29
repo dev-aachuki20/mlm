@@ -13,6 +13,39 @@ $(document).ready(function() {
                 $thisEle.removeClass( "fa-eye-slash").addClass( "fa-eye" );
             }
     });
+
+    // Handle search input
+    const searchInput = $('#searchInput');
+    const clearSearch = $('#clearSearch');
+    
+    clearSearch.hide();
+    
+    // Show/hide clear icon based on input value
+    searchInput.on('focus',function(){
+      clearSearch.show();
+    });
+
+    // searchInput.on('focusout',function(){
+    //   clearSearch.hide();
+    // });
+
+    searchInput.on('keyup', function() {
+      const inputValue = searchInput.val();
+      if(inputValue != ''){
+        clearSearch.show();
+      }else{
+        clearSearch.hide();
+      }
+      clearSearch.toggle(!!inputValue);
+    });
+    
+    // Clear input on clear icon click
+    clearSearch.on('click', function() {
+      searchInput.val('').focus();
+      clearSearch.hide();
+    });
      
 });
+
+
 

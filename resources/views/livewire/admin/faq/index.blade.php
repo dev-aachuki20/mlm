@@ -36,7 +36,10 @@
                             <!-- End show length -->
 
                             <!--Start search  -->
-                            <input type="text" class="form-control col-2" wire:model="search" placeholder="{{ __('global.search')}}">
+                            <div class="search-container">
+                                <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search"/>
+                                <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
+                            </div>
                             <!-- End Search -->
                         </div>
 
@@ -141,7 +144,7 @@
       
     });
 
-   
+
 
 </script>
 @endpush

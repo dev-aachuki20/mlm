@@ -196,3 +196,15 @@ input:checked + .switch-slider:after
   color: #ffa723;
 }
 
+.search-container {
+  position: relative;
+}
+
+.clear-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #999;
+}

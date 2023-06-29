@@ -44,8 +44,7 @@
             <!-- partial:partials/_footer -->
             <footer class="footer">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">©{{ date('Y') }} {{ config('constants.app_name') }}, LLC. All Rights Reserved. 
-                 <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Developed by <i class="ti-heart text-danger ml-1"></i> HIPL</span>
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © {{ date('Y') }} {{ config('app.name') }} All rights reserved.
             </div>
             </footer>
             <!-- partial -->
