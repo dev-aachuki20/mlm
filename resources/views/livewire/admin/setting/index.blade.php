@@ -57,14 +57,25 @@
                                             </div>
                                         </div>
                                     @elseif($setting->type == 'text_area')
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
+                                        <div class="col-sm-12 mb-4">
+                                            <div class="form-group mb-0" wire:ignore>
                                                 <label class="font-weight-bold">{{ $setting->display_name }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
 
-                                                <textarea class="form-control" wire:model.defer="state.{{$setting->key}}" placeholder="{{$setting->display_name}}" rows="4"></textarea>
+                                                @if($setting->details)
+                                                    @php
+                                                    $parameterArray = explode(', ',$setting->details);
+                                                    @endphp
+                                                    @if($parameterArray)
+                                                        @foreach($parameterArray as $parameter)
+                                                        <button class="btn btn-sm btn-info copy-btn mb-1" data-elementVal="{{$parameter}}">{{ $parameter }}</button>
+                                                        @endforeach
+                                                    @endif
+                                                @endif
+                                                <textarea class="form-control summernote" wire:model.defer="state.{{$setting->key}}" data-elementName ="state.{{$setting->key}}" placeholder="{{$setting->display_name}}" rows="4">{{$setting->value}}</textarea>
                                                
-                                                @error('state.'.$setting->key) <span class="error text-danger">{{ $message }}</span>@enderror
                                             </div>
+
+                                            @error('state.'.$setting->key) <span class="error text-danger">{{ $message }}</span>@enderror
                                         </div>
                                     @elseif($setting->type == 'image')
                                         <div class="col-md-12 mb-4">
@@ -114,8 +125,7 @@
                                     </button>
                                 </div>
                                 
-                            </form>
-                            
+                            </form>  
                         </div>
                     </div>
                     
@@ -144,6 +154,30 @@
             $('.dropify').dropify();
             $('.dropify-errors-container').remove();
         });
+
+        $('textarea.summernote').summernote({
+            placeholder: 'Type somthing...',
+            tabsize: 2,
+            height: 200,
+            fontNames: ['Arial', 'Helvetica', 'Times New Roman', 'Courier New','sans-serif'],
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                // ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', /*'picture', 'video'*/]],
+                ['view', [/*'fullscreen',*/ 'codeview', /*'help'*/]],
+            ],
+            callbacks: {
+                onChange: function(content) {
+                    // Update the Livewire property when the Summernote content changes
+                    var variableName = $(this).attr('data-elementName');
+                    @this.set(variableName, content);
+                }
+            }
+        });
     @endif
 
     document.addEventListener('loadPlugins', function (event) {
@@ -151,37 +185,65 @@
         $('.dropify').dropify();
         $('.dropify-errors-container').remove();
 
-        // $('textarea#summernote').summernote({
-        //     placeholder: 'Type somthing...',
-        //     tabsize: 2,
-        //     height: 100,
-        //     toolbar: [
-        //         ['style', ['style']],
-        //         ['font', ['bold', 'underline', 'clear']],
-        //         ['fontname', ['fontname']],
-        //         ['color', ['color']],
-        //         ['para', ['ul', 'ol', 'paragraph']],
-        //         ['table', ['table']],
-        //         ['insert', ['link', /*'picture', 'video'*/]],
-        //         // ['view', ['fullscreen', 'codeview', 'help']],
-        //     ],
-        //     callbacks: {
-        //         onChange: function(content) {
-        //             // Update the Livewire property when the Summernote content changes
-        //             @this.set('value', content);
-        //         }
-        //     }
-        // });
-      
+        $('textarea.summernote').summernote({
+            placeholder: 'Type somthing...',
+            tabsize: 2,
+            height: 200,
+            fontNames: ['Arial', 'Helvetica', 'Times New Roman', 'Courier New','sans-serif'],
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                // ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', /*'picture', 'video'*/]],
+                ['view', [/*'fullscreen',*/ 'codeview', /*'help'*/]],
+            ],
+            callbacks: {
+                onChange: function(content) {
+                    // Update the Livewire property when the Summernote content changes
+                    var variableName = $(this).attr('data-elementName');
+                    @this.set(variableName, content);
+                }
+            }
+        });
     });
 
 
     $(document).ready(function(){
+        $(document).on('click','.copy-btn',function(event){
+            event.preventDefault();
+            var elementVal = $(this).attr('data-elementVal');
+            // console.log('click on copy btn',elementVal);
+            copyToClipboard(elementVal);
+            Livewire.emit('copyTextAlert');
+        });
+
         $(document).on('change','.section-type',function(){
             var sectionType = $(this).val();
             Livewire.emit('changeType',sectionType);
 
         });
     });
+
+    function copyToClipboard(value) {
+        // Create a temporary input element
+        var tempInput = document.createElement('input');
+        tempInput.setAttribute('value', value);
+        document.body.appendChild(tempInput);
+
+        // Select the input element's content
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the selected text
+        document.execCommand('copy');
+
+        // Remove the temporary input element
+        document.body.removeChild(tempInput);
+
+        // alert('Link copied to clipboard: ' + url);
+    }
 </script>
 @endpush

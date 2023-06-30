@@ -23,7 +23,7 @@ class Index extends Component
     public $tab = 'site', $settings = null, $state = [];
 
     protected $listeners = [
-    'changeTab',
+        'changeTab','copyTextAlert',
     ];
 
     public function mount(){
@@ -152,4 +152,7 @@ class Index extends Component
     }
 
   
+    public function copyTextAlert(){
+        $this->alert('success','Copied Successfully!');
+    }
 }

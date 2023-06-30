@@ -2567,7 +2567,7 @@ span.outline-text {
     }
 }
 
-
+/* start CSS added by rohit */
 .loader {
     display: none;
     position: fixed;
@@ -2609,3 +2609,8 @@ span.outline-text {
     font-size: 12px;
     color: #fff;
   }
+
+  .fa-eye:before{
+    opacity: 0;
+  }
+/* End css added by rohit */

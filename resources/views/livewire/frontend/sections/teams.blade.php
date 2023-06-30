@@ -32,7 +32,7 @@
               <label class="color-orange body-size-normal">Founder</label>
               <h4>{{ ucwords($ceoUserDetail->name) }}</h4>
               <div class="section-text">
-                <p>He Is An Entreprenuer, Trainer & Youtuber. He Has 3 Years Plus Experience In Sales And Marketing.</p>
+                <p>{{ getSetting('founder_description') }}</p>
               </div>
               <div class="founder-social">
                 <ul>

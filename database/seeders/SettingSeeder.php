@@ -170,6 +170,71 @@ class SettingSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'created_by' => 1,
             ],
+
+            [
+                'id'     => 14,
+                'key'    => 'founder_description',
+                'value'  => 'He Is An Entreprenuer, Trainer & Youtuber. He Has 3 Years Plus Experience In Sales And Marketing.',
+                'type'   => 'text_area',
+                'display_name'  => 'Founder Description',
+                'group'  => 'site',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
+            [
+                'id'     => 15,
+                'key'    => 'welcome_mail_content',
+                'value'  =>  null,
+                'type'   => 'text_area',
+                'display_name'  => 'Welcome Mail Content',
+                'group'  => 'mail',
+                'details' => '[NAME], [SUPPORT_EMAIL], [SUPPORT_PHONE], [APP_NAME]',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
+            [
+                'id'     => 16,
+                'key'    => 'package_purchased_mail_content',
+                'value'  =>  null,
+                'type'   => 'text_area',
+                'display_name'  => 'Package Purchased Mail Content',
+                'group'  => 'mail',
+                'details' => '[NAME], [PACKAGE_NAME], [SUPPORT_EMAIL], [SUPPORT_PHONE], [APP_NAME]',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
+            [
+                'id'     => 17,
+                'key'    => 'reset_password_mail_content',
+                'value'  =>  null,
+                'type'   => 'text_area',
+                'display_name'  => 'Reset Password Mail Content',
+                'group'  => 'mail',
+                'details' => '[NAME], [RESET_PASSWORD_BUTTON]',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
+            [
+                'id'     => 18,
+                'key'    => 'contact_us_mail_content',
+                'value'  =>  null,
+                'type'   => 'text_area',
+                'display_name'  => 'Contact Us Mail Content',
+                'group'  => 'mail',
+                'details' => '[APP_NAME], [MESSAGE], [NAME], [EMAIL]',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
         ];
 
         Setting::insert($settings);

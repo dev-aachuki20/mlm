@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::table('settings', function (Blueprint $table) {
             $table->string('type',191)->default(null)->nullable()->after('value');
             $table->string('display_name',191)->default(null)->nullable()->after('type');
+            $table->text('details')->default(null)->nullable()->after('display_name');
+
 
         });
     }
@@ -30,7 +32,7 @@ return new class extends Migration
         Schema::table('settings', function (Blueprint $table) {
             $table->dropColumn('type');
             $table->dropColumn('display_name');
-
+            $table->dropColumn('details');
         });
     }
 };
