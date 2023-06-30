@@ -9,9 +9,9 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6 grid-margin transparent">
+    <div class="col-md-12 grid-margin transparent">
       <div class="row">
-        <div class="col-md-6 mb-4 stretch-card transparent">
+        <div class="col-md-3 mb-4 stretch-card transparent">
           <div class="card card-tale">
             <div class="card-body">
               <p class="mb-4">Today's Earning</p>
@@ -21,7 +21,7 @@
           </div>
         </div>
         
-        <div class="col-md-6 mb-4 stretch-card transparent">
+        <div class="col-md-3 mb-4 stretch-card transparent">
           <div class="card card-dark-blue">
             <div class="card-body">
               <p class="mb-4">Last 7 Days Earning</p>
@@ -30,10 +30,8 @@
             </div>
           </div>
         </div>
-        </div>
-
-      <div class="row">
-        <div class="col-md-6 mb-4 stretch-card transparent">
+        
+        <div class="col-md-3 mb-4 stretch-card transparent">
           <div class="card card-light-blue">
             <div class="card-body">
               <p class="mb-4">Last 30 Days Earning</p>
@@ -42,7 +40,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 mb-4 stretch-card transparent">
+        <div class="col-md-3 mb-4 stretch-card transparent">
           <div class="card card-light-danger">
             <div class="card-body">
               <p class="mb-4">All Time Earning</p>
@@ -54,41 +52,6 @@
       </div>
     </div>
 
-    <div class="col-md-6 grid-margin transparent">
-      <div class="row">
-        <div class="col-md-6 mb-4 stretch-card transparent">
-          <div class="card card-tale">
-            <div class="card-body">
-              <p class="mb-4">Passive Income</p>
-              <p class="fs-30 mb-2"><i class="fa-sharp fa-solid fa-indian-rupee-sign"></i> 0.00</p>
-              <p></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 mb-4 stretch-card transparent">
-          <div class="card card-dark-blue">
-            <div class="card-body">
-              <p class="mb-4">Total Withdrawal</p>
-              <p class="fs-30 mb-2"><i class="fa-sharp fa-solid fa-indian-rupee-sign"></i> 0.00</p>
-              <p></p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12 mb-4 stretch-card transparent">
-          <div class="card card-light-blue">
-            <div class="card-body">
-              <p class="mb-4">Net Balance</p>
-              <p class="fs-30 mb-2"><i class="fa-sharp fa-solid fa-indian-rupee-sign"></i> 0.00</p>
-              <p></p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
   </div>
   <div class="row">
     <div class="col-md-6 grid-margin stretch-card">
