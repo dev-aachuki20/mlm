@@ -5,7 +5,15 @@
           <div class="row">
             <div class="col-lg-3 col-md-4 col-sm-12">
               <div class="footer-logo">
-                <a href="{{ route('front.home') }}"><img src="{{ asset(config('constants.default.footer-logo'))}}"></a>
+                <a href="{{ route('front.home') }}">
+                  
+                  @if(getSetting('footer_logo'))
+                  <img src="{{ getSetting('footer_logo') }}" alt="footer-logo"/>
+                  @else
+                  <img src="{{ asset(config('constants.default.footer-logo')) }}" class="mr-2" alt="footer-logo"/>
+                  @endif
+              
+                </a>
               </div>
             </div>
             <div class="col-lg-9 col-md-8 col-sm-12 align-self-center">

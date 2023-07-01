@@ -9,7 +9,7 @@
     <meta name="keywords" content="">
     <meta name="author" content="HIPL" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="{{ asset(config('constants.default.admin_favicon')) }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ getSetting('favicon') ? getSetting('favicon') : asset(config('constants.default.favicon')) }}" type="image/x-icon">
     
     @include('partials.admin.css')    
 

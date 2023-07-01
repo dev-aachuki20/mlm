@@ -5,7 +5,11 @@
           <div class="col-md-6 col-sm-6 col-8">
             <div class="logo">
               <a href="{{ route('front.home') }}">
-                <img src="{{ asset(config('constants.default.logo')) }}" alt="logo">
+                @if(getSetting('site_logo'))
+                <img src="{{ getSetting('site_logo') }}" class="mr-2" alt="logo"/>
+                @else
+                <img src="{{ asset(config('constants.default.logo')) }}" class="mr-2" alt="logo"/>
+                @endif
               </a>
             </div>
           </div>
