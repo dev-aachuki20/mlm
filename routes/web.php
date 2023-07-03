@@ -83,6 +83,9 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     Route::group(['middleware'=>['role:user'],'as' => 'user.','prefix'=>'user'], function () {
         
         Route::view('dashboard', 'user.index')->name('dashboard');
+        Route::view('kyc', 'user.kyc.index')->name('kyc');
+        Route::view('myteam', 'user.myteam.index')->name('myteam');
+        Route::view('leaderboard', 'user.leaderboard.index')->name('leaderboard');
 
     });
 

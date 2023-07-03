@@ -17,7 +17,7 @@ return [
     'default' => [
         'logo' => 'images/logo.png',
         'favicon' => 'images/favicon.png',
-        'short_logo' => 'images/favicon.png',
+        'short_logo' => 'images/logo-mini.png',
         'transparent_logo' => 'assets/logo/logo-transparent.png',
         'profile_image' => 'default/default-user.svg',
         'footer-logo'   => 'images/light-logo.png'
