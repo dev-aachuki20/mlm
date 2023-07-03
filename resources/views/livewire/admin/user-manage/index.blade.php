@@ -8,8 +8,8 @@
                 <div class="card-body">
                 
                     <div wire:loading wire:target="create" class="loader"></div>
-                    <div class="card-title">
-                        <h4 class="float-left">{{__('cruds.user.title_singular')}} Management</h4>
+                    <div class="card-title d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">{{__('cruds.user.title_singular')}} Management</h4>
                     </div>                
                     <div class="table-responsive pt-4">
                         

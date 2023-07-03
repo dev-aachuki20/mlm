@@ -49,9 +49,11 @@
                                  @foreach($settings as $setting)
                                     
                                     @if($setting->type == 'text')
-                                        <div class="col-sm-6">
+                                        <div class="{{ $setting->group == 'introduction_video' ? 'col-sm-12' : 'col-sm-6'}}">
                                             <div class="form-group">
-                                                <label class="font-weight-bold">{{ $setting->display_name }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                                                <label class="font-weight-bold">{{ $setting->display_name }}
+                                                    <i class="fa-asterisk" style="color: #e14119;"></i>
+                                                </label>
                                                 <input type="text" class="form-control" wire:model.defer="state.{{$setting->key}}" placeholder="{{$setting->display_name}}" />
                                                 @error('state.'.$setting->key) <span class="error text-danger">{{ $message }}</span>@enderror
                                             </div>

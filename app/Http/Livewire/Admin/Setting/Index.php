@@ -81,12 +81,16 @@ class Index extends Component
         $customMessages = [
             'required' => 'The field is required.',
             'state.site_logo' => 'The site logo must be an image.',
-            'site.site_logo.mimes' => 'The website logo must be jpeg,png,jpg,PNG,JPG.',
-            'site.site_logo.max'   => 'The website logo maximum size is '.config('constants.img_max_size').' KB.',
+            'state.site_logo.mimes' => 'The website logo must be jpeg,png,jpg,PNG,JPG.',
+            'state.site_logo.max'   => 'The website logo maximum size is '.config('constants.img_max_size').' KB.',
          
-            'site.introduction_video.video' => 'The introduction video must be an video.',
-            'site.introduction_video.mimes' => 'The introduction video must be webm, mp4, avi, wmv, flv, mov.',
-            'site.introduction_video.max'   => 'The favicon icon maximum size is '.config('constants.video_max_size').' KB.'
+            'state.introduction_video_image' => 'The image must be an image.',
+            'state.introduction_video_image.mimes' => 'The image must be jpeg,png,jpg,PNG,JPG.',
+            'state.introduction_video_image.max'   => 'The image maximum size is '.config('constants.img_max_size').' KB.',
+
+            'state.introduction_video.video' => 'The introduction video must be an video.',
+            'state.introduction_video.mimes' => 'The introduction video must be webm, mp4, avi, wmv, flv, mov.',
+            'state.introduction_video.max'   => 'The favicon icon maximum size is '.config('constants.video_max_size').' KB.'
         ];
 
         $validatedData = $this->validate($rules,$customMessages);

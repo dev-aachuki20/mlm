@@ -138,10 +138,9 @@ input:checked + .switch-slider:after
   display: flex;
   justify-content: space-between;
 }
-.background-purple-color{
-  background: #dfdef7;
+.background-purple-color {
+  background: #fff1e7;
 }
-
 .list-all-btn{
   padding: 10px!important;
   color: white;
@@ -150,11 +149,11 @@ input:checked + .switch-slider:after
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #4b49ac;
+  background-color: #f24f00;
 }
 .nav-pills .nav-link {
-  color:#4b49ac;
-  border: 1px solid #4b49ac;
+  color:#f24f00;
+  border: 1px solid #f24f00;
   padding: 0.5rem 1.75rem;
 }
 

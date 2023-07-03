@@ -3,12 +3,16 @@
     <div class="col-md-12 grid-margin">
       <div class="watch-our-introductory">
         <div class="introductory-text">
-          <h1>Watch Our Introductory Video!</h1>
-          <p>The vision of MyFutureBiz is to develop entrepreneurial mindset and create financially independent person's excellent.</p>
+          <h1>{{ getSetting('introduction_video_title') }}</h1>
+          <p>{!! getSetting('introduction_video_description') !!}</p>
         </div>
         <div class="introductory-video">
+          @php
+            $introVideo = getSettingDetail('introduction_video');
+            $introVideoImage = getSetting('introduction_video_image');
+          @endphp
           <div class="box-video">
-            <div class="bg-video" style="background-image: url(images/package.png);">
+            <div class="bg-video" style="background-image: url({{ $introVideoImage ? $introVideoImage : asset('images/package.png') }});">
               <div class="bt-play">
                 <svg width="55" height="55" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M41.7108 27.5123L20.4197 13.9199V41.1046L41.7108 27.5123Z" fill="white"></path>
@@ -20,7 +24,15 @@
               </div>
             </div>
             <div class="video-container">
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/DGFvSDGUPCY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+
+              @if($introVideo->video)
+                <video controls="" width="420" height="315" preload="none" poster="{{ $introVideoImage ? $introVideoImage : asset('images/package.png') }}" id="introductionVideo"  playsinline>
+                  <source class="js-video" src="{{ $introVideo->video_url }}" type="video/{{ $introVideo->video->extension }}">
+                </video>
+              @else
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/DGFvSDGUPCY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+              @endif
+
             </div>
           </div>
         </div>
@@ -28,6 +40,7 @@
     </div>
   </div>
 
+  {{-- Start package selling overview --}}
   <h3>Package Selling Overview</h3><hr>
   <div class="row row-gap-30">
     <div class="col-lg-3 col-md-4 col-sm-12">
@@ -38,7 +51,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/1.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 250.00</div>
+        <div class="price-box">&#8377 {{ number_format($todayEarnings,2) }}</div>
         <div class="box-discrip">
           <span class="text-green">
             <img src="{{ asset('images/icons/up-graph.svg') }}">
@@ -54,7 +67,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/2.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 6500.00</div>
+        <div class="price-box">&#8377 {{ number_format($last7DaysEarnings,2) }}</div>
         <div class="box-discrip">
           <span class="text-green">
             <img src="{{ asset('images/icons/up-graph.svg') }}">
@@ -70,7 +83,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/3.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 6500.00</div>
+        <div class="price-box">&#8377 {{ number_format($last30DaysEarnings,2) }}</div>
         <div class="box-discrip">
           <span class="text-red">
             <img src="{{ asset('images/icons/down-graph.svg') }}">
@@ -86,7 +99,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/4.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 166500.00</div>
+        <div class="price-box">&#8377 {{ number_format($allTimeEarning,2) }}</div>
         <div class="box-discrip">
           <span class="text-green">
             <img src="{{ asset('images/icons/up-graph.svg') }}">
@@ -141,7 +154,9 @@
       </div>
     </div>
   </div>
+  {{-- End package selling overview --}}
   <hr>
+
 
   <div class="row">
     <div class="col-md-6 grid-margin stretch-card">
@@ -159,80 +174,26 @@
       <div class="card">
         <div class="card-body">
          <div class="d-block">
-          <p class="card-title border-0">New Joiner</p>
+          <p class="card-title border-0">Today New Joiner</p>
          </div>
          <div class="recent-list">
            <ul class="icon-data-list">
-            <li>
-              <div class="d-flex recent-list-detail">
-                <img src="images/faces/face1.jpg" alt="user">
-                <div class="profile-name-re">Cameron Williamson</div>
-              </div>                      
-              <div class="price-recent">&#8377 1500</div>
-            </li>
-            <li>
-              <div class="d-flex recent-list-detail">
-                <img src="images/faces/face1.jpg" alt="user">
-                <div class="profile-name-re">Cameron Williamson</div>
-              </div>                      
-              <div class="price-recent">&#8377 1500</div>
-            </li>
-            <li>
-              <div class="d-flex recent-list-detail">
-                <img src="images/faces/face1.jpg" alt="user">
-                <div class="profile-name-re">Cameron Williamson</div>
-              </div>                      
-              <div class="price-recent">&#8377 1500</div>
-            </li>
-            <li>
-              <div class="d-flex recent-list-detail">
-                <img src="images/faces/face1.jpg" alt="user">
-                <div class="profile-name-re">Cameron Williamson</div>
-              </div>                      
-              <div class="price-recent">&#8377 1500</div>
-            </li>
-            <li>
-              <div class="d-flex recent-list-detail">
-                <img src="images/faces/face1.jpg" alt="user">
-                <div class="profile-name-re">Cameron Williamson</div>
-              </div>                      
-              <div class="price-recent">&#8377 1500</div>
-            </li>
-            <li>
-              <div class="d-flex recent-list-detail">
-                <img src="images/faces/face1.jpg" alt="user">
-                <div class="profile-name-re">Cameron Williamson</div>
-              </div>                      
-              <div class="price-recent">&#8377 1500</div>
-            </li>
-            <li>
-              <div class="d-flex recent-list-detail">
-                <img src="images/faces/face1.jpg" alt="user">
-                <div class="profile-name-re">Cameron Williamson</div>
-              </div>                      
-              <div class="price-recent">&#8377 1500</div>
-            </li>
-            <li>
-              <div class="d-flex recent-list-detail">
-                <img src="images/faces/face1.jpg" alt="user">
-                <div class="profile-name-re">Cameron Williamson</div>
-              </div>                      
-              <div class="price-recent">&#8377 1500</div>
-            </li>
-            <li>
-              <div class="d-flex recent-list-detail">
-                <img src="images/faces/face1.jpg" alt="user">
-                <div class="profile-name-re">Cameron Williamson</div>
-              </div>                      
-              <div class="price-recent">&#8377 1500</div>
-            </li>
-            <li>
-              <div class="d-flex recent-list-detail">
-                <img src="images/faces/face1.jpg" alt="user">
-                <div class="profile-name-re">Cameron Williamson</div>
-              </div>                      
-              <div class="price-recent">&#8377 1500</div>
-            </li>
+            @if($todayNewJoiners->count() > 0)
+             @foreach($todayNewJoiners as $newJoiner)
+              <li>
+                <div class="d-flex recent-list-detail">
+                  <img src="{{ $newJoiner->profile_image_url ? $newJoiner->profile_image_url : asset(config('constants.default.profile_image')) }}}}" alt="user">
+                  <div class="profile-name-re">{{ uwords($newJoiner->name) }}</div>
+                </div>
+                @php
+                  $amount = $newJoiner->payments()->sum('amount');
+                @endphp                      
+                <div class="price-recent">&#8377 {{ number_format($amount,2) }}</div>
+              </li>
+             @endforeach
+             @else
+             <li>No Record Found!</li>
+            @endif
           </ul>
          </div>
         </div>
@@ -431,6 +392,17 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
+
+    // video js
+    $(".box-video").click(function(){
+      var videoId = $(this).find('.video-container video').attr('id');
+      var video = document.getElementById(videoId);
+      video.play();
+
+      $('video source',this)[0].src;
+      $(this).addClass('open');
+    });
+
     var monthData = [10, 15, 8, 12];
     var ctx = document.getElementById('income-growth-chart').getContext('2d');
     var myChart = new Chart(ctx, {

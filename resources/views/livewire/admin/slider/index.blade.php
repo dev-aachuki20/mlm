@@ -14,9 +14,8 @@
 
                 @else
                     <div wire:loading wire:target="create" class="loader"></div>
-                    <div class="card-title">
-                        <h4 class="float-left">Sliders</h4>
-
+                    <div class="card-title d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Sliders</h4>
                         @if($allSliders->count() <= (int)config('constants.slider_limit'))
                             <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
                                 <i class="fa-solid fa-plus"></i>                                                   
