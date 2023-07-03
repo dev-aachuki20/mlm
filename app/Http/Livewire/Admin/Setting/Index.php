@@ -63,8 +63,8 @@ class Index extends Component
                     $rules['state.'.$setting->key] = 'required|numeric';
                 }
 
-                if ($setting->type == 'text_area' && $setting->group != 'mail') {
-                    $rules['state.'.$setting->key] = 'required|string';
+                if ($setting->type == 'text_area') {
+                    $rules['state.'.$setting->key] = ($setting->group != 'mail') ? 'required|string' : 'string';
                 }
 
                 if($setting->type == 'image'){
