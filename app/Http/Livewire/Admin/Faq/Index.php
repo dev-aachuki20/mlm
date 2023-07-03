@@ -78,7 +78,7 @@ class Index extends Component
             ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
         })
         ->orderBy($this->sortColumnName, $this->sortDirection)
-        ->paginate(10);
+        ->paginate($this->paginationLength);
 
         return view('livewire.admin.faq.index',compact('allFaqs'));
     }

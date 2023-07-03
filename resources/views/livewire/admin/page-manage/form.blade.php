@@ -21,7 +21,14 @@
                     <option value="">Select Type</option>
                     @if(config('constants.page_types'))
                         @foreach(config('constants.page_types') as $id=>$name)
-                          <option value="{{$id}}" {{$type == $id ? 'selected' : ''}}>{{ ucwords($name) }}</option>
+                            @if($updateMode)
+                                <option value="{{$id}}" {{$type == $id ? 'selected' : ''}}>{{ ucwords($name) }}</option>
+                            @else
+                                @if($id != 3)
+                                <option value="{{$id}}" {{$type == $id ? 'selected' : ''}}>{{ ucwords($name) }}</option>
+                                @endif
+                            @endif
+                           
                         @endforeach
                     @endif
                 </select>
@@ -68,6 +75,7 @@
         </div>
     </div>
   
+    @if($type != 3)
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
@@ -78,6 +86,7 @@
 
         </div>
     </div>
+    @endif
     
     <div class="row">
         <div class="col-md-12">

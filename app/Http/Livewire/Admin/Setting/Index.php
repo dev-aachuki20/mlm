@@ -29,7 +29,7 @@ class Index extends Component
     public function mount(){
         abort_if(Gate::denies('setting_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->settings = Setting::where('group',$this->tab)->get();
+        $this->settings = Setting::where('group',$this->tab)->where('status',1)->get();
 
         $this->state = $this->settings->pluck('value','key')->toArray();
     }
@@ -63,7 +63,7 @@ class Index extends Component
                     $rules['state.'.$setting->key] = 'required|numeric';
                 }
 
-                if ($setting->type == 'text_area') {
+                if ($setting->type == 'text_area' && $setting->group != 'mail') {
                     $rules['state.'.$setting->key] = 'required|string';
                 }
 
