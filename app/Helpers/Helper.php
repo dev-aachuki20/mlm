@@ -242,3 +242,26 @@ if (!function_exists('getPageContent')) {
 		return $result;
 	}
 }
+
+if (!function_exists('getFinancialYearMonths')) {
+	function getFinancialYearMonths()
+{
+    $currentDate = Carbon::now();
+    $startYear = $currentDate->month < 4 ? $currentDate->year - 1 : $currentDate->year;
+    $startMonth = 4; // Start from April
+    $endYear = $currentDate->month < 4 ? $currentDate->year : $currentDate->year + 1;
+    $endMonth = 3; // End in March
+
+    $startDate = Carbon::createFromDate($startYear, $startMonth, 1);
+    $endDate = Carbon::createFromDate($endYear, $endMonth, 1);
+
+    $months = [];
+
+    while ($startDate->lte($endDate)) {
+        $months[] = $startDate->format('F');
+        $startDate->addMonth();
+    }
+
+    return $months;
+}
+}

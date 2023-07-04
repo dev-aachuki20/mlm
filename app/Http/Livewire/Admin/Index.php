@@ -15,7 +15,9 @@ class Index extends Component
     
     public $todayEarnings, $last7DaysEarnings, $last30DaysEarnings, $allTimeEarning;
 
-    public $todayNewJoiners = null;
+    public $currentDate;
+
+    public $todayNewJoiners = null, $leaderboards;
 
     public function mount(){
         $this->todayEarnings = Payment::whereDate('created_at', today())->sum('amount');
@@ -31,6 +33,12 @@ class Index extends Component
                 $query->where('id',3);
             }
         ])->whereDate('created_at', today())->get();
+
+        // $this->leaderboards = 
+
+        // Leaderboard 
+        $this->currentDate = Carbon::now();
+
 
     }
 

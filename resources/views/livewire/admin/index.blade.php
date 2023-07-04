@@ -182,8 +182,8 @@
              @foreach($todayNewJoiners as $newJoiner)
               <li>
                 <div class="d-flex recent-list-detail">
-                  <img src="{{ $newJoiner->profile_image_url ? $newJoiner->profile_image_url : asset(config('constants.default.profile_image')) }}}}" alt="user">
-                  <div class="profile-name-re">{{ uwords($newJoiner->name) }}</div>
+                  <img src="{{ $newJoiner->profile_image_url ? $newJoiner->profile_image_url : asset(config('constants.default.profile_image')) }}" alt="user">
+                  <div class="profile-name-re">{{ ucwords($newJoiner->name) }}</div>
                 </div>
                 @php
                   $amount = $newJoiner->payments()->sum('amount');
@@ -211,7 +211,7 @@
           </div>
           <div class="row row-gap-30">
             <div class="col-lg-3 col-md-4 col-sm-12">
-              <p class="small-title">This Week (19 - 25 Jun)</p>
+              <p class="small-title">This Week ({{$currentDate->startOfWeek()->format('d')}} - {{$currentDate->endOfWeek()->format('d')}} {{$currentDate->format('M')}})</p>
               <div class="recent-list small-text h-auto">
                 <ul class="icon-data-list">
                   <li>
@@ -253,7 +253,7 @@
               </div>                  
             </div>
             <div class="col-lg-3 col-md-4 col-sm-12">
-              <p class="small-title">This Month (1 - 30 Jun)</p>
+              <p class="small-title">This Month ({{$currentDate->startOfMonth()->format('d')}} - {{$currentDate->endOfMonth()->format('d')}} {{$currentDate->format('M')}})</p>
               <div class="recent-list small-text h-auto">
                 <ul class="icon-data-list">
                   <li>
@@ -295,7 +295,7 @@
               </div>                 
             </div>
             <div class="col-lg-3 col-md-4 col-sm-12">
-              <p class="small-title">Yearly (MAR - FEB)</p>
+              <p class="small-title">Yearly ({{getFinancialYearMonths()[0]}} - {{getFinancialYearMonths()[11]}})</p>
               <div class="recent-list small-text h-auto">
                 <ul class="icon-data-list">
                   <li>
