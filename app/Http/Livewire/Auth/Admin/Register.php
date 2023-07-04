@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Auth\Admin;
 use Mail; 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Payment;
+use App\Models\Transaction;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -22,9 +24,10 @@ class Register extends Component
 
     public $from_url_referral_id, $from_url_referral_name,$packageUUID, $referral_id, $referral_name, $address;
     
-    public $paymentMode = false, $paymentSuccess = false, $share_email, $share_password;
+    public $paymentMode = false, $paymentSuccess = false, $paymentResponse = null, $share_email, $share_password;
 
     public $showResetBtn = false;
+
 
     protected $listeners = [ 'updateDOB','updatePaymentStatus' ];
     
@@ -80,9 +83,10 @@ class Register extends Component
         }
     }
 
-    public function updatePaymentStatus($package_id){
-        $this->paymentMode = false;
-        $this->paymentSuccess = true;
+    public function updatePaymentStatus($package_id,$paymentResponse){
+        $this->paymentMode     = false;
+        $this->paymentSuccess  = true;
+        $this->paymentResponse = json_decode($paymentResponse,true);
         $this->storeRegister($package_id);
     }
 
@@ -102,7 +106,7 @@ class Register extends Component
             DB::beginTransaction();
             try {
     
-                $referral_user_id = User::where('my_referral_code',$this->referral_id)->value('id');
+                $referral_user = User::where('my_referral_code',$this->referral_id)->first();
 
                 $password = generateRandomString(8);
               
@@ -118,13 +122,15 @@ class Register extends Component
                     'my_referral_code' => generateRandomString(10),
                     'referral_code'    => $this->referral_id,
                     'referral_name'    => $this->referral_name,
-                    'referral_user_id' => $referral_user_id,
+                    'referral_user_id' => $referral_user->id,
                     'password'         => Hash::make($password),
                     'password_set_at'   => Carbon::now(),
                     'email_verified_at' => Carbon::now(),
                 ];
                 $user = User::create($data);
                 if($user){
+                    $userId = $user->id;
+
                     // Assign user Role
                     $user->roles()->sync([3]);
                     $user->packages()->sync([$package_id]);
@@ -146,6 +152,51 @@ class Register extends Component
                     ];
                     $user->kycDetail()->create($kycRecords);
     
+                    //Start Payment Transaction
+                    $response = $this->paymentResponse;
+                    
+                    $payment = Payment::create([
+                        'user_id'       => $userId,
+                        'package_id'    => $package_id,
+                        'r_payment_id'  => $response['id'],
+                        'method'        => $response['method'],
+                        'currency'      => $response['currency'],
+                        'user_email'    => $response['email'],
+                        'amount'        => (float)$response['amount']/100,
+                        'json_response' => json_encode((array)$response)
+                    ]);
+                    if($payment){
+                        foreach(config('constants.referral_levels') as $levelKey=>$level){
+                            $transactionRecords = [];
+                            $commissionAmount = null;
+                            $referralUserId = null;
+                            if($levelKey == 1){
+                                $commissionAmount   = $user->packages()->first()->level_one_commission;
+                                $referralUserId     = $referral_user->id ?? null;
+                            }elseif($levelKey == 2){
+                                $commissionAmount   = $user->packages()->first()->level_two_commission;
+                                $referralUserId     = $referral_user->referrer->id ?? null;
+                            }elseif($levelKey == 3){
+                                $commissionAmount   = $user->packages()->first()->level_three_commission;
+                                $referralUserId     = $referral_user->referrer->referrer->id ?? null;
+                            }
+    
+                            if($commissionAmount && $referralUserId){
+                                $transactionRecords['user_id']         = $userId;
+                                $transactionRecords['payment_id']      = $payment->id;
+                                $transactionRecords['payment_type']    = 'credit';
+                                $transactionRecords['type']            = $levelKey;
+                                $transactionRecords['gateway']         = '1';
+                                $transactionRecords['amount']          = $commissionAmount;
+                                $transactionRecords['referrer_id']     = $referralUserId;
+                               
+                                Transaction::create($transactionRecords);
+                            }
+                        }
+                    }
+                   
+                    //End Payment Transaction
+                
                     //Send welcome mail for user
                     $subject = 'Welcome to '.config('app.name');
                     Mail::to($user->email)->queue(new SendRegisteredUserMail($subject,$user->name));
@@ -218,6 +269,7 @@ class Register extends Component
         $this->referral_id  = '';
         $this->referral_name = '';
         $this->address = '';
+        $this->paymentResponse = null;
     }
   
 }

@@ -74,20 +74,15 @@ class PaymentComponent extends Component
 
                 $response = $api->payment->fetch($payment_id)->capture(array('amount' => $payment['amount']));
 
-                $payment = Payment::create([
-                    'r_payment_id'  => $response['id'],
-                    'method'        => $response['method'],
-                    'currency'      => $response['currency'],
-                    'user_email'    => $response['email'],
-                    'amount'        => (float)$response['amount']/100,
-                    'json_response' => json_encode((array)$response)
-                ]);
+                // Convert the Razorpay\Api\Payment object to array
+                $paymentArray = $response->toArray();
+                // Convert the payment array to JSON
+                $jsonData = json_encode($paymentArray);
 
                 DB::commit();
 
-                $this->emit('updatePaymentStatus',$this->packageId);
+                $this->emit('updatePaymentStatus',$this->packageId,$jsonData);
 
-                // $this->alert('success',trans('Payment Successful'));
 
             }catch (\Exception $e) {
                 DB::rollBack();

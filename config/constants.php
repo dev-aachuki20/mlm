@@ -65,6 +65,12 @@ return [
 
     'datatable_paginations'=>[10,25,50,100],
 
+    'referral_levels' => [   
+        1=> "Level 1",
+        2=> "Level 2",
+        3=> "Level 3",
+    ],
+
     'levels' => [   
         1=> "beginner",
         2=> "intermediate",

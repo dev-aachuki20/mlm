@@ -53,10 +53,20 @@
         </div>
         <div class="price-box">&#8377 {{ number_format($todayEarnings,2) }}</div>
         <div class="box-discrip">
-          <span class="text-green">
-            <img src="{{ asset('images/icons/up-graph.svg') }}">
-            18%
-          </span>Today's Earning</div>
+         
+            @if($todayEarningPercent > 0)
+              <span class="text-green">
+                <img src="{{ asset('images/icons/up-graph.svg') }}">
+                {{$todayEarningPercent}}%
+              </span>
+            @else
+            <span class="text-red">
+              <img src="{{ asset('images/icons/down-graph.svg') }}">
+              {{$todayEarningPercent}}%
+            </span>
+            @endif
+
+           Today's Earning</div>
       </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12">
@@ -69,10 +79,18 @@
         </div>
         <div class="price-box">&#8377 {{ number_format($last7DaysEarnings,2) }}</div>
         <div class="box-discrip">
-          <span class="text-green">
-            <img src="{{ asset('images/icons/up-graph.svg') }}">
-            18%
-          </span>Last 7 Days Earning</div>
+            @if($last7DaysEarningPercent > 0)
+              <span class="text-green">
+                <img src="{{ asset('images/icons/up-graph.svg') }}">
+                {{$last7DaysEarningPercent}}%
+              </span>
+            @else
+            <span class="text-red">
+              <img src="{{ asset('images/icons/down-graph.svg') }}">
+              {{$last7DaysEarningPercent}}%
+            </span>
+            @endif
+            Last 7 Days Earning</div>
       </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12">
@@ -86,8 +104,17 @@
         <div class="price-box">&#8377 {{ number_format($last30DaysEarnings,2) }}</div>
         <div class="box-discrip">
           <span class="text-red">
-            <img src="{{ asset('images/icons/down-graph.svg') }}">
-            06%
+            @if($last30DaysEarningPercent > 0)
+              <span class="text-green">
+                <img src="{{ asset('images/icons/up-graph.svg') }}">
+                {{$last30DaysEarningPercent}}%
+              </span>
+            @else
+            <span class="text-red">
+              <img src="{{ asset('images/icons/down-graph.svg') }}">
+              {{$last30DaysEarningPercent}}%
+            </span>
+            @endif
           </span>30 Days Earning</div>
       </div>
     </div>
@@ -101,10 +128,18 @@
         </div>
         <div class="price-box">&#8377 {{ number_format($allTimeEarning,2) }}</div>
         <div class="box-discrip">
-          <span class="text-green">
-            <img src="{{ asset('images/icons/up-graph.svg') }}">
-            18%
-          </span>All Time Earning</div>
+          @if($allTimeEarningPercent > 0)
+            <span class="text-green">
+              <img src="{{ asset('images/icons/up-graph.svg') }}">
+              {{$allTimeEarningPercent}}%
+            </span>
+          @else
+          <span class="text-red">
+            <img src="{{ asset('images/icons/down-graph.svg') }}">
+            {{$allTimeEarningPercent}}%
+          </span>
+          @endif
+          All Time Earning</div>
       </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12">
@@ -115,8 +150,8 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/5.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 2000.00</div>
-        <div class="box-discrip">Passive Income</div>
+        <div class="price-box">&#8377 {{ number_format($levelCommission,2) }}</div>
+        <div class="box-discrip">Level Commission</div>
       </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12">
@@ -127,7 +162,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/6.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 2500.00</div>
+        <div class="price-box">&#8377 {{ number_format($totalWithdrawal,2) }}</div>
         <div class="box-discrip">Total Withdrawal</div>
       </div>
     </div>
@@ -137,7 +172,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/7.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 615500.00</div>
+        <div class="price-box">&#8377 {{ number_format($availableBalance,2) }}</div>
         <div class="box-discrip">Available Balance</div>
       </div>
     </div>
@@ -149,8 +184,8 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/8.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 156500.00</div>
-        <div class="box-discrip">Net Balance</div>
+        <div class="price-box">&#8377 {{ number_format($netProfit,2) }}</div>
+        <div class="box-discrip">Net Profit</div>
       </div>
     </div>
   </div>
@@ -211,86 +246,42 @@
           </div>
           <div class="row row-gap-30">
             <div class="col-lg-3 col-md-4 col-sm-12">
-              <p class="small-title">This Week ({{$currentDate->startOfWeek()->format('d')}} - {{$currentDate->endOfWeek()->format('d')}} {{$currentDate->format('M')}})</p>
+              <p class="small-title">This Week ({{\Carbon\Carbon::now()->startOfWeek()->format('d')}} - {{\Carbon\Carbon::now()->endOfWeek()->format('d')}} {{\Carbon\Carbon::now()->format('M')}})</p>
               <div class="recent-list small-text h-auto">
                 <ul class="icon-data-list">
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
+                  @if($weeklyTopRecords->count() > 0)
+                    @foreach($weeklyTopRecords as $record)
+                    <li>
+                      <div class="d-flex recent-list-detail">
+                        <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
+                        <div class="profile-name-re">{{ ucwords($record->user->name) }}</div>
+                      </div>                      
+                      <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
+                    </li>
+                    @endforeach
+                  @else
+                    <li>No Record Found!</li>
+                  @endif
                 </ul>
               </div>                  
             </div>
             <div class="col-lg-3 col-md-4 col-sm-12">
-              <p class="small-title">This Month ({{$currentDate->startOfMonth()->format('d')}} - {{$currentDate->endOfMonth()->format('d')}} {{$currentDate->format('M')}})</p>
+              <p class="small-title">This Month ({{\Carbon\Carbon::now()->startOfMonth()->format('d')}} - {{\Carbon\Carbon::now()->endOfMonth()->format('d')}} {{\Carbon\Carbon::now()->format('M')}})</p>
               <div class="recent-list small-text h-auto">
                 <ul class="icon-data-list">
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
+                  @if($monthlyTopRecords->count() > 0)
+                    @foreach($monthlyTopRecords as $record)
+                    <li>
+                      <div class="d-flex recent-list-detail">
+                        <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
+                        <div class="profile-name-re">{{ ucwords($record->user->name) }}</div>
+                      </div>                      
+                      <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
+                    </li>
+                    @endforeach
+                  @else
+                    <li>No Record Found!</li>
+                  @endif
                 </ul>
               </div>                 
             </div>
@@ -298,41 +289,19 @@
               <p class="small-title">Yearly ({{getFinancialYearMonths()[0]}} - {{getFinancialYearMonths()[11]}})</p>
               <div class="recent-list small-text h-auto">
                 <ul class="icon-data-list">
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
+                  @if($yearlyTopRecords->count() > 0)
+                    @foreach($yearlyTopRecords as $record)
+                    <li>
+                      <div class="d-flex recent-list-detail">
+                        <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
+                        <div class="profile-name-re">{{ ucwords($record->user->name) }}</div>
+                      </div>                      
+                      <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
+                    </li>
+                    @endforeach
+                  @else
+                    <li>No Record Found!</li>
+                  @endif
                 </ul>
               </div>                 
             </div>
@@ -340,41 +309,21 @@
               <p class="small-title">All Time</p>
               <div class="recent-list small-text h-auto">
                 <ul class="icon-data-list">
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
-                  <li>
-                    <div class="d-flex recent-list-detail">
-                      <img src="images/faces/face1.jpg" alt="user">
-                      <div class="profile-name-re">Cameron Williamson</div>
-                    </div>                      
-                    <div class="price-recent">&#8377 1500</div>
-                  </li>
+                 
+                  @if($allTimeTopRecords->count() > 0)
+                    @foreach($allTimeTopRecords as $record)
+                    <li>
+                      <div class="d-flex recent-list-detail">
+                        <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
+                        <div class="profile-name-re">{{ ucwords($record->user->name) }}</div>
+                      </div>                      
+                      <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
+                    </li>
+                    @endforeach
+                  @else
+                    <li>No Record Found!</li>
+                  @endif
+                
                 </ul>
               </div>                 
             </div>
@@ -403,15 +352,15 @@
       $(this).addClass('open');
     });
 
-    var monthData = [10, 15, 8, 12];
+    var weekData = [{{implode(',',$incomeGrowthChart['week_data'])}}];
     var ctx = document.getElementById('income-growth-chart').getContext('2d');
     var myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        labels: [{!! "'".implode("','",$incomeGrowthChart['labels'])."'" !!}],
         datasets: [{
           label: 'Data',
-          data: monthData,
+          data: weekData,
           backgroundColor: '#f24f00', // Customize the bar color
           borderColor: '#f24f00', // Customize the bar border color
           borderWidth: 1
