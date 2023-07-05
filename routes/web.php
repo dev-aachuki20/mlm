@@ -26,7 +26,7 @@ Route::get('/cache-clear', function() {
     return '<h1>All Cache cleared</h1>';
 });
 
-Auth::routes(['verify' => true]);
+// Auth::routes(['verify' => true,'login' => false,'register'=>false]);
 
 Route::get('email/verify/{id}/{hash}', [VerificationController::class,'verify'])->name('verification.verify');
 
@@ -64,7 +64,6 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     Route::view('user/profile', 'auth.profile.index')->name('auth.user-profile')->middleware('role:user');
 
     Route::group(['middleware'=>['role:admin'],'as' => 'admin.','prefix'=>'admin'], function () {
-        
         Route::view('dashboard', 'admin.index')->name('dashboard');
         Route::view('packages', 'admin.package.index')->name('package');
         Route::view('testimonials', 'admin.testimonial.index')->name('testimonial');
@@ -77,11 +76,11 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
         Route::view('user-manage', 'admin.user-manage.index')->name('user-manage');
         Route::view('courses', 'admin.course.index')->name('course');
         Route::view('courses/{course_id}', 'admin.video-group.index')->name('getAllVideos');
+        Route::view('leaderboard', 'admin.partials.leaderboard')->name('leaderboard');
 
     });
 
     Route::group(['middleware'=>['role:user'],'as' => 'user.','prefix'=>'user'], function () {
-        
         Route::view('dashboard', 'user.index')->name('dashboard');
         Route::view('kyc', 'user.kyc.index')->name('kyc');
         Route::view('myteam', 'user.myteam.index')->name('myteam');

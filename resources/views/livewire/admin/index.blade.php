@@ -236,13 +236,14 @@
     </div>
   </div>
 
+  {{-- Start Leaderboad --}}
   <div class="row"> 
     <div class="col-md-12 col-sm-12">
       <div class="card">
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center pb-3 border-b-1  mb-4">
             <p class="card-title border-0 mb-0 p-0">Leader Board</p>
-            <a href="#" class="text-info">View all</a>
+            <a href="{{ route('admin.leaderboard') }}" class="text-info">View all</a>
           </div>
           <div class="row row-gap-30">
             <div class="col-lg-3 col-md-4 col-sm-12">
@@ -254,7 +255,10 @@
                     <li>
                       <div class="d-flex recent-list-detail">
                         <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
-                        <div class="profile-name-re">{{ ucwords($record->user->name) }}</div>
+                        <div class="profile-name-re">
+                          {{ ucwords($record->user->name) }}
+                          <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                        </div>
                       </div>                      
                       <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
                     </li>
@@ -271,17 +275,20 @@
                 <ul class="icon-data-list">
                   @if($monthlyTopRecords->count() > 0)
                     @foreach($monthlyTopRecords as $record)
-                    <li>
-                      <div class="d-flex recent-list-detail">
-                        <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
-                        <div class="profile-name-re">{{ ucwords($record->user->name) }}</div>
-                      </div>                      
-                      <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
-                    </li>
-                    @endforeach
-                  @else
-                    <li>No Record Found!</li>
-                  @endif
+                      <li>
+                        <div class="d-flex recent-list-detail">
+                          <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
+                          <div class="profile-name-re">
+                            {{ ucwords($record->user->name) }}
+                            <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                          </div>
+                        </div>                      
+                        <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
+                      </li>
+                      @endforeach
+                    @else
+                      <li>No Record Found!</li>
+                    @endif
                 </ul>
               </div>                 
             </div>
@@ -294,7 +301,10 @@
                     <li>
                       <div class="d-flex recent-list-detail">
                         <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
-                        <div class="profile-name-re">{{ ucwords($record->user->name) }}</div>
+                        <div class="profile-name-re">
+                          {{ ucwords($record->user->name) }}
+                          <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                        </div>
                       </div>                      
                       <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
                     </li>
@@ -315,7 +325,10 @@
                     <li>
                       <div class="d-flex recent-list-detail">
                         <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
-                        <div class="profile-name-re">{{ ucwords($record->user->name) }}</div>
+                        <div class="profile-name-re">
+                          {{ ucwords($record->user->name) }}
+                          <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                        </div>
                       </div>                      
                       <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
                     </li>
@@ -332,6 +345,8 @@
       </div>
     </div>
   </div>
+  {{-- End Leaderboad --}}
+
 </div>
 <!-- End content-wrapper -->
 

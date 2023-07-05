@@ -31,30 +31,60 @@ class Index extends Component
         //Today
         $this->todayEarnings = Payment::whereDate('created_at', today())->sum('amount');
 
+        $yesterday = Carbon::yesterday()->toDateString();
+        $yesterdayClosedAmount = Payment::whereDate('created_at', $yesterday)->sum('amount');
+       
+        $diffreceTodayAmount = (float)$this->todayEarnings - (float)$yesterdayClosedAmount;
+        if($diffreceTodayAmount != 0 && $yesterdayClosedAmount != 0){
+            $percentage = $diffreceTodayAmount / (float)$yesterdayClosedAmount * 100;
+            $this->todayEarningPercent = number_format(min($percentage, 100),2);
+        }
+
         //Last 7 days
-        $this->last7DaysEarnings = Payment::whereDate('created_at', '>=', DB::raw('DATE_SUB(CURDATE(), INTERVAL 7 DAY)'))->sum('amount');
+        $previousStartOfWeek = Carbon::now()->subWeek()->startOfWeek();
+        $previousEndOfWeek = Carbon::now()->subWeek()->endOfWeek();
 
-        $weekStartAmount = Payment::whereDate('created_at','=',Carbon::now()->subWeek()->startOfWeek())->sum('amount');
-        $weekEndAmount   = Payment::whereDate('created_at','=',Carbon::now()->subWeek()->endOfWeek())->sum('amount');
+        $this->last7DaysEarnings = Payment::whereBetween('created_at', [$previousStartOfWeek, $previousEndOfWeek])->sum('amount');
 
-        $diffreceWeekAmount = (float)$weekEndAmount - (float)$weekStartAmount;
-        if($diffreceWeekAmount != 0){
-            $this->last7DaysEarningPercent = $diffreceWeekAmount / (float)$weekStartAmount * 100;
+        $currentStartOfWeek = Carbon::now()->startOfWeek();
+        $currentEndOfWeek   = Carbon::now()->endOfWeek();
+
+        $currentWeekEarnings = Payment::whereBetween('created_at', [$currentStartOfWeek, $currentEndOfWeek])->sum('amount');
+
+        $diffreceWeekAmount = (float)$currentWeekEarnings - (float)$this->last7DaysEarnings;
+        if($diffreceWeekAmount != 0 && $this->last7DaysEarnings != 0){
+            $percentage = $diffreceWeekAmount / (float)$this->last7DaysEarnings * 100;
+            $this->last7DaysEarningPercent = number_format(min($percentage, 100),2);
         }
 
         //30 Days
-        $this->last30DaysEarnings = Payment::whereDate('created_at', '>=', DB::raw('DATE_SUB(CURDATE(), INTERVAL 30 DAY)'))->sum('amount');
+        $lastMonthStart = Carbon::now()->subMonth()->startOfMonth();
+        $lastMonthEnd = Carbon::now()->subMonth()->endOfMonth();
 
-        $monthStartAmount = Payment::whereDate('created_at','=',Carbon::now()->startOfMonth())->sum('amount');
-        $monthEndAmount   = Payment::whereDate('created_at','=',Carbon::now()->endOfMonth())->sum('amount');
+        $this->last30DaysEarnings = Payment::whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])->sum('amount');
 
-        $diffreceMonthAmount = (float)$monthEndAmount - (float)$monthStartAmount;
-        if($diffreceMonthAmount != 0){
-            $this->last30DaysEarnings = $diffreceMonthAmount / (float)$monthStartAmount * 100;
+        $currentMonthStart = Carbon::now()->startOfMonth();
+        $currentMonthEnd = Carbon::now()->endOfMonth();
+
+        $currentMonthEarnings = Payment::whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])->sum('amount');
+
+        $diffreceMonthAmount = (float)$currentMonthEarnings - (float)$this->last30DaysEarnings;
+        if($diffreceMonthAmount != 0 && $this->last30DaysEarnings != 0){
+            $percentage = $diffreceMonthAmount / (float)$this->last30DaysEarnings * 100;
+            $this->last30DaysEarningPercent = number_format(min($percentage, 100),2);
         }
 
         //All Time
         $this->allTimeEarning = Payment::sum('amount');
+        $currentDateTime = Carbon::now();
+        $earningsUpToCurrentTime = Payment::where('created_at', '<=', $currentDateTime)
+            ->sum('amount');
+
+        if($this->allTimeEarning != 0){
+            $earningPercentage = ((float)$earningsUpToCurrentTime / (float)$this->allTimeEarning) * 100;
+            $this->allTimeEarningPercent = number_format(min($earningPercentage,100),2);
+        }
+
 
         // New Joiners
         $this->todayNewJoiners = User::with([
