@@ -23,7 +23,7 @@ return new class extends Migration
             $table->double('level_one_commission',15,2)->default(0);
             $table->double('level_two_commission',15,2)->default(0);
             $table->double('level_three_commission',15,2)->default(0);
-            $table->time('duration')->nullable()->default(null);
+            $table->time('duration')->default('00:00:00');
             $table->tinyInteger('level')->default(1)->comment('1=> beginner, 2=> intermediate, 3=> advanced');
             $table->tinyInteger('status')->default(1)->comment('0=> deactive, 1=> active');
             $table->unsignedBigInteger('created_by');

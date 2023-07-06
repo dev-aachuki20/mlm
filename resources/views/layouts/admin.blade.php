@@ -25,7 +25,7 @@
 
         <div class="container-fluid page-body-wrapper">
 
-        @if(auth()->user()->is_super_admin || auth()->user()->is_admin)
+        @if(auth()->user()->is_super_admin || auth()->user()->is_admin || auth()->user()->is_management)
 
             @include('partials.admin.admin_sidebar')
 

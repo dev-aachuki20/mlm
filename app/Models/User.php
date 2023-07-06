@@ -160,17 +160,74 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(User::class, 'referral_user_id');
     }
 
-    public function level2Referrer()
+    // Relationship with the direct referrals (level 1)
+    public function referrals()
     {
-        return $this->belongsTo(User::class, 'referral_user_id')
-                    ->with('referrer');
+        return $this->hasMany(User::class, 'referral_user_id');
     }
 
-    public function level3Referrer()
+    // Relationship with the referrals of referrals (level 2)
+    public function levelTwoReferrals()
     {
-        return $this->belongsTo(User::class, 'referral_user_id')
-                    ->with('level2Referrer.referrer');
+        return $this->hasManyThrough(User::class, User::class, 'referral_user_id', 'referral_user_id');
     }
+
+    // Relationship with the referrals of referrals of referrals (level 3)
+    public function levelThreeReferrals()
+    {
+        return $this->hasManyThrough(User::class, User::class, 'referral_user_id', 'referral_user_id')
+            ->select('users.*')
+            ->whereNotNull('users.id');
+    }
+
+    function getReferralUsers($userId, $level = 1, $maxLevel = 3)
+    {
+        if ($level > $maxLevel) {
+            return collect();
+        }
+    
+        // $referralUsers = User::where('referral_user_id', $userId);
+        
+        // $referrals = collect();
+    
+        // foreach ($referralUsers as $user) {
+        //     $user->level = $level;
+        //     $referrals->push($user);
+        //     $subReferrals = $this->getReferralUsers($user->id, $level + 1, $maxLevel);
+        //     $referrals = $referrals->merge($subReferrals);
+        // }
+    
+        // return $referrals;
+
+        // Create a recursive query using a Common Table Expression (CTE)
+        $query = User::select('users.*')
+        ->where('referral_id', $referrerId)
+        ->union(function ($query) use ($referrerId, $maxLevel) {
+            if ($maxLevel > 1) {
+                $query->select('users.*')
+                    ->from('users')
+                    ->join('referrals', 'users.id', '=', 'referrals.user_id')
+                    ->join('users AS ref_users', 'ref_users.id', '=', 'referrals.referrer_id')
+                    ->where('ref_users.referral_id', $referrerId)
+                    ->where('referrals.level', '=', 2)
+                    ->union(function ($query) use ($referrerId, $maxLevel) {
+                        if ($maxLevel > 2) {
+                            $query->select('users.*')
+                                ->from('users')
+                                ->join('referrals', 'users.id', '=', 'referrals.user_id')
+                                ->join('users AS ref_users', 'ref_users.id', '=', 'referrals.referrer_id')
+                                ->join('users AS ref_ref_users', 'ref_ref_users.id', '=', 'ref_users.referral_id')
+                                ->where('ref_ref_users.referral_id', $referrerId)
+                                ->where('referrals.level', '=', 3);
+                        }
+                    });
+            }
+        });
+
+        // Perform pagination
+        return $query->paginate($perPage);
+    }
+
 
     public function packages()
     {

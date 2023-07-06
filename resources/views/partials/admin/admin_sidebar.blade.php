@@ -82,8 +82,6 @@
     </li>
     @endcan
 
-    @endif
-
     @can('user_access')
     <li class="nav-item {{ request()->is('admin/user-manage') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.user-manage') }}">
@@ -92,6 +90,8 @@
         </a>
     </li>
     @endcan
+
+    @endif
 
     @can('setting_access')
     <li class="nav-item {{ request()->is('admin/settings') ? 'active' : '' }}">
