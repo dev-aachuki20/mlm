@@ -37,7 +37,8 @@ class Contactus extends Component
         try {
             //Send mail for plan purchased
             $subject = $this->name;
-            Mail::to(config('constants.owner_email_id'))->queue(new ContactUsMail($subject,$this->name,$this->email,$this->message));
+            $ownerEmail = getSetting('company_email');
+            Mail::to($ownerEmail)->queue(new ContactUsMail($subject,$this->name,$this->email,$this->message));
 
             $this->reset();
             $this->alert('success', 'Your message sent successfully!');

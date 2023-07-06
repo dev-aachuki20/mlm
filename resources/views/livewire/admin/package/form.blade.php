@@ -21,21 +21,21 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label class="font-weight-bold">{{ __('cruds.package.fields.sub_title')}}</label>
                 <input type="text" class="form-control" wire:model.defer="sub_title" placeholder="{{ __('cruds.package.fields.sub_title')}}">
                 @error('sub_title') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
         </div>
-        <div class="col-md-4">
+        {{-- <div class="col-md-4">
             <div class="form-group">
                 <label class="font-weight-bold">{{ __('cruds.package.fields.duration')}}</label>
                 <input type="text" class="form-control" id="duration" wire:model.defer="duration" placeholder="{{ __('cruds.package.fields.duration')}}" autocomplete="off">
                 @error('duration') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
-        </div>
-        <div class="col-md-4 mb-4">
+        </div> --}}
+        <div class="col-md-6 mb-4">
             <div class="form-group mb-0" wire:ignore>
                 <label class="font-weight-bold">{{ __('cruds.package.fields.level')}}</label>
                 <select class="js-example-basic-single select-level w-100" wire:model.defer="level" >

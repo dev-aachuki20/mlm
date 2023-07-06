@@ -80,7 +80,7 @@ class Course extends Model
 
     public function videoGroup()
     {
-        return $this->belongsToMany(VideoGroup::class);
+        return $this->hasMany(VideoGroup::class);
     }
 
     public function package()

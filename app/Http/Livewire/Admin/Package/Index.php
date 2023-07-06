@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Package;
 
+use DB;
 use Gate;
 use Carbon\Carbon;
 use App\Models\Package;
@@ -26,7 +27,7 @@ class Index extends Component
 
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    public  $uuid, $title, $sub_title, $amount, $status = 1, $features, $description='', $duration, $level, $image=null,$viewMode = false,$originalImage,$video, $originalVideo,$videoExtenstion;
+    public  $uuid, $title, $sub_title, $amount, $status = 1, $features, $description='', /*$duration,*/ $level, $image=null,$viewMode = false,$originalImage,$video, $originalVideo,$videoExtenstion;
 
     public $package_id =null, $level_one_commission, $level_two_commission, $level_three_commission;
 
@@ -113,7 +114,7 @@ class Index extends Component
             'level_three_commission' => [new CommissionRule($this->amount)],
             'features'      => 'required',
             'description'   => 'required',
-            'duration'      => 'required',
+            // 'duration'      => 'required',
             'level'         => 'required',
             'status'        => 'required',
             'image'         => 'required|image|max:'.config('constants.img_max_size'),
@@ -123,7 +124,7 @@ class Index extends Component
             'amount.required' => 'The package price field is required.',
         ]);
         
-        $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
+        // $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
         $validatedData['status']   = $this->status;
 
         try{
@@ -169,7 +170,7 @@ class Index extends Component
         $this->level_three_commission = $package->level_three_commission;
         $this->features = $package->features;
         $this->description = $package->description;
-        $this->duration = $package->duration;
+        // $this->duration = $package->duration;
         $this->level    = $package->level;
         $this->status = $package->status;
         $this->originalImage = $package->image_url;
@@ -191,7 +192,7 @@ class Index extends Component
             'level_three_commission' => '',
             'features'    => 'required',
             'description' => 'required',
-            'duration'    => 'required',
+            // 'duration'    => 'required',
             'level'       => 'required',
             'status'      => 'required',
         ];
@@ -212,7 +213,7 @@ class Index extends Component
             ]
         );
 
-        $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
+        // $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
         $validatedData['status'] = $this->status;
 
         $package = Package::find($this->package_id);
@@ -231,7 +232,7 @@ class Index extends Component
             uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'update', $uploadVideoId);
         }
         
-        $updateRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators','uuid']);
+        $updateRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators','uuid','duration']);
 
         $package->update($updateRecord);
   
@@ -287,7 +288,7 @@ class Index extends Component
         $this->level_three_commission = '';
         $this->features = '';
         $this->description = '';
-        $this->duration = '';
+        // $this->duration = '';
         $this->level = '';
         $this->status = 1;
         $this->image = null;

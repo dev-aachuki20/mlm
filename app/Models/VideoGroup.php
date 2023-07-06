@@ -24,6 +24,7 @@ class VideoGroup extends Model
         'title',
         'slug',
         'description',
+        'duration',
         'status',
         'created_at',
         'updated_at',

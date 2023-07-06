@@ -49,7 +49,7 @@
                                  @foreach($settings as $setting)
                                     
                                     @if($setting->type == 'text')
-                                        <div class="{{ $setting->group == 'introduction_video' ? 'col-sm-12' : 'col-sm-6'}}">
+                                        <div class="{{ in_array($setting->group,array('site','introduction_video')) ? 'col-sm-12' : 'col-sm-6'}}">
                                             <div class="form-group">
                                                 <label class="font-weight-bold">{{ $setting->display_name }}
                                                     <i class="fa-asterisk" style="color: #e14119;"></i>

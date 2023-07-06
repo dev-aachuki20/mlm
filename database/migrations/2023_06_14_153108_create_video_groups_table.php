@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('title',191)->default(null)->nullable();
             $table->string('slug',255)->default(null)->nullable();
             $table->longtext('description')->default(null)->nullable();
+            $table->time('duration')->nullable()->default(null);
             $table->tinyInteger('status')->default(1)->comment('0=> inactive, 1=> active');
             $table->unsignedBigInteger('created_by');
             $table->timestamps();

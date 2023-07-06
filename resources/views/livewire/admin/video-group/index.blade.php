@@ -21,16 +21,18 @@
                                 <h6>Lecture List</h6>
                             </div>
                          
-                            @can('course_create')
-                            <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                                <i class="fa-solid fa-plus"></i>                                                   
-                                    {{__('global.add')}}
-                            </button>
-                            @endcan
+                            <div class="mb-0">
+                                @can('course_create')
+                                <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
+                                    <i class="fa-solid fa-plus"></i>                                                   
+                                        {{__('global.add')}}
+                                </button>
+                                @endcan
 
-                            <a  href="{{ route('admin.course') }}" class="btn btn-sm btn-primary btn-icon-text mr-1 float-right">
-                                <i class="fa-solid fa-arrow-left "></i> Back
-                            </a>
+                                <a  href="{{ route('admin.course') }}" class="btn btn-sm btn-primary btn-icon-text mr-1 float-right">
+                                    <i class="fa-solid fa-arrow-left "></i> Back
+                                </a>
+                            </div>
 
                         </div>                
                         <div class="table-responsive pt-4">
@@ -71,35 +73,35 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if($allCourse->count() > 0)
-                                    @foreach($allCourse as $serialNo => $course)
+                                @if($allLectures->count() > 0)
+                                    @foreach($allLectures as $serialNo => $lecture)
                                         <tr>
                                             <td>{{ $serialNo+1 }}</td>
-                                            <td>{{ ucfirst($course->title) }}</td>
+                                            <td>{{ ucfirst($lecture->title) }}</td>
                                             <td>
                                                 <label class="toggle-switch">
-                                                    <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$course->id}})" {{ $course->status == 1 ? 'checked' : '' }}>
+                                                    <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$lecture->id}})" {{ $lecture->status == 1 ? 'checked' : '' }}>
                                                     <div class="switch-slider round"></div>
                                                 </label>
 
                                             </td>
-                                            <td>{{ convertDateTimeFormat($course->created_at,'datetime') }}</td>
+                                            <td>{{ convertDateTimeFormat($lecture->created_at,'datetime') }}</td>
                                             <td>
 
                                                 @can('course_show')
-                                                <button type="button" wire:click.prevent="show({{$course->id}})" class="btn btn-primary btn-rounded btn-icon">
+                                                <button type="button" wire:click.prevent="show({{$lecture->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                     <i class="ti-eye"></i>
                                                 </button>
                                                 @endcan
 
                                                 @can('course_edit')
-                                                <button type="button" wire:click.prevent="edit({{$course->id}})" class="btn btn-info btn-rounded btn-icon">
+                                                <button type="button" wire:click.prevent="edit({{$lecture->id}})" class="btn btn-info btn-rounded btn-icon">
                                                     <i class="ti-pencil-alt"></i>
                                                 </button>
                                                 @endcan
 
                                                 @can('course_delete')
-                                                <button type="button" wire:click.prevent="delete({{$course->id}})" class="btn btn-danger btn-rounded btn-icon">
+                                                <button type="button" wire:click.prevent="delete({{$lecture->id}})" class="btn btn-danger btn-rounded btn-icon">
                                                     <i class="ti-trash"></i>
                                                 </button>
                                                 @endcan
@@ -117,7 +119,7 @@
                             </tbody>
                             </table>
                         
-                            {{ $allCourse->links('vendor.pagination.bootstrap-5') }}
+                            {{ $allLectures->links('vendor.pagination.bootstrap-5') }}
                             
                         </div>
 
@@ -167,6 +169,45 @@
                 }
             }
         });
+
+        //   Start video duration get js
+        var videoFileInput = document.getElementById('video-file');
+        videoFileInput.addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            
+            var reader = new FileReader();
+            
+            reader.onload = function(event) {
+                var video = document.createElement('video');
+                video.addEventListener('loadedmetadata', function() {
+                    var duration = video.duration; // Duration in seconds
+                    // console.log('Video duration: ' + duration + ' seconds');
+                    @this.emit('updateVideoDuration',formatTime(duration));
+                    console.log('Upload Video Duration :- '+ formatTime(duration));
+                });
+                video.src = event.target.result;
+            };
+            
+            reader.readAsDataURL(file);
+        });
+
+         // Function to format time in HH:MM:SS format
+        function formatTime(timeInSeconds) {
+            var hours = Math.floor(timeInSeconds / 3600);
+            var minutes = Math.floor((timeInSeconds % 3600) / 60);
+            var seconds = Math.floor(timeInSeconds % 60);
+            
+            return (
+                (hours > 0 ? hours + ':' : '0'+ hours) + ':'+
+                (minutes < 10 ? '0' + minutes : minutes) +
+                ':' +
+                (seconds < 10 ? '0' + seconds : seconds)
+            );
+        }
+        //   End video duration get js
+
+       
+
     });
 
 </script>

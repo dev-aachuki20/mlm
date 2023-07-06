@@ -138,48 +138,5 @@
 </section>
 
 @push('scripts')
-<script type="text/javascript">
 
-    //Start Get Video Duration Js 
-    const getVideoDuration = async (videoURL) => {
-        const response = await fetch(videoURL);
-        const blob = await response.blob();
-        const video = document.createElement('video');
-        video.src = URL.createObjectURL(blob);
-        video.addEventListener('loadedmetadata', () => {
-            const duration = video.duration;
-            // console.log(duration);
-           const videoTime =  formatTime(duration);
-
-           console.log('video-time:-',videoTime);
-        });
-    };
-
-    // Get all the video elements on the page.
-    const videos = document.querySelectorAll("video");
-
-    // Loop through the videos and get their duration.
-    for (let i = 0; i < videos.length; i++) {
-        const video = videos[i];
-        const videoURL = $('#'+video.id).find('source').attr('src');
-        getVideoDuration(videoURL);
-    }    
-    
-    // Function to format time in HH:MM:SS format
-    function formatTime(timeInSeconds) {
-        var hours = Math.floor(timeInSeconds / 3600);
-        var minutes = Math.floor((timeInSeconds % 3600) / 60);
-        var seconds = Math.floor(timeInSeconds % 60);
-        
-        return (
-            (hours > 0 ? hours + ':' : '') +
-            (minutes < 10 ? '0' + minutes : minutes) +
-            ':' +
-            (seconds < 10 ? '0' + seconds : seconds)
-        );
-    }
-    //End Get Video Duration Js 
-
-</script>
-    
 @endpush

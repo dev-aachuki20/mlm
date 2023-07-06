@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\VideoGroup;
 
 use Gate;
+use Carbon\Carbon;
 use App\Models\Course;
 use App\Models\VideoGroup;
 use Livewire\Component;
@@ -24,10 +25,11 @@ class Index extends Component
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
     public $course_id=null, $courseName, $group_video_id=null, $title, $description, $image, $originalImage, $video, $originalVideo,$videoExtenstion, $status=1;
-    
 
+    public $videoDuration = null;
+    
     protected $listeners = [
-        'cancel','updatePaginationLength', 'updateStatus', 'confirmedToggleAction','deleteConfirm',
+        'cancel','updatePaginationLength', 'updateStatus', 'confirmedToggleAction','deleteConfirm','updateVideoDuration'
     ];
 
 
@@ -68,6 +70,10 @@ class Index extends Component
     {
         return $this->sortDirection === 'asc' ? 'desc' : 'asc';
     }
+
+    public function updateVideoDuration($videoTime){
+        $this->videoDuration = Carbon::parse($videoTime)->format('H:i:s');
+    }
     
     public function render()
     {
@@ -79,7 +85,7 @@ class Index extends Component
             $statusSearch = 0;
         }
 
-        $allCourse = VideoGroup::query()->where('course_id',$this->course_id)->where(function ($query) use($searchValue,$statusSearch) {
+        $allLectures = VideoGroup::query()->where('course_id',$this->course_id)->where(function ($query) use($searchValue,$statusSearch) {
             $query->where('title', 'like', '%'.$searchValue.'%')
             ->orWhere('status', $statusSearch)
             ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
@@ -87,7 +93,7 @@ class Index extends Component
         ->orderBy($this->sortColumnName, $this->sortDirection)
         ->paginate($this->paginationLength);
       
-        return view('livewire.admin.video-group.index',compact('allCourse'));
+        return view('livewire.admin.video-group.index',compact('allLectures'));
     }
 
     public function create()
@@ -108,6 +114,7 @@ class Index extends Component
 
         $validatedData['status'] = $this->status;
         $validatedData['course_id'] = $this->course_id;
+        $validatedData['duration'] = $this->videoDuration;
 
         $videoGroup = VideoGroup::create($validatedData);
 
@@ -117,9 +124,14 @@ class Index extends Component
         //Upload video
         uploadImage($videoGroup, $this->video, 'course/video/',"course-video", 'original', 'save', null);
 
+        //Start to update package duration
+        $total_duration = VideoGroup::select(DB::raw('SUM(duration) AS total_duration'))->where('status',1)->value('total_duration');
+        Course::find($this->course_id)->package()->update(['duration'=>$total_duration]);
+        //End to update package duration
+
         $this->formMode = false;
 
-        $this->reset(['title','description','status','image','video']);
+        $this->reset(['title','description','status','image','video','videoDuration']);
 
         $this->flash('success',trans('messages.add_success_message'));
       
@@ -143,6 +155,8 @@ class Index extends Component
         $this->originalVideo  =  $group_video->course_video_url;
 
         $this->videoExtenstion = $group_video->courseVideo->extension;
+
+        $this->videoDuration = $group_video->duration;
     }
 
     public function update(){
@@ -163,7 +177,7 @@ class Index extends Component
         $validatedData['course_id'] = $this->course_id;
         $validatedData['status'] = $this->status;
 
-        $videoGroup = VideoGroup::find($this->course_id);
+        $videoGroup = VideoGroup::find($this->group_video_id);
       
         // Check if the image has been changed
         $uploadImageId = null;
@@ -177,16 +191,24 @@ class Index extends Component
         if ($this->video) {
             $uploadVideoId = $videoGroup->courseVideo->id;
             uploadImage($videoGroup, $this->video, 'course/video/',"course-video", 'original', 'update', $uploadVideoId);
+
+            $validatedData['duration'] = $this->videoDuration;
+
         }
 
         $videoGroup->update($validatedData);
      
+        //Start to update package duration
+        $total_duration = VideoGroup::select(DB::raw('SUM(duration) AS total_duration'))->where('status',1)->value('total_duration');
+        Course::find($this->course_id)->package()->update(['duration'=>$total_duration]);
+        //End to update package duration
+
         $this->formMode = false;
         $this->updateMode = false;
   
         $this->flash('success',trans('messages.edit_success_message'));
 
-        $this->reset(['title','description','status','image','video']);
+        $this->reset(['title','description','status','image','video','videoDuration']);
 
         return redirect()->route('admin.getAllVideos',$this->course_id);
     }
