@@ -15,14 +15,14 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.fields.first_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.fields.first_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <input type="text" class="form-control" wire:model.defer="first_name" placeholder="{{ __('cruds.user.fields.first_name') }}" />
                             @error('first_name') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.fields.last_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.fields.last_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <input type="text" class="form-control" wire:model.defer="last_name" placeholder="{{ __('cruds.user.fields.last_name') }}" />
                             @error('last_name') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.profile.gender') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.gender') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <select wire:model.defer="gender" class="form-control">
                                 <option value="">Select gender</option>
                                 <option value="male" {{$gender == 'male' ? 'selected' : ''}}>Male</option>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.profile.marital_status') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.marital_status') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <select wire:model.defer="marital_status" class="form-control">
                                 <option value="">Select marital status</option>
                                 <option value="married" {{$gender == 'married' ? 'selected' : ''}}>Married</option>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.fields.dob') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.fields.dob') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <input type="text" class="form-control" id="dob" wire:model.defer="dob" placeholder="{{ __('cruds.user.fields.dob') }}" autocomplete="off"/>
                             @error('dob') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
@@ -66,14 +66,14 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.profile.guardian_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.guardian_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <input type="text" class="form-control" wire:model.defer="guardian_name" placeholder="{{ __('cruds.user.profile.guardian_name') }}"/>
                             @error('guardian_name') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.profile.profession') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.profession') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <input type="text" class="form-control" wire:model.defer="profession" placeholder="{{ __('cruds.user.profile.profession') }}"/>
                             @error('profession') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
@@ -83,7 +83,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.profile.address') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.address') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <textarea class="form-control" wire:model.defer="address" rows="4"></textarea>
                             @error('address') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
@@ -93,7 +93,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.profile.state') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.state') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <input type="text" class="form-control" wire:model.defer="state" placeholder="{{ __('cruds.user.profile.state') }}"/>
                             {{-- <select wire:model.defer="state" id="state_id" class="form-control">
                                 <option value="">Select State</option>
@@ -103,7 +103,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.profile.city') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.city') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <input type="text" class="form-control" wire:model.defer="city" placeholder="{{ __('cruds.user.profile.city') }}"/>
                             {{-- <select wire:model.defer="city" id="city_id" class="form-control">
                                 <option value="">Select City</option>
@@ -113,7 +113,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label class="font-weight-bold">{{ __('cruds.user.profile.pin_code') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.pin_code') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <input type="text" class="form-control" wire:model.defer="pin_code" placeholder="{{ __('cruds.user.profile.pin_code') }}"/>
                             @error('pin_code') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
@@ -229,21 +229,21 @@
             <div class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.profile.nominee_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                        <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.nominee_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                         <input type="text" class="form-control" wire:model.defer="nominee_name" placeholder="{{ __('cruds.user.profile.nominee_name') }}"/>
                         @error('nominee_name') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.profile.nominee_dob') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                        <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.nominee_dob') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                         <input type="text" class="form-control" id="nominee_dob" wire:model.defer="nominee_dob" placeholder="{{ __('cruds.user.profile.nominee_dob') }}" autocomplete="off"/>
                         @error('nominee_dob') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="col-sm-4">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.profile.nominee_relation') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                        <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.nominee_relation') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                         <input type="text" class="form-control" wire:model.defer="nominee_relation" placeholder="{{ __('cruds.user.profile.nominee_relation') }}"/>
                         @error('nominee_relation') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
@@ -300,14 +300,14 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.kyc.account_holder_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                        <label class="font-weight-bold justify-content-start">{{ __('cruds.user.kyc.account_holder_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                         <input type="text" class="form-control" wire:model.defer="account_holder_name" placeholder="{{ __('cruds.user.kyc.account_holder_name') }}"/>
                         @error('account_holder_name') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.kyc.account_number') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                        <label class="font-weight-bold justify-content-start">{{ __('cruds.user.kyc.account_number') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                         <input type="text" class="form-control" wire:model.defer="account_number" placeholder="{{ __('cruds.user.kyc.account_number') }}"/>
                         @error('account_number') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
@@ -316,14 +316,14 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.kyc.bank_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                        <label class="font-weight-bold justify-content-start">{{ __('cruds.user.kyc.bank_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                         <input type="text" class="form-control" wire:model.defer="bank_name" placeholder="{{ __('cruds.user.kyc.bank_name') }}"/>
                         @error('bank_name') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.kyc.branch_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                        <label class="font-weight-bold justify-content-start">{{ __('cruds.user.kyc.branch_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                         <input type="text" class="form-control" wire:model.defer="branch_name" placeholder="{{ __('cruds.user.kyc.branch_name') }}"/>
                         @error('branch_name') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
@@ -332,7 +332,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.kyc.ifsc_code') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                        <label class="font-weight-bold justify-content-start">{{ __('cruds.user.kyc.ifsc_code') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                         <input type="text" class="form-control" wire:model.defer="ifsc_code" placeholder="{{ __('cruds.user.kyc.ifsc_code') }}"/>
                         @error('ifsc_code') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
@@ -342,14 +342,14 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.kyc.aadhar_card_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                        <label class="font-weight-bold justify-content-start">{{ __('cruds.user.kyc.aadhar_card_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                         <input type="text" class="form-control" wire:model.defer="aadhar_card_name" placeholder="{{ __('cruds.user.kyc.aadhar_card_name') }}"/>
                         @error('aadhar_card_name') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.kyc.aadhar_card_number') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                        <label class="font-weight-bold justify-content-start">{{ __('cruds.user.kyc.aadhar_card_number') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                         <input type="text" class="form-control" wire:model.defer="aadhar_card_number" placeholder="{{ __('cruds.user.kyc.aadhar_card_number') }}"/>
                         @error('aadhar_card_number') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
@@ -359,14 +359,14 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.kyc.pan_card_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                        <label class="font-weight-bold justify-content-start">{{ __('cruds.user.kyc.pan_card_name') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                         <input type="text" class="form-control" wire:model.defer="pan_card_name" placeholder="{{ __('cruds.user.kyc.pan_card_name') }}"/>
                         @error('pan_card_name') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <label class="font-weight-bold">{{ __('cruds.user.kyc.pan_card_number') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                        <label class="font-weight-bold justify-content-start">{{ __('cruds.user.kyc.pan_card_number') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                         <input type="text" class="form-control" wire:model.defer="pan_card_number" placeholder="{{ __('cruds.user.kyc.pan_card_number') }}"/>
                         @error('pan_card_number') <span class="error text-danger">{{ $message }}</span>@enderror
                     </div>
@@ -445,7 +445,7 @@
 <!-- Start Sponsor Information -->
 <div class="card mb-4">
     <div class="card-header background-purple-color">
-        Sponsor Information
+        <label class="font-weight-bold">Sponsor Information</label>
     </div>
     <div class="card-body">
         <div class="row">
@@ -455,7 +455,7 @@
             </div>
             <div class="col-sm-6">
                 <label class="font-weight-bold">{{ __('cruds.user.fields.referral_name') }}</label> : 
-                <span class="p-2">  {{ $detail->referral_name ?? '' }}</span>
+                <span class="p-2">  {{ ucwords($detail->referral_name) ?? '' }}</span>
             </div>
         </div>
     </div>

@@ -3,6 +3,7 @@
   display: inline-block;
   width: 90px;
   height: 34px;
+  margin: 0 !important;
 }
 
 .toggle-switch input {display:none;}
@@ -134,9 +135,11 @@ input:checked + .switch-slider:after
   color: gray;
 }
 
-.table-header-plugins{
-  display: flex;
-  justify-content: space-between;
+.table-header-plugins {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
 }
 .background-purple-color {
   background: #fff1e7;
@@ -218,9 +221,254 @@ input:checked + .switch-slider:after
 .card-body-no-radius {
   border-radius: 0;
 }
-
+h1, h2, h3, h4, h5, h6{
+  color: #0A2540;
+}
+.recent-list .icon-data-list li:last-child{
+  margin-bottom: 0;
+}
+button.btn.btn-rounded.btn-icon {
+    border-radius: 5px;
+    width: 32px;
+    height: 32px;
+}
+.my-team-details .table td {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.note-editor span.note-icon-caret {
+    display: none;
+}
+body .form-group label {
+    font-size: 14px;
+}
+.dropify-wrapper .dropify-preview .dropify-render img {
+    max-width: 160px;
+}
+button.btn.btn-secondary {
+    border-radius: 5px !important;
+    color: #0a2540 !important;
+    background: #fff1e7 !important;
+    outline: none !important;
+    border: solid 1px #ffe5d9 !important;
+    box-shadow: none !important;
+}
+.pagination-pages ul.pagination {
+    margin: 0;
+    border: none;
+}
+.pagination-pages ul.pagination span.page-link {
+    border: solid 1px #ddd !important;
+    border-radius: 4px !important;
+}
+.pagination-pages ul.pagination span.page-link, .pagination-pages ul.pagination a.page-link {
+    border: solid 1px #ddd !important;
+    border-radius: 8px !important;
+    height: 32px;
+    width: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0A2540 !important;
+    font-weight: 700;
+    margin: 0 !important;
+}
+.pagination-section {
+    margin: 30px 0 0;
+}
+.pagination-pages ul.pagination span.page-link:hover, 
+.pagination-pages ul.pagination a.page-link:hover,
+.pagination-pages ul.pagination .page-item.active .page-link,
+.pagination-pages ul.pagination .page-item:hover .page-link,
+.pagination-pages ul.pagination .page-item:active .page-link {
+    border: solid 1px #F24F00 !important;
+    background-color: #F24F00 !important;
+    color: #fff !important;
+}
+.pagination-pages ul.pagination li:not(:last-child) {
+    margin: 0 10px 0 0;
+}
+.pagination-page-links {
+    justify-content: center !important;
+}
+.pagination-page-links .pagination .page-item:hover .page-link,
+.pagination-page-links .pagination .page-item:active .page-link{
+      background: #f24f00;
+    border-color: #f24f00;
+    color: #ffffff;
+    box-shadow: none !important;
+}
+body button.btn {
+    border-radius: 5px !important;
+}
+.btn-info,
+.btn-info:hover
+.btn-info:active {
+    color: #fff;
+    background-color: #0a2540 !important;
+    border-color: #0a2540 !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+.nav.nav-pills.border-0 {
+    row-gap: 10px;
+}
+@media (max-width: 1700px) {
+  .leader-board-dashboard .col-lg-3 {
+      flex: 0 0 50%;
+      max-width: 50%;
+  }
+}
 @media (max-width: 1600px) {
   .card-box .label {
     font-size: 10px;
+  }
+}
+@media (max-width: 1440px) {
+  .package-statistics .col-lg-3 {
+    max-width: 33.33%;
+    flex: 0 0 33.33%;
+  }
+}
+@media (max-width: 1199px) {
+  .package-statistics .col-lg-3 {
+    max-width: 50%;
+    flex: 0 0 50%;
+  }
+}
+@media (max-width: 991px) {
+  .watch-our-introductory .introductory-text h1 {
+      font-size: 24px;
+      line-height: 34px;
+  }
+  .sidebar-offcanvas {
+      max-height: calc(100vh - 65px);
+      top: 65px;
+  }
+  .page-body-wrapper {
+      min-height: calc(100vh - 65px);
+      padding-top: 65px;
+  }
+  .main-panel {
+      min-height: calc(100vh - 65px);
+  }
+  .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown.nav-profile .navbar-dropdown {
+    left: auto;
+    max-width: 240px;
+    top: 60px;
+  }
+  .navbar .navbar-brand-wrapper {
+    height: 65px;
+  }
+  .content-wrapper h3 {
+      font-size: 22px;
+  }
+  hr {
+      margin: 20px 0;
+  }
+  .row-gap-30 {
+    row-gap: 20px;
+  }
+}
+@media (max-width: 767px) {  
+  body .form-group .col-form-label {
+    font-size: 14px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+  .card .card-title {
+    font-size: 16px;
+    padding: 0 0 10px;
+  }
+  a.text-info {
+      font-size: 14px;
+      line-height: 24px;
+  }
+  .recent-list.small-text .icon-data-list li .price-recent {
+    font-size: 14px;
+  }
+  .watch-our-introductory .introductory-text p {
+      font-size: 14px;
+      line-height: 24px;
+  }
+  .footer {
+      background: #fff;
+      padding: 10px 15px;
+  }
+  .leader-board-dashboard .col-lg-3 {
+      flex: 0 0 100%;
+      max-width: 100%;
+  }
+  .card .card-body {
+      padding: 15px;
+  }
+  .card-box {
+    padding: 15px;
+  }
+  .icon-main {
+    height: 40px;
+    width: 40px;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0 0 10px;
+  }
+  .price-box {
+    font-size: 20px;
+    line-height: 24px;
+    margin: 0 0 4px;
+  }
+  .box-discrip span {
+      margin: 0 4px 0 0;
+  }
+  .icon-main img {
+      max-width: 28px;
+  }
+  .watch-our-introductory {
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 20px 15px;
+    row-gap: 20px;
+  }
+  .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-profile img {
+    width: 32px;
+    height: 32px;
+  }
+  .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-profile .profile-img {
+    width: 40px;
+      height: 40px;
+      border-radius: 5px;
+      margin: 0 5px 0 0;
+  }
+}
+@media (max-width: 575px) {
+    .package-statistics .col-lg-3 {
+      max-width: 100%;
+      flex: 0 0 100%;
+  }
+  .col-form-label {
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-bottom: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .recent-list .icon-data-list li {
+    padding: 5px;
+    border-radius: 4px;
+  }
+  .icon-data-list li img {
+      margin-right: 5px;
+  }
+  .leaderboard-row {
+    font-size: 12px;
+  }
+  .recent-list.small-text .icon-data-list li .price-recent {
+    font-size: 13px;
+}
+  .leaderboard-row span {
+    font-size: 10px;
+    font-weight: 700;
   }
 }

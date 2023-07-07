@@ -71,8 +71,8 @@
                           </div>
                         </div>
                       </div>
-                       <button type="button" class="btn btn-default btn-edit js-edit">Edit Detail</button>
-                       <button type="button" class="btn btn-default btn-save js-save">Save Detail</button>
+                       <button type="button" class="btn custom-btn btn-default btn-edit js-edit">Edit Detail</button>
+                       <button type="button" class="btn custom-btn btn-default btn-save js-save">Save Detail</button>
                     </form>
                     
                   </div>

@@ -42,7 +42,7 @@
 
   {{-- Start package selling overview --}}
   <h3>Package Selling Overview</h3><hr>
-  <div class="row row-gap-30">
+  <div class="row row-gap-30 package-statistics">
     <div class="col-lg-3 col-md-4 col-sm-12">
       <div class="old-lace card-box">
         <div class="right-icon">
@@ -245,7 +245,7 @@
             <p class="card-title border-0 mb-0 p-0">Leader Board</p>
             <a href="{{ route('admin.leaderboard') }}" class="text-info">View all</a>
           </div>
-          <div class="row row-gap-30">
+          <div class="row row-gap-30 leader-board-dashboard">
             <div class="col-lg-3 col-md-4 col-sm-12">
               <p class="small-title">This Week ({{\Carbon\Carbon::now()->startOfWeek()->format('d')}} - {{\Carbon\Carbon::now()->endOfWeek()->format('d')}} {{\Carbon\Carbon::now()->format('M')}})</p>
               <div class="recent-list small-text h-auto">
