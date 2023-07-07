@@ -78,8 +78,13 @@ class Index extends Component
             ->orWhereIn('id', $levelThreeUserIds)
             ->paginate(10); // Adjust the pagination as per your requirements
 
+        $referralUsers = User::with('referrals.referrals.referrals')
+            ->where('referral_user_id',$this->userId)->paginate(10);
+        
+        // dd($referralUsers);
 
-        return view('livewire.user.my-team.index',compact('allTeams'));
+
+        return view('livewire.user.my-team.index',compact('referralUsers'));
     }
 
    

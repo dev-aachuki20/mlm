@@ -130,7 +130,7 @@ class Index extends Component
         try{
             $this->uuid     = Str::uuid();
 
-            $insertRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators']);
+            $insertRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators','duration']);
 
             $package = Package::create($insertRecord);
         

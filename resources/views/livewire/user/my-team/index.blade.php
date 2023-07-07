@@ -7,37 +7,56 @@
               <h4 class="card-title">Level Information</h4>
               <ul class="nav nav-tabs my-team-tab-head" id="myTab" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all"
+                  <a class="nav-link {{$activeTab == 'all' ? 'active' : ''}}" id="all-tab" data-toggle="tab" wire:click="switchTab('all')" href="#all" role="tab" aria-controls="all"
                     aria-selected="true">all</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="level-01-tab" data-toggle="tab" href="#level-01" role="tab" aria-controls="level-01"
+                  <a class="nav-link {{$activeTab == 'level_1' ? 'active' : ''}}" id="level-01-tab" data-toggle="tab" wire:click="switchTab('level_1')" href="#level-01" role="tab" aria-controls="level-01"
                     aria-selected="false">level 01</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="level-02-tab" data-toggle="tab" href="#level-02" role="tab" aria-controls="level-02"
+                  <a class="nav-link {{$activeTab == 'level_2' ? 'active' : ''}}" id="level-02-tab" data-toggle="tab" wire:click="switchTab('level_2')" href="#level-02" role="tab" aria-controls="level-02"
                     aria-selected="false">level 02</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="level-03-tab" data-toggle="tab" href="#level-03" role="tab" aria-controls="level-03"
+                  <a class="nav-link {{$activeTab == 'level_3' ? 'active' : ''}}" id="level-03-tab" data-toggle="tab" wire:click="switchTab('level_3')" href="#level-03" role="tab" aria-controls="level-03"
                     aria-selected="false">level 03</a>
                 </li>
               </ul>                    
             </div>
             <div class="tab-content border-0 p-0" id="myTabContent">
               <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
-                <div class="table-responsive my-team-details">
+                <div class="table-responsive my-team-details leaderboard-data">
+                  <div class="table-header-plugins">
+                      <!-- Start show length -->
+                      <div class="dataTables_length">
+                      <label>Show 
+                          <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                              @foreach(config('constants.datatable_paginations') as $length)
+                              <option value="{{ $length }}">{{ $length }}</option>
+                              @endforeach
+                          </select> 
+                        entries</label>
+                      </div>
+                      <!-- End show length -->
+
+                      <!--Start search  -->
+                      <div class="search-container">
+                          <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search"/>
+                          <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
+                      </div>
+                      <!-- End Search -->
+                  </div>
                   <table class="table table-striped">
                     <thead>
                       <tr>
                         <th>S.no</th>
-                        <th>Affiliate code</th>
-                        <th>Affiliate Name</th>
+                        <th>My Refferal Code</th>
+                        <th>Name</th>
                         <th>Referral ID</th>
                         <th>Mobile Number</th>
-                        <th>Total Affiliate’s</th>
                         <th>Status</th>
-                        <th>Paid Date</th>
+                        <th>Joining Date</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -47,60 +66,10 @@
                         <td>JAYESH MALHOTRA</td>
                         <td>MF18098</td>
                         <td>+91-1234567890</td>
-                        <td>02</td>
                         <td>Status</td>
                         <td>27/12/2022</td>
                       </tr>
-                      <tr>
-                        <td>02</td>
-                        <td>MF10025</td>
-                        <td>JAYESH MALHOTRA</td>
-                        <td>MF18098</td>
-                        <td>+91-1234567890</td>
-                        <td>02</td>
-                        <td>Status</td>
-                        <td>27/12/2022</td>
-                      </tr>
-                      <tr>
-                        <td>03</td>
-                        <td>MF10025</td>
-                        <td>JAYESH MALHOTRA</td>
-                        <td>MF18098</td>
-                        <td>+91-1234567890</td>
-                        <td>02</td>
-                        <td>Status</td>
-                        <td>27/12/2022</td>
-                      </tr>
-                      <tr>
-                        <td>04</td>
-                        <td>MF10025</td>
-                        <td>JAYESH MALHOTRA</td>
-                        <td>MF18098</td>
-                        <td>+91-1234567890</td>
-                        <td>02</td>
-                        <td>Status</td>
-                        <td>27/12/2022</td>
-                      </tr>
-                      <tr>
-                        <td>05</td>
-                        <td>MF10025</td>
-                        <td>JAYESH MALHOTRA</td>
-                        <td>MF18098</td>
-                        <td>+91-1234567890</td>
-                        <td>02</td>
-                        <td>Status</td>
-                        <td>27/12/2022</td>
-                      </tr>
-                      <tr>
-                        <td>06</td>
-                        <td>MF10025</td>
-                        <td>JAYESH MALHOTRA</td>
-                        <td>MF18098</td>
-                        <td>+91-1234567890</td>
-                        <td>02</td>
-                        <td>Status</td>
-                        <td>27/12/2022</td>
-                      </tr>
+                      
                     </tbody>
                   </table>
                 </div>
