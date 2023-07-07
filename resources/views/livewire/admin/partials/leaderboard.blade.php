@@ -58,7 +58,7 @@
                                 <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
                               </td>
                               <td>
-                                <div class="profile-name-re">
+                                <div class="leaderboard-row">
                                   {{ ucwords($record->user->name) }}
                                   <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
                                 </div>
@@ -114,7 +114,7 @@
                                 <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
                               </td>
                               <td>
-                                <div class="profile-name-re">
+                                <div class="leaderboard-row">
                                   {{ ucwords($record->user->name) }}
                                   <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
                                 </div>
@@ -168,7 +168,7 @@
                                 <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
                               </td>
                               <td>
-                                <div class="profile-name-re">
+                                <div class="leaderboard-row">
                                   {{ ucwords($record->user->name) }}
                                   <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
                                 </div>
@@ -222,7 +222,7 @@
                                 <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
                               </td>
                               <td>
-                                <div class="profile-name-re">
+                                <div class="leaderboard-row">
                                   {{ ucwords($record->user->name) }}
                                   <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
                                 </div>

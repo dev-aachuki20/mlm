@@ -218,7 +218,7 @@
               <li>
                 <div class="d-flex recent-list-detail">
                   <img src="{{ $newJoiner->profile_image_url ? $newJoiner->profile_image_url : asset(config('constants.default.profile_image')) }}" alt="user">
-                  <div class="profile-name-re">{{ ucwords($newJoiner->name) }}</div>
+                  <div class="leaderboard-row">{{ ucwords($newJoiner->name) }}</div>
                 </div>
                 @php
                   $amount = $newJoiner->payments()->sum('amount');
@@ -255,7 +255,7 @@
                     <li>
                       <div class="d-flex recent-list-detail">
                         <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
-                        <div class="profile-name-re">
+                        <div class="leaderboard-row">
                           {{ ucwords($record->user->name) }}
                           <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
                         </div>
@@ -278,7 +278,7 @@
                       <li>
                         <div class="d-flex recent-list-detail">
                           <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
-                          <div class="profile-name-re">
+                          <div class="leaderboard-row">
                             {{ ucwords($record->user->name) }}
                             <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
                           </div>
@@ -301,7 +301,7 @@
                     <li>
                       <div class="d-flex recent-list-detail">
                         <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
-                        <div class="profile-name-re">
+                        <div class="leaderboard-row">
                           {{ ucwords($record->user->name) }}
                           <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
                         </div>
@@ -325,7 +325,7 @@
                     <li>
                       <div class="d-flex recent-list-detail">
                         <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
-                        <div class="profile-name-re">
+                        <div class="leaderboard-row">
                           {{ ucwords($record->user->name) }}
                           <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
                         </div>
