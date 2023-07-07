@@ -14,6 +14,7 @@ $(document).ready(function() {
             }
     });
 
+    // Start datatable search filter
     // Handle search input
     const searchInput = $('#searchInput');
     const clearSearch = $('#clearSearch');
@@ -44,6 +45,9 @@ $(document).ready(function() {
       searchInput.val('').focus();
       clearSearch.hide();
     });
+    // End datatable search filter
+
+   
      
 });
 
