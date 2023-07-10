@@ -82,7 +82,7 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
         Route::view('courses/{course_id}', 'admin.video-group.index')->name('getAllVideos');
         Route::view('leaderboard', 'admin.partials.leaderboard')->name('leaderboard');
         Route::view('kyc', 'admin.kyc.index')->name('kyc');
-
+        Route::view('webinars', 'admin.webinar.index')->name('webinar');
 
     });
 
@@ -92,8 +92,7 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
         Route::view('myteam', 'user.myteam.index')->name('myteam');
         Route::view('leaderboard', 'user.leaderboard.index')->name('leaderboard');
         Route::view('my-courses', 'user.my-courses.index')->name('my-courses');
-
-
+        Route::get('{slug}', [PageController::class,'userPage'])->name('page');
     });
 
 });

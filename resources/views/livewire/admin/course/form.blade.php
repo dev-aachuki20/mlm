@@ -61,14 +61,18 @@
     <div class="row logo-section">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
-                <label class="font-weight-bold">Video</label> 
+                
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="font-weight-bold mb-0">Video</label> 
 
-                @if($updateMode)
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary btn-sm mb-1" data-toggle="modal" data-target="#videoModal">
-                    Preview
-                    </button>
-                @endif
+                    @if($updateMode)
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary btn-sm mb-1" data-toggle="modal" data-target="#videoModal">
+                        Preview
+                        </button>
+                    @endif
+                </div>
+              
 
                 <input type="file"  wire:model.defer="video" class="dropify" data-default-file="{{ $originalVideo }}"  data-errors-position="outside" data-allowed-file-extensions="webm mp4 avi wmv flv mov" data-min-file-size-preview="1M" data-max-file-size-preview="3M" data-max-file-size="{{ config('constants.data_max_file_size') }}" accept="video/webm, video/mp4, video/avi,video/wmv,video/flv,video/mov">
                 <span wire:loading wire:target="video">

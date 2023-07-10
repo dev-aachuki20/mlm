@@ -1,8 +1,7 @@
 <div>
     
     <h4 class="card-title">
-        {{__('global.show')}}
-        Kyc
+        View Kyc
     </h4>
 
     <div class="form-group row">

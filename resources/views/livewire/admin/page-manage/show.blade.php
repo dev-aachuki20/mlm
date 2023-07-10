@@ -1,16 +1,17 @@
 
 <h4 class="card-title">
-    {{__('global.show')}}
+    View
     {{ strtolower(__('cruds.page.title_singular'))}}</h4>
 
 
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.page.fields.title') }}</label>
         <div class="col-sm-9 col-form-label">
-             {{ $details->title }}
+             {{ ucwords($details->title) }}
         </div>
     </div>
 
+    @if(in_array($details->type,array(1,2,3)))
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.page.fields.sub_title') }}</label>
         <div class="col-sm-9 col-form-label">
@@ -24,6 +25,14 @@
              <img class="rounded img-thumbnail" src="{{ $details->slider_image_url ? $details->slider_image_url : asset(config('constants.no_image_url')) }}" width="200px"/>
         </div>
     </div>
+    @else
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">Image</label>
+        <div class="col-sm-9 col-form-label">
+             <img class="rounded img-thumbnail" src="{{ $details->image_url ? $details->image_url : asset(config('constants.no_image_url')) }}" width="200px"/>
+        </div>
+    </div>
+    @endif
 
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.page.fields.type') }}</label>
@@ -46,6 +55,15 @@
              {!! $details->description !!}
         </div>
     </div>
+
+    @if(in_array($details->type,array(4,5)))
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">Link</label>
+        <div class="col-sm-9 col-form-label">
+             {{ $details->link }}
+        </div>
+    </div>
+    @endif
 
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">Status</label>

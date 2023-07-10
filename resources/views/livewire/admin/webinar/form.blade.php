@@ -1,19 +1,45 @@
 
 <h4 class="card-title">
-    {{ $updateMode ? __('global.edit') : __('global.add') }} 
-     Lecture</h4>
+    {{ $updateMode ? __('global.edit') : __('global.create') }} 
+    Webinar</h4>
 
 <form wire:submit.prevent="{{ $updateMode ? 'update' : 'store' }}" class="forms-sample">
     
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <label class="font-weight-bold">Title</label>
                 <input type="text" class="form-control" wire:model.defer="title" placeholder="Title" autocomplete="off">
                 @error('title') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="font-weight-bold">Presenter</label>
+                <input type="text" class="form-control" wire:model.defer="presenter" placeholder="Presenter" autocomplete="off">
+                @error('presenter') <span class="error text-danger">{{ $message }}</span>@enderror
+            </div>
+        </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="font-weight-bold">Date</label>
+                <input type="text" id="webinar_date" class="form-control" wire:model.defer="date" placeholder="Date" autocomplete="off">
+                @error('date') <span class="error text-danger">{{ $message }}</span>@enderror
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="font-weight-bold">Time</label>
+                <input type="text" id="webinar_time" class="form-control" wire:model.defer="time" placeholder="Time" autocomplete="off">
+                @error('time') <span class="error text-danger">{{ $message }}</span>@enderror
+            </div>
+        </div>
+    </div>
+
 
     <div class="row">
         <div class="col-md-12 mb-4">
@@ -29,7 +55,7 @@
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
                 <label class="font-weight-bold">Image</label>
-                <input type="file"  wire:model.defer="image" class="dropify" data-default-file="{{ $originalImage }}"  data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
+                <input type="file"  wire:model.defer="image" class="dropify" data-default-file="{{ $originalImage }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M"  accept="image/jpeg, image/png, image/jpg,image/svg">
                 <span wire:loading wire:target="image">
                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
                 </span>
@@ -37,32 +63,6 @@
             @if($errors->has('image'))
             <span class="error text-danger">
                 {{ $errors->first('image') }}
-            </span>
-            @endif
-        </div>
-    </div>
-
-    <div class="row logo-section">
-        <div class="col-md-12 mb-4">
-            <div class="form-group mb-0" wire:ignore>
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <label class="font-weight-bold mb-0">Video</label> 
-                    @if($updateMode)
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary btn-sm mb-1" data-toggle="modal" data-target="#videoModal">
-                    Preview
-                    </button>
-                    @endif
-                </div>
-
-                <input type="file" id="video-file" wire:model.defer="video" class="dropify" data-default-file="{{ $originalVideo }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="webm mp4 avi wmv flv mov" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="video/webm, video/mp4, video/avi,video/wmv,video/flv,video/mov">
-                <span wire:loading wire:target="video">
-                    <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
-                </span>
-            </div>
-            @if($errors->has('video'))
-            <span class="error text-danger">
-                {{ $errors->first('video') }}
             </span>
             @endif
         </div>
@@ -97,7 +97,4 @@
     </button>
 </form>
 
-@if($updateMode)
-    @include('livewire.admin.partials.includes.preview-video')
-@endif
                

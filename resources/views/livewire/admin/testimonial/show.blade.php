@@ -1,6 +1,6 @@
 
 <h4 class="card-title">
-    {{__('global.show')}}
+    View
     {{ strtolower(__('cruds.testimonial.title_singular'))}}</h4>
 
 

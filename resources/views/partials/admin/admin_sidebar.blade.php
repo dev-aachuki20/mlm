@@ -51,6 +51,14 @@
                     </a>
                 </li>
                 @endcan
+
+                @can('webinar_access')
+                <li class="nav-item {{ request()->is('admin/webinars') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.webinar') }}">
+                        <span class="menu-title">Webinars</span>
+                    </a>
+                </li>
+                @endcan
             </ul>
         </div>
     </li> 

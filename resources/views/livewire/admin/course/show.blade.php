@@ -1,7 +1,7 @@
 <div>
    
 <h4 class="card-title">
-    {{__('global.show')}}
+    View
     {{ strtolower(__('cruds.course.title_singular'))}}</h4>
 
 

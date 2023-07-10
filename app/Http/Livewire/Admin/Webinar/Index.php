@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Livewire\Admin\Course;
+namespace App\Http\Livewire\Admin\Webinar;
 
 use Gate;
-use App\Models\Package;
-use App\Models\Course;
+use Carbon\Carbon;
 use Livewire\Component;
+use App\Models\Webinar;
 use Illuminate\Support\Str; 
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,16 +23,14 @@ class Index extends Component
 
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    public $course_id=null, $name, $allPackage, $package_id, $description, $image, $originalImage, $video, $originalVideo,$videoExtenstion, $status=1;
-    
+    public $webinar_id=null, $title, $presenter, $date, $time, $description, $image, $originalImage, $status=1;
 
     protected $listeners = [
         'cancel','updatePaginationLength', 'updateStatus', 'confirmedToggleAction','deleteConfirm',
     ];
 
-
     public function mount(){
-        abort_if(Gate::denies('course_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('webinar_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
     }
 
     public function updatePaginationLength($length){
@@ -67,7 +64,15 @@ class Index extends Component
     {
         return $this->sortDirection === 'asc' ? 'desc' : 'asc';
     }
-    
+
+    public function updatedDate(){
+        $this->date = Carbon::parse($this->date)->format('d-m-Y');
+    }
+
+    public function updatedTime(){
+        $this->time = Carbon::parse($this->time)->format('H:i');
+    }
+
     public function render()
     {
         $statusSearch = null;
@@ -78,84 +83,81 @@ class Index extends Component
             $statusSearch = 0;
         }
 
-        $allCourse = Course::query()->where(function ($query) use($searchValue,$statusSearch) {
-            $query->where('name', 'like', '%'.$searchValue.'%')
+        $allWebinar = Webinar::query()->where(function ($query) use($searchValue,$statusSearch) {
+            $query->where('title', 'like', '%'.$searchValue.'%')
+            ->orWhere('presenter', 'like', '%'.$searchValue.'%')
             ->orWhere('status', $statusSearch)
             ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
         })
         ->orderBy($this->sortColumnName, $this->sortDirection)
         ->paginate($this->paginationLength);
-      
 
-        return view('livewire.admin.course.index',compact('allCourse'));
+        return view('livewire.admin.webinar.index',compact('allWebinar'));
     }
 
     public function create()
     {
-        $this->resetPage('page');
+        $this->resetPage();
         $this->initializePlugins();
-        $this->allPackage = Package::where('status',1)->get();
         $this->formMode = true;
     }
 
     public function store(){
         $validatedData = $this->validate([
-            'name'        => 'required|'.Rule::unique('courses')->whereNull('deleted_at'),
-            'package_id'  => 'required',
+            'title'        => 'required',
+            'presenter'    => 'required',
+            'date'         => 'required',
+            'time'         => 'required',
             'description' => 'required',
             'status'      => 'required',
             'image'       => 'required|image|max:'.config('constants.img_max_size'),
-            'video'       => 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size'),
-        ],[
-            'package_id.required' => 'The package field is required.'
         ]);
 
+        $validatedData['date']   = Carbon::parse($this->date)->format('Y-m-d');
+        $validatedData['time']   = Carbon::parse($this->time)->format('H:i');
+
         $validatedData['status'] = $this->status;
-    
-        $course = Course::create($validatedData);
+
+        $webinar = Webinar::create($validatedData);
 
         //Upload Image
-        uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'save', null);
-
-        //Upload video
-        uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'save', null);
+        uploadImage($webinar, $this->image, 'webinar/image/',"webinar", 'original', 'save', null);
 
         $this->formMode = false;
 
-        $this->reset(['name','description','status','image','video','allPackage','package_id']);
+        $this->reset(['title','presenter','date','time','description','status','image']);
 
         $this->flash('success',trans('messages.add_success_message'));
       
-        return redirect()->route('admin.course');
+        return redirect()->route('admin.webinar');
     }
-
 
     public function edit($id)
     {
-        $this->resetPage('page');
+        $this->resetPage();
         $this->initializePlugins();
         $this->formMode = true;
         $this->updateMode = true;
 
-        $this->allPackage = Package::where('status',1)->get();
-
-        $course = Course::findOrFail($id);
-        $this->course_id      =  $course->id;
-        $this->name           =  $course->name;
-        $this->package_id     =  $course->package_id;
-        $this->description    =  $course->description;
-        $this->status         =  $course->status;
-        $this->originalImage  =  $course->course_image_url;
-        $this->originalVideo  =  $course->course_video_url;
-
-        $this->videoExtenstion = $course->courseVideo->extension;
+    
+        $webinar = Webinar::findOrFail($id);
+        $this->webinar_id      =  $webinar->id;
+        $this->title           =  $webinar->title;
+        $this->presenter       =  $webinar->presenter;
+        $this->date            =  Carbon::parse($webinar->date)->format('d-m-Y');
+        $this->time            =  Carbon::parse($webinar->time)->format('H:i');
+        $this->description    =  $webinar->description;
+        $this->status         =  $webinar->status;
+        $this->originalImage  =  $webinar->image_url;
 
     }
 
+
     public function update(){
-        $validatedArray['name']        = 'required|'.Rule::unique('courses')->ignore($this->course_id)->whereNull('deleted_at');
-        
-        $validatedArray['package_id']  = 'required';
+        $validatedArray['title']        = 'required';
+        $validatedArray['presenter']    = 'required';
+        $validatedArray['date']         = 'required';
+        $validatedArray['time']         = 'required';
         $validatedArray['description'] = 'required';
         $validatedArray['status']      = 'required';
 
@@ -163,50 +165,37 @@ class Index extends Component
             $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
         }
 
-        if($this->video){
-            $validatedArray['video'] = 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size');
-        }
+        $validatedData = $this->validate($validatedArray);
 
-        $validatedData = $this->validate(
-            $validatedArray,
-            [
-                'package_id.required' => 'The package field is required.'
-            ]
-        );
-
+        $validatedData['date']   = Carbon::parse($this->date)->format('Y-m-d');
+        $validatedData['time']   = Carbon::parse($this->time)->format('H:i');
         $validatedData['status'] = $this->status;
 
-        $course = Course::find($this->course_id);
+        $webinar = Webinar::find($this->webinar_id);
       
         // Check if the image has been changed
         $uploadImageId = null;
         if ($this->image) {
-            $uploadImageId = $course->courseImage->id;
-            uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'update', $uploadImageId);
+            $uploadImageId = $webinar->webinarImage->id;
+            uploadImage($course, $this->image, 'webinar/image/',"webinar", 'original', 'update', $uploadImageId);
         }
 
-        // Check if the video has been changed
-        $uploadVideoId = null;
-        if ($this->video) {
-            $uploadVideoId = $course->courseVideo->id;
-            uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'update', $uploadVideoId);
-        }
-
-        $course->update($validatedData);
+      
+        $webinar->update($validatedData);
      
         $this->formMode = false;
         $this->updateMode = false;
   
         $this->flash('success',trans('messages.edit_success_message'));
 
-        $this->reset(['name','description','status','image','video','allPackage','package_id']);
+        $this->reset(['title','presenter','date','time','description','status','image']);
 
-        return redirect()->route('admin.course');
+        return redirect()->route('admin.webinar');
     }
 
     public function show($id){
-        $this->resetPage('page');
-        $this->course_id = $id;
+        $this->resetPage();
+        $this->webinar_id = $id;
         $this->formMode = false;
         $this->viewMode = true;
     }
@@ -214,7 +203,7 @@ class Index extends Component
     public function updateStatus($id){
         if($this->isConfirmed){
             $this->isConfirmed = false;
-            $model = Course::find($id);
+            $model = Webinar::find($id);
             $model->update(['status' => !$model->status]);
             $this->alert('success', trans('messages.change_status_success_message'));
         }
@@ -229,7 +218,6 @@ class Index extends Component
         $this->updateMode = false;
         $this->viewMode = false;
     }
-
 
     public function delete($id)
     {
@@ -248,11 +236,9 @@ class Index extends Component
 
     public function deleteConfirm($event){
         $deleteId = $event['data']['inputAttributes']['deleteId'];
-        $model    = Course::find($deleteId);
-        $uploadImageId = $model->courseImage->id;
-        $uploadVideoId = $model->courseVideo->id;
+        $model    = Webinar::find($deleteId);
+        $uploadImageId = $model->webinarImage->id;
         deleteFile($uploadImageId);
-        deleteFile($uploadVideoId);
         $model->delete();
         $this->alert('success', trans('messages.delete_success_message'));
     }
@@ -267,17 +253,17 @@ class Index extends Component
             'onCancelled' => function () {
                 // Do nothing or perform any desired action
             },
-            'inputAttributes' => ['courseId' => $id],
+            'inputAttributes' => ['webinarId' => $id],
         ]);
     }
 
     public function confirmedToggleAction($event)
     {
-        $courseId = $event['data']['inputAttributes']['courseId'];
-        $model = Course::find($courseId);
+        $webinarId = $event['data']['inputAttributes']['webinarId'];
+        $model = Webinar::find($courseId);
         $model->update(['status' => !$model->status]);
         $this->alert('success', trans('messages.change_status_success_message'));
     }
 
-   
+
 }

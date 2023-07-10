@@ -40,6 +40,7 @@
         </div>
     </div>
 
+    {{--
     @if(!$updateMode)
     <div class="row">
         <div class="col-md-6">
@@ -68,7 +69,8 @@
         </div>
     </div>
     @endif
-
+    --}}
+    
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>

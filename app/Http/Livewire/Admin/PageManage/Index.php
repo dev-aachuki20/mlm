@@ -21,7 +21,7 @@ class Index extends Component
 
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    public $page_id=null, $parent_page ,$title, $sub_title, $type, $description, $template_name, $slider_image=null, $originalsliderImage;
+    public $page_id=null, $parent_page ,$title, $sub_title, $type, $description, $template_name, $slider_image=null, $originalsliderImage, $image=null, $originalImage,$link;
 
     protected $listeners = [
         'updatePaginationLength','confirmedToggleAction','deleteConfirm', 'cancelledToggleAction','refreshComponent' => 'render',
@@ -43,6 +43,7 @@ class Index extends Component
     public function updatedType($pageType)
     {
         $this->type = (int)$pageType;
+        $this->initializePlugins();
     }
 
     public function clearSearch()
@@ -115,27 +116,45 @@ class Index extends Component
         $this->template_name = '';
         $this->status = 1;
         $this->slider_image = null;
+        $this->image = null;
+        $this->link = '';
+
     }
 
     public function store(){
 
-        $validatedData = $this->validate([
-            'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/ 'max:255','unique:pages,title'],
-            'sub_title'       => ['required'],
-            // 'template_name'   => ['required', 'alpha', 'max:255'],
-            'description'     => '',
-            'type'            => 'required',
-            'status'          => 'required',
-            'slider_image'     => 'required|image|max:'.config('constants.img_max_size'),
-
-        ]);
-
-        $validatedData['status'] = $this->status;
+        if(in_array($this->type,array(1,2,3))){
+            $validatedData = $this->validate([
+                'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/ 'max:255','unique:pages,title'],
+                'sub_title'       => ['required'],
+                // 'template_name'   => ['required', 'alpha', 'max:255'],
+                'description'     => '',
+                'type'            => 'required',
+                'status'          => 'required',
+                'slider_image'     => 'required|image|max:'.config('constants.img_max_size'),
     
+            ]);
+        }else{
+            $validatedData = $this->validate([
+                'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/ 'max:255','unique:pages,title'],
+                'description'     => '',
+                'link'            => '',
+                'type'            => 'required',
+                'status'          => 'required',
+                'image'           => 'required|image|max:'.config('constants.img_max_size'),
+            ]);
+        }
+        
+        $validatedData['status'] = $this->status;
+
         $page = Page::create($validatedData);
   
-        //Slider Image
-        uploadImage($page, $this->slider_image, 'page/slider/',"page-slider", 'original', 'save', null);
+        if(in_array($this->type,array(1,2,3))){
+            //Slider Image
+            uploadImage($page, $this->slider_image, 'page/slider/',"page-slider", 'original', 'save', null);
+        }else{
+            uploadImage($page, $this->image, 'page/image/',"page-image", 'original', 'save', null);
+        }
 
         $this->formMode = false;
 
@@ -158,22 +177,36 @@ class Index extends Component
         $this->description     = $page->description;
         $this->status          = $page->status;
         $this->originalsliderImage = $page->slider_image_url;
+        $this->originalImage   = $page->image_url;
+        $this->link            = $page->link;
         $this->formMode = true;
         $this->updateMode = true;
     }
 
     public function update(){
-        $validatedArray =[
-            'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/'max:255','unique:pages,title,'.$this->page_id],
-            'sub_title' => ['required'],
-            'type'  => 'required',
-            // 'template_name'   => ['required', 'alpha', 'max:255'],
-            'description'     => '',
-            'status'          => 'required',
-        ];
+        if(in_array($this->type,array(1,2,3))){
+            $validatedArray =[
+                'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/'max:255','unique:pages,title,'.$this->page_id],
+                'sub_title' => ['required'],
+                'type'  => 'required',
+                // 'template_name'   => ['required', 'alpha', 'max:255'],
+                'description'     => '',
+                'status'          => 'required',
+            ];
+        }else{
+            $validatedArray =[
+                'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/'max:255','unique:pages,title,'.$this->page_id],
+                'type'  => 'required',
+                'description'     => '',
+                'link'            => '',
+                'status'          => 'required',
+            ];
+        }
         
-        if($this->slider_image){
+        if($this->slider_image && in_array($this->type,array(1,2,3))){
             $validatedArray['slider_image'] = 'required|image|max:'.config('constants.img_max_size');
+        }elseif($this->slider_image && in_array($this->type,array(4,5))){
+            $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
         }
 
         $validatedData = $this->validate($validatedArray);
@@ -183,7 +216,7 @@ class Index extends Component
 
         // Check if the image has been changed
         $uploadId = null;
-        if ($this->slider_image) {
+        if ($this->slider_image && in_array($this->type,array(1,2,3))) {
             if($page->sliderImage){
                 $uploadId = $page->sliderImage->id;
                 uploadImage($page, $this->slider_image, 'page/slider/',"page-slider", 'original', 'update', $uploadId);
@@ -191,6 +224,13 @@ class Index extends Component
                 uploadImage($page, $this->slider_image, 'page/slider/',"page-slider", 'original', 'save', null);
             }
            
+        }elseif($this->image && in_array($this->type,array(4,5))) {
+            if($page->image){
+                $uploadId = $page->image->id;
+                uploadImage($page, $this->image, 'page/image/',"page-image", 'original', 'update', $uploadId);
+            }else{
+                uploadImage($page, $this->image, 'page/image/',"page-image", 'original', 'save', null);
+            }
         }
 
         $page->update($validatedData);
@@ -221,7 +261,14 @@ class Index extends Component
     public function deleteConfirm($event){
         $deleteId = $event['data']['inputAttributes']['deleteId'];
         $model = Page::find($deleteId);
-        $uploadImageId = $model->sliderImage->id;
+        if($model->sliderImage){
+            $uploadImageId = $model->sliderImage->id;
+        }
+
+        if($model->image){
+            $uploadImageId = $model->image->id;
+        }
+
         deleteFile($uploadImageId);
         $model->delete();
         $this->alert('success', trans('messages.delete_success_message'));

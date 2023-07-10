@@ -314,6 +314,33 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
+
+            [
+                'title'      => 'webinar_access',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'webinar_create',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [   
+                'title'      => 'webinar_edit',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'webinar_show',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'webinar_delete',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+
             
         ];
 

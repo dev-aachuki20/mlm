@@ -235,6 +235,14 @@ if (!function_exists('getOtherPages')) {
 	}
 }
 
+if (!function_exists('getDynamicPages')) {
+	function getDynamicPages($type)
+	{
+		$result = Page::where('type',$type)->where('status',1)->get();
+		return $result;
+	}
+}
+
 if (!function_exists('getPageContent')) {
 	function getPageContent($slug)
 	{

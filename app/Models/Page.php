@@ -26,6 +26,7 @@ class Page extends Model
         'type',
         'description',
         'template_name',
+        'link',
         'created_by'
     ];
 
@@ -59,6 +60,19 @@ class Page extends Model
     {
         if($this->sliderImage){
             return $this->sliderImage->file_url;
+        }
+        return "";
+    }
+
+    public function image()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','page-image');
+    }
+
+    public function getImageUrlAttribute()
+    {
+        if($this->image){
+            return $this->image->file_url;
         }
         return "";
     }

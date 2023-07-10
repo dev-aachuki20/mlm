@@ -111,8 +111,8 @@ class Index extends Component
             'last_name'  => ['required', 'string','regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
             'email'      => ['required', 'string', 'email', 'max:255', Rule::unique((new User)->getTable(), 'email')->whereNull('deleted_at')],
             'phone'      => ['required','digits:10'],
-            'password'   => ['required', 'string', 'min:8'],
-            'password_confirmation' => ['required','min:8','same:password'], 
+            // 'password'   => ['required', 'string', 'min:8'],
+            // 'password_confirmation' => ['required','min:8','same:password'], 
             'status'        => 'required',
         ]);
 
@@ -127,7 +127,7 @@ class Index extends Component
                 'name'       => $this->first_name .' '.$this->last_name,
                 'email'      => $this->email,
                 'phone'      => $this->phone,
-                'password'   => Hash::make($this->password),
+                // 'password'   => Hash::make($this->password),
                 'date_of_join' => Carbon::now()->format('Y-m-d'),
                 'password_set_at'   => Carbon::now(),
                 'email_verified_at' => Carbon::now(),
@@ -280,7 +280,7 @@ class Index extends Component
 
         }catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage().'->'.$e->getLine());
+            // dd($e->getMessage().'->'.$e->getLine());
             $this->alert('error',trans('messages.error_message'));
         }
 

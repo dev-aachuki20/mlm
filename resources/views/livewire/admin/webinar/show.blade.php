@@ -1,23 +1,39 @@
 <div>
    
-    <h4 class="card-title">
-        View
-        {{ strtolower(__('cruds.course.title_singular'))}}</h4>
+    <h4 class="card-title">View Webinar</h4>
     
-    
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.testimonial.fields.image')}}</label>
+            <div class="col-sm-9 col-form-label">
+                <img class="rounded img-thumbnail" src="{{ $detail->image_url ? $detail->image_url : asset(config('constants.default_user_logo')) }}" width="100px"/>
+            </div>
+        </div>
+
         <div class="form-group row">
             <label class="col-sm-3 col-form-label font-weight-bold">Title</label>
             <div class="col-sm-9 col-form-label">
-                 {{ $detail->title }}
+                 {{ ucwords($detail->title) }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Presenter</label>
+            <div class="col-sm-9 col-form-label">
+                 {{ ucwords($detail->presenter) }}
             </div>
         </div>
     
         <div class="form-group row">
-            <label class="col-sm-3 col-form-label font-weight-bold">Video</label>
+            <label class="col-sm-3 col-form-label font-weight-bold">Date</label>
             <div class="col-sm-9 col-form-label">
-                <video controls="" width="200" preload="none" poster="{{ $detail->course_image_url }}" id="clip-video" playsinline>
-                    <source class="js-video" src="{{ $detail->course_video_url }}" type="video/{{ $detail->courseVideo->extention }}">
-                </video>
+                {{ convertDateTimeFormat($detail->date,'date') }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Time</label>
+            <div class="col-sm-9 col-form-label">
+                {{ \Carbon\Carbon::parse($detail->time)->format('H:i') }}
             </div>
         </div>
     

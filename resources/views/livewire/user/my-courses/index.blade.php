@@ -344,3 +344,49 @@
     </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    var charLimit = 70;
+
+function truncate(el) {
+  var clone = el.children().first(),
+    originalContent = el.html(),
+    text = clone.text();
+
+  if (clone[0].innerHTML.trim().length > charLimit) {
+    el.attr("data-originalContent", originalContent);
+    el.addClass("hasHidden");
+    clone.text(text.substring(0, charLimit) + "...");
+    el.empty().append(clone);
+    el.append(
+      $("<span class='read-more'><a href='#' class='more'>Read More</a>")
+    );
+  }
+}
+
+  $("body").on("click", "a.more", function (e) {
+    e.preventDefault();
+    var truncateElement = $(this).parent().parent();
+    if (truncateElement.hasClass("hasHidden")) {
+      $(truncateElement).html(truncateElement.attr("data-originalContent"));
+      $(truncateElement).append(
+        $("<span class='read-more'><a href='#' class='more'>Read Less</a>")
+      );
+      truncateElement.removeClass("hasHidden").slow;
+    } else {
+      $(".read-more", truncateElement).remove();
+      truncate(truncateElement);
+    }
+  });
+
+  $(".course-text-width .content").each(function () {
+    truncate($(this));
+  });
+  function myCallback() {
+    setTimeout(function () {
+      $(".course-text-width .content").removeClass("hasHidden");
+    }, 3000);
+  }
+</script>
+@endpush
