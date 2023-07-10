@@ -11,6 +11,12 @@
                     </track>
                 </video>
                 </div>
+                <div class="sec-head">
+                    <h3 class="head-f-25 color-dark-blue">How To Become A Successful Affiliate Marketer</h3>
+                    <div class="content">
+                        <p>Influencing traffic to buy your products or services comes with a promise of quality of content to learn specific.</p>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-5 col-sm-12">
                 <div class="my-course-package">
@@ -49,12 +55,7 @@
             </div>
             <div class="row">
             <div class="col-lg-12 col-sm-12">
-                <div class="sec-head mb-5">
-                <h3 class="head-f-25 color-dark-blue">How To Become A Successful Affiliate Marketer</h3>
-                <div class="content">
-                    <p>Influencing traffic to buy your products or services comes with a promise of quality of content to learn specific.</p>
-                </div>
-                </div>
+                <hr>
                 <div class="course-main">
                 <div class="course-item">
                     <div class="course-video">

@@ -30894,7 +30894,7 @@ input::placeholder{
 .is-editing .btn-edit {
     display: none;
 }
-form button.btn {
+form button.custom-btn {
     margin-top: 30px;
     width: 100%;
     background: #f24f00;
@@ -31603,7 +31603,6 @@ img.hide-password, .fa-eye-slash img.view-password {
     object-fit: cover;
 }
 .my-course-package {
-    height: 100%;
     background: #F7F8FA;
     border-radius: 5px;
     padding: 30px 30px  38px;
@@ -31659,8 +31658,7 @@ img.hide-password, .fa-eye-slash img.view-password {
     font-weight: 700;
 }
 .sec-head{
-  padding: 40px 0 33px;
-  border-bottom: solid 1px #ECE6E6;
+  padding: 40px 0 0;
 }
 .head-f-25{
   font-size: 25px;

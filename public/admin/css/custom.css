@@ -373,13 +373,87 @@ body button.btn {
   .row-gap-30 {
     row-gap: 20px;
   }
+  .head-f-25 {
+    font-size: 16px !important;
+    margin: 0 0 5px;
+  }
+  .content p {
+    font-size: 14px;
+    line-height: 24px;
+  }
+  .course-price-list ul li {
+    padding: 10px 0;
+  }
+  .my-course-package span.my-course-plan {
+    margin: 0;
+    padding: 4px 8px;
+    position: absolute;
+    right: 13px;
+    font-size: 12px;
+  }
+  .my-course-package {
+    position: relative;
+  }
+  .my-course-package .plan-name {
+    font-size: 18px;
+    margin: 0 0 20px;
+  }
+  .my-course-package {
+    padding: 20px 15px;
+    margin: 20px 0 0;
+  }
+  .sec-head {
+    padding: 10px 0 0;
+}
 }
 @media (max-width: 767px) {  
+  .course-item .course-video .course-count{
+    display: none;
+  }
+  .course-item .course-video .box-video {
+    width: 100%;
+  }
+  .course-item .course-text {
+      width: 100%;
+      padding: 0;
+  }
+  .course-item .course-video {
+    width: 100%;
+  }
+  .course-item {
+    width: 100%;
+    margin-right: 0;
+    padding: 15px 0;
+  }
+  .my-course-package .plan-name {
+    font-size: 16px;
+    margin: 0 0 15px;
+    text-align: left;
+}
+  .course-item .course-text h5 {
+    margin: 0 0 5px;
+  }
+  .course-text-width {
+    padding: 5px 0 0;
+  }
+  .course-item .course-video .box-video {
+      width: 100%;
+      height: 160px;
+  }
+  .my-course-video-main video {
+    height: 250px;
+  }
   body .form-group .col-form-label {
     font-size: 14px;
     padding-top: 0;
     padding-bottom: 0;
-}
+    justify-content: flex-start;
+  }
+  form button.custom-btn {
+    margin-top: 15px;
+    height: 50px;
+    font-size: 16px;
+  }
   .card .card-title {
     font-size: 16px;
     padding: 0 0 10px;
@@ -443,6 +517,32 @@ body button.btn {
       border-radius: 5px;
       margin: 0 5px 0 0;
   }
+  .navbar .navbar-menu-wrapper .navbar-nav.menubar .nav-item {
+    margin: 0 15px 0 0;
+  }
+  ul.navbar-nav.m-auto.menubar {
+    display: none !important;
+  }
+  .content-wrapper {
+    padding: 20px 15px;
+  }
+  .my-team-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: solid 1px #ECE6E6;
+    padding-bottom: 13px;
+    margin: 0px 0 20px;
+    flex-wrap: wrap;
+    row-gap: 15px;
+  }
+  .my-team-head .nav-tabs .nav-link {
+    font-size: 14px;
+    padding: 7px 15px;
+  }
+  .my-team-head .nav-tabs {
+    padding: 4px;
+  }
 }
 @media (max-width: 575px) {
     .package-statistics .col-lg-3 {
@@ -473,5 +573,8 @@ body button.btn {
   .leaderboard-row span {
     font-size: 10px;
     font-weight: 700;
+  }
+  .my-course-video-main video {
+    height: 200px;
   }
 }
