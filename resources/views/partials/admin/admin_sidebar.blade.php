@@ -91,6 +91,13 @@
     </li>
     @endcan
 
+    <li class="nav-item {{ request()->is('admin/kyc') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.kyc') }}">
+            <i class="icon-grid menu-icon fa-solid fa-users"></i>
+            <span class="menu-title">Kyc</span>
+        </a>
+    </li>
+
     @endif
 
     @can('setting_access')

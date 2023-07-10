@@ -1,12 +1,12 @@
 @extends('layouts.admin')
-@section('title','Profile')
+@section('title','My Courses')
 
 @section('styles')
 @stop
 
 @section('content')
 
-    @livewire('auth.profile.index')
+    @livewire('user.my-courses.index')
 
 @stop
 

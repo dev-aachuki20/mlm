@@ -40,6 +40,11 @@ class Index extends Component
         $this->resetPage();
     }
 
+    public function updatedType($pageType)
+    {
+        $this->type = (int)$pageType;
+    }
+
     public function clearSearch()
     {
        $this->search = '';

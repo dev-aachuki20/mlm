@@ -61,7 +61,11 @@ Route::group(['middleware' => [], 'as' => 'front.','prefix'=>''], function () {
 Route::group(['middleware' => ['auth','preventBackHistory']], function () {
 
     Route::view('admin/profile', 'auth.profile.index')->name('auth.admin-profile')->middleware('role:admin');
-    Route::view('user/profile', 'auth.profile.index')->name('auth.user-profile')->middleware('role:user');
+    Route::view('user/profile', 'auth.profile.index')->name('auth.user-profile')->middleware('role:user,role:ceo,role:management');
+
+    
+    Route::view('admin/change-password', 'auth.profile.change-password')->name('auth.admin-change-password')->middleware('role:admin');
+    Route::view('user/change-password', 'auth.profile.change-password')->name('auth.user-change-password')->middleware('role:user,role:ceo,role:management');
 
     Route::group(['middleware'=>['role:admin'],'as' => 'admin.','prefix'=>'admin'], function () {
         Route::view('dashboard', 'admin.index')->name('dashboard');
@@ -77,6 +81,8 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
         Route::view('courses', 'admin.course.index')->name('course');
         Route::view('courses/{course_id}', 'admin.video-group.index')->name('getAllVideos');
         Route::view('leaderboard', 'admin.partials.leaderboard')->name('leaderboard');
+        Route::view('kyc', 'admin.kyc.index')->name('kyc');
+
 
     });
 
@@ -85,6 +91,8 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
         Route::view('kyc', 'user.kyc.index')->name('kyc');
         Route::view('myteam', 'user.myteam.index')->name('myteam');
         Route::view('leaderboard', 'user.leaderboard.index')->name('leaderboard');
+        Route::view('my-courses', 'user.my-courses.index')->name('my-courses');
+
 
     });
 

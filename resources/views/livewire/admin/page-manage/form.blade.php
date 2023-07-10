@@ -17,7 +17,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label class="font-weight-bold">{{ __('cruds.page.fields.type')}}</label>
-                <select class="form-control" wire:model.defer="type" {{ $type == 3 ? 'disabled':'' }}>
+                <select class="form-control" wire:model="type" {{ $type == 3 ? 'disabled':'' }}>
                     <option value="">Select Type</option>
                     @if(config('constants.page_types'))
                         @foreach(config('constants.page_types') as $id=>$name)
@@ -47,17 +47,6 @@
         </div>
     </div>
 
-   {{-- <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.page.fields.template_name')}}</label>
-                <input type="text" class="form-control" wire:model.defer="template_name" placeholder="{{ __('cruds.page.fields.template_name')}}">
-                @error('template_name') <span class="error text-danger">{{ $message }}</span>@enderror
-            </div>
-        </div>
-    </div>
-  --}}
-
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
@@ -74,7 +63,7 @@
             @endif
         </div>
     </div>
-  
+
     @if($type != 3)
     <div class="row">
         <div class="col-md-12 mb-4">

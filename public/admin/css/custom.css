@@ -197,6 +197,9 @@ input:checked + .switch-slider:after
 .rating > input:checked ~ label {
   color: #ffa723;
 }
+.fa-eye:before,.fa-eye-slash:before{
+opacity:0;
+}
 
 .search-container {
   position: relative;

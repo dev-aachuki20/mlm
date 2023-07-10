@@ -30,7 +30,7 @@
           <a class="nav-link" href="{{ route('front.about-us') }}">About us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0);">My Courses</a>
+          <a class="nav-link {{ request()->is('user/my-courses') ? 'active' : '' }}" href="{{ route('user.my-courses') }}">My Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('front.testimonials') }}">Testimonials</a>
@@ -39,7 +39,7 @@
       </ul>
       <ul class="navbar-nav">
         <li class="nav-item nav-profile dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+          <a class="nav-link dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown" id="profileDropdown">
             <span class="profile-img">
 
                 @if($profileImageUrlUpdated)
@@ -50,27 +50,49 @@
                 
             </span>
             <div class="profile-name">
-                @php
-                    $profileRoute = '';
-                    if(auth()->user()->is_super_admin || auth()->user()->is_admin){
-                        $profileRoute = 'auth.admin-profile';
-                    }else if(auth()->user()->is_user){
-                        $profileRoute = 'auth.user-profile';
-                    }
-                @endphp
-              <span>welcome</span>
+              <span>Welcome</span>
               <h5>{{ ucwords(auth()->user()->name) }}</h5>
             </div>
           </a>
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+            @php
+                $profileRoute = '';
+                $changePasswordRoute = '';
+                if(auth()->user()->is_super_admin || auth()->user()->is_admin || auth()->user()->is_management || auth()->user()->is_ceo){
+                    $profileRoute = 'auth.admin-profile';
+                    $changePasswordRoute = 'auth.admin-change-password';
+                }else if(auth()->user()->is_user){
+                    $profileRoute = 'auth.user-profile';
+                    $changePasswordRoute = 'auth.user-change-password';
+                }
+            @endphp
+            <ul>
+              <li>
+                <a href="{{ route($profileRoute) }}" class="dropdown-item {{ (request()->is('admin/profile') || request()->is('user/profile')) ? 'active' : '' }}">
+                  <img src="{{ asset('images/icons/user.svg') }}">
+                  My Profile
+                </a>
+              </li>
 
-            @if(auth()->user()->is_super_admin)
-            <a class="dropdown-item" href="{{ route('admin.setting') }}">
-                <i class="ti-settings text-primary"></i> Setting
-            </a>
-            @endif
+              @if(auth()->user()->is_user)
+              <li>
+                <a href="{{ route('user.my-courses') }}" class="dropdown-item {{ request()->is('user/my-courses') ? 'active' : '' }}">
+                  <img src="{{ asset('images/icons/my-course.svg') }}">
+                  My Courses
+                </a>
+              </li>
+              @endif
 
-            @livewire('auth.admin.logout')
+              <li>
+                <a href="{{ route($changePasswordRoute) }}" class="dropdown-item {{ (request()->is('admin/change-password') || request()->is('user/change-password')) ? 'active' : '' }}">
+                  <img src="{{ asset('images/icons/password.svg') }}">
+                  Change Password
+                </a>
+              </li>
+              <li>
+                @livewire('auth.admin.logout')
+              </li>
+            </ul> 
           </div>
         </li>
       </ul>

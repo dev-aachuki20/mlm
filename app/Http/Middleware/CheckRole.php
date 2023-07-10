@@ -20,6 +20,14 @@ class CheckRole
             abort(403, 'Unauthorized');
         }
 
+        if($role == 'ceo' && !auth()->user()->is_ceo){
+            abort(403, 'Unauthorized');
+        }
+
+        if($role == 'management' && !auth()->user()->is_management){
+            abort(403, 'Unauthorized');
+        }
+
         if($role == 'admin' && !auth()->user()->is_super_admin && !auth()->user()->is_admin && !auth()->user()->is_management){
             abort(403, 'Unauthorized');
         }

@@ -14,13 +14,13 @@ class ChangePassword extends Component
 {
     use LivewireAlert;
 
-    // protected $layout = null;
+    protected $layout = null;
     
     public $userId;
     
     public $oldPassword,$checkOldPassword;
 
-    public $current_password, $password, $password_confirmation;
+    public $old_password, $new_password, $confirm_password;
 
     public function mount(){
         $this->userId = auth()->user()->id;
@@ -30,9 +30,9 @@ class ChangePassword extends Component
     protected function rules() 
     {
         return [
-            'current_password'  => ['required', 'string','min:8',new MatchOldPassword],
-            'password'   => ['required', 'string', 'min:8', /*'confirmed',*/ 'different:current_password'],
-            'password_confirmation' => ['required','min:8','same:password'],
+            'old_password'  => ['required', 'string','min:8',new MatchOldPassword],
+            'new_password'   => ['required', 'string', 'min:8', /*'confirmed',*/ 'different:old_password'],
+            'confirm_password' => ['required','min:8','same:new_password'],
         ];
     }
 
@@ -40,7 +40,7 @@ class ChangePassword extends Component
     {
         // return getCommonValidationRuleMsgs();
         return [
-            'password_confirmation.same' => 'The password confirmation and new password must match.'
+            'confirm_password.same' => 'The confirm password and new password must match.'
         ];
     }
   
@@ -53,11 +53,11 @@ class ChangePassword extends Component
     public function updatePassword(){
         $validated = $this->validate($this->rules(),$this->messages());
         
-        User::find($this->userId)->update(['password'=> Hash::make($this->password)]);
+        User::find($this->userId)->update(['password'=> Hash::make($this->new_password)]);
 
         $this->resetInputFields();
 
-        $this->dispatchBrowserEvent('close-modal',['element'=>'#changePasswordModal']);
+        // $this->dispatchBrowserEvent('close-modal',['element'=>'#changePasswordModal']);
 
         // Set Flash Message
         $this->alert('success', 'Your password has been changed!');
@@ -65,9 +65,9 @@ class ChangePassword extends Component
     }
 
     private function resetInputFields(){
-        $this->current_password = '';
-        $this->password = '';
-        $this->password_confirmation = '';
+        $this->old_password = '';
+        $this->new_password = '';
+        $this->confirm_password = '';
     }
     
 }

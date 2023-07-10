@@ -30894,7 +30894,7 @@ input::placeholder{
 .is-editing .btn-edit {
     display: none;
 }
-form button.custom-btn {
+form button.btn {
     margin-top: 30px;
     width: 100%;
     background: #f24f00;

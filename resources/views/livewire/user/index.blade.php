@@ -1,5 +1,6 @@
 <div class="content-wrapper bg-white">
   
+{{-- 
   <div class="card grid-margin">
     <div class="card-header bg-white d-flex justify-content-between">
       <h3 class="mt-2 intro-video-title">{{ getSetting('introduction_video_title') }}</h3>
@@ -51,8 +52,8 @@
       </div>
     </div>
   </div>
- 
-{{-- 
+  --}}
+
   <div class="row">
     <div class="col-md-12 grid-margin">
       <div class="watch-our-introductory">
@@ -92,7 +93,7 @@
         </div>
       </div>
     </div>
-  </div> --}}
+  </div>
 
   {{-- Start package selling overview --}}
   <div class="row row-gap-30">

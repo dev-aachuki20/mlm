@@ -117,33 +117,38 @@ class Index extends BaseComponent
     public function openEditSection(){
         $this->editMode = true;
       
-        $this->first_name = $this->authUser->first_name;
-        $this->last_name  = $this->authUser->last_name;
-        $this->email      = $this->authUser->email;
-        $this->phone      = $this->authUser->phone;
-        $this->dob        = Carbon::parse($this->authUser->dob)->format('d-m-Y');
-        $this->referral_code      = $this->authUser->referral_code;
-        $this->referral_name      = $this->authUser->referral_name;
-
-        $this->guardian_name      = $this->authUser->profile->guardian_name;
-        $this->gender             = $this->authUser->profile->gender;
-        $this->profession         = $this->authUser->profile->profession;
-        $this->marital_status     = $this->authUser->profile->marital_status;
-        $this->address            = $this->authUser->profile->address;
-        $this->state              = $this->authUser->profile->state;
-        $this->city               = $this->authUser->profile->city;
-        $this->pin_code           = $this->authUser->profile->pin_code;
-        $this->nominee_name       = $this->authUser->profile->nominee_name;
-        $this->nominee_relation   = $this->authUser->profile->nominee_relation;
-        $this->nominee_dob        = Carbon::parse($this->authUser->profile->nominee_dob)->format('d-m-Y');
-    
-        
-        $keyIndex = array_search ($this->state, config('indian-regions.states'));
-        if($keyIndex){
-            $this->stateId = (int)$keyIndex;
-            $this->allCities = explode(' | ' ,config('indian-regions.cities')[$this->stateId+1]);    
+        if($this->activeTab == 'user-tab'){
+            $this->first_name = $this->authUser->first_name;
+            $this->last_name  = $this->authUser->last_name;
+            $this->email      = $this->authUser->email;
+            $this->phone      = $this->authUser->phone;
+            $this->dob        = Carbon::parse($this->authUser->dob)->format('d-m-Y');
+            $this->referral_code      = $this->authUser->referral_code;
+            $this->referral_name      = $this->authUser->referral_name;    
         }
-      
+
+        if($this->activeTab == 'profile-tab'){
+
+            $this->guardian_name      = $this->authUser->profile->guardian_name;
+            $this->gender             = $this->authUser->profile->gender;
+            $this->profession         = $this->authUser->profile->profession;
+            $this->marital_status     = $this->authUser->profile->marital_status;
+            $this->address            = $this->authUser->profile->address;
+            $this->state              = $this->authUser->profile->state;
+            $this->city               = $this->authUser->profile->city;
+            $this->pin_code           = $this->authUser->profile->pin_code;
+            $this->nominee_name       = $this->authUser->profile->nominee_name;
+            $this->nominee_relation   = $this->authUser->profile->nominee_relation;
+            $this->nominee_dob        = Carbon::parse($this->authUser->profile->nominee_dob)->format('d-m-Y');
+
+            $keyIndex = array_search ($this->state, config('indian-regions.states'));
+            if($keyIndex){
+                $this->stateId = (int)$keyIndex;
+                $this->allCities = explode(' | ' ,config('indian-regions.cities')[$this->stateId+1]);    
+            }
+
+        }
+    
         $this->initializePlugins();
     }
 
@@ -155,58 +160,68 @@ class Index extends BaseComponent
     public function updateProfile(){
     //    dd($this->all());
         $this->dispatchBrowserEvent('reinitializePlugins');
-        $validatedData = $this->validate([
-            'first_name'  => 'required',
-            'last_name'   => 'required',
-            'phone'         => 'required|digits:10',
-            'dob'           => 'required',
-            'guardian_name' => '',
-            'gender'        => 'required',
-            'profession'    => '',
-            'marital_status' => '',
 
-            'address'       => '',
-            'state'         => '',
-            'city'          => '',
-            'pin_code'      => '',
-            'nominee_name'  => '',
-            'nominee_relation'  => '',
-            'nominee_dob'       => '',
-        ]);
+        if($this->activeTab == 'user-tab'){
+            $validatedData = $this->validate([
+                'first_name'  => 'required',
+                'last_name'   => 'required',
+                'phone'       => 'required|digits:10',
+                'dob'         => 'required',
+            ]);
 
-        $userDetails = [];
-        $userDetails['first_name'] = $this->first_name;
-        $userDetails['last_name']  = $this->last_name;
-        $userDetails['name']       = $this->first_name.' '.$this->last_name;
-        $userDetails['phone']      = $this->phone;
-        $userDetails['dob']        = Carbon::parse($this->dob)->format('Y-m-d');
+            $userDetails = [];
+            $userDetails['first_name'] = $this->first_name;
+            $userDetails['last_name']  = $this->last_name;
+            $userDetails['name']       = $this->first_name.' '.$this->last_name;
+            $userDetails['phone']      = $this->phone;
+            $userDetails['dob']        = Carbon::parse($this->dob)->format('Y-m-d');
 
-        $this->authUser->update($userDetails);
+            $this->authUser->update($userDetails);
+        }
 
-        $profileDetails = [];
-        $profileDetails['guardian_name']      = $this->guardian_name;
-        $profileDetails['gender']             = $this->gender;
-        $profileDetails['profession']         = $this->profession;
-        $profileDetails['marital_status']     = $this->marital_status;
-        $profileDetails['address']            = $this->address;
-        $profileDetails['state']            = $this->state;
-        $profileDetails['city']             = $this->city;
-        $profileDetails['pin_code']         = $this->pin_code;
-        $profileDetails['nominee_name']     = $this->nominee_name;
-        $profileDetails['nominee_relation'] = $this->nominee_relation;
-        $profileDetails['nominee_dob']      = Carbon::parse($this->nominee_dob)->format('Y-m-d');
+        if($this->activeTab == 'profile-tab'){
+            $validatedData = $this->validate([
+                'guardian_name' => '',
+                'gender'        => 'required',
+                'profession'    => 'required',
+                'marital_status' => 'required',
+    
+                'address'       => '',
+                'state'         => '',
+                'city'          => '',
+                'pin_code'      => '',
+                'nominee_name'  => '',
+                'nominee_relation'  => '',
+                'nominee_dob'       => '',
+            ]);
 
-        $this->authUser->profile()->update($profileDetails);
+                
+            $profileDetails = [];
+            $profileDetails['guardian_name']      = $this->guardian_name;
+            $profileDetails['gender']             = $this->gender;
+            $profileDetails['profession']         = $this->profession;
+            $profileDetails['marital_status']     = $this->marital_status;
+            $profileDetails['address']            = $this->address;
+            $profileDetails['state']            = $this->state;
+            $profileDetails['city']             = $this->city;
+            $profileDetails['pin_code']         = $this->pin_code;
+            $profileDetails['nominee_name']     = $this->nominee_name;
+            $profileDetails['nominee_relation'] = $this->nominee_relation;
+            $profileDetails['nominee_dob']      = Carbon::parse($this->nominee_dob)->format('Y-m-d');
+
+            $this->authUser->profile()->update($profileDetails);
+        }
+        
 
         $this->closedEditSection();
-        $this->flash('success', 'Profile has been updated.');
+        $this->alert('success', 'Profile has been updated.');
 
-        if(auth()->user()->is_super_admin || auth()->user()->is_admin){
-            $profileRoute = 'auth.admin-profile';
-        }else if(auth()->user()->is_user){
-            $profileRoute = 'auth.user-profile';
-        }
-        return redirect()->route($profileRoute);
+        // if(auth()->user()->is_super_admin || auth()->user()->is_admin){
+        //     $profileRoute = 'auth.admin-profile';
+        // }else if(auth()->user()->is_user){
+        //     $profileRoute = 'auth.user-profile';
+        // }
+        // return redirect()->route($profileRoute);
     }
 
     public function resetFields(){

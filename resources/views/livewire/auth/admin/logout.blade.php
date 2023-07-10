@@ -1,4 +1,4 @@
 <a class="dropdown-item" wire:click.prevent="logout">
-    <i class="ti-power-off text-primary"></i>
+    <img src="{{ asset('images/icons/logout.svg') }}">
     {{ __('global.logout')}}
 </a>

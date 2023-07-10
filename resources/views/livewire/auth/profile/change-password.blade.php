@@ -1,54 +1,85 @@
-<div>
-    <!-- Modal -->
-    <div wire:ignore.self class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title fs-5" id="changePasswordLabel">{{ trans('global.change_password') }}</h5>
-                    <button type="button" class="close close-modal" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div wire:loading wire:target="updatePassword" class="loader"></div>
-                    <form wire:submit.prevent="updatePassword">
-                        <div class="mb-3">
-                            <label for="current_password" class="form-label">{{__('global.current_password') }}</label>
-                            <div class="input-group show_hide_password" id="show_hide_password">
-                                <input type="password" class="form-control" wire:model.defer="current_password" id="current-password" autocomplete="off">
-                                <div class="input-group-addon">
-                                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+
+<div class="content-wrapper">
+    {{-- <div wire:loading wire:target="updatePassword" class="loader"></div> ---}}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+            <div class="card-body">
+                <p class="card-title mb-40">{{ trans('global.change_password') }}</p>
+                <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="card">
+                    <div class="card-body pt-4 pb-4">
+                        <form class="form" wire:submit.prevent="updatePassword">            
+                        <div class="form-outer">
+                            <div class="form-group">                  
+                                <div class="input-form">
+                                    <div class="login-icon"><img src="{{ asset('images/icons/password.svg') }}"></div>
+                                    <label for="old-password" class="form-label">Old Password</label>
+                                    <input id="old-password" type="password" class="form-control" placeholder="Enter Your Old Password" wire:model.defer="old_password" autocomplete="off">
+                                    <span toggle="#old-password" class="fa-eye field-icon toggle-password">
+                                        <img src="{{ asset('images/icons/view-password.svg') }}" alt="view-password" class="view-password">
+                                        <img src="{{ asset('images/icons/hide-password.svg') }}" alt="hide-password" class="hide-password">
+                                    </span>
                                 </div>
+                                @error('old_password') <span class="error text-danger">{{ $message }}</span> @enderror
                             </div>
-                            @error('current_password') <span class="error text-danger">{{ $message }}</span> @enderror
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="new_password" class="form-label">{{__('global.new_password')}}</label>
-                            <div class="input-group show_hide_password" id="show_hide_password">
-                                <input type="password" class="form-control" wire:model.defer="password" id="new-password" autocomplete="off">
-                                <div class="input-group-addon">
-                                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+
+                            <div class="form-group">                  
+                                <div class="input-form">
+                                    <div class="login-icon"><img src="{{ asset('images/icons/password.svg') }}"></div>
+                                    <label for="new-password" class="form-label">New Password</label>
+                                    <input id="new-password" type="password" class="form-control" wire:model.defer="new_password" placeholder="Enter Your New Password" autocomplete="off">
+                                    <span toggle="#new-password" class="fa-eye field-icon toggle-password">
+                                        <img src="{{ asset('images/icons/view-password.svg') }}" alt="view-password" class="view-password">
+                                        <img src="{{ asset('images/icons/hide-password.svg') }}" alt="hide-password" class="hide-password">
+                                    </span>
                                 </div>
+                                @error('new_password') <span class="error text-danger">{{ $message }}</span> @enderror
                             </div>
-                            @error('password') <span class="error text-danger">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">{{__('global.confirm_new_password')}}</label>
-                            <div class="input-group show_hide_password" id="show_hide_password">
-                                <input  type="password" wire:model.defer="password_confirmation" class="form-control" id="password_confirmation" autocomplete="off">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-eye-slash" aria-hidden="true"></i>
+
+                            <div class="form-group">
+                                <div class="input-form">
+                                    <div class="login-icon"><img src="{{ asset('images/icons/password.svg') }}"></div>
+                                    <label for="confirm-password" class="form-label">Confirm password</label>
+                                    <input id="confirm-password" type="password" class="form-control" wire:model.defer="confirm_password" placeholder="Enter Your Confirm Password" autocomplete="off">
+                                    <span toggle="#confirm-password" class="fa-eye field-icon toggle-password">
+                                        <img src="{{ asset('images/icons/view-password.svg') }}" alt="view-password" class="view-password">
+                                        <img src="{{ asset('images/icons/hide-password.svg') }}" alt="hide-password" class="hide-password">
+                                    </span>
                                 </div>
-                            </div>                            
-                            @error('password_confirmation') <span class="error text-danger">{{ $message }}</span> @enderror
+                                @error('confirm_password') <span class="error text-danger">{{ $message }}</span> @enderror
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary uppassword">{{__('global.update_password')}}</button>
-                    </form>
+                        <div class="submit-btn">
+                            <button type="submit" wire:loading.attr="disabled" class="btn mt-0">
+                                Change Password
+                                <span wire:loading wire:target="updatePassword">
+                                    <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                        </div>
+                        </form>                          
+                    </div>
+                    </div>
                 </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>
-    <!-- end model  -->
-
 </div>
+@push('scripts')
+<script type="text/javascript">
+    $(".form-group .toggle-password").click(function() {
+      $(this).toggleClass("fa-eye fa-eye-slash");
+      var input = $($(this).attr("toggle"));
+      if (input.attr("type") == "password") {
+        input.attr("type", "text");
+      } else {
+        input.attr("type", "password");
+      }
+    });
+</script>
+@endpush
+      
