@@ -98,8 +98,8 @@ class Index extends Component
         // Start Commission
         $this->levelCommission = Transaction::where('payment_type','credit')->sum('amount');
         $this->totalWithdrawal = Transaction::where('payment_type','debit')->sum('amount');
-        $this->availableBalance = ((float)$this->levelCommission + (float)$this->allTimeEarning) - (float)$this->totalWithdrawal;
-        $this->netProfit = (float)$this->levelCommission - (float)$this->totalWithdrawal;
+        $this->availableBalance = (float)$this->allTimeEarning - (float)$this->totalWithdrawal;
+        $this->netProfit = (float)$this->allTimeEarning - (float)$this->levelCommission;
         // End Commission
 
         // Leaderboard 

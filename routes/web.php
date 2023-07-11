@@ -83,6 +83,7 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
         Route::view('leaderboard', 'admin.partials.leaderboard')->name('leaderboard');
         Route::view('kyc', 'admin.kyc.index')->name('kyc');
         Route::view('webinars', 'admin.webinar.index')->name('webinar');
+        Route::view('sales-report', 'admin.report.sales-report')->name('sales-report');
 
     });
 

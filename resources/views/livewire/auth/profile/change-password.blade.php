@@ -52,7 +52,7 @@
                             </div>
                         </div>
                         <div class="submit-btn">
-                            <button type="submit" wire:loading.attr="disabled" class="btn mt-0">
+                            <button type="submit" wire:loading.attr="disabled" class="btn custom-btn mt-0">
                                 Change Password
                                 <span wire:loading wire:target="updatePassword">
                                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
