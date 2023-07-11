@@ -84,7 +84,7 @@
                   @else
                     @php
                      $referralLink = null;
-                     if($package->users()->count() > 0){
+                     if(auth()->user()->is_user && $package->users()->count() > 0){
                       $referralUUID = $package->users()->find(auth()->user()->id)->uuid;
                       $packageUUID = $package->uuid;
                       $referralLink = route('auth.register',[$referralUUID,$packageUUID]);

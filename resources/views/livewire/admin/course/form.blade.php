@@ -23,7 +23,7 @@
                 <select class="js-example-basic-single select-package w-100" wire:model.defer="package_id" >
                     <option>Select Package</option>
                     @foreach($allPackage as $package)
-                        <option value="{{$package->id}}" {{$package_id == $package->id ? 'selected':''}}>{{$package->title}}</option>
+                        <option value="{{$package->id}}" {{$package_id == $package->id ? 'selected':''}} {{$package->courses()->count() > 0 ? 'disabled':''}}>{{$package->title}}</option>
                     @endforeach
                 </select>
             </div>

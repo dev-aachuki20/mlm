@@ -58,17 +58,18 @@ class Index extends Component
         }
 
         //30 Days
-        $lastMonthStart = Carbon::now()->subMonth()->startOfMonth();
-        $lastMonthEnd = Carbon::now()->subMonth()->endOfMonth();
+        $todayDate = Carbon::now();
+        $last30DayDate = Carbon::now()->subDays(30);
 
-        $this->last30DaysEarnings = Payment::whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])->sum('amount');
+        $this->last30DaysEarnings = Payment::whereBetween('created_at', [$last30DayDate,$todayDate])->sum('amount');
 
         $currentMonthStart = Carbon::now()->startOfMonth();
         $currentMonthEnd = Carbon::now()->endOfMonth();
 
         $currentMonthEarnings = Payment::whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])->sum('amount');
 
-        $diffreceMonthAmount = (float)$currentMonthEarnings - (float)$this->last30DaysEarnings;
+        // $diffreceMonthAmount = (float)$currentMonthEarnings - (float)$this->last30DaysEarnings;
+        $diffreceMonthAmount = (float)$this->todayEarnings - (float)$this->last30DaysEarnings;
         if($diffreceMonthAmount != 0 && $this->last30DaysEarnings != 0){
             $percentage = $diffreceMonthAmount / (float)$this->last30DaysEarnings * 100;
             $this->last30DaysEarningPercent = number_format(min($percentage, 100),2);
@@ -97,10 +98,9 @@ class Index extends Component
         // Start Commission
         $this->levelCommission = Transaction::where('payment_type','credit')->sum('amount');
         $this->totalWithdrawal = Transaction::where('payment_type','debit')->sum('amount');
-        $this->availableBalance = (float)$this->levelCommission - (float)$this->totalWithdrawal;
+        $this->availableBalance = ((float)$this->levelCommission + (float)$this->allTimeEarning) - (float)$this->totalWithdrawal;
         $this->netProfit = (float)$this->levelCommission - (float)$this->totalWithdrawal;
         // End Commission
-
 
         // Leaderboard 
 

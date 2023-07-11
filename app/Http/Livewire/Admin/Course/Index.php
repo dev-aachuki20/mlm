@@ -80,6 +80,7 @@ class Index extends Component
 
         $allCourse = Course::query()->where(function ($query) use($searchValue,$statusSearch) {
             $query->where('name', 'like', '%'.$searchValue.'%')
+            ->orWhereRelation('package','title','like','%'.$searchValue.'%')
             ->orWhere('status', $statusSearch)
             ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
         })

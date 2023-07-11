@@ -37,6 +37,7 @@
                             <tr>
                                 <th>{{ trans('global.sno') }}</th>
                                 <th>{{ trans('cruds.user.fields.name') }}</th>
+                                <th>Package</th>
                                 {{--<th>{{ trans('global.status') }}</th>--}}
                                 <th>{{ trans('global.created_at') }}
                                     <span wire:click="sortBy('created_at')" class="float-right text-sm" style="cursor: pointer;">
@@ -53,6 +54,7 @@
                                     <tr>
                                         <td>{{ $serialNo+1 }}</td>
                                         <td>{{ ucfirst($user->name) }}</td>
+                                        <td>{{ $user->packages()->first()->title }}</td>
                                         {{-- <td>
                         
                                             <label class="toggle-switch">

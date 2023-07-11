@@ -82,7 +82,10 @@
                                     @elseif($setting->type == 'image')
                                         <div class="col-md-12 mb-4">
                                             <div class="form-group mb-0" wire:ignore>
-                                                <label class="font-weight-bold">{{ $setting->display_name }}</label>
+                                                <label class="font-weight-bold">
+                                                    {{ $setting->display_name }} 
+                                                    <span>Size : {{ $setting->details }} </span>
+                                                </label>
                                                 <input type="file"  wire:model.defer="state.{{$setting->key}}" class="dropify" data-default-file="{{ $setting->image_url }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
                                                 <span wire:loading wire:target="state.{{$setting->key}}">
                                                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading

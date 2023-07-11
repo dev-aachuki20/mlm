@@ -74,6 +74,7 @@ class Index extends Component
         
         $allUser = User::query()->where(function ($query) use($searchValue,$statusSearch) {
             $query->where('name', 'like', '%'.$searchValue.'%')
+            ->orWhereRelation('packages','title','like','%'.$searchValue.'%')
             ->orWhere('is_active', $statusSearch)
             ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
         })

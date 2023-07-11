@@ -52,6 +52,11 @@ class Index extends Component
     public function update(){
 
         $rules = [];
+        $dimensionsDetails['site_logo']     = '';
+        $dimensionsDetails['favicon']       = '';
+        $dimensionsDetails['short_logo']    = '';
+        $dimensionsDetails['footer_logo']   = '';
+        $dimensionsDetails['introduction_video_image'] ='';
         foreach ($this->settings as $setting) {
             if($setting){
 
@@ -68,7 +73,9 @@ class Index extends Component
                 }
 
                 if($setting->type == 'image'){
-                    $rules['state.'.$setting->key] = 'nullable|image|max:'.config('constants.img_max_size').'|mimes:jpeg,png,jpg,svg,PNG,JPG,SVG';
+                    $dimensions = explode(' × ',$setting->details);
+                    $dimensionsDetails[$setting->key] = $setting->details;
+                    $rules['state.'.$setting->key] = 'nullable|image|dimensions:max_width='.$dimensions[0].',max_height='.$dimensions[1].'|max:'.config('constants.img_max_size').'|mimes:jpeg,png,jpg,svg,PNG,JPG,SVG|';
                 }
 
                 if($setting->type == 'video'){
@@ -81,12 +88,18 @@ class Index extends Component
         $customMessages = [
             'required' => 'The field is required.',
             'state.site_logo' => 'The site logo must be an image.',
-            'state.site_logo.mimes' => 'The website logo must be jpeg,png,jpg,PNG,JPG.',
-            'state.site_logo.max'   => 'The website logo maximum size is '.config('constants.img_max_size').' KB.',
-         
+            'state.site_logo.mimes' => 'The site logo must be jpeg,png,jpg,PNG,JPG.',
+            'state.site_logo.max'   => 'The site logo maximum size is '.config('constants.img_max_size').' KB.',
+            'state.site_logo.dimensions'=> 'The site logo size must be '.$dimensionsDetails['site_logo'],
+            
+            'state.favicon.dimensions'=> 'The favicon size must be '.$dimensionsDetails['favicon'],
+            'state.short_logo.dimensions'=> 'The short logo size must be '.$dimensionsDetails['short_logo'],
+            'state.footer_logo.dimensions'=> 'The footer logo size must be '.$dimensionsDetails['footer_logo'],
+
             'state.introduction_video_image' => 'The image must be an image.',
             'state.introduction_video_image.mimes' => 'The image must be jpeg,png,jpg,PNG,JPG.',
             'state.introduction_video_image.max'   => 'The image maximum size is '.config('constants.img_max_size').' KB.',
+            'state.introduction_video_image.dimensions'=> 'The introduction video image size must be '.$dimensionsDetails['introduction_video_image'],
 
             'state.introduction_video.video' => 'The introduction video must be an video.',
             'state.introduction_video.mimes' => 'The introduction video must be webm, mp4, avi, wmv, flv, mov.',

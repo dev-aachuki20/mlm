@@ -25,6 +25,22 @@
         </div>
     </div>
 
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.testimonial.fields.rating')}}</label>
+        <div class="col-sm-9 col-form-label d-flex">
+            @php
+                $rating = (int)$details->rating;
+            @endphp
+            @for($i=1; $i<=5; $i++)
+                @if($i <= $rating)
+                <img src="{{ asset('images/Star.svg') }}">
+                @else
+                <img src="{{ asset('images/Star-Border.svg') }}">
+                @endif
+            @endfor
+        </div>
+    </div>
+
 
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">Status</label>

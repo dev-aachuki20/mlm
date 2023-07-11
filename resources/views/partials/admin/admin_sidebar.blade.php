@@ -2,7 +2,7 @@
 <ul class="nav">
     <li class="nav-item {{ request()->is('admin/index') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.dashboard') }}">
-            <i class="icon-grid menu-icon"></i>
+            <img src="{{ asset('images/icons/dash.svg') }}" alt="dashboard">
             <span class="menu-title">{{__('global.dashboard')}}</span>
         </a>
     </li>
@@ -10,7 +10,7 @@
     @if(auth()->user()->is_super_admin)
     <li class="nav-item">
         <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-            <i class="icon-layout menu-icon"></i>
+            <img src="{{ asset('images/icons/growth-panel.svg') }}" alt="master">
             <span class="menu-title">Master</span>
             <i class="menu-arrow"></i>
         </a>
@@ -66,7 +66,7 @@
     @can('course_access')
     <li class="nav-item {{ request()->is('admin/courses') || request()->is('admin/courses/*')? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.course') }}">
-            <i class="icon-grid menu-icon fa-sharp fa-solid fa-list"></i>
+            <img src="{{ asset('images/icons/courses.svg') }}" alt="courses">
             <span class="menu-title">Courses</span>
         </a>
     </li>
@@ -75,7 +75,7 @@
     @can('team_access')
     <li class="nav-item {{ request()->is('admin/teams') || request()->is('admin/teams/*')? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.team') }}">
-            <i class="icon-grid menu-icon fas fa-users"></i>
+            <img src="{{ asset('images/icons/team-management.svg') }}" alt="team management">
             <span class="menu-title">Team Management</span>
         </a>
     </li>
@@ -84,7 +84,7 @@
     @can('page_access')
     <li class="nav-item {{ request()->is('admin/page-manage') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.page-manage') }}">
-            <i class="icon-grid menu-icon fa-sharp fa-solid fa-list"></i>
+            <img src="{{ asset('images/icons/page-management.svg') }}" alt="page management">
             <span class="menu-title">Page Management</span>
         </a>
     </li>
@@ -93,7 +93,7 @@
     @can('user_access')
     <li class="nav-item {{ request()->is('admin/user-manage') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.user-manage') }}">
-            <i class="icon-grid menu-icon fa-solid fa-users"></i>
+            <img src="{{ asset('images/icons/team-management.svg') }}" alt="user management">
             <span class="menu-title">User Management</span>
         </a>
     </li>
@@ -101,7 +101,7 @@
 
     <li class="nav-item {{ request()->is('admin/kyc') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.kyc') }}">
-            <i class="icon-grid menu-icon fa-solid fa-users"></i>
+            <img src="{{ asset('images/icons/kyc.svg') }}" alt="kyc">
             <span class="menu-title">Kyc</span>
         </a>
     </li>
@@ -111,7 +111,7 @@
     @can('setting_access')
     <li class="nav-item {{ request()->is('admin/settings') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('admin.setting') }}">
-            <i class="icon-grid menu-icon ti-settings"></i>
+            <img src="{{ asset('images/icons/settings.svg') }}" alt="settings">
             <span class="menu-title">Settings</span>
         </a>
     </li>

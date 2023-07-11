@@ -47,6 +47,7 @@
                             <tr>
                             <th>{{ trans('global.sno') }}</th>
                             <th>{{ trans('cruds.testimonial.fields.name') }}</th>
+                            <th>{{ trans('cruds.testimonial.fields.rating') }}</th>
                             <th>{{ trans('global.status') }}</th>
                             <th>{{ trans('cruds.testimonial.fields.created_at') }}
                                 <span wire:click="sortBy('created_at')" class="float-right text-sm" style="cursor: pointer;">
@@ -64,10 +65,25 @@
                                         <td>{{ $serialNo+1 }}</td>
                                         <td>{{ ucfirst($testimonial->user->name) }}</td>
                                         <td>
+                                            <div class="d-flex">
+                                                @php
+                                                    $rating = (int)$testimonial->rating;
+                                                @endphp
+                                                @for($i=1; $i<=5; $i++)
+                                                    @if($i <= $rating)
+                                                    <img src="{{ asset('images/Star.svg') }}">
+                                                    @else
+                                                    <img src="{{ asset('images/Star-Border.svg') }}">
+                                                    @endif
+                                                @endfor
+                                            </div>
+                                        </td>
+
+                                        <td>
                         
                                             <label class="toggle-switch">
                                                 <input type="checkbox" class="toggleSwitch"  wire:click.prevent="toggle({{$testimonial->id}})" {{ $testimonial->status == 1 ? 'checked' : '' }}>
-                                                <span class="switch-slider"></span>
+                                                <span class="switch-slider-notification"></span>
                                             </label>
 
                                         </td>

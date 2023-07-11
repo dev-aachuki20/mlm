@@ -49,7 +49,7 @@
           <img src="{{ asset('images/icons/right-icon-1.svg') }}" alt="right-icon-1">
         </div>
         <div class="bg-white icon-main">
-          <img src="{{ asset('images/icons/1.svg') }}" alt="1">
+          <img src="{{ asset('images/icons/today.svg') }}" alt="1">
         </div>
         <div class="price-box">&#8377 {{ number_format($todayEarnings,2) }}</div>
         <div class="box-discrip">
@@ -75,7 +75,7 @@
           <img src="{{ asset('images/icons/right-icon-2.svg') }}" alt="right-icon-1">
         </div>
         <div class="bg-white icon-main">
-          <img src="{{ asset('images/icons/2.svg') }}" alt="1">
+          <img src="{{ asset('images/icons/secen-day.svg') }}" alt="1">
         </div>
         <div class="price-box">&#8377 {{ number_format($last7DaysEarnings,2) }}</div>
         <div class="box-discrip">

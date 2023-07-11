@@ -68,14 +68,15 @@ class Index extends Component
     {
         $statusSearch = null;
         $searchValue = $this->search;
-        if(Str::contains('active', strtolower($searchValue))){
+        if(Str::contains('approve', strtolower($searchValue))){
             $statusSearch = 1;
-        }else if(Str::contains('inactive', strtolower($searchValue))){
+        }else if(Str::contains('decline', strtolower($searchValue))){
             $statusSearch = 0;
         }
 
         $allTestimonials = Testimonial::query()->where(function ($query) use($searchValue,$statusSearch) {
             $query->where('name', 'like', '%'.$searchValue.'%')
+            ->orWhere('rating', $searchValue)
             ->orWhere('status', $statusSearch)
             ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
         })

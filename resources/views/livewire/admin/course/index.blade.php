@@ -52,6 +52,7 @@
                                 <tr>
                                     <th>{{ trans('global.sno') }}</th>
                                     <th>{{ trans('cruds.course.fields.name') }}</th>
+                                    <th>Package name</th>
                                     <th>{{ trans('global.status') }}</th>
                                     <th>{{ ucwords(trans('global.created_at')) }}
                                         <span wire:click="sortBy('created_at')" class="float-right text-sm" style="cursor: pointer;">
@@ -68,6 +69,7 @@
                                         <tr>
                                             <td>{{ $serialNo+1 }}</td>
                                             <td>{{ $course->name }}</td>
+                                            <td>{{ ucwords($course->package->title) }}</td>
                                             <td>
                                                 <label class="toggle-switch">
                                                     <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$course->id}})" wire:click.prevent="confirmAlert('You want to change the status.','updateStatus',{{$course->id}})" {{ $course->status == 1 ? 'checked' : '' }}>

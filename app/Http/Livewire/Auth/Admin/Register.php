@@ -42,7 +42,7 @@ class Register extends Component
             'gender'     => ['required'],
             'referral_id'   => ['required','regex:/^\S*$/u','exists:users,my_referral_code'],
             'referral_name'   => ['required','regex:/^[A-Za-z]+( [A-Za-z]+)?$/u'],
-            'address'         => ['required'],
+            'address'         => ['required','string'],
             // 'password' => ['required', 'string', 'min:8'],
             // 'password_confirmation' => 'min:8|same:password',
         ];
@@ -52,8 +52,8 @@ class Register extends Component
     {
         // return getCommonValidationRuleMsgs();
         return [
-            'first_name.regex' => trans('validation.not_allowed_numeric'),
-            'last_name.regex' => trans('validation.not_allowed_numeric'),
+            'first_name.regex' => trans('validation.alpha'),
+            'last_name.regex' => trans('validation.alpha'),
         ];
     }
 
