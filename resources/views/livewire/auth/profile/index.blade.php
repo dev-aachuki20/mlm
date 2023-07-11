@@ -13,12 +13,14 @@
             <ul class="nav nav-tabs my-team-tab-head" id="myTab" role="tablist">
               <li class="nav-item">
                 <a class="nav-link {{$activeTab == 'user-tab' ? 'active' : ''}}" id="users-tab" wire:click="switchTab('user-tab')" data-toggle="tab" href="#users" role="tab" aria-controls="users"
-                  aria-selected="true">Users</a>
+                  aria-selected="true">{{ auth()->user()->is_super_admin ? 'Profile' : 'Users'}}</a>
               </li>
+              @if(!auth()->user()->is_super_admin)
               <li class="nav-item">
                 <a class="nav-link {{$activeTab == 'profile-tab' ? 'active' : ''}}" id="profile-tab" data-toggle="tab" wire:click="switchTab('profile-tab')" href="#profile" role="tab" aria-controls="profile"
                   aria-selected="false">profile</a>
               </li>
+              @endif
               <!-- <li class="nav-item">
                 <a class="nav-link" id="password-change-tab" data-toggle="tab" href="#password-change" role="tab" aria-controls="password-change"
                   aria-selected="false">Change Password</a>
@@ -29,10 +31,9 @@
         
           <div class="tab-content border-0 p-0" id="myTabContent">
             
-
             @if($activeTab == 'user-tab')
             <div class="d-flex justify-content-between align-items-center pb-3 border-b-1  mb-5">
-              <p class="card-title border-0 mb-0 p-0">Users</p>
+              <p class="card-title border-0 mb-0 p-0">{{ auth()->user()->is_super_admin ? '' : 'Users'}}</p>
 
               @if(!$editMode)
                 <a href="javascript:void(0)" class="edit-form btn-edit js-edit" wire:click="openEditSection">
@@ -142,108 +143,110 @@
             {{-- End users section --}}
             @endif
         
-            @if($activeTab == 'profile-tab')
-            {{-- Start profile section --}}
-            <div class="tab-pane fade {{$activeTab == 'profile-tab' ? 'show active' : ''}}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-             
-                <div class="d-flex justify-content-between align-items-center pb-3 border-b-1  mb-5">
-                  <p class="card-title border-0 mb-0 p-0">Profile</p>
-                  @if(!$editMode)
-                  <a href="javascript:void(0)" class="edit-form btn-edit js-edit" wire:click="openEditSection">
-                    <img src="{{ asset('images/icons/edit-icon.svg') }}"> Edit
-                  </a>
-                  @endif
-                </div>
-
-                @if($editMode)
-                   @include('livewire.auth.profile.edit')
-                @else
-                <div class="row">
-                  <div class="col-lg-6 col-sm-12">
-                    <div class="form-outer">
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Gender<span>:</span></label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control"  value="{{ ucfirst($authUser->profile->gender) }}" disabled>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Profession <span>:</span></label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control"  value="{{ ucfirst($authUser->profile->profession) }}" disabled>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Martial Status  <span>:</span></label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control"  value="{{ ucfirst($authUser->profile->marital_status) }}" disabled>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Address  <span>:</span></label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control" value="{{ $authUser->profile->address }}" disabled>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">State  <span>:</span></label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control"  value="{{ $authUser->profile->state }}" disabled>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">City  <span>:</span></label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control"  value="{{ $authUser->profile->city }}" disabled>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Pin Code  <span>:</span></label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control"  value="{{ $authUser->profile->pin_code }}" disabled>
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Father’s/Husband Name  <span>:</span></label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control"  value="{{ $authUser->profile->guardian_name }}" disabled>
-                        </div>
-                      </div>
-                    </div>
+            @if(!auth()->user()->is_super_admin)
+              @if($activeTab == 'profile-tab')
+              {{-- Start profile section --}}
+              <div class="tab-pane fade {{$activeTab == 'profile-tab' ? 'show active' : ''}}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+              
+                  <div class="d-flex justify-content-between align-items-center pb-3 border-b-1  mb-5">
+                    <p class="card-title border-0 mb-0 p-0">Profile</p>
+                    @if(!$editMode)
+                    <a href="javascript:void(0)" class="edit-form btn-edit js-edit" wire:click="openEditSection">
+                      <img src="{{ asset('images/icons/edit-icon.svg') }}"> Edit
+                    </a>
+                    @endif
                   </div>
-                  <div class="col-lg-6 col-sm-12">
-                    <div class="form-outer">
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Nominee Name<span>:</span></label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control"  value="{{ $authUser->profile->nominee_name }}" disabled>
+
+                  @if($editMode)
+                    @include('livewire.auth.profile.edit')
+                  @else
+                  <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                      <div class="form-outer">
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Gender<span>:</span></label>
+                          <div class="col-sm-8">
+                            <input type="text" class="form-control"  value="{{ ucfirst($authUser->profile->gender) }}" disabled>
+                          </div>
                         </div>
-                      </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Nominee DOB <span>:</span></label>
-                        <div class="col-sm-8">
-                          <div class="input-group date" id="datepicker2">
-                            <input type="text" class="form-control" id="date" value="{{ $authUser->profile->nominee_dob }}" disabled/>
-                              <span class="input-group-append">
-                              </span>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Profession <span>:</span></label>
+                          <div class="col-sm-8">
+                            <input type="text" class="form-control"  value="{{ ucfirst($authUser->profile->profession) }}" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Martial Status  <span>:</span></label>
+                          <div class="col-sm-8">
+                            <input type="text" class="form-control"  value="{{ ucfirst($authUser->profile->marital_status) }}" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Address  <span>:</span></label>
+                          <div class="col-sm-8">
+                            <input type="text" class="form-control" value="{{ $authUser->profile->address }}" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">State  <span>:</span></label>
+                          <div class="col-sm-8">
+                            <input type="text" class="form-control"  value="{{ $authUser->profile->state }}" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">City  <span>:</span></label>
+                          <div class="col-sm-8">
+                            <input type="text" class="form-control"  value="{{ $authUser->profile->city }}" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Pin Code  <span>:</span></label>
+                          <div class="col-sm-8">
+                            <input type="text" class="form-control"  value="{{ $authUser->profile->pin_code }}" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Father’s/Husband Name  <span>:</span></label>
+                          <div class="col-sm-8">
+                            <input type="text" class="form-control"  value="{{ $authUser->profile->guardian_name }}" disabled>
                           </div>
                         </div>
                       </div>
-                      <div class="form-group row">
-                        <label class="col-sm-4 col-form-label">Nominee Relation  <span>:</span></label>
-                        <div class="col-sm-8">
-                          <input type="text" class="form-control"  value="{{ ucfirst($authUser->profile->nominee_relation) }}" disabled>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                      <div class="form-outer">
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Nominee Name<span>:</span></label>
+                          <div class="col-sm-8">
+                            <input type="text" class="form-control"  value="{{ $authUser->profile->nominee_name }}" disabled>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Nominee DOB <span>:</span></label>
+                          <div class="col-sm-8">
+                            <div class="input-group date" id="datepicker2">
+                              <input type="text" class="form-control" id="date" value="{{ $authUser->profile->nominee_dob }}" disabled/>
+                                <span class="input-group-append">
+                                </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Nominee Relation  <span>:</span></label>
+                          <div class="col-sm-8">
+                            <input type="text" class="form-control"  value="{{ ucfirst($authUser->profile->nominee_relation) }}" disabled>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                @endif
-         
-            </div>
-            {{-- End profile section --}}
-            @endif
+                  @endif
           
+              </div>
+              {{-- End profile section --}}
+              @endif
+            @endif
+
           </div>   
         </div>
       </div>

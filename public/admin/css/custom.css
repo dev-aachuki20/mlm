@@ -1,3 +1,10 @@
+.sidebar .nav .nav-item > .nav-link img {
+    max-width: 20px;
+    margin: 0 7px 0 0;
+}
+.sidebar .nav .nav-item .nav-link i.menu-arrow {
+    color: #ffffff;
+}
 .toggle-switch {
   position: relative;
   display: inline-block;
