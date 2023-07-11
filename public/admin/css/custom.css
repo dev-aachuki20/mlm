@@ -411,6 +411,36 @@ span.read-more a {
     color: #f24f00;
     font-weight: 600;
 }
+li.nav-item.hover-open  a.nav-link span.menu-title {
+    background: #f24f00 !important;
+}
+li.nav-item.hover-open ul.nav.flex-column.sub-menu a.nav-link {
+    padding: 0;
+    position: initial !important;
+    margin: 0;
+    background: #0a2540 !important;
+}
+li.nav-item.hover-open ul.nav.flex-column.sub-menu {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+li.nav-item.hover-open ul.nav.flex-column.sub-menu a.nav-link span.menu-title {
+    position: initial !important;
+    width: 100%;
+    display: block !important;
+    margin: 0 !important;
+    max-width: 100%;
+    box-shadow: none;
+    background: none;
+    padding: 0px 20px;
+    color: #fff;
+    background: #0a2540 !important;
+}
+.sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link .menu-title,
+.sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapse{
+    left: 60px;
+}
 @media (max-width: 1700px) {
   .leader-board-dashboard .col-lg-3 {
       flex: 0 0 50%;
