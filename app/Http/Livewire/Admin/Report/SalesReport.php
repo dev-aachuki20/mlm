@@ -68,6 +68,7 @@ class SalesReport extends Component
 
     public function updatedFromDate($date){
         $this->fromDate = Carbon::parse($date)->format('d-m-Y');
+        $this->filterApply = false;
     }
     public function resetFromDate(){
         $this->reset(['fromDate']);
@@ -75,6 +76,7 @@ class SalesReport extends Component
 
     public function updatedToDate($date){
         $this->toDate = Carbon::parse($date)->format('d-m-Y');
+        $this->filterApply = false;
     }
     public function resetToDate(){
         $this->reset(['toDate']);
@@ -106,44 +108,54 @@ class SalesReport extends Component
     }
 
     public function resetFilters(){
+        $this->filterApply = false;
         $this->reset(['fromDate','toDate','userName','packageName','referralName','referralCode']);
     }
 
     public function render()
     {
-        $users = User::query();
+        $users = null;
         // Start custom filter
         if($this->filterApply){
 
+            $users = User::query();
+
             if(($this->fromDate && $this->toDate)){
                 $users->whereBetween('created_at',[Carbon::parse($this->fromDate)->startOfDay(),Carbon::parse($this->toDate)->endOfDay()]);
-            }elseif($this->userName){
-                $users->where('name',$this->userName);
-            }elseif($this->packageName){
+            }
+            // if($this->userName){
+            //     $users->where('name',$this->userName);
+            // }
+            if($this->packageName){
                 $users->whereRelation('packages', 'title','like', $this->packageName);
             
-            }elseif($this->referralName){
+            }
+            if($this->referralName){
                 $users->where('referral_name',$this->referralName);
-            }elseif($this->referralCode){
+            }
+            if($this->referralCode){
                 $users->where('referral_code',$this->referralCode);
             }
 
+            $users = $users->whereRelation('roles','id','=',3)
+            ->orderBy($this->sortColumnName, $this->sortDirection)
+            ->paginate($this->paginationLength);
         }
         // End custom filter
 
-        $this->search = str_replace(',', '', $this->search);
-        $searchValue = $this->search;
-        $users->where(function ($query) use($searchValue) {
-            $query->whereRelation('packages', 'title','like', '%'.$searchValue.'%')
-            ->orWhere('name','like', '%'.$searchValue.'%')
-            ->orWhere('referral_name','like', '%'.$searchValue.'%')
-            ->orWhere('referral_code','like', '%'.$searchValue.'%')
-            ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
-        });
+        // $this->search = str_replace(',', '', $this->search);
+        // $searchValue = $this->search;
+        // $users->where(function ($query) use($searchValue) {
+        //     $query->whereRelation('packages', 'title','like', '%'.$searchValue.'%')
+        //     ->orWhere('name','like', '%'.$searchValue.'%')
+        //     ->orWhere('referral_name','like', '%'.$searchValue.'%')
+        //     ->orWhere('referral_code','like', '%'.$searchValue.'%')
+        //     ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+        // });
         
-        $users = $users->whereRelation('roles','id','=',3)
-        ->orderBy($this->sortColumnName, $this->sortDirection)
-        ->paginate($this->paginationLength);
+        // $users = $users->whereRelation('roles','id','=',3)
+        // ->orderBy($this->sortColumnName, $this->sortDirection)
+        // ->paginate($this->paginationLength);
 
         return view('livewire.admin.report.sales-report',compact('users'));
     }

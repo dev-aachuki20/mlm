@@ -26,7 +26,7 @@
             <div class="video-container">
 
               @if($introVideo->video)
-                <video controls="" width="420" height="315" preload="none" poster="{{ $introVideoImage ? $introVideoImage : asset('images/package.png') }}" id="introductionVideo"  playsinline>
+                <video controls="" width="450" height="315" preload="none" poster="{{ $introVideoImage ? $introVideoImage : asset('images/package.png') }}" id="introductionVideo"  playsinline>
                   <source class="js-video" src="{{ $introVideo->video_url }}" type="video/{{ $introVideo->video->extension }}">
                 </video>
               @else
@@ -151,7 +151,7 @@
           <img src="{{ asset('images/icons/5.svg') }}" alt="1">
         </div>
         <div class="price-box">&#8377 {{ number_format($levelCommission,2) }}</div>
-        <div class="box-discrip">Level Commission</div>
+        <div class="box-discrip">Distribute Level Commission</div>
       </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12">
@@ -374,7 +374,7 @@
       data: {
         labels: [{!! "'".implode("','",$incomeGrowthChart['labels'])."'" !!}],
         datasets: [{
-          label: 'Data',
+          label: 'Distribute Level Commision',
           data: weekData,
           backgroundColor: '#f24f00', // Customize the bar color
           borderColor: '#f24f00', // Customize the bar border color

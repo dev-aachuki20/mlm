@@ -86,7 +86,6 @@ class Index extends Component
             $this->allTimeEarningPercent = number_format(min($earningPercentage,100),2);
         }
 
-
         // New Joiners
         $this->todayNewJoiners = User::with([
             'roles'=>function($query){
@@ -154,7 +153,6 @@ class Index extends Component
       
         // Retrieve records based on current month and week
         $this->incomeGrowthChart['week_data'] = Transaction::selectRaw('YEAR(created_at) as year, WEEK(created_at) as week_number, SUM(amount) as total_amount')->whereRaw('MONTH(created_at) = ?', [Carbon::now()->month]) 
-            ->whereRaw('WEEK(created_at) = ?', [Carbon::now()->weekOfYear])
             ->where('payment_type','credit')
             ->groupBy('week_number')->pluck('total_amount')->toArray();
         //End income growth chart

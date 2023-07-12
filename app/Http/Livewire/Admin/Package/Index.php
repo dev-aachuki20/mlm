@@ -276,6 +276,7 @@ class Index extends Component
         $this->package_id = $id;
         $this->formMode = false;
         $this->viewMode = true;
+        $this->initializePlugins();
     }
 
     private function resetInputFields(){

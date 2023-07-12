@@ -210,6 +210,7 @@ class Index extends Component
         $this->course_id = $id;
         $this->formMode = false;
         $this->viewMode = true;
+        $this->initializePlugins();
     }
 
     public function updateStatus($id){

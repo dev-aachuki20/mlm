@@ -92,6 +92,8 @@
                     </div>
                     {{-- End Filter --}}
 
+                    @if(!is_null($users))
+
                     {{-- Start Table --}}
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
@@ -159,6 +161,8 @@
                         </div>
                     </div>
                     {{-- End Table --}}
+
+                    @endif
 
                 </div>
             </div>

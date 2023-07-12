@@ -218,6 +218,7 @@ class Index extends Component
         $this->group_video_id = $id;
         $this->formMode = false;
         $this->viewMode = true;
+        $this->initializePlugins();
     }
 
     public function initializePlugins(){

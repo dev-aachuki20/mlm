@@ -143,6 +143,16 @@
 
     document.addEventListener('loadPlugins', function (event) {
       
+        // video js
+        $(".box-video").click(function(){
+            var videoId = $(this).find('.video-container video').attr('id');
+            var video = document.getElementById(videoId);
+            video.play();
+
+            $('video source',this)[0].src;
+            $(this).addClass('open');
+        });
+
         if ($(".js-example-basic-single").length) {
             $(".js-example-basic-single").select2({
                 placeholder: 'Select Package',
