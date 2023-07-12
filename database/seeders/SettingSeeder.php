@@ -23,7 +23,7 @@ class SettingSeeder extends Seeder
                 'type'   => 'image',
                 'display_name'  => 'Site Logo',
                 'group'  => 'site',
-                'details' => '200 × 51',
+                'details' => '220 × 51',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'created_by' => 1,

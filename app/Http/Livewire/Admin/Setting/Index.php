@@ -117,13 +117,17 @@ class Index extends Component
 
                 if($setting->type == 'image'){
                 
+                    $uploadId = $setting->image ? $setting->image->id : null;
+
                     if ($stateVal) {
-                        $uploadId = null;
-                        $uploadId = $setting->image ? $setting->image->id : null;
                         if($uploadId){
                             uploadImage($setting, $stateVal, 'settings/images/',"setting", 'original', 'update', $uploadId);
                         }else{
                             uploadImage($setting, $stateVal, 'settings/images/',"setting", 'original', 'save', null);
+                        }
+                    }else{
+                        if($uploadId){
+                            deleteFile($uploadId);
                         }
                     }
 
@@ -132,13 +136,16 @@ class Index extends Component
 
                 if($setting->type == 'video'){
                 
+                    $uploadId = $setting->video ? $setting->video->id : null;
                     if ($stateVal) {
-                        $uploadId = null;
-                        $uploadId = $setting->video ? $setting->video->id : null;
                         if($uploadId){
                             uploadImage($setting, $stateVal, 'settings/videos/',"setting", 'original', 'update', $uploadId);
                         }else{
                             uploadImage($setting, $stateVal, 'settings/videos/',"setting", 'original', 'save', null);
+                        }
+                    }else{
+                        if($uploadId){
+                            deleteFile($uploadId);
                         }
                     }
 

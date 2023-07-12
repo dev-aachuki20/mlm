@@ -86,7 +86,7 @@
                                                     {{ $setting->display_name }} 
                                                     <span>Size : {{ $setting->details }} </span>
                                                 </label>
-                                                <input type="file"  wire:model.defer="state.{{$setting->key}}" class="dropify" data-default-file="{{ $setting->image_url }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
+                                                <input type="file" id="{{$setting->key}}-image" wire:model.defer="state.{{$setting->key}}" class="dropify" data-default-file="{{ $setting->image_url }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
                                                 <span wire:loading wire:target="state.{{$setting->key}}">
                                                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
                                                 </span>
@@ -102,7 +102,7 @@
                                             <div class="form-group mb-0" wire:ignore>
                                                 <label class="font-weight-bold">{{ $setting->display_name }}</label>
                                                 
-                                                <input type="file"  wire:model.defer="state.{{$setting->key}}" class="dropify" data-default-file="{{  $setting->video_url }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="webm mp4 avi wmv flv mov" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="video/webm, video/mp4, video/avi,video/wmv,video/flv,video/mov">
+                                                <input type="file" id="{{$setting->key}}-video" wire:model.defer="state.{{$setting->key}}" class="dropify" data-default-file="{{  $setting->video_url }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="webm mp4 avi wmv flv mov" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="video/webm, video/mp4, video/avi,video/wmv,video/flv,video/mov">
 
                                                 <span wire:loading wire:target="state.{{$setting->key}}">
                                                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
@@ -158,6 +158,16 @@
         $(document).ready(function(){
             $('.dropify').dropify();
             $('.dropify-errors-container').remove();
+            $('.dropify-clear').click(function(e) {
+                e.preventDefault();
+                var elementName = $(this).siblings('input[type=file]').attr('id');
+               
+                if(elementName[1] == 'image'){
+                    @this.set('state.'+elementName[0],null);
+                }else if(elementName[1] == 'video'){
+                    @this.set('state.'+elementName[0],null);
+                }
+            });
         });
 
         $('textarea.summernote').summernote({
