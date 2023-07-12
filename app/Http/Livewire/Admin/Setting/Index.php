@@ -103,7 +103,14 @@ class Index extends Component
 
             'state.introduction_video.video' => 'The introduction video must be an video.',
             'state.introduction_video.mimes' => 'The introduction video must be webm, mp4, avi, wmv, flv, mov.',
-            'state.introduction_video.max'   => 'The favicon icon maximum size is '.config('constants.video_max_size').' KB.'
+            'state.introduction_video.max'   => 'The favicon icon maximum size is '.config('constants.video_max_size').' KB.',
+
+            'state.welcome_mail_content.string'=> 'The welcome mail content must be a string.',
+            'state.package_purchased_mail_content.string'=> 'The package purchased mail content must be a string.',
+            'state.reset_password_mail_content.string'=> 'The reset password mail content must be a string.',
+            'state.contact_us_mail_content.string'=> 'The contact us mail content must be a string.',
+
+
         ];
 
         $validatedData = $this->validate($rules,$customMessages);
