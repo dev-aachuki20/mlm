@@ -7,14 +7,14 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.package.fields.title')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.package.fields.title')}} <i class="fas fa-asterisk"></i></label>
                 <input type="text" class="form-control" wire:model.defer="title" placeholder="{{ __('cruds.package.fields.title')}}">
                 @error('title') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.package.fields.amount')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.package.fields.amount')}}<i class="fas fa-asterisk"></i></label>
                 <input type="number" class="form-control" wire:model.defer="amount" placeholder="{{ __('cruds.package.fields.amount')}}" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Period','NumpadDecimal'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"  min="0" step=".01" autocomplete="off">
                 @error('amount') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.package.fields.sub_title')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.package.fields.sub_title')}}<i class="fas fa-asterisk"></i></label>
                 <input type="text" class="form-control" wire:model.defer="sub_title" placeholder="{{ __('cruds.package.fields.sub_title')}}">
                 @error('sub_title') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
@@ -37,7 +37,7 @@
         </div> --}}
         <div class="col-md-6 mb-4">
             <div class="form-group mb-0" wire:ignore>
-                <label class="font-weight-bold">{{ __('cruds.package.fields.level')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.package.fields.level')}}<i class="fas fa-asterisk"></i></label>
                 <select class="js-example-basic-single select-level w-100" wire:model.defer="level" >
                     <option>Select Level</option>
                     @foreach(config('constants.levels') as $id=>$level)
@@ -53,7 +53,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.package.fields.level_one_commission')}}</label>
+                <label class="font-weight-bold ">{{ __('cruds.package.fields.level_one_commission')}}</label>
                 <input type="number" class="form-control" wire:model.defer="level_one_commission" placeholder="{{ __('cruds.package.fields.level_one_commission')}} commission" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Period','NumpadDecimal'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"  min="0" step=".01" autocomplete="off">
                 @error('level_one_commission') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
@@ -78,7 +78,7 @@
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
-                <label class="font-weight-bold">{{ __('cruds.package.fields.features')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.package.fields.features')}}<i class="fas fa-asterisk"></i></label>
                 <textarea class="form-control" id="summernote-features" wire:model.defer="features" rows="10"></textarea>
             </div>
             @error('features') <span class="error text-danger">{{ $message }}</span>@enderror
@@ -88,7 +88,7 @@
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
-                <label class="font-weight-bold">{{ __('cruds.package.fields.description')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.package.fields.description')}}<i class="fas fa-asterisk"></i></label>
                 <textarea class="form-control" id="summernote" wire:model.defer="description" rows="10"></textarea>
             </div>
             @error('description') <span class="error text-danger">{{ $message }}</span>@enderror
@@ -98,7 +98,7 @@
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
-                <label class="font-weight-bold">{{ __('cruds.package.fields.image')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.package.fields.image')}}<i class="fas fa-asterisk"></i></label>
                 <input type="file"  id="dropify-image" wire:model.defer="image" class="dropify" data-default-file="{{ $originalImage }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
                 <span wire:loading wire:target="image">
                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
@@ -116,7 +116,7 @@
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <label class="font-weight-bold mb-0 ">Video</label> 
+                    <label class="font-weight-bold mb-0 justify-content-start">Video<i class="fas fa-asterisk"></i></label> 
 
                     @if($updateMode && (!$removeVideo))
                     <!-- Button trigger modal -->

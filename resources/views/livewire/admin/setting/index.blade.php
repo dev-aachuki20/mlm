@@ -52,7 +52,7 @@
                                         <div class="{{ in_array($setting->group,array('site','introduction_video')) ? 'col-sm-12' : 'col-sm-6'}}">
                                             <div class="form-group">
                                                 <label class="font-weight-bold justify-content-start">{{ $setting->display_name }}
-                                                    <i class="fa-asterisk" style="color: #e14119;"></i>
+                                                    <i class="fas fa-asterisk"></i>
                                                 </label>
                                                 <input type="text" class="form-control" wire:model.defer="state.{{$setting->key}}" placeholder="{{$setting->display_name}}" />
                                                 @error('state.'.$setting->key) <span class="error text-danger">{{ $message }}</span>@enderror
@@ -61,7 +61,7 @@
                                     @elseif($setting->type == 'text_area')
                                         <div class="col-sm-12 mb-4">
                                             <div class="form-group mb-0" wire:ignore>
-                                                <label class="font-weight-bold justify-content-start">{{ $setting->display_name }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                                                <label class="font-weight-bold justify-content-start">{{ $setting->display_name }}<i class="fas fa-asterisk"></i></label>
 
                                                 @if($setting->details)
                                                     @php

@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.faq.fields.question')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.faq.fields.question')}} <i class="fas fa-asterisk"></i></label>
                 <input class="form-control" wire:model.defer="question">
                 @error('question') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
-                <label class="font-weight-bold">{{ __('cruds.faq.fields.answer')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.faq.fields.answer')}} <i class="fas fa-asterisk"></i></label>
                 <textarea class="form-control" id="summernote" wire:model.defer="answer" rows="4"></textarea>
             </div>
             @error('answer') <span class="error text-danger">{{ $message }}</span>@enderror

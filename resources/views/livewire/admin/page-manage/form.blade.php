@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.page.fields.title')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.page.fields.title')}}<i class="fas fa-asterisk"></i></label>
                 <input type="text" class="form-control" wire:model.defer="title" placeholder="{{ __('cruds.page.fields.title')}}">
                 @error('title') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
@@ -16,7 +16,7 @@
         
         <div class="col-md-6">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.page.fields.type')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.page.fields.type')}}<i class="fas fa-asterisk"></i></label>
                 <select class="form-control select-type" wire:model="type" {{ $type == 3 ? 'disabled':'' }}>
                     <option value="">Select Type</option>
                     @if(config('constants.page_types'))
@@ -40,7 +40,7 @@
     <div class="row {{ in_array($type,array(4,5)) ? 'd-none' : ''}}">
         <div class="col-md-12">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.page.fields.sub_title')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.page.fields.sub_title')}}<i class="fas fa-asterisk"></i></label>
                 <input type="text" class="form-control" wire:model.defer="sub_title" placeholder="{{ __('cruds.page.fields.sub_title')}}">
                 @error('sub_title') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
@@ -50,7 +50,7 @@
     <div class="row {{ in_array($type,array(4,5)) ? 'd-none' : ''}}" >
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
-                <label class="font-weight-bold">{{ __('cruds.page.fields.slider_image')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.page.fields.slider_image')}}<i class="fas fa-asterisk"></i></label>
                 <input type="file" id="sliderImage"  wire:model.defer="slider_image" class="dropify" data-default-file="{{ $originalsliderImage }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
                 <span wire:loading wire:target="slider_image">
                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
@@ -67,7 +67,7 @@
     <div class="row {{ in_array($type,array(1,2,3)) ? 'd-none' : ''}}" >
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
-                <label class="font-weight-bold">Image</label>
+                <label class="font-weight-bold justify-content-start">Image<i class="fas fa-asterisk"></i></label>
                 <input type="file"   wire:model.defer="image" class="dropify" data-default-file="{{ $originalImage }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
                 <span wire:loading wire:target="image">
                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading

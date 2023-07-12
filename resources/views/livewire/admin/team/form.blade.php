@@ -7,14 +7,14 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.team.fields.first_name')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.team.fields.first_name')}} <i class="fas fa-asterisk"></i></label>
                 <input type="text" class="form-control" wire:model.defer="first_name" placeholder="{{ __('cruds.team.fields.first_name')}}">
                 @error('first_name') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.team.fields.last_name')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.team.fields.last_name')}}<i class="fas fa-asterisk"></i></label>
                 <input type="text" class="form-control" wire:model.defer="last_name" placeholder="{{ __('cruds.team.fields.last_name')}}">
                 @error('last_name') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.team.fields.email')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.team.fields.email')}}<i class="fas fa-asterisk"></i></label>
                 <input type="email" class="form-control" wire:model='email' wire:change="checkEmail" placeholder="Email"  {{$updateMode ? 'disabled':''}}/>
 
                 @error('email') <span class="error text-danger">{{ $message }}</span>@enderror
@@ -32,7 +32,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label class="font-weight-bold">{{ __('cruds.team.fields.phone_number')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.team.fields.phone_number')}}<i class="fas fa-asterisk"></i></label>
                 <input type="number" class="form-control" wire:model.defer="phone" placeholder="Phone Number" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight','Tab'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space' && this.value.length < 10 " step="1"  autocomplete="off" />
 
                 @error('phone') <span class="error text-danger">{{ $message }}</span>@enderror
@@ -74,7 +74,7 @@
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
-                <label class="font-weight-bold">{{ __('cruds.team.fields.profile_image')}}</label>
+                <label class="font-weight-bold justify-content-start">{{ __('cruds.team.fields.profile_image')}}<i class="fas fa-asterisk"></i></label>
                 <input type="file" id="dropify-image"  wire:model.defer="profile_image" class="dropify" data-default-file="{{ $originalImage }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
                 <span wire:loading wire:target="profile_image">
                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
