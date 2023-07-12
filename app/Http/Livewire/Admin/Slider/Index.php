@@ -23,6 +23,7 @@ class Index extends Component
 
     public $slider_id = null, $name, $type, $image=null, $status = 1;
 
+    public $removeImage = false;
 
     protected $listeners = [
         'updatePaginationLength','confirmedToggleAction','deleteConfirm'
@@ -136,15 +137,17 @@ class Index extends Component
     }
 
     public function update(){
-        $validatedData = $this->validate([
+        $validateArray = [
             'name'        => 'required',
             'type'        => 'required',
             'status'      => 'required',
-        ]);
+        ];
 
-        if($this->image){
-            $validatedData['image'] = 'required|image|max:'.config('constants.img_max_size');
+        if($this->image || $this->removeImage){
+            $validateArray['image'] = 'required|image|max:'.config('constants.img_max_size');
         }
+
+        $validatedData = $this->validate($validateArray);
   
         $validatedData['status'] = $this->status;
 

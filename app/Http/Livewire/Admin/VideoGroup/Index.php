@@ -26,6 +26,8 @@ class Index extends Component
 
     public $course_id=null, $courseName, $group_video_id=null, $title, $description, $image, $originalImage, $video, $originalVideo,$videoExtenstion, $status=1;
 
+    public $removeImage = false , $removeVideo = false;
+
     public $videoDuration = null;
     
     protected $listeners = [
@@ -164,11 +166,11 @@ class Index extends Component
         $validatedArray['description'] = 'required';
         $validatedArray['status']      = 'required';
 
-        if($this->image){
+        if($this->image || $this->removeImage){
             $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
         }
 
-        if($this->video){
+        if($this->video || $this->removeVideo){
             $validatedArray['video'] = 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size');
         }
 

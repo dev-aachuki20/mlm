@@ -25,6 +25,8 @@ class Index extends Component
 
     public $webinar_id=null, $title, $presenter, $date, $time, $description, $image, $originalImage, $status=1;
 
+    public $removeImage = false;
+
     protected $listeners = [
         'cancel','updatePaginationLength', 'updateStatus', 'confirmedToggleAction','deleteConfirm',
     ];
@@ -161,7 +163,7 @@ class Index extends Component
         $validatedArray['description'] = 'required';
         $validatedArray['status']      = 'required';
 
-        if($this->image){
+        if($this->image || $this->removeImage){
             $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
         }
 

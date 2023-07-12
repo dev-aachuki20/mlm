@@ -31,6 +31,8 @@ class Index extends Component
 
     public $package_id =null, $level_one_commission, $level_two_commission, $level_three_commission;
 
+    public $removeImage = false , $removeVideo = false;
+
     protected $listeners = [
         'updatePaginationLength', 'confirmedToggleAction','deleteConfirm'
     ];
@@ -197,11 +199,11 @@ class Index extends Component
             'status'      => 'required',
         ];
 
-        if($this->image){
+        if($this->image || $this->removeImage){
             $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
         }
 
-        if($this->video){
+        if($this->video || $this->removeVideo){
             $validatedArray['video'] = 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size');
         }
   

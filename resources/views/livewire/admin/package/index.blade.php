@@ -142,7 +142,22 @@
 
         $('.dropify').dropify();
         $('.dropify-errors-container').remove();
-      
+        $('.dropify-clear').click(function(e) {
+            e.preventDefault();
+            var elementName = $(this).siblings('input[type=file]').attr('id');
+            if(elementName == 'dropify-image'){
+               @this.set('image',null);
+               @this.set('originalImage',null);
+               @this.set('removeImage',true);
+
+            }else if(elementName == 'dropify-video'){
+                @this.set('video',null);
+                @this.set('originalVideo',null);
+                @this.set('videoExtenstion',null);
+                @this.set('removeVideo',true);
+            }
+        });
+
         if ($(".js-example-basic-single").length) {
             $(".js-example-basic-single").select2({
                 placeholder: 'Select Level',

@@ -134,6 +134,15 @@
     
             $('.dropify').dropify();
             $('.dropify-errors-container').remove();
+            $('.dropify-clear').click(function(e) {
+                e.preventDefault();
+                var elementName = $(this).siblings('input[type=file]').attr('id');
+                if(elementName == 'dropify-image'){
+                    @this.set('profile_image',null);
+                    @this.set('originalImage',null);
+                    @this.set('removeImage',true);
+                }
+            });
 
             // show and hide password
             $(".show_hide_password i").on('click', function(event) {

@@ -178,6 +178,15 @@
 
         $('.dropify').dropify();
         $('.dropify-errors-container').remove();
+        $('.dropify-clear').click(function(e) {
+            e.preventDefault();
+            var elementName = $(this).siblings('input[type=file]').attr('id');
+            if(elementName == 'dropify-image'){
+               @this.set('image',null);
+               @this.set('originalImage',null);
+               @this.set('removeImage',true);
+            }
+        });
 
         $('textarea#summernote').summernote({
             placeholder: 'Type somthing...',

@@ -28,6 +28,8 @@ class Index extends Component
 
     public $team_id=null , $status = 1;
  
+    public $removeImage = false;
+
     protected $listeners = ['cancel','initializePlugins','updatePaginationLength','confirmedToggleAction','deleteConfirm'];
 
     public $first_name, $last_name, $email, $phone, $password, $password_confirmation, $profile_image=null, $originalImage;
@@ -210,7 +212,7 @@ class Index extends Component
             'status'     => 'required',
         ];
 
-        if($this->profile_image){
+        if($this->profile_image || $this->removeImage){
             $validatedArray['profile_image'] = 'required|image|max:'.config('constants.profile_image_size');
         }
 
