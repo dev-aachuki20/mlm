@@ -716,3 +716,8 @@ li.nav-item.hover-open ul.nav.flex-column.sub-menu a.nav-link span.menu-title {
   color: #ec3818;
   padding-top: 0.25em;
 }
+
+.fixed-image img {
+    width: 200px;
+    max-width: 100%;
+}

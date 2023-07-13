@@ -9,18 +9,37 @@
                 <form>
                   <div class="input-file-img">
                     <figure class="image is-5by3">
-                      <img id="imgOut" src="{{ !empty($authUser->profile_image_url) ? $authUser->profile_image_url : asset(config('constants.default.profile_image')) }}" />
+
+                       <div wire:loading wire:target="profile_image" class="loader" role="status" aria-hidden="true"></div>
+                        <div wire:loading wire:target="cancelUpdateProfileImage" class="loader" role="status" aria-hidden="true"></div> 
+
+                        @if ($profile_image)  
+                        <img src="{{ $profile_image->temporaryUrl() }}" alt="picture">
+                        @else
+                        <img src="{{ ($authUser->profileImage()->first()) ? $authUser->profileImage()->first()->file_url : asset(config('constants.default.profile_image')) }}" alt="picture" id="imgOut">
+                        @endif 
+            
                     </figure>
-                    <label class="file-label">
-                      <input class="file-input" type="file" accept="image/*" id="imgInp">
-                      <span class="file-cta">
-                        <span class="file-label">
-                          Browse Now!
-                        </span>
-                      </span>
-                    </label>
+                    
+                      @if($showConfirmCancel)
+                          <button class="btn btn-outline-success ms-1 mr-1" wire:click.prevent="$emitSelf('confirmUpdateProfileImage')"><i class="fa fa-check"></i></button>
+
+                          <button class="btn btn-outline-danger ms-1"  wire:click.prevent="$emitSelf('cancelUpdateProfileImage')"><i class="fa fa-close"></i></button>
+                      @else
+                          <label class="file-label">
+                            <input class="file-input" type="file" accept="image/*" wire:model.defer="profile_image" wire:change="validateProfileImage" id="imgInp">
+                            <span class="file-cta">
+                              <span class="file-label">
+                                Browse Now!
+                              </span>
+                            </span>
+                          </label>
+                      @endif
+
                   </div>
+                  @if($authUser->kycDetail->status != 2)
                   <p class="card-title mt-4 text-center border-0">Edit the Picture</p>
+                  @endif
                 </form>
               </div>
             
@@ -68,8 +87,11 @@
                         <div class="col-md-6 col-sm-12">
                           <div class="card h-100">
                             <div class="card-body">
-                              <p class="card-title mb-2">Pan Card Details <span>
-                                <img src="{{ asset('images/verified.png') }}"></span></p>
+                              <p class="card-title mb-2">Pan Card Details 
+                                @if($authUser->kycDetail->status == 2)
+                                <span><img src="{{ asset('images/verified.png') }}"></span>
+                                @endif
+                              </p>
                               <div class="form-group">
                                 <label class="col-form-label pb-1 pr-0">Name</label>
                                 <input type="text" class="form-control" placeholder="{{$authUser->kycDetail->pan_card_name ?? ''}}"  disabled>
@@ -81,7 +103,11 @@
                               <div class="form-group">
                                 <label class="col-form-label pb-1 pr-0">Image</label>
                                 <div class="fixed-image">
+                                  @if($authUser->pancard_image_url)
+                                  <img src="{{ $authUser->pancard_image_url }}"/>
+                                  @else
                                   <img src="{{ asset(config('constants.no_image_url')) }}"/>
+                                  @endif
                                 </div>
                               </div>
                             </div>
@@ -93,8 +119,11 @@
                         <div class="col-md-6 col-sm-12">
                           <div class="card">
                             <div class="card-body">
-                              <p class="card-title mb-2">Aadhar Card Details <span>
-                                <img src="{{ asset('images/verified.png') }}"></span></p>
+                              <p class="card-title mb-2">Aadhar Card Details 
+                                @if($authUser->kycDetail->status == 2)
+                                <span><img src="{{ asset('images/verified.png') }}"></span>
+                                @endif
+                              </p>
                               <div class="form-group">
                                 <label class="col-form-label pb-1 pr-0">Name
                                 </label>
@@ -105,13 +134,17 @@
                                 <label class="col-form-label pb-1 pr-0">Number</label>
                                 <input type="text" class="form-control" placeholder="{{$authUser->kycDetail->aadhar_card_number ?? ''}}" disabled>
                               </div>
+
                               <div class="row">
-                                
                                 <div class="col-md-6 col-sm-12">
                                   <div class="form-group">
                                     <label class="col-form-label pb-1 pr-0">Front Image</label>
                                     <div class="fixed-image">
-                                      <img src="{{ asset(config('constants.no_image_url')) }}"/>
+                                      @if($authUser->aadhar_front_image_url)
+                                      <img src="{{ $authUser->aadhar_front_image_url }}"/>
+                                      @else
+                                       <img src="{{ asset(config('constants.no_image_url')) }}"/>
+                                      @endif
                                     </div>
                                   </div>
                                 </div>
@@ -119,11 +152,16 @@
                                   <div class="form-group">
                                     <label class="col-form-label pb-1 pr-0">Back Image</label>
                                     <div class="fixed-image">
+                                      @if($authUser->aadhar_back_image_url)
+                                      <img src="{{ $authUser->aadhar_back_image_url }}"/>
+                                      @else
                                       <img src="{{ asset(config('constants.no_image_url')) }}"/>
+                                      @endif
                                     </div>
                                   </div>
                                 </div>
                               </div>
+
                             </div>
                           </div>
                         </div>
@@ -131,12 +169,15 @@
 
                       </div>
                      
+                      @if($authUser->kycDetail->status != 2)
                        <button type="button" wire:loading.attr="disabled" class="btn custom-btn btn-default btn-edit js-edit" wire:click.prevent="openEdit">
                         Edit Detail
                         <span wire:loading wire:target="openEdit">
                           <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
                         </span>
                        </button>
+                       @endif
+
                     </form>
                     @endif
 
@@ -161,18 +202,27 @@
   document.addEventListener('loadPlugins', function (event) {
       $('.dropify').dropify();
       $('.dropify-errors-container').remove();
+      $('.dropify-clear').click(function(e) {
+          e.preventDefault();
+          var elementName = $(this).siblings('input[type=file]').attr('id');
+          if(elementName == 'pan-image'){
+              @this.set('pan_card_image',null);
+              @this.set('panOriginal',null);
+              @this.set('isRemovePanCardImage',true);
+          }else if(elementName == 'aadhar-front-image'){
+              @this.set('aadharCardImageFront',null);
+              @this.set('aadharFrontOriginal',null);
+              @this.set('isRemoveAadharCardFrontImg',true);
+          }else if(elementName == 'aadhar-back-image'){
+              @this.set('aadharCardImageBack',null);
+              @this.set('aadharBackOriginal',null);
+              @this.set('isRemoveAadharCardBackImg',true);
+          }
+      });
   });
 
 </script>
 <script>
-// jQuery(document).ready(function($){
-//     jQuery('.js-edit, .js-save').on('click', function(){
-//     var $form = jQuery(this).closest('form');
-//     $form.toggleClass('is-readonly is-editing');
-//     var isReadonly  = $form.hasClass('is-readonly');
-//     $form.find('input,textarea').prop('disabled', isReadonly);
-//     });
-// });
 const fileIn = document.getElementById('imgInp'),
     fileOut = document.getElementById('imgOut');
 

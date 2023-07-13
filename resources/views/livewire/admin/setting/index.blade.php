@@ -161,7 +161,7 @@
             $('.dropify-clear').click(function(e) {
                 e.preventDefault();
                 var elementName = $(this).siblings('input[type=file]').attr('id');
-               
+                elementName = elementName.split('-');
                 if(elementName[1] == 'image'){
                     @this.set('state.'+elementName[0],null);
                 }else if(elementName[1] == 'video'){
@@ -199,6 +199,16 @@
       
         $('.dropify').dropify();
         $('.dropify-errors-container').remove();
+        $('.dropify-clear').click(function(e) {
+            e.preventDefault();
+            var elementName = $(this).siblings('input[type=file]').attr('id');
+            elementName = elementName.split('-');
+            if(elementName[1] == 'image'){
+                @this.set('state.'+elementName[0],null);
+            }else if(elementName[1] == 'video'){
+                @this.set('state.'+elementName[0],null);
+            }
+        });
 
         $('textarea.summernote').summernote({
             placeholder: 'Type somthing...',

@@ -145,6 +145,45 @@ class User extends Authenticatable implements MustVerifyEmail
         return "";
     }
    
+    public function aadharFrontImage()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','aadhar-card-front');
+    }
+
+    public function getAadharFrontImageUrlAttribute()
+    {
+        if($this->aadharFrontImage){
+            return $this->aadharFrontImage->file_url;
+        }
+        return "";
+    }
+
+    public function aadharBackImage()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','aadhar-card-back');
+    }
+
+    public function getAadharBackImageUrlAttribute()
+    {
+        if($this->aadharBackImage){
+            return $this->aadharBackImage->file_url;
+        }
+        return "";
+    }
+
+    public function panCardImage()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','pancard');
+    }
+
+    public function getPancardImageUrlAttribute()
+    {
+        if($this->panCardImage){
+            return $this->panCardImage->file_url;
+        }
+        return "";
+    }
+
     public function team() 
     {
         return $this->hasMany(User::class, 'referral_user_id', 'id');

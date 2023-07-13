@@ -34,7 +34,6 @@ return [
     'logo_min_height' => '1000', // logo min height
    
     'profile_image_size'=> '1024',
-    'profile_image_dimensions'=> '180 × 180',
 
     'img_max_size'   => '2048',
     'video_max_size' => '50240',
@@ -42,11 +41,22 @@ return [
     'no_image_url'   => 'default/no-image.jpg',
     'default_user_logo' => 'default/default-user.svg',
 
-    'aadharcard_image_size'=> '100',
-    'aadharcard_image_dimensions'=> '133 × 95',
+    'pancard_image' => [
+        'size'=>[
+            'min'=>'20',
+            'max'=>'60',
+        ],
+        'extensions' =>'jpeg,jpg,JPG',
+    ],
 
-    'pancard_image_size'=> '60',
-    'pancard_image_dimensions'=> '220 × 220',
+    'aadharcard_image' => [
+        'size'=>[
+            'min'=>'50',
+            'max'=>'100',
+        ],
+        'extensions' =>'jpeg,jpg,JPG',
+    ],
+  
 
     'slider_limit' => '5',
 

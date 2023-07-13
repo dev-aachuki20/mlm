@@ -37,27 +37,27 @@
               <div class="card-body">
                 <p class="card-title mb-2">
                     Pan Card Details
-                    <span><img src="{{ asset('images/verified.png') }}"></span>
                 </p>
                 <div class="form-group">
                   <label class="col-form-label pb-1 pr-0 justify-content-start">Name<i class="fas fa-asterisk"></i></label>
-                  <input type="text" class="form-control" placeholder="Enter your pan card name" wire:model.defer="pan_card_name" >
+                  <input type="text" class="form-control" placeholder="Enter your pan card name" wire:model.defer="pan_card_name" autocomplete="off">
                   @error('pan_card_name') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>
                 <div class="form-group">
                   <label class="col-form-label pb-1 pr-0 justify-content-start">Number<i class="fas fa-asterisk"></i></label>
-                  <input type="text" class="form-control" placeholder="Enter your pan card number" wire:model.defer="pan_card_number" >
+                  <input type="text" class="form-control" placeholder="Enter your pan card number" wire:model.defer="pan_card_number" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight','Tab'].includes(event.code) ? true :event.code!=='Space' && this.value.length < 10 " autocomplete="off">
                     @error('pan_card_number') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>                              
                 <div class="form-group">
-                  <label class="col-form-label pb-1 pr-0 justify-content-start">Upload Image <i class="fas fa-asterisk"></i></label>
+                  <label class="col-form-label pb-1 pr-0 justify-content-start">Upload Image<i class="fas fa-asterisk"></i></label>
+                  <p>Min:- {{ config('constants.pancard_image.size.min') }}KB, Max:- {{ config('constants.pancard_image.size.max') }}KB</p>
                   <div class="fixed-image" wire:ignore>
-                    <input type="file" id="pan-image"  wire:model.defer="panCardImage" class="dropify" data-default-file="{{ $panOriginal }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M"  accept="image/jpeg, image/png, image/jpg,image/svg">
+                    <input type="file" id="pan-image"  wire:model.defer="pan_card_image" class="dropify" data-default-file="{{ $panOriginal }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M"  accept="image/jpeg, image/png, image/jpg,image/svg">
                   </div>
-                  <span wire:loading wire:target="panCardImage">
+                  <span wire:loading wire:target="pan_card_image">
                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
                    </span>
-                   @error('panCardImage') <span class="error text-danger">{{ $message }}</span>@enderror
+                   <div>@error('pan_card_image') <span class="error text-danger">{{ $message }}</span>@enderror</div>
                 </div>
               </div>
             </div>
@@ -70,18 +70,17 @@
               <div class="card-body">
                 <p class="card-title mb-2">
                     Aadhar Card Details 
-                    <span><img src="{{ asset('images/verified.png') }}"></span>
                 </p>
                 
                 <div class="form-group">
                     <label class="col-form-label pb-1 pr-0 justify-content-start">Name <i class="fas fa-asterisk"></i></label>
-                    <input type="text" class="form-control" placeholder="Enter your aadhar card name" wire:model.defer="aadhar_card_name">
+                    <input type="text" class="form-control" placeholder="Enter your aadhar card name" wire:model.defer="aadhar_card_name" autocomplete="off">
                     @error('aadhar_card_name') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>
                 
                 <div class="form-group">
                     <label class="col-form-label pb-1 pr-0 justify-content-start">Number <i class="fas fa-asterisk"></i></label>
-                    <input type="text" class="form-control" placeholder="Enter your aadhar card number" wire:model.defer="aadhar_card_number">
+                    <input type="text" class="form-control" placeholder="Enter your aadhar card number" wire:model.defer="aadhar_card_number" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight','Tab'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space' && this.value.length < 12 "  autocomplete="off">
                     @error('aadhar_card_number') <span class="error text-danger">{{ $message }}</span>@enderror
                 </div>
 
@@ -90,13 +89,14 @@
                   <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                       <label class="col-form-label pb-1 pr-0 justify-content-start">Upload Front Image <i class="fas fa-asterisk"></i></label>
+                      <p>Min:- {{ config('constants.aadharcard_image.size.min') }}KB, Max:- {{ config('constants.aadharcard_image.size.max') }}KB</p>
                       <div class="fixed-image" wire:ignore>
                         <input type="file" id="aadhar-front-image"  wire:model.defer="aadharCardImageFront" class="dropify" data-default-file="{{ $aadharFrontOriginal }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M"  accept="image/jpeg, image/png, image/jpg,image/svg">
                       </div>
                         <span wire:loading wire:target="aadharCardImageFront">
                             <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
                         </span>
-                        @error('aadharCardImageFront') <span class="error text-danger">{{ $message }}</span>@enderror
+                        <div>@error('aadharCardImageFront') <span class="error text-danger">{{ $message }}</span>@enderror</div>
                     </div>
                   </div>
 
@@ -104,13 +104,14 @@
                   <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                       <label class="col-form-label pb-1 pr-0 justify-content-start">Upload Back Image <i class="fas fa-asterisk"></i></label>
+                      <p>Min:- {{ config('constants.aadharcard_image.size.min') }}KB, Max:- {{ config('constants.aadharcard_image.size.max') }}KB</p>
                       <div class="fixed-image" wire:ignore>
                         <input type="file" id="aadhar-back-image"  wire:model.defer="aadharCardImageBack" class="dropify" data-default-file="{{ $aadharBackOriginal }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M"  accept="image/jpeg, image/png, image/jpg,image/svg">
                       </div>
                         <span wire:loading wire:target="aadharCardImageBack">
                             <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
                         </span>
-                        @error('aadharCardImageBack') <span class="error text-danger">{{ $message }}</span>@enderror
+                        <div>@error('aadharCardImageBack') <span class="error text-danger">{{ $message }}</span>@enderror</div>
                     </div>
                   </div>
                   
