@@ -59,7 +59,7 @@ class SettingSeeder extends Seeder
                 'type'   => 'image',
                 'display_name'  => 'Footer Logo',
                 'group'  => 'site',
-                'details' => '200 × 54',
+                'details' => '232 × 54',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'created_by' => 1,

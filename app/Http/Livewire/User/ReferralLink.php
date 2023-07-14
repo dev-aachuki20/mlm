@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Http\Livewire\User;
+
+use Livewire\Component;
+
+class ReferralLink extends Component
+{
+    protected $layout = null;
+
+    public function render()
+    {
+        return view('livewire.user.referral-link');
+    }
+}

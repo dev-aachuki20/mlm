@@ -8,7 +8,7 @@
                 <a href="{{ route('front.home') }}">
                   
                   @if(getSetting('footer_logo'))
-                  <img src="{{ getSetting('footer_logo') }}" alt="footer-logo"/>
+                  <img src="{{ getSetting('footer_logo') }}" alt="footer-logo-dy"/>
                   @else
                   <img src="{{ asset(config('constants.default.footer-logo')) }}" class="mr-2" alt="footer-logo"/>
                   @endif
@@ -45,7 +45,7 @@
               <div class="footer-about">
                 <h4 class="text-white">About Us</h4>
                 <div class="section-text">
-                  <p>{{ getSetting('company_address') }}</p>
+                  <p>{!! getSetting('company_address') !!}</p>
                 </div>
                 <ul>
                   <li>

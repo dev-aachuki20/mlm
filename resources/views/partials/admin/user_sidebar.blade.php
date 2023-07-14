@@ -72,6 +72,36 @@
         </div>
     </li> 
 
+    <li class="nav-item {{ request()->is('user/webinar') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('user.webinar') }}">
+            <img src="{{ asset('images/icons/webinar.svg') }}" alt="webinar">
+            <span class="menu-title">Webinar</span>
+        </a>
+    </li>
+
+    
+    <li class="nav-item {{ request()->is('user/invoice') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('user.invoice') }}">
+            <img src="{{ asset('images/icons/invoice.svg') }}" alt="invoice">
+            <span class="menu-title">Invoice</span>
+        </a>
+    </li>
+
+    
+    <li class="nav-item {{ request()->is('user/referral-link') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('user.referral-link') }}">
+            <img src="{{ asset('images/icons/referral-link.svg') }}" alt="referral link">
+            <span class="menu-title">Referral Link</span>
+        </a>
+    </li>
+
+    <li class="nav-item {{ request()->is('user/customer-support') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('user.customer-support') }}">
+            <img src="{{ asset('images/icons/customer-support.svg') }}" alt="customer support">
+            <span class="menu-title">Customer Supoort</span>
+        </a>
+    </li>
+
     @livewire('auth.admin.sidebar-logout')
 </ul>
 </nav>
