@@ -63,7 +63,7 @@
                     <div class="form-group">
                       <div class="input-form">
                         <label class="form-label">Review Here</label>
-                        <textarea class="form-control" wire:model="description"  placeholder="Write Your Review" ></textarea>
+                        <textarea class="form-control" wire:model.defer="description"  placeholder="Write Your Review" ></textarea>
                         @error('description') <span class="error text-danger">{{ $message }}</span>@enderror
 
                       </div>

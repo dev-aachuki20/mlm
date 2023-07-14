@@ -25,7 +25,10 @@ class PaymentComponent extends Component
 
         if(!empty($packageUUID)){
             $this->fromURLPackageSelected = true;
-            $this->defaultSelectedPackage = Package::where('uuid',$packageUUID)->value('id');
+            $packageExists = Package::where('uuid',$packageUUID)->where('status',1)->first();
+            if($packageExists){
+                $this->defaultSelectedPackage = $packageExists->id;
+            }
         }
 
         $this->handleOptionSelection($this->defaultSelectedPackage);
@@ -48,17 +51,23 @@ class PaymentComponent extends Component
             'select_package' => 'required',
         ]);
 
-        $package = Package::find($this->select_package);
-        $this->packageId = $package->id;
-        $this->amount = $package->amount;
-      
-        // Redirect to the Razorpay checkout form
-        $this->dispatchBrowserEvent('openRazorpayCheckout', [
-            'name' => $this->getData['first_name'].' '.$this->getData['last_name'],
-            'email' => $this->getData['email'],
-            'phone' => $this->getData['phone'],
-            'amount' => (float)$this->amount * 100,
-        ]);
+       
+        $package = Package::where('status',1)->where('id',$this->select_package)->first();
+        if($package){
+            $this->packageId = $package->id;
+            $this->amount = $package->amount;
+          
+            // Redirect to the Razorpay checkout form
+            $this->dispatchBrowserEvent('openRazorpayCheckout', [
+                'name' => $this->getData['first_name'].' '.$this->getData['last_name'],
+                'email' => $this->getData['email'],
+                'phone' => $this->getData['phone'],
+                'amount' => (float)$this->amount * 100,
+            ]);
+        }else{
+            $this->alert('error','Package is required!');
+        }
+        
     }
 
     public function paymentSuccessful($payment_id)

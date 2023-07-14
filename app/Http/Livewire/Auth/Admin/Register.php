@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Auth\Admin;
 use Mail; 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Package;
 use App\Models\Payment;
 use App\Models\Transaction;
 use Livewire\Component;
@@ -68,6 +69,10 @@ class Register extends Component
 
         if(!empty($packageUUID)){
             $this->packageUUID = $packageUUID;
+            $packageExists = Package::where('uuid',$this->packageUUID)->where('status',1)->exists();
+            if(!$packageExists){
+                return abort(404);
+            }
         }
     }
 
