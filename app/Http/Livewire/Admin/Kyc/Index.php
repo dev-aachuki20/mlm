@@ -18,14 +18,14 @@ class Index extends Component
 
     protected $layout = null;
     
-    public $search = '', $formMode = false , $updateMode = false, $viewMode = false ,$originalImage;
+    public $search = '',  $viewMode = false ,$originalImage;
 
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    public $kyc_id = null, $status = 1;
+    public $kyc_id = null, $status = 1, $status_comment;
 
     protected $listeners = [
-        'updatePaginationLength','toggle','confirmedToggleAction','cancel'
+        'updatePaginationLength','toggle','confirmedToggleAction','cancel','closedKycModal'
     ];
 
     
@@ -93,6 +93,7 @@ class Index extends Component
     }
 
     public function toggle($id,$statusVal){
+        $this->initializePlugins();
         $this->confirm('Are you sure you want to change the status?', [
             'toast' => false,
             'position' => 'center',
@@ -111,25 +112,43 @@ class Index extends Component
     {
         $kycId = $event['data']['inputAttributes']['kycId'];
         $statusVal = $event['data']['inputAttributes']['statusVal'];
+        if(in_array($statusVal,array(1,2))){
+            $model = Kyc::find($kycId);
+            $model->update(['status' => $statusVal,'comment'=>null]);
+            $this->alert('success', trans('messages.change_status_success_message'));
+        }else{
+            $this->kyc_id = $kycId;
+            $this->status = $statusVal;
+            $this->dispatchBrowserEvent('openKycStatusModal');
+        }
+    }
 
-        $model = Kyc::find($kycId);
-        $model->update(['status' => $statusVal]);
+    public function submitStatusComment(){
+        $this->validate([
+            'status_comment' => 'required|string',
+        ],[
+            'status_comment.required'=>'Comment is required.',
+        ]);
+        $model = Kyc::find($this->kyc_id);
+        $model->update(['status' => $this->status,'comment'=>$this->status_comment]);
+        $this->closedKycModal();
         $this->alert('success', trans('messages.change_status_success_message'));
     }
 
     public function show($id){
         $this->resetPage();
         $this->kyc_id = $id;
-        $this->formMode = false;
         $this->viewMode = true;
     }
 
     public function cancel(){
-        $this->formMode = false;
-        $this->updateMode = false;
         $this->viewMode = false;
     }
 
+    public function closedKycModal(){
+        $this->reset();
+        $this->dispatchBrowserEvent('closedKycStatusModal');
+    }
 
 
     public function initializePlugins(){

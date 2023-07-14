@@ -103,5 +103,11 @@ return [
         5=> "rewards"
     ],
 
+    'kyc_status'=>[
+        1=>'pending',
+        2=>'approve',
+        3=>'reject',
+    ],
+
     'min_review_length' => '200'
 ];

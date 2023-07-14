@@ -57,9 +57,9 @@
                                         <td>{{ ucfirst($kyc->user->name) }}</td>
                                         <td>
                                             <select class="form-control select-status" wire:change.prevent="toggle({{$kyc->id}},$event.target.value)">
-                                                <option value="1" {{$kyc->status == 1 ? 'selected' : ''}}>Pending</option>
-                                                <option value="2" {{$kyc->status == 2 ? 'selected' : ''}}>Approve</option>
-                                                <option value="3" {{$kyc->status == 3 ? 'selected' : ''}}>Reject</option>
+                                                @foreach(config('constants.kyc_status') as $keyId=>$statusName)
+                                                <option value="{{$keyId}}" {{$kyc->status == $keyId ? 'selected' : ''}}>{{ ucfirst($statusName) }}</option>
+                                                @endforeach
                                             </select>
                                         </td>
                                         <td>{{ convertDateTimeFormat($kyc->created_at,'datetime') }}</td>
@@ -88,6 +88,41 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal show" id="kycCommentModal" tabindex="-1" role="dialog" aria-labelledby="kycCommentModalLabel" aria-hidden="true" wire:ignore.self>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form wire:submit.prevent="submitStatusComment">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="kycCommentModalLabel">{{ ucfirst(config('constants.kyc_status')[$status]) }} Comment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <textarea class="form-control" wire:model.defer="status_comment" style="height:200px;"></textarea>
+                  @error('status_comment') <span class="error text-danger">{{ $message }}</span>@enderror
+                </div>
+                <div class="modal-footer">
+                    <button wire:click.prevent="closedKycModal" class="btn btn-secondary">
+                        {{ __('global.cancel')}}
+                        <span wire:loading wire:target="closedKycModal">
+                            <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <button type="submit" wire:loading.attr="disabled" class="btn btn-primary mr-2">
+                        Save
+                        <span wire:loading wire:target="submitStatusComment">
+                            <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 </div>
 
 @push('styles')
@@ -95,8 +130,16 @@
 
 @push('scripts')
 <script type="text/javascript">
-    $(document).ready(function(){
-        
+    document.addEventListener('openKycStatusModal',function(event){
+        $('#kycCommentModal').modal('show');
+    });
+
+    document.addEventListener('closedKycStatusModal',function(event){
+        $('#kycCommentModal').modal('hide');
+    });
+
+    document.addEventListener('loadPlugins', function (event) {
+      
     });
 </script>
 @endpush

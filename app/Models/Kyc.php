@@ -28,6 +28,7 @@ class Kyc extends Model
         'pan_card_name',
         'pan_card_number',
         'status',
+        'comment',
         'created_at',
         'updated_at',
         'deleted_at',

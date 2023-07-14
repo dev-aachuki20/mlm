@@ -66,22 +66,26 @@
              {{ $details->pan_card_number ?? '' }}
         </div>
     </div>
-
-
-
-
-
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">Status</label>
         <div class="col-sm-4 col-form-label">
-            <select class="form-control select-status" data-kyc="{{$details->id}}">
-                <option value="1" {{$details->status == 1 ? 'selected' : ''}}>Pending</option>
-                <option value="2" {{$details->status == 2 ? 'selected' : ''}}>Approve</option>
-                <option value="3" {{$details->status == 3 ? 'selected' : ''}}>Reject</option>
+            <select class="form-control select-status" wire:change.prevent="$emit('toggle',{{$details->id}},$event.target.value)">
+                @foreach(config('constants.kyc_status') as $keyId=>$statusName)
+                <option value="{{$keyId}}" {{$details->status == $keyId ? 'selected' : ''}}>{{ ucfirst($statusName) }}</option>
+                @endforeach
             </select>
              
         </div>
     </div>
+
+    @if($details->comment)
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">Comment</label>
+        <div class="col-sm-9 col-form-label">
+             {{ $details->comment ?? '' }}
+        </div>
+    </div>
+    @endif
 
     <button wire:click.prevent="cancel" class="btn btn-secondary">
         {{ __('global.cancel')}}
