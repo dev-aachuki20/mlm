@@ -7,9 +7,10 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use App\Http\Livewire\BaseComponent;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
-class Index extends Component
+class Index extends BaseComponent
 {
     use LivewireAlert, WithFileUploads;
 
@@ -36,7 +37,7 @@ class Index extends Component
     {
         $this->showConfirmCancel = true;
 
-        $this->validate([
+        $validateImage = $this->validate([
             'profile_image' => 'image|max:'.config('constants.profile_image_size'), // Maximum file size of 1MB
         ]);  
     }
@@ -62,7 +63,7 @@ class Index extends Component
         $this->authUser->profile_image_url = $response->file_url;
 
         if ($response) {
-            $this->profileImageUrlUpdated =true;
+            $this->emit('profileImageUpdated', true);
 
             // Set Flash Message
             $this->alert('success', 'Picture has been updated.');
@@ -121,6 +122,10 @@ class Index extends Component
             'required' => 'The field is required.',
             'account_holder_name.required' => 'The Full name is required', 
         ];
+
+        if(empty($this->authUser->profile_image_url)){
+            $validateArr['profile_image'] = 'required|image|max:'.config('constants.profile_image_size');
+        }
 
         if(is_null($this->authUser->pancard_image_url) || ($this->pan_card_image || $this->isRemovePanCardImage)){
             $validateArr['pan_card_image'] = 'required|image|mimes:'.config('constants.pancard_image.extensions').'|min:'.config('constants.pancard_image.size.min').'|max:'.config('constants.pancard_image.size.max');

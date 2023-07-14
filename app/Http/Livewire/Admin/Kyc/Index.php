@@ -100,7 +100,6 @@ class Index extends Component
             'cancelButtonText' => 'No Cancel!',
             'onConfirmed' => 'confirmedToggleAction',
             'onCancelled' => function () {
-                // console.log('hello');
                 // Do nothing or perform any desired action
             },
             'inputAttributes' => ['kycId' => $id,'statusVal'=>$statusVal],

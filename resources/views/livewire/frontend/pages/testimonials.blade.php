@@ -105,7 +105,8 @@
           </div>
           <div class="row testimonial-outer">
             @foreach ($testimonials as $testimonial)
-            @if(auth()->check() && auth()->user()->testimonial()->first()->status == 0)
+         
+            @if(auth()->check() && auth()->user()->testimonial()->exists() && auth()->user()->testimonial()->first()->status == 0)
             <div class="col-lg-4 col-md-6 col-sm-12">
               <div class="testimonial-details bg-white">
                 <div class="testimonial-img">

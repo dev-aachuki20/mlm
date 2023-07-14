@@ -14,28 +14,32 @@
                         <div wire:loading wire:target="cancelUpdateProfileImage" class="loader" role="status" aria-hidden="true"></div> 
 
                         @if ($profile_image)  
-                        <img src="{{ $profile_image->temporaryUrl() }}" alt="picture">
+                        <img src="{{ $profile_image->temporaryUrl() }}" alt="picture" id="imgOut">
                         @else
-                        <img src="{{ ($authUser->profileImage()->first()) ? $authUser->profileImage()->first()->file_url : asset(config('constants.default.profile_image')) }}" alt="picture" id="imgOut">
+                        <img src="{{ ($authUser->profile_image_url) ? $authUser->profile_image_url : asset(config('constants.default.profile_image')) }}" alt="picture" id="imgOut">
                         @endif 
             
                     </figure>
                     
                       @if($showConfirmCancel)
-                          <button class="btn btn-outline-success ms-1 mr-1" wire:click.prevent="$emitSelf('confirmUpdateProfileImage')"><i class="fa fa-check"></i></button>
+                      <label class="file-label text-center">
+                       
+                          <button class="btn btn-outline-success ms-1 mr-1" wire:click.prevent="confirmUpdateProfileImage"><i class="fa fa-check"></i></button>
 
-                          <button class="btn btn-outline-danger ms-1"  wire:click.prevent="$emitSelf('cancelUpdateProfileImage')"><i class="fa fa-close"></i></button>
+                          <button class="btn btn-outline-danger ms-1"  wire:click.prevent="cancelUpdateProfileImage"><i class="fa fa-close"></i></button>
+                      
+                      </label>
                       @else
                           <label class="file-label">
-                            <input class="file-input" type="file" accept="image/*" wire:model.defer="profile_image" wire:change="validateProfileImage" id="imgInp">
+                            <input class="file-input" type="file" accept="image/*" wire:model="profile_image" wire:change="validateProfileImage" id="imgInp">
                             <span class="file-cta">
                               <span class="file-label">
                                 Browse Now!
                               </span>
                             </span>
+                            @error('profile_image') <span class="error text-danger">{{ $message }}</span>@enderror
                           </label>
                       @endif
-
                   </div>
                   @if($authUser->kycDetail->status != 2)
                   <p class="card-title mt-4 text-center border-0">Edit the Picture</p>
@@ -184,6 +188,7 @@
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -221,21 +226,5 @@
       });
   });
 
-</script>
-<script>
-const fileIn = document.getElementById('imgInp'),
-    fileOut = document.getElementById('imgOut');
-
-    const readUrl = event => {
-    if(event.files && event.files[0]) {
-        let reader = new FileReader();
-        reader.onload = event => fileOut.src = event.target.result;
-        reader.readAsDataURL(event.files[0])
-    }
-    }
-
-    fileIn.onchange = function() {
-    readUrl(this);
-    };
 </script>
 @endpush

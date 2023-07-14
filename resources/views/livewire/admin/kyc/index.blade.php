@@ -12,7 +12,6 @@
                     <div wire:loading wire:target="create" class="loader"></div>
                     <div class="card-title d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Kyc</h4>
-
                     </div> 
                     <div class="table-header-plugins">
                         <!-- Start show length -->
@@ -53,12 +52,11 @@
                         <tbody>
                             @if($allKycUsers->count() > 0)
                                 @foreach($allKycUsers as $serialNo => $kyc)
-
-                                <tr>
+                                    <tr>
                                         <td>{{ $serialNo+1 }}</td>
                                         <td>{{ ucfirst($kyc->user->name) }}</td>
                                         <td>
-                                            <select class="form-control select-status" data-kyc="{{$kyc->id}}">
+                                            <select class="form-control select-status" wire:change.prevent="toggle({{$kyc->id}},$event.target.value)">
                                                 <option value="1" {{$kyc->status == 1 ? 'selected' : ''}}>Pending</option>
                                                 <option value="2" {{$kyc->status == 2 ? 'selected' : ''}}>Approve</option>
                                                 <option value="3" {{$kyc->status == 3 ? 'selected' : ''}}>Reject</option>
@@ -98,13 +96,7 @@
 @push('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
-
-        $(document).on('change','.select-status',function(e){
-            e.preventDefault();
-            var kycId = $(this).attr('data-kyc');
-            var optionSelected = $(this).val();
-            Livewire.emit('toggle',kycId,optionSelected);
-        });
+        
     });
 </script>
 @endpush
