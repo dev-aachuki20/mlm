@@ -69,8 +69,9 @@
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">Status</label>
         <div class="col-sm-4 col-form-label">
-            <select class="form-control select-status" wire:change.prevent="$emit('toggle',{{$details->id}},$event.target.value)">
-                @foreach(config('constants.kyc_status') as $keyId=>$statusName)
+            {{-- <select class="form-control select-status" wire:change.prevent="$emit('toggle',{{$details->id}},$event.target.value)"> --}}
+                <select class="form-control select-status" data-kyc="{{$details->id}}">
+                @foreach($selectStatus as $keyId=>$statusName)
                 <option value="{{$keyId}}" {{$details->status == $keyId ? 'selected' : ''}}>{{ ucfirst($statusName) }}</option>
                 @endforeach
             </select>

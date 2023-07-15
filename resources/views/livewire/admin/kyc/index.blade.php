@@ -56,8 +56,9 @@
                                         <td>{{ $serialNo+1 }}</td>
                                         <td>{{ ucfirst($kyc->user->name) }}</td>
                                         <td>
-                                            <select class="form-control select-status" wire:change.prevent="toggle({{$kyc->id}},$event.target.value)">
-                                                @foreach(config('constants.kyc_status') as $keyId=>$statusName)
+                                            {{-- <select class="form-control select-status" wire:change.prevent="toggle({{$kyc->id}},$event.target.value)"> --}}
+                                            <select class="form-control select-status" data-kyc="{{$kyc->id}}">
+                                                @foreach($selectStatus as $keyId=>$statusName)
                                                 <option value="{{$keyId}}" {{$kyc->status == $keyId ? 'selected' : ''}}>{{ ucfirst($statusName) }}</option>
                                                 @endforeach
                                             </select>
@@ -90,7 +91,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal show" id="kycCommentModal" tabindex="-1" role="dialog" aria-labelledby="kycCommentModalLabel" aria-hidden="true" wire:ignore.self>
+{{-- <div class="modal show" id="kycCommentModal" tabindex="-1" role="dialog" aria-labelledby="kycCommentModalLabel" aria-hidden="true" wire:ignore.self>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <form wire:submit.prevent="submitStatusComment">
@@ -121,7 +122,7 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}
 
 </div>
 
@@ -130,13 +131,68 @@
 
 @push('scripts')
 <script type="text/javascript">
-    document.addEventListener('openKycStatusModal',function(event){
-        $('#kycCommentModal').modal('show');
+   $(document).ready(function(e){
+    $(document).on('change','.select-status', function(event){
+        event.preventDefault();
+        var $this = $(this);
+        var kycId = $this.attr('data-kyc');
+        var statusVal = $this.val();
+        // console.log(kycId,statusVal);
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to change the status.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes Confirm!',
+            cancelButtonText: 'No Cancel!',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+        }).then((result) => {
+            // console.log('result:-',result);
+            if (result.isConfirmed) {
+                if(statusVal == 3){
+                    Swal.fire({
+                        input: 'textarea',
+                        inputLabel: 'Reject Comment',
+                        inputPlaceholder: 'Type your comment here...',
+                        inputAttributes: {
+                            'aria-label': 'Type your comment here'
+                        },
+                        inputValidator: (value) => {
+                            if (!value) {
+                                return 'The reject comment is required!'
+                            }
+                        },
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        confirmButtonText: 'Save',
+                        showCancelButton: true
+                    }).then((res) => {
+                        if (res.isConfirmed) {
+                            Livewire.emit('updateStatus',kycId,statusVal,res.value);
+                        }
+
+                        if(res.isDismissed){
+                            Livewire.emit('refreshComponent');
+                        }
+
+                    });
+                }else{
+                    Livewire.emit('updateStatus',kycId,statusVal);
+                }
+            }
+
+            if(result.isDismissed){
+                Livewire.emit('refreshComponent');
+            }
+
+        });
     });
 
-    document.addEventListener('closedKycStatusModal',function(event){
-        $('#kycCommentModal').modal('hide');
-    });
+   });
 
     document.addEventListener('loadPlugins', function (event) {
       

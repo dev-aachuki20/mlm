@@ -402,7 +402,7 @@ div:where(.swal2-container).swal2-center>.swal2-popup {
     background: #0A2540;
 }
 .swal2-modal .swal2-title {
-    color: #ffffff;
+    color: #ffffff !important;
 }
 .content p {
     display: inline;
@@ -732,4 +732,18 @@ li.nav-item.hover-open ul.nav.flex-column.sub-menu a.nav-link span.menu-title {
 .fixed-image img {
     width: 200px;
     max-width: 100%;
+}
+
+.swal2-modal .swal2-html-container{
+  color:#d6e0e9;
+} 
+.swal2-modal .swal2-input-label{
+  color:aliceblue;
+}
+div:where(.swal2-container) .swal2-textarea {
+  width:-webkit-fill-available;
+}
+div:where(.swal2-container) div:where(.swal2-validation-message){
+    background:#8ca1b6 !important;
+    color: #ede3e3 !important;
 }

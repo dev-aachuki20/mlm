@@ -9,10 +9,11 @@ class Show extends Component
 {
     protected $layout = null;
     
-    public $details;
+    public $details,$selectStatus;
 
     public function mount($kyc_id){
         $this->details = Kyc::find($kyc_id);
+        $this->selectStatus = config('constants.kyc_status');
     }
 
     public function cancel(){

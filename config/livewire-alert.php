@@ -16,11 +16,14 @@ return [
     ],
     'confirm' => [
         'icon' => 'warning',
+        'text' => null,
         'position' => 'center',
         'toast' => false,
         'timer' => null,
         'showConfirmButton' => true,
         'showCancelButton' => true,
+        'allowOutsideClick' => false,
+        'allowEscapeKey'   => false,
         'cancelButtonText' => 'No',
         'confirmButtonColor' => '#3085d6',
         'cancelButtonColor' => '#d33'

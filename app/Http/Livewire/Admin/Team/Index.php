@@ -298,10 +298,11 @@ class Index extends Component
     
     public function delete($id)
     {
-        $this->confirm('Are you sure you want to delete it?', [
+        $this->confirm('Are you sure?', [
+            'text'=>'You want to delete it.',
             'toast' => false,
             'position' => 'center',
-            'confirmButtonText' => 'Yes, change it!',
+            'confirmButtonText' => 'Yes, delete it!',
             'cancelButtonText' => 'No, cancel!',
             'onConfirmed' => 'deleteConfirm',
             'onCancelled' => function () {
@@ -328,7 +329,8 @@ class Index extends Component
     }
 
     public function toggle($id){
-        $this->confirm('Are you sure you want to change the status?', [
+        $this->confirm('Are you sure?', [
+            'text'=>'You want to change the status.',
             'toast' => false,
             'position' => 'center',
             'confirmButtonText' => 'Yes, change it!',

@@ -22,17 +22,25 @@ class Index extends Component
 
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
+    public $selectStatus;
+
     public $kyc_id = null, $status = 1, $status_comment;
 
     protected $listeners = [
-        'updatePaginationLength','toggle','confirmedToggleAction','cancel','closedKycModal'
+        'updatePaginationLength','cancel','updateStatus','refreshComponent',
     ];
 
     
     public function mount(){
         // abort_if(Gate::denies('slider_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->selectStatus = config('constants.kyc_status');
+
     }
 
+    public function refreshComponent(){
+        $this->resetPage();
+        $this->reset(['kyc_id','status','status_comment']);
+    }
     
     public function updatePaginationLength($length){
         $this->paginationLength = $length;
@@ -92,14 +100,24 @@ class Index extends Component
         return view('livewire.admin.kyc.index',compact('allKycUsers'));
     }
 
+    public function updateStatus($kycId,$statusVal,$comment=null){
+        $model = Kyc::find($kycId);
+        if($model){
+            $model->update(['status' => $statusVal,'comment'=>$comment]);
+            $this->alert('success', trans('messages.change_status_success_message'));
+        }
+    }
+/*
     public function toggle($id,$statusVal){
         $this->initializePlugins();
-        $this->confirm('Are you sure you want to change the status?', [
+        $this->confirm('Are you sure?', [
+            'text'=>'You want to change the status.',
             'toast' => false,
             'position' => 'center',
             'confirmButtonText' => 'Yes Confirm!',
             'cancelButtonText' => 'No Cancel!',
             'onConfirmed' => 'confirmedToggleAction',
+            // 'onDismissed' => 'cancelledToggleAction',
             'onCancelled' => function () {
                 // Do nothing or perform any desired action
             },
@@ -121,7 +139,7 @@ class Index extends Component
             $this->status = $statusVal;
             $this->dispatchBrowserEvent('openKycStatusModal');
         }
-    }
+    }*/
 
     public function submitStatusComment(){
         $this->validate([
@@ -143,11 +161,6 @@ class Index extends Component
 
     public function cancel(){
         $this->viewMode = false;
-    }
-
-    public function closedKycModal(){
-        $this->reset();
-        $this->dispatchBrowserEvent('closedKycStatusModal');
     }
 
 

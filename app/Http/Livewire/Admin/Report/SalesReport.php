@@ -136,26 +136,26 @@ class SalesReport extends Component
             if($this->referralCode){
                 $users->where('referral_code',$this->referralCode);
             }
+        }
+        // End custom filter
 
+        $this->search = str_replace(',', '', $this->search);
+        $searchValue = $this->search;
+        if($searchValue){
+            $users->where(function ($query) use($searchValue) {
+                $query->whereRelation('packages', 'title','like', '%'.$searchValue.'%')
+                ->orWhere('name','like', '%'.$searchValue.'%')
+                ->orWhere('referral_name','like', '%'.$searchValue.'%')
+                ->orWhere('referral_code','like', '%'.$searchValue.'%')
+                ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+            });
+        }
+
+        if($users){
             $users = $users->whereRelation('roles','id','=',3)
             ->orderBy($this->sortColumnName, $this->sortDirection)
             ->paginate($this->paginationLength);
         }
-        // End custom filter
-
-        // $this->search = str_replace(',', '', $this->search);
-        // $searchValue = $this->search;
-        // $users->where(function ($query) use($searchValue) {
-        //     $query->whereRelation('packages', 'title','like', '%'.$searchValue.'%')
-        //     ->orWhere('name','like', '%'.$searchValue.'%')
-        //     ->orWhere('referral_name','like', '%'.$searchValue.'%')
-        //     ->orWhere('referral_code','like', '%'.$searchValue.'%')
-        //     ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
-        // });
-        
-        // $users = $users->whereRelation('roles','id','=',3)
-        // ->orderBy($this->sortColumnName, $this->sortDirection)
-        // ->paginate($this->paginationLength);
 
         return view('livewire.admin.report.sales-report',compact('users'));
     }
