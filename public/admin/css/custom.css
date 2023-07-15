@@ -453,6 +453,11 @@ li.nav-item.hover-open ul.nav.flex-column.sub-menu a.nav-link span.menu-title {
     height: 100%;
     object-fit: contain;
 }
+div:where(.swal2-container).swal2-center>.swal2-popup textarea {
+    color: #fff;
+    outline: none;
+    box-shadow: none;
+}
 @media (max-width: 1700px) {
   .leader-board-dashboard .col-lg-3 {
       flex: 0 0 50%;
@@ -743,7 +748,12 @@ li.nav-item.hover-open ul.nav.flex-column.sub-menu a.nav-link span.menu-title {
 div:where(.swal2-container) .swal2-textarea {
   width:-webkit-fill-available;
 }
-div:where(.swal2-container) div:where(.swal2-validation-message){
-    background:#8ca1b6 !important;
-    color: #ede3e3 !important;
+div:where(.swal2-container) div:where(.swal2-validation-message) {
+    background: #ffffff00 !important;
+    color: #f27474 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    justify-self: flex-start !important;
 }

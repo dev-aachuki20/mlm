@@ -91,7 +91,7 @@
                         <div class="col-md-6 col-sm-12">
                           <div class="card h-100">
                             <div class="card-body">
-                              <p class="card-title mb-2">Pan Card Details 
+                              <p class="card-title mb-2 d-flex justify-content-between align-items-center">Pan Card Details 
                                 @if($authUser->kycDetail->status == 2)
                                 <span><img src="{{ asset('images/verified.png') }}"></span>
                                 @endif
@@ -123,7 +123,7 @@
                         <div class="col-md-6 col-sm-12">
                           <div class="card">
                             <div class="card-body">
-                              <p class="card-title mb-2">Aadhar Card Details 
+                              <p class="card-title mb-2 d-flex justify-content-between align-items-center">Aadhar Card Details 
                                 @if($authUser->kycDetail->status == 2)
                                 <span><img src="{{ asset('images/verified.png') }}"></span>
                                 @endif
