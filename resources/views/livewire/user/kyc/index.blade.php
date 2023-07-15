@@ -172,7 +172,13 @@
                         {{--End Aadhar Card Details  --}}
 
                       </div>
-                     
+                      
+                      @if($authUser->kycDetail->status ==3 && $authUser->kycDetail->comment)
+                      <div class="alert alert-danger mb-0 mt-3" role="alert">
+                        {{ ucfirst($authUser->kycDetail->comment) }}
+                      </div>
+                      @endif
+
                       @if($authUser->kycDetail->status != 2)
                        <button type="button" wire:loading.attr="disabled" class="btn custom-btn btn-default btn-edit js-edit" wire:click.prevent="openEdit">
                         Edit Detail
