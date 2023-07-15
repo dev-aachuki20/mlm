@@ -149,7 +149,6 @@ class Index extends BaseComponent
     
                 // Start to upload pancard
                 if($this->pan_card_image) {
-                    dd($this->authUser->panCardImage);
                     if($this->authUser->panCardImage){
                         $uploadImageId = $this->authUser->panCardImage->id;
                         uploadImage($this->authUser, $this->pan_card_image, 'user/documents/',"pancard", 'original', 'update', $uploadImageId);
