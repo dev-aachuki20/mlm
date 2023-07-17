@@ -98,7 +98,7 @@
                                                 </button>
                                                 @endcan
 
-                                                <a title="Video List" href="{{route('admin.getAllVideos',$course->id)}}" class="btn btn-warning btn-rounded btn-icon list-all-btn">
+                                                <a title="Lecture List" href="{{route('admin.getAllVideos',$course->id)}}" class="btn btn-warning btn-rounded btn-icon list-all-btn">
                                                     <i class="ti-list"></i>
                                                 </a>
                                             

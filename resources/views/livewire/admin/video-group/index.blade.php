@@ -194,9 +194,11 @@
 
         //   Start video duration get js
         var videoFileInput = document.getElementById('video-file');
+
+        console.log('videoFileInput',videoFileInput);
+
         videoFileInput.addEventListener('change', function(event) {
             var file = event.target.files[0];
-            
             var reader = new FileReader();
             
             reader.onload = function(event) {

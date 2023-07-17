@@ -78,10 +78,6 @@ class VideoGroup extends Model
         return "";
     }
 
-   
-
-   
-
     public function course()
     {
         return $this->belongsTo(Course::class);
