@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Package;
 use App\Models\Payment;
 use App\Models\Transaction;
+use App\Models\Invoice;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -159,7 +160,7 @@ class Register extends Component
     
                     //Start Payment Transaction
                     $response = $this->paymentResponse;
-                    
+                    $amount = (float)$response['amount']/100;
                     $payment = Payment::create([
                         'user_id'       => $userId,
                         'package_id'    => $package_id,
@@ -167,7 +168,7 @@ class Register extends Component
                         'method'        => $response['method'],
                         'currency'      => $response['currency'],
                         'user_email'    => $response['email'],
-                        'amount'        => (float)$response['amount']/100,
+                        'amount'        => $amount,
                         'json_response' => json_encode((array)$response)
                     ]);
                     if($payment){
@@ -195,9 +196,22 @@ class Register extends Component
                                 $transactionRecords['amount']          = $commissionAmount;
                                 $transactionRecords['referrer_id']     = $referralUserId;
                                
-                                Transaction::create($transactionRecords);
+                                $transactionCreated = Transaction::create($transactionRecords);
                             }
                         }
+
+                        // Start to create invoice
+                        $createInvoice  = Invoice::create([
+                            'user_id'               => $userId,
+                            'transaction_details'   => null,
+                            'purpose'               => 'Package Purchased',
+                            'amount'                => $amount,
+                            'type'                  => 'Cr',
+                            'entry_type'            => 'Invoice',
+                            'date_time'             => Carbon::now(),
+                        ]);
+                        //End to create invoice
+
                     }
                    
                     //End Payment Transaction
@@ -235,7 +249,7 @@ class Register extends Component
                 }
             }catch (\Exception $e) {
                 DB::rollBack();
-                // dd($e->getMessage().'->'.$e->getLine());
+                dd($e->getMessage().'->'.$e->getLine());
                 $this->alert('error',trans('messages.error_message'));
             }
         }

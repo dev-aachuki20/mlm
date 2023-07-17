@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('invoice_number')->unique();
             $table->text('transaction_details')->nullable();
             $table->string('purpose')->nullable();
             $table->double('amount',15,2)->default(0);
             $table->enum('type', ['Cr', 'Dr'])->default(null);
-            $table->enum('entry_type', ['Invoice', 'Wallet','Transaction Statement view','Download'])->default(null);
+            $table->enum('entry_type', ['Invoice', 'Wallet'])->default(null);
             $table->datetime('date_time')->nullable();
             $table->timestamps();
             $table->softDeletes();

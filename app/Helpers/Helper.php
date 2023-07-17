@@ -253,23 +253,29 @@ if (!function_exists('getPageContent')) {
 
 if (!function_exists('getFinancialYearMonths')) {
 	function getFinancialYearMonths()
-{
-    $currentDate = Carbon::now();
-    $startYear = $currentDate->month < 4 ? $currentDate->year - 1 : $currentDate->year;
-    $startMonth = 4; // Start from April
-    $endYear = $currentDate->month < 4 ? $currentDate->year : $currentDate->year + 1;
-    $endMonth = 3; // End in March
+	{
+		$currentDate = Carbon::now();
+		$startYear = $currentDate->month < 4 ? $currentDate->year - 1 : $currentDate->year;
+		$startMonth = 4; // Start from April
+		$endYear = $currentDate->month < 4 ? $currentDate->year : $currentDate->year + 1;
+		$endMonth = 3; // End in March
 
-    $startDate = Carbon::createFromDate($startYear, $startMonth, 1);
-    $endDate = Carbon::createFromDate($endYear, $endMonth, 1);
+		$startDate = Carbon::createFromDate($startYear, $startMonth, 1);
+		$endDate = Carbon::createFromDate($endYear, $endMonth, 1);
 
-    $months = [];
+		$months = [];
 
-    while ($startDate->lte($endDate)) {
-        $months[] = $startDate->format('F');
-        $startDate->addMonth();
-    }
+		while ($startDate->lte($endDate)) {
+			$months[] = $startDate->format('F');
+			$startDate->addMonth();
+		}
 
-    return $months;
+		return $months;
+	}
 }
+
+if (!function_exists('generateUniqueInvoiceNumber')) {
+	function generateUniqueInvoiceNumber(){
+		return date('YmdHis') . mt_rand(100000, 999999);
+	}
 }

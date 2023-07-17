@@ -103,7 +103,7 @@
                                     @endforeach
                                 @else
                                 <tr>
-                                    <td colspan="5">{{ __('messages.no_record_found')}}</td>
+                                    <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
                                 </tr>
                                 @endif
                             

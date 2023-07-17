@@ -134,11 +134,8 @@ class Index extends Component
 
 
         //Start to update package duration
-        $total_duration = VideoGroup::select(DB::raw('SUM(duration) AS total_duration'))->where('status', 1)->where('course_id', $this->course_id)->value('total_duration');
-        $total_duration = (int)$total_duration;
-        $total_duration_time = Carbon::parse($total_duration)->format('H:i:s');
-
-        Course::find($this->course_id)->package()->update(['duration' =>  $total_duration_time]);
+        $total_duration = VideoGroup::selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')->where('status', 1)->where('course_id',$this->course_id)->value('total_duration');
+        Course::find($this->course_id)->package()->update(['duration' =>  $total_duration]);
         //End to update package duration
 
         $this->formMode = false;
@@ -211,8 +208,8 @@ class Index extends Component
         $videoGroup->update($validatedData);
 
         //Start to update package duration
-        $total_duration = VideoGroup::select(DB::raw('SUM(duration) AS total_duration'))->where('status', 1)->value('total_duration');
-        Course::find($this->course_id)->package()->update(['duration' => $total_duration]);
+        $total_duration = VideoGroup::selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')->where('status', 1)->where('course_id',$this->course_id)->value('total_duration');
+        Course::find($this->course_id)->package()->update(['duration' =>  $total_duration]);
         //End to update package duration
 
         $this->formMode = false;
