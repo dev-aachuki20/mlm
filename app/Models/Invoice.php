@@ -22,6 +22,7 @@ class Invoice extends Model
         'user_id',
         'invoice_number',
         'transaction_details',
+        'package_json',
         'purpose',
         'amount',
         'type',
@@ -43,12 +44,17 @@ class Invoice extends Model
     {
         // Generate your unique invoice number logic here
         // generate a random alphanumeric string
-        $invoiceNumber = strtoupper(substr(md5(uniqid()), 0,10));
-        
+        $invoiceNumber = strtoupper(substr(md5(uniqid()), 0, 10));
+
         while (static::where('invoice_number', $invoiceNumber)->exists()) {
             $invoiceNumber = strtoupper(substr(md5(uniqid()), 0, 10));
         }
 
         return $invoiceNumber;
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class);
     }
 }

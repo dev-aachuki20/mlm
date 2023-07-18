@@ -85,12 +85,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->morphMany(Uploads::class, 'uploadsable');
     }
 
-     /**
+    /**
      * @return bool
      */
     public function canImpersonate()
     {
-        if(in_array(auth()->user()->roles->first()->id, ['1','2','3','4','5'])){
+        if (in_array(auth()->user()->roles->first()->id, ['1', '2', '3', '4', '5'])) {
             return true;
         }
         return false;
@@ -101,7 +101,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function canBeImpersonated()
     {
-        if(in_array($this->roles->first()->id, ['1','2'])){
+        if (in_array($this->roles->first()->id, ['1', '2'])) {
             return false;
         }
         return true;
@@ -134,25 +134,25 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function profileImage()
     {
-        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','profile');
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type', 'profile');
     }
 
     public function getProfileImageUrlAttribute()
     {
-        if($this->profileImage){
+        if ($this->profileImage) {
             return $this->profileImage->file_url;
         }
         return "";
     }
-   
+
     public function aadharFrontImage()
     {
-        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','aadhar-card-front');
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type', 'aadhar-card-front');
     }
 
     public function getAadharFrontImageUrlAttribute()
     {
-        if($this->aadharFrontImage){
+        if ($this->aadharFrontImage) {
             return $this->aadharFrontImage->file_url;
         }
         return "";
@@ -160,12 +160,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function aadharBackImage()
     {
-        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','aadhar-card-back');
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type', 'aadhar-card-back');
     }
 
     public function getAadharBackImageUrlAttribute()
     {
-        if($this->aadharBackImage){
+        if ($this->aadharBackImage) {
             return $this->aadharBackImage->file_url;
         }
         return "";
@@ -173,26 +173,26 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function panCardImage()
     {
-        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','pancard');
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type', 'pancard');
     }
 
     public function getPancardImageUrlAttribute()
     {
-        if($this->panCardImage){
+        if ($this->panCardImage) {
             return $this->panCardImage->file_url;
         }
         return "";
     }
 
-    public function team() 
+    public function team()
     {
         return $this->hasMany(User::class, 'referral_user_id', 'id');
-    } 
+    }
 
-    public function testimonial() 
+    public function testimonial()
     {
         return $this->hasOne(Testimonial::class, 'created_by');
-    } 
+    }
 
     public function referrer()
     {
@@ -219,52 +219,47 @@ class User extends Authenticatable implements MustVerifyEmail
             ->whereNotNull('users.id');
     }
 
-    function getReferralUsers($userId, $level = 1, $maxLevel = 3)
+    function getReferralUsers($level = 1, $maxLevel = 3, $referrerId)
     {
+
         if ($level > $maxLevel) {
             return collect();
         }
-    
+
         // $referralUsers = User::where('referral_user_id', $userId);
-        
+
         // $referrals = collect();
-    
+
         // foreach ($referralUsers as $user) {
         //     $user->level = $level;
         //     $referrals->push($user);
         //     $subReferrals = $this->getReferralUsers($user->id, $level + 1, $maxLevel);
         //     $referrals = $referrals->merge($subReferrals);
         // }
-    
+
         // return $referrals;
 
         // Create a recursive query using a Common Table Expression (CTE)
         $query = User::select('users.*')
-        ->where('referral_id', $referrerId)
-        ->union(function ($query) use ($referrerId, $maxLevel) {
-            if ($maxLevel > 1) {
-                $query->select('users.*')
-                    ->from('users')
-                    ->join('referrals', 'users.id', '=', 'referrals.user_id')
-                    ->join('users AS ref_users', 'ref_users.id', '=', 'referrals.referrer_id')
-                    ->where('ref_users.referral_id', $referrerId)
-                    ->where('referrals.level', '=', 2)
-                    ->union(function ($query) use ($referrerId, $maxLevel) {
-                        if ($maxLevel > 2) {
-                            $query->select('users.*')
-                                ->from('users')
-                                ->join('referrals', 'users.id', '=', 'referrals.user_id')
-                                ->join('users AS ref_users', 'ref_users.id', '=', 'referrals.referrer_id')
-                                ->join('users AS ref_ref_users', 'ref_ref_users.id', '=', 'ref_users.referral_id')
-                                ->where('ref_ref_users.referral_id', $referrerId)
-                                ->where('referrals.level', '=', 3);
-                        }
-                    });
-            }
-        });
+            ->where('referral_user_id', $referrerId)
+            ->union(function ($query) use ($referrerId, $maxLevel) {
+                if ($maxLevel > 1) {
+                    $query->select('users.*')
+                        ->from('users')
+                        ->where('users.referral_user_id', $referrerId)
+                        ->union(function ($query) use ($referrerId, $maxLevel) {
+                            if ($maxLevel > 2) {
+                                $query->select('users.*')
+                                    ->from('users')
+                                    ->join('users AS ref_ref_users', 'ref_ref_users.id', '=', 'users.referral_user_id')
+                                    ->where('ref_ref_users.referral_user_id', $referrerId);
+                            }
+                        });
+                }
+            });
 
         // Perform pagination
-        return $query->paginate($perPage);
+        return $query->paginate(10);
     }
 
 
@@ -276,5 +271,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function payments()
     {
         return $this->hasMany(Payment::class, 'user_email', 'email');
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'user_id', 'id');
     }
 }

@@ -1,53 +1,53 @@
 <div class="content-wrapper">
-   
+
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
 
                     @if($formMode)
-        
-                        @include('livewire.admin.course.form')
+
+                    @include('livewire.admin.course.form')
 
                     @elseif($viewMode)
 
-                        @livewire('admin.course.show', ['course_id' => $course_id])
-                    
+                    @livewire('admin.course.show', ['course_id' => $course_id])
+
                     @else
-                        <div wire:loading wire:target="create" class="loader"></div>
-                        <div class="card-title d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">{{__('cruds.course.title')}}</h4>
+                    <div wire:loading wire:target="create" class="loader"></div>
+                    <div class="card-title d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">{{__('cruds.course.title')}}</h4>
 
-                            @can('course_create')
-                            <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                                <i class="fa-solid fa-plus"></i>                                                   
-                                    {{__('global.add')}}
-                            </button>
-                            @endcan
+                        @can('course_create')
+                        <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
+                            <i class="fa-solid fa-plus"></i>
+                            {{__('global.add')}}
+                        </button>
+                        @endcan
 
-                        </div>  
-                        <div class="table-header-plugins">
-                            <!-- Start show length -->
-                            <div class="dataTables_length">
-                            <label>Show 
-                                <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                    </div>
+                    <div class="table-header-plugins">
+                        <!-- Start show length -->
+                        <div class="dataTables_length">
+                            <label>Show
+                                <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                                     @foreach(config('constants.datatable_paginations') as $length)
                                     <option value="{{ $length }}">{{ $length }}</option>
                                     @endforeach
-                                </select> 
-                            entries</label>
-                            </div>
-                            <!-- End show length -->
+                                </select>
+                                entries</label>
+                        </div>
+                        <!-- End show length -->
 
-                            <!--Start search  -->
-                            <div class="search-container">
-                                <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search"/>
-                                <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
-                            </div>
-                            <!-- End Search -->
-                        </div>              
-                        <div class="table-responsive mt-3 my-team-details table-record">
-                            <table class="table table-striped table-hover">
+                        <!--Start search  -->
+                        <div class="search-container">
+                            <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
+                            <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
+                        </div>
+                        <!-- End Search -->
+                    </div>
+                    <div class="table-responsive mt-3 my-team-details table-record">
+                        <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>{{ trans('global.sno') }}</th>
@@ -65,58 +65,58 @@
                             </thead>
                             <tbody>
                                 @if($allCourse->count() > 0)
-                                    @foreach($allCourse as $serialNo => $course)
-                                        <tr>
-                                            <td>{{ $serialNo+1 }}</td>
-                                            <td>{{ $course->name }}</td>
-                                            <td>{{ ucwords($course->package->title) }}</td>
-                                            <td>
-                                                <label class="toggle-switch">
-                                                    <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$course->id}})" wire:click.prevent="confirmAlert('You want to change the status.','updateStatus',{{$course->id}})" {{ $course->status == 1 ? 'checked' : '' }}>
-                                                    <div class="switch-slider round"></div>
-                                                </label>
+                                @foreach($allCourse as $serialNo => $course)
+                                <tr>
+                                    <td>{{ $serialNo+1 }}</td>
+                                    <td>{{ $course->name }}</td>
+                                    <td>{{ ucwords($course->package->title) }}</td>
+                                    <td>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$course->id}})" {{ $course->status == 1 ? 'checked' : '' }}>
+                                            <div class="switch-slider round"></div>
+                                        </label>
 
-                                            </td>
-                                            <td>{{ convertDateTimeFormat($course->created_at,'datetime') }}</td>
-                                            <td>
+                                    </td>
+                                    <td>{{ convertDateTimeFormat($course->created_at,'datetime') }}</td>
+                                    <td>
 
-                                                @can('course_show')
-                                                <button title="Show" type="button" wire:click.prevent="show({{$course->id}})" class="btn btn-primary btn-rounded btn-icon">
-                                                    <i class="ti-eye"></i>
-                                                </button>
-                                                @endcan
+                                        @can('course_show')
+                                        <button title="Show" type="button" wire:click.prevent="show({{$course->id}})" class="btn btn-primary btn-rounded btn-icon">
+                                            <i class="ti-eye"></i>
+                                        </button>
+                                        @endcan
 
-                                                @can('course_edit')
-                                                <button title="Edit" type="button" wire:click.prevent="edit({{$course->id}})" class="btn btn-info btn-rounded btn-icon">
-                                                    <i class="ti-pencil-alt"></i>
-                                                </button>
-                                                @endcan
+                                        @can('course_edit')
+                                        <button title="Edit" type="button" wire:click.prevent="edit({{$course->id}})" class="btn btn-info btn-rounded btn-icon">
+                                            <i class="ti-pencil-alt"></i>
+                                        </button>
+                                        @endcan
 
-                                                @can('course_delete')
-                                                <button title="Delete" type="button" wire:click.prevent="delete({{$course->id}})" class="btn btn-danger btn-rounded btn-icon">
-                                                    <i class="ti-trash"></i>
-                                                </button>
-                                                @endcan
+                                        @can('course_delete')
+                                        <button title="Delete" type="button" wire:click.prevent="delete({{$course->id}})" class="btn btn-danger btn-rounded btn-icon">
+                                            <i class="ti-trash"></i>
+                                        </button>
+                                        @endcan
 
-                                                <a title="Lecture List" href="{{route('admin.getAllVideos',$course->id)}}" class="btn btn-warning btn-rounded btn-icon list-all-btn">
-                                                    <i class="ti-list"></i>
-                                                </a>
-                                            
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                        <a title="Lecture List" href="{{route('admin.getAllVideos',$course->id)}}" class="btn btn-warning btn-rounded btn-icon list-all-btn">
+                                            <i class="ti-list"></i>
+                                        </a>
+
+                                    </td>
+                                </tr>
+                                @endforeach
                                 @else
                                 <tr>
                                     <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
                                 </tr>
                                 @endif
-                            
-                            </tbody>
-                            </table>
-                        
-                        </div>
 
-                        {{ $allCourse->links('vendor.pagination.bootstrap-5') }}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    {{ $allCourse->links('vendor.pagination.bootstrap-5') }}
 
                     @endif
 
@@ -124,7 +124,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 
 @push('styles')
@@ -140,16 +140,15 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script src="{{ asset('admin/assets/select2/select2.min.js') }}"></script>
 <script type="text/javascript">
+    document.addEventListener('loadPlugins', function(event) {
 
-    document.addEventListener('loadPlugins', function (event) {
-      
         // video js
-        $(".box-video").click(function(){
+        $(".box-video").click(function() {
             var videoId = $(this).find('.video-container video').attr('id');
             var video = document.getElementById(videoId);
             video.play();
 
-            $('video source',this)[0].src;
+            $('video source', this)[0].src;
             $(this).addClass('open');
         });
 
@@ -159,7 +158,7 @@
             });
         }
 
-        $(document).on('change','.select-package',function(){
+        $(document).on('change', '.select-package', function() {
             var selectPackage = $(this).val();
             @this.set('package_id', selectPackage);
         });
@@ -170,16 +169,16 @@
         $('.dropify-clear').click(function(e) {
             e.preventDefault();
             var elementName = $(this).siblings('input[type=file]').attr('id');
-            if(elementName == 'dropify-image'){
-               @this.set('image',null);
-               @this.set('originalImage',null);
-               @this.set('removeImage',true);
+            if (elementName == 'dropify-image') {
+                @this.set('image', null);
+                @this.set('originalImage', null);
+                @this.set('removeImage', true);
 
-            }else if(elementName == 'dropify-video'){
-                @this.set('video',null);
-                @this.set('originalVideo',null);
-                @this.set('videoExtenstion',null);
-                @this.set('removeVideo',true);
+            } else if (elementName == 'dropify-video') {
+                @this.set('video', null);
+                @this.set('originalVideo', null);
+                @this.set('videoExtenstion', null);
+                @this.set('removeVideo', true);
             }
         });
 
@@ -187,7 +186,7 @@
             placeholder: 'Type somthing...',
             tabsize: 2,
             height: 200,
-            fontNames: ['Arial', 'Helvetica', 'Times New Roman', 'Courier New','sans-serif'],
+            fontNames: ['Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'sans-serif'],
             toolbar: [
                 ['style', ['style']],
                 ['font', ['bold', 'underline', 'clear']],
@@ -195,8 +194,8 @@
                 // ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
                 ['table', ['table']],
-                ['insert', ['link', /*'picture', 'video'*/]],
-                ['view', ['codeview', /*'help'*/]],
+                ['insert', ['link', /*'picture', 'video'*/ ]],
+                ['view', ['codeview', /*'help'*/ ]],
             ],
             callbacks: {
                 onChange: function(content) {
@@ -206,6 +205,5 @@
             }
         });
     });
-
 </script>
 @endpush

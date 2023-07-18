@@ -5,24 +5,28 @@ namespace App\Http\Livewire\User\MyTeam;
 use DB;
 use Carbon\Carbon;
 use App\Models\User;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithPagination, LivewireAlert;
     protected $layout = null;
-
     public $search = '';
 
     public $sortColumnName = 'date_of_join', $sortDirection = 'desc', $paginationLength = 10;
 
     public $activeTab = 'all', $userId = null;
-    
+
+
     protected $listeners = [
         'updatePaginationLength',
+        'confirmedToggleAction',
     ];
 
-    public function updatePaginationLength($length){
+    public function updatePaginationLength($length)
+    {
         $this->paginationLength = $length;
     }
 
@@ -33,7 +37,7 @@ class Index extends Component
 
     public function clearSearch()
     {
-       $this->search = '';
+        $this->search = '';
     }
 
     public function sortBy($columnName)
@@ -54,11 +58,13 @@ class Index extends Component
         return $this->sortDirection === 'asc' ? 'desc' : 'asc';
     }
 
-    public function switchTab($tab){
+    public function switchTab($tab)
+    {
         $this->activeTab = $tab;
     }
 
-    public function mount(){
+    public function mount()
+    {
         $this->userId = auth()->user()->id;
     }
 
@@ -68,24 +74,46 @@ class Index extends Component
         $this->search = str_replace(',', '', $this->search);
         $searchValue = $this->search;
 
-        $referralUserIds = auth()->user()->referrals()->pluck('id'); // Referrals (level 1) user IDs
-        $levelTwoUserIds = User::whereIn('referral_user_id', $referralUserIds)->pluck('id'); // Referrals of referrals (level 2) user IDs
-        $levelThreeUserIds = User::whereIn('referral_user_id', $levelTwoUserIds)->pluck('id'); // Referrals of referrals of referrals (level 3) user IDs
+        $levelOneUserIds = User::where('referral_user_id', auth()->user()->id)->pluck('id'); // Referrals (level 1) user IDs
+        $levelTwoUserIds = User::whereIn('referral_user_id', $levelOneUserIds)->pluck('id'); // Referrals (level 2) user IDs
+        $levelThreeUserIds = User::whereIn('referral_user_id', $levelTwoUserIds)->pluck('id'); // Referrals (level 3) user IDs
 
-        // Get all referral users up to level 3 with pagination
-        $allTeams = User::whereIn('id', $referralUserIds)
+        // all users
+        $allTeams = User::whereIn('id', $levelOneUserIds)
             ->orWhereIn('id', $levelTwoUserIds)
             ->orWhereIn('id', $levelThreeUserIds)
-            ->paginate(10); // Adjust the pagination as per your requirements
+            ->orderBy($this->sortColumnName, $this->sortDirection)
+            ->paginate($this->paginationLength);
 
-        $referralUsers = User::with('referrals.referrals.referrals')
-            ->where('referral_user_id',$this->userId)->paginate(10);
-        
-        // dd($referralUsers);
+        //Records of level 1, 2, 3
+        $levelOneRecords = User::whereIn('id', $levelOneUserIds)->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
+        $levelTwoRecords = User::whereIn('id', $levelTwoUserIds)->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
+        $levelThreeRecords = User::whereIn('id', $levelThreeUserIds)->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
 
-
-        return view('livewire.user.my-team.index',compact('referralUsers'));
+        return view('livewire.user.my-team.index', compact('allTeams', 'levelOneRecords', 'levelTwoRecords', 'levelThreeRecords'));
     }
 
-   
+    public function toggle($id)
+    {
+        $this->confirm('Are you sure?', [
+            'text' => 'You want to change the status.',
+            'toast' => false,
+            'position' => 'center',
+            'confirmButtonText' => 'Yes Confirm!',
+            'cancelButtonText' => 'No Cancel!',
+            'onConfirmed' => 'confirmedToggleAction',
+            'onCancelled' => function () {
+                // Do nothing or perform any desired action
+            },
+            'inputAttributes' => ['teamId' => $id],
+        ]);
+    }
+
+    public function confirmedToggleAction($event)
+    {
+        $userId = $event['data']['inputAttributes']['teamId'];
+        $model = User::find($userId);
+        $model->update(['is_active' => !$model->is_active]);
+        $this->alert('success', trans('messages.change_status_success_message'));
+    }
 }

@@ -8,6 +8,7 @@ class ViewInvoice extends Component
 {
     protected $layout = null;
 
+    
     public function render()
     {
         return view('livewire.user.invoice.view-invoice');

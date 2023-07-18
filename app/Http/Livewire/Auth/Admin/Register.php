@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Auth\Admin;
 
-use Mail; 
+use Mail;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Package;
@@ -22,35 +22,35 @@ class Register extends Component
 {
     use LivewireAlert;
 
-    public $first_name, $last_name, $email, $phone ,$dob, $gender, $password ,$password_confirmation;
+    public $first_name, $last_name, $email, $phone, $dob, $gender, $password, $password_confirmation;
 
-    public $from_url_referral_id, $from_url_referral_name,$packageUUID, $referral_id, $referral_name, $address;
-    
+    public $from_url_referral_id, $from_url_referral_name, $packageUUID, $referral_id, $referral_name, $address;
+
     public $paymentMode = false, $paymentSuccess = false, $paymentResponse = null, $share_email, $share_password;
 
     public $showResetBtn = false;
 
 
-    protected $listeners = [ 'updateDOB','updatePaymentStatus' ];
-    
+    protected $listeners = ['updateDOB', 'updatePaymentStatus'];
+
     protected function rules()
     {
         return [
-            'first_name' => ['required', 'string','regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
-            'last_name'  => ['required', 'string','regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
+            'first_name' => ['required', 'string', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
+            'last_name'  => ['required', 'string', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
             'email'      => ['required', 'string', 'email', 'max:255', Rule::unique((new User)->getTable(), 'email')],
-            'phone'      => ['required','digits:10'],
+            'phone'      => ['required', 'digits:10'],
             'dob'        => ['required'],
             'gender'     => ['required'],
-            'referral_id'   => ['required','regex:/^\S*$/u','exists:users,my_referral_code'],
-            'referral_name'   => ['required','regex:/^[A-Za-z]+( [A-Za-z]+)?$/u'],
-            'address'         => ['required','string'],
+            'referral_id'   => ['required', 'regex:/^\S*$/u', 'exists:users,my_referral_code'],
+            'referral_name'   => ['required', 'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u'],
+            'address'         => ['required', 'string'],
             // 'password' => ['required', 'string', 'min:8'],
             // 'password_confirmation' => 'min:8|same:password',
         ];
     }
 
-    protected function messages() 
+    protected function messages()
     {
         // return getCommonValidationRuleMsgs();
         return [
@@ -59,40 +59,43 @@ class Register extends Component
         ];
     }
 
-    public function mount($referralId = '',$packageUUID = ''){
-        if(!empty($referralId)){
-            $getReferralUser     = User::where('uuid',$referralId)->first();
+    public function mount($referralId = '', $packageUUID = '')
+    {
+        if (!empty($referralId)) {
+            $getReferralUser     = User::where('uuid', $referralId)->first();
             $this->referral_id   = $getReferralUser->my_referral_code;
             $this->referral_name = $getReferralUser->name;
             $this->from_url_referral_id   = $this->referral_id;
             $this->from_url_referral_name = $this->referral_name;
         }
 
-        if(!empty($packageUUID)){
+        if (!empty($packageUUID)) {
             $this->packageUUID = $packageUUID;
-            $packageExists = Package::where('uuid',$this->packageUUID)->where('status',1)->exists();
-            if(!$packageExists){
+            $packageExists = Package::where('uuid', $this->packageUUID)->where('status', 1)->exists();
+            if (!$packageExists) {
                 return abort(404);
             }
         }
     }
 
-    public function checkReferral(){
-        $checkReferal =  User::where('my_referral_code',$this->referral_id)->first();
+    public function checkReferral()
+    {
+        $checkReferal =  User::where('my_referral_code', $this->referral_id)->first();
         if ($checkReferal) {
             $this->resetErrorBag('referral_id');
             $this->referral_id = $checkReferal->my_referral_code;
             $this->referral_name = $checkReferal->name;
-        }else{
+        } else {
             $this->referral_name = '';
             $this->addError('referral_id', 'Invalid referral Id');
         }
     }
 
-    public function updatePaymentStatus($package_id,$paymentResponse){
+    public function updatePaymentStatus($package_id, $paymentResponse)
+    {
         $this->paymentMode     = false;
         $this->paymentSuccess  = true;
-        $this->paymentResponse = json_decode($paymentResponse,true);
+        $this->paymentResponse = json_decode($paymentResponse, true);
         $this->storeRegister($package_id);
     }
 
@@ -102,25 +105,25 @@ class Register extends Component
         return view('livewire.auth.admin.register');
     }
 
-    public function storeRegister($package_id='')
+    public function storeRegister($package_id = '')
     {
-        $validated = $this->validate($this->rules(),$this->messages());
+        $validated = $this->validate($this->rules(), $this->messages());
 
         $this->paymentMode = true;
-       
-        if($this->paymentSuccess){
+
+        if ($this->paymentSuccess) {
             DB::beginTransaction();
             try {
-    
-                $referral_user = User::where('my_referral_code',$this->referral_id)->first();
+
+                $referral_user = User::where('my_referral_code', $this->referral_id)->first();
 
                 $password = generateRandomString(8);
-              
-                $data = [ 
+
+                $data = [
                     'uuid'       => Str::uuid(),
-                    'first_name' => $this->first_name, 
-                    'last_name'  => $this->last_name, 
-                    'name'       => $this->first_name.' '.$this->last_name,
+                    'first_name' => $this->first_name,
+                    'last_name'  => $this->last_name,
+                    'name'       => $this->first_name . ' ' . $this->last_name,
                     'email'      => $this->email,
                     'phone'      => $this->phone,
                     'dob'        => Carbon::parse($this->dob)->format('Y-m-d'),
@@ -134,12 +137,13 @@ class Register extends Component
                     'email_verified_at' => Carbon::now(),
                 ];
                 $user = User::create($data);
-                if($user){
+                if ($user) {
                     $userId = $user->id;
 
                     // Assign user Role
                     $user->roles()->sync([3]);
                     $user->packages()->sync([$package_id]);
+                    $pkgData = Package::where('id', $package_id)->first();
                     
                     // Profile records 
                     $profileData = [
@@ -147,9 +151,9 @@ class Register extends Component
                         'gender'         => $this->gender,
                         'address'        => $this->address,
                     ];
-    
+
                     $user->profile()->create($profileData);
-    
+
                     // Kyc records 
                     $kycRecords = [
                         'user_id'        => $user->id,
@@ -157,10 +161,10 @@ class Register extends Component
                         'updated_at'     => date('Y-m-d H:i:s'),
                     ];
                     $user->kycDetail()->create($kycRecords);
-    
+
                     //Start Payment Transaction
                     $response = $this->paymentResponse;
-                    $amount = (float)$response['amount']/100;
+                    $amount = (float)$response['amount'] / 100;
                     $payment = Payment::create([
                         'user_id'       => $userId,
                         'package_id'    => $package_id,
@@ -171,23 +175,24 @@ class Register extends Component
                         'amount'        => $amount,
                         'json_response' => json_encode((array)$response)
                     ]);
-                    if($payment){
-                        foreach(config('constants.referral_levels') as $levelKey=>$level){
+
+                    if ($payment) {
+                        foreach (config('constants.referral_levels') as $levelKey => $level) {
                             $transactionRecords = [];
                             $commissionAmount = null;
                             $referralUserId = null;
-                            if($levelKey == 1){
+                            if ($levelKey == 1) {
                                 $commissionAmount   = $user->packages()->first()->level_one_commission;
                                 $referralUserId     = $referral_user->id ?? null;
-                            }elseif($levelKey == 2){
+                            } elseif ($levelKey == 2) {
                                 $commissionAmount   = $user->packages()->first()->level_two_commission;
                                 $referralUserId     = $referral_user->referrer->id ?? null;
-                            }elseif($levelKey == 3){
+                            } elseif ($levelKey == 3) {
                                 $commissionAmount   = $user->packages()->first()->level_three_commission;
                                 $referralUserId     = $referral_user->referrer->referrer->id ?? null;
                             }
-    
-                            if($commissionAmount && $referralUserId){
+
+                            if ($commissionAmount && $referralUserId) {
                                 $transactionRecords['user_id']         = $userId;
                                 $transactionRecords['payment_id']      = $payment->id;
                                 $transactionRecords['payment_type']    = 'credit';
@@ -195,7 +200,7 @@ class Register extends Component
                                 $transactionRecords['gateway']         = '1';
                                 $transactionRecords['amount']          = $commissionAmount;
                                 $transactionRecords['referrer_id']     = $referralUserId;
-                               
+
                                 $transactionCreated = Transaction::create($transactionRecords);
                             }
                         }
@@ -203,7 +208,8 @@ class Register extends Component
                         // Start to create invoice
                         $createInvoice  = Invoice::create([
                             'user_id'               => $userId,
-                            'transaction_details'   => null,
+                            'transaction_details'   => json_encode($payment),
+                            'package_json'          => json_encode($pkgData),
                             'purpose'               => 'Package Purchased',
                             'amount'                => $amount,
                             'type'                  => 'Cr',
@@ -213,17 +219,17 @@ class Register extends Component
                         //End to create invoice
 
                     }
-                   
+
                     //End Payment Transaction
-                
+
                     //Send welcome mail for user
-                    $subject = 'Welcome to '.config('app.name');
-                    Mail::to($user->email)->queue(new SendRegisteredUserMail($subject,$user->name));
+                    $subject = 'Welcome to ' . config('app.name');
+                    Mail::to($user->email)->queue(new SendRegisteredUserMail($subject, $user->name));
 
                     //Send mail for plan purchased
                     $subject = 'Plan Purchased';
                     $planName = $user->packages()->first()->title;
-                    Mail::to($user->email)->queue(new SendPlanPurchasedMail($subject,$user->name,$planName));
+                    Mail::to($user->email)->queue(new SendPlanPurchasedMail($subject, $user->name, $planName));
 
                     //Verification mail sent
                     // $user->sendEmailVerificationNotification();
@@ -234,52 +240,52 @@ class Register extends Component
                     $this->share_password = $password;
 
                     $this->resetInputFields();
-    
+
                     // Set Flash Message
                     $this->alert('success', trans('panel.message.register_success'));
                     // $this->flash('success', trans('panel.message.register_success'));
-                    
+
                     // return redirect()->route('auth.payment-success');
-                }else{
+                } else {
                     $this->resetInputFields();
-    
+
                     // Set Flash Message
                     $this->alert('error', trans('panel.message.error'));
-            
                 }
-            }catch (\Exception $e) {
+            } catch (\Exception $e) {
                 DB::rollBack();
-                dd($e->getMessage().'->'.$e->getLine());
-                $this->alert('error',trans('messages.error_message'));
+                // dd($e->getMessage() . '->' . $e->getLine());
+                $this->alert('error', trans('messages.error_message'));
             }
         }
-      
     }
-    
+
     public function checkEmail()
     {
         $validated = $this->validate([
-            'email'    => ['required','email'],
+            'email'    => ['required', 'email'],
         ]);
 
         $user = User::where('email', $this->email)->first();
         if ($user) {
-            if(is_null($user->email_verified_at)){
+            if (is_null($user->email_verified_at)) {
                 $this->showResetBtn = true;
             }
             $this->addError('email', trans('panel.message.email_already_taken'));
-        }else{
+        } else {
             $this->resetErrorBag('email');
         }
     }
 
-    public function updateDOB($date){
+    public function updateDOB($date)
+    {
         $this->dob = $date;
     }
 
-    public function resetInputFields(){
-        $this->first_name   = ''; 
-        $this->last_name    = ''; 
+    public function resetInputFields()
+    {
+        $this->first_name   = '';
+        $this->last_name    = '';
         $this->email        = '';
         $this->phone        = '';
         $this->dob          = '';
@@ -290,5 +296,4 @@ class Register extends Component
         $this->address = '';
         $this->paymentResponse = null;
     }
-  
 }
