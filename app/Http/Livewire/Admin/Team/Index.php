@@ -22,24 +22,26 @@ class Index extends Component
 
     protected $layout = null;
 
-    public $search = '', $formMode = false , $updateMode = false, $viewMode = false, $viewDetails = null;
+    public $search = '', $formMode = false, $updateMode = false, $viewMode = false, $viewDetails = null;
 
     public $sortColumnName = 'created_at', $sortDirection = 'asc', $paginationLength = 10;
 
-    public $team_id=null , $status = 1;
- 
+    public $team_id = null, $status = 1;
+
     public $removeImage = false;
 
-    protected $listeners = ['cancel','initializePlugins','updatePaginationLength','confirmedToggleAction','deleteConfirm'];
+    protected $listeners = ['cancel', 'initializePlugins', 'updatePaginationLength', 'confirmedToggleAction', 'deleteConfirm'];
 
-    public $first_name, $last_name, $email, $phone, $password, $password_confirmation, $profile_image=null, $originalImage;
+    public $first_name, $last_name, $email, $phone, $password, $password_confirmation, $profile_image = null, $originalImage;
 
-    public function mount(){
+    public function mount()
+    {
         abort_if(Gate::denies('team_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
     }
 
-    
-    public function updatePaginationLength($length){
+
+    public function updatePaginationLength($length)
+    {
         $this->paginationLength = $length;
     }
 
@@ -50,7 +52,7 @@ class Index extends Component
 
     public function clearSearch()
     {
-       $this->search = '';
+        $this->search = '';
     }
 
     public function sortBy($columnName)
@@ -73,29 +75,31 @@ class Index extends Component
 
     public function render()
     {
-        
+
         $statusSearch = null;
         $searchValue = $this->search;
-        if(Str::contains('active', strtolower($searchValue))){
+        if (Str::contains('active', strtolower($searchValue))) {
             $statusSearch = 1;
-        }else if(Str::contains('inactive', strtolower($searchValue))){
+        } else if (Str::contains('inactive', strtolower($searchValue))) {
             $statusSearch = 0;
         }
 
-        
-        $allTeam = User::query()->where(function ($query) use($searchValue,$statusSearch) {
-            $query->where('name', 'like', '%'.$searchValue.'%')
-            ->orWhere('is_active', $statusSearch)
-            ->orWhereRelation('roles','title','like',  $searchValue . '%')
-            ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
-        })
-        ->whereHas('roles',function($query){
-            $query->whereIn('id',[4,5]);
-        })
-        ->orderBy($this->sortColumnName, $this->sortDirection)
-        ->paginate($this->paginationLength);
 
-        return view('livewire.admin.team.index',compact('allTeam'));
+        $allTeam = User::query()->where(function ($query) use ($searchValue, $statusSearch) {
+            $query->where('name', 'like', '%' . $searchValue . '%')
+                ->orWhere('is_active', $statusSearch)
+                ->orWhereRelation('roles', 'title', 'like',  $searchValue . '%')
+                ->orWhereRaw("date_format(date_of_join, '" . config('constants.search_date_format') . "') like ?", ['%' . $searchValue . '%']);
+
+            // ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+        })
+            ->whereHas('roles', function ($query) {
+                $query->whereIn('id', [4, 5]);
+            })
+            ->orderBy($this->sortColumnName, $this->sortDirection)
+            ->paginate($this->paginationLength);
+
+        return view('livewire.admin.team.index', compact('allTeam'));
     }
 
     public function create()
@@ -106,13 +110,14 @@ class Index extends Component
         $this->initializePlugins();
     }
 
-    public function store(){
+    public function store()
+    {
         $validatedData = $this->validate([
-            'profile_image'      => 'required|image|max:'.config('constants.profile_image_size'),
-            'first_name' => ['required', 'string','regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
-            'last_name'  => ['required', 'string','regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
+            'profile_image'      => 'required|image|max:' . config('constants.profile_image_size'),
+            'first_name' => ['required', 'string', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
+            'last_name'  => ['required', 'string', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
             'email'      => ['required', 'string', 'email', 'max:255', Rule::unique((new User)->getTable(), 'email')->whereNull('deleted_at')],
-            'phone'      => ['required','digits:10'],
+            'phone'      => ['required', 'digits:10'],
             // 'password'   => ['required', 'string', 'min:8'],
             // 'password_confirmation' => ['required','min:8','same:password'], 
             'status'        => 'required',
@@ -126,7 +131,7 @@ class Index extends Component
                 'uuid'       => Str::uuid(),
                 'first_name' => $this->first_name,
                 'last_name'  => $this->last_name,
-                'name'       => $this->first_name .' '.$this->last_name,
+                'name'       => $this->first_name . ' ' . $this->last_name,
                 'email'      => $this->email,
                 'phone'      => $this->phone,
                 // 'password'   => Hash::make($this->password),
@@ -137,14 +142,14 @@ class Index extends Component
             ];
 
             $teamCreated = User::create($insertUserDetail);
-            if($teamCreated){ 
+            if ($teamCreated) {
 
                 //Upload profile image
-                uploadImage($teamCreated, $this->profile_image, 'user/profile-images',"profile", 'original', 'save', null);
+                uploadImage($teamCreated, $this->profile_image, 'user/profile-images', "profile", 'original', 'save', null);
 
                 // Assign user Role
                 $teamCreated->roles()->sync([5]);
-                
+
                 // Profile records 
                 $profileData = [
                     'user_id'        => $teamCreated->id,
@@ -164,27 +169,24 @@ class Index extends Component
 
                 $this->resetInputFields();
 
-                $this->flash('success',trans('messages.add_success_message'));
-        
-                return redirect()->route('admin.team');
+                $this->flash('success', trans('messages.add_success_message'));
 
-            }else{
-                
+                return redirect()->route('admin.team');
+            } else {
+
                 $this->resetInputFields();
-    
+
                 // Set Flash Message
                 $this->alert('error', trans('panel.message.error'));
             }
-
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             // dd($e->getMessage().'->'.$e->getLine());
-            $this->alert('error',trans('messages.error_message'));
+            $this->alert('error', trans('messages.error_message'));
         }
-
     }
 
-    
+
     public function edit($id)
     {
         $this->resetPage();
@@ -195,7 +197,7 @@ class Index extends Component
         $this->last_name   = $team->last_name;
         $this->email       = $team->email;
         $this->phone       = $team->phone;
-       
+
         $this->originalImage = $team->profile_image_url;
 
         $this->formMode = true;
@@ -203,17 +205,18 @@ class Index extends Component
         $this->initializePlugins();
     }
 
-    public function update(){
+    public function update()
+    {
         $validatedArray = [
-            'first_name' => ['required', 'string','regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
-            'last_name'  => ['required', 'string','regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
+            'first_name' => ['required', 'string', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
+            'last_name'  => ['required', 'string', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
             'email'      => ['required', 'string', 'email', 'max:255', Rule::unique((new User)->getTable(), 'email')->ignore($this->team_id)->whereNull('deleted_at')],
-            'phone'      => ['required','digits:10'],
+            'phone'      => ['required', 'digits:10'],
             'status'     => 'required',
         ];
 
-        if($this->profile_image || $this->removeImage){
-            $validatedArray['profile_image'] = 'required|image|max:'.config('constants.profile_image_size');
+        if ($this->profile_image || $this->removeImage) {
+            $validatedArray['profile_image'] = 'required|image|max:' . config('constants.profile_image_size');
         }
 
         $validatedData = $this->validate($validatedArray);
@@ -224,29 +227,28 @@ class Index extends Component
             $updateUserDetail = [
                 'first_name' => $this->first_name,
                 'last_name'  => $this->last_name,
-                'name'       => $this->first_name .' '.$this->last_name,
+                'name'       => $this->first_name . ' ' . $this->last_name,
                 // 'email'      => $this->email,
                 'phone'      => $this->phone,
                 'is_active'         => $this->status,
             ];
 
             $teamUpdated = User::find($this->team_id);
-            if($teamUpdated){ 
+            if ($teamUpdated) {
 
                 //Upload profile image
                 $uploadId = null;
-                if($this->profile_image){
+                if ($this->profile_image) {
                     $uploadId = ($teamUpdated->profileImage) ? $teamUpdated->profileImage->id : null;
-                    if($uploadId){
-                        uploadImage($teamUpdated, $this->profile_image, 'user/profile-images',"profile", 'original', 'update', $uploadId);
-                    }else{
-                        uploadImage($teamUpdated, $this->profile_image, 'user/profile-images',"profile", 'original', 'save', null);
+                    if ($uploadId) {
+                        uploadImage($teamUpdated, $this->profile_image, 'user/profile-images', "profile", 'original', 'update', $uploadId);
+                    } else {
+                        uploadImage($teamUpdated, $this->profile_image, 'user/profile-images', "profile", 'original', 'save', null);
                     }
-                 
                 }
                 // Assign user Role
                 // $teamUpdated->roles()->sync([4]);
-                
+
                 // Profile records 
                 // $profileData = [
                 //     'user_id'        => $teamUpdated->id,
@@ -268,38 +270,36 @@ class Index extends Component
 
                 $this->resetInputFields();
 
-                $this->flash('success',trans('messages.edit_success_message'));
-        
-                return redirect()->route('admin.team');
+                $this->flash('success', trans('messages.edit_success_message'));
 
-            }else{
-                
+                return redirect()->route('admin.team');
+            } else {
+
                 $this->resetInputFields();
-    
+
                 // Set Flash Message
                 $this->alert('error', trans('panel.message.error'));
             }
-
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             // dd($e->getMessage().'->'.$e->getLine());
-            $this->alert('error',trans('messages.error_message'));
+            $this->alert('error', trans('messages.error_message'));
         }
-
     }
 
-    public function show($id){
+    public function show($id)
+    {
         $this->resetPage();
         $this->team_id = $id;
         $this->formMode = false;
         $this->viewMode = true;
     }
 
-    
+
     public function delete($id)
     {
         $this->confirm('Are you sure?', [
-            'text'=>'You want to delete it.',
+            'text' => 'You want to delete it.',
             'toast' => false,
             'position' => 'center',
             'confirmButtonText' => 'Yes, delete it!',
@@ -312,7 +312,8 @@ class Index extends Component
         ]);
     }
 
-    public function deleteConfirm($event){
+    public function deleteConfirm($event)
+    {
         $deleteId = $event['data']['inputAttributes']['deleteId'];
         $model = User::find($deleteId);
         $uploadImageId = $model->profileImage->id;
@@ -322,15 +323,17 @@ class Index extends Component
     }
 
 
-    public function cancel(){
+    public function cancel()
+    {
         $this->formMode = false;
         $this->updateMode = false;
         $this->viewMode = false;
     }
 
-    public function toggle($id){
+    public function toggle($id)
+    {
         $this->confirm('Are you sure?', [
-            'text'=>'You want to change the status.',
+            'text' => 'You want to change the status.',
             'toast' => false,
             'position' => 'center',
             'confirmButtonText' => 'Yes, change it!',
@@ -351,15 +354,16 @@ class Index extends Component
         $this->alert('success', trans('messages.change_status_success_message'));
     }
 
-    public function changeStatus($statusVal){
+    public function changeStatus($statusVal)
+    {
         $this->status = (!$statusVal) ? 1 : 0;
     }
 
-    
+
     public function checkEmail()
     {
         $validated = $this->validate([
-            'email'    => ['required','email'],
+            'email'    => ['required', 'email'],
         ]);
 
         $user = User::where('email', $this->email)->whereNull('deleted_at')->first();
@@ -368,12 +372,13 @@ class Index extends Component
             //     $this->showResetBtn = true;
             // }
             $this->addError('email', trans('panel.message.email_already_taken'));
-        }else{
+        } else {
             $this->resetErrorBag('email');
         }
     }
-    
-    private function resetInputFields(){
+
+    private function resetInputFields()
+    {
         $this->first_name = '';
         $this->last_name = '';
         $this->email = '';
@@ -381,10 +386,10 @@ class Index extends Component
         $this->password = '';
         $this->password_confirmation = '';
         $this->profile_image = '';
-
     }
 
-    public function initializePlugins(){
+    public function initializePlugins()
+    {
         $this->dispatchBrowserEvent('loadPlugins');
     }
 }

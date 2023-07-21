@@ -137,14 +137,16 @@ class Register extends Component
                     'email_verified_at' => Carbon::now(),
                 ];
                 $user = User::create($data);
+
                 if ($user) {
                     $userId = $user->id;
+
 
                     // Assign user Role
                     $user->roles()->sync([3]);
                     $user->packages()->sync([$package_id]);
                     $pkgData = Package::where('id', $package_id)->first();
-                    
+
                     // Profile records 
                     $profileData = [
                         'user_id'        => $user->id,
@@ -152,7 +154,28 @@ class Register extends Component
                         'address'        => $this->address,
                     ];
 
-                    $user->profile()->create($profileData);
+
+                    $prodata =   $user->profile()->create($profileData);
+
+                    $pro_data = [
+                        'user_id' => $prodata->user_id,
+                        'gender'    => $prodata->gender,
+                        'address'  => $prodata->address,
+                    ];
+
+                    $userdata = [
+                        'id' => $user->id,
+                        'uuid'    => $user->uuid,
+                        'first_name'  => $user->first_name,
+                        'last_name'  => $user->last_name,
+                        'name'  => $user->name,
+                        'email'  => $user->email,
+                        'phone'  => $user->phone,
+                        'dob'  => $user->dob,
+                        'date_of_join'  => $user->date_of_join,
+                    ];
+
+                    $user_profile_data =  array_merge($userdata,$pro_data);
 
                     // Kyc records 
                     $kycRecords = [
@@ -210,6 +233,7 @@ class Register extends Component
                             'user_id'               => $userId,
                             'transaction_details'   => json_encode($payment),
                             'package_json'          => json_encode($pkgData),
+                            'user_json'             => json_encode($user_profile_data),
                             'purpose'               => 'Package Purchased',
                             'amount'                => $amount,
                             'type'                  => 'Cr',

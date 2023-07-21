@@ -73,10 +73,11 @@ class Index extends Component
         }
         
         $allUser = User::query()->where(function ($query) use($searchValue,$statusSearch) {
-            $query->where('name', 'like', '%'.$searchValue.'%')
-            ->orWhereRelation('packages','title','like','%'.$searchValue.'%')
+            $query->where('my_referral_code', 'like', '%'.$searchValue.'%')
+            ->orWhere('referral_code', 'like', '%'.$searchValue.'%')
+            // ->orWhereRelation('packages','title','like','%'.$searchValue.'%')
             ->orWhere('is_active', $statusSearch)
-            ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+            ->orWhereRaw("date_format(date_of_join, '".config('constants.search_date_format')."') like ?", ['%'.$searchValue.'%']);
         })
         ->whereHas('roles',function($query){
             $query->whereIn('id',[3]);

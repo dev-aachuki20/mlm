@@ -41,6 +41,11 @@ class PaymentList extends Component
         $this->resetPage();
     }
 
+    public function clearSearch()
+    {
+        $this->search = '';
+    }
+
     public function sortBy($columnName)
     {
         $this->resetPage();

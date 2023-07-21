@@ -30,6 +30,8 @@ return [
             'created_at'               => 'Created at',
             'updated_at'               => 'Updated at',
             'deleted_at'               => 'Deleted at',
+            'sponser_id'               => 'Sponser ID',
+            'joining_date'             => 'Joining Date',
         ],
 
         'profile'         => [
@@ -75,7 +77,7 @@ return [
             'deleted_at'        => 'Deleted at',
         ],
     ],
-   
+
     'package' => [
         'title' => 'Packages',
         'title_singular' => 'Package',
@@ -91,10 +93,9 @@ return [
             'level_three_commission' => 'Level 3',
             'duration' => 'Duration',
             'level' => 'Level',
-            'image' => 'Image', 
-            'video' => 'Video',           
-            'created_at' => 'Created At',
-
+            'image' => 'Image',
+            'video' => 'Video',
+            // 'created_at' => 'Created At',
         ],
     ],
 
@@ -103,7 +104,7 @@ return [
         'title_singular' => 'Faq',
         'fields' => [
             'question' => 'Question',
-            'answer' => 'Answer',         
+            'answer' => 'Answer',
         ],
     ],
 
@@ -115,7 +116,7 @@ return [
             'rating' => 'Rating',
             'designation' => 'Designation',
             'description' => 'Description',
-            'image' => 'Image',   
+            'image' => 'Image',
             'created_at' => 'Created At',
         ],
     ],
@@ -126,11 +127,11 @@ return [
         'fields' => [
             'name' => 'Name',
             'type' => 'Type',
-            'image'=>'Image'         
+            'image' => 'Image'
         ],
     ],
 
-    
+
     'page' => [
         'title' => 'Pages',
         'title_singular' => 'Page',
@@ -142,8 +143,8 @@ return [
             'slug'  => 'Slug',
             'description'    => 'Description',
             'template_name'  => 'Template name',
-            'created_by'     => 'Created by',  
-            'slider_image'   => 'Slider Image',        
+            'created_by'     => 'Created by',
+            'slider_image'   => 'Slider Image',
 
         ],
     ],
@@ -157,7 +158,7 @@ return [
             'display_name' => 'Display Name',
             'group' => 'Group',
             'type'  => 'Type',
-            'created_by'     => 'Created by',        
+            'created_by'     => 'Created by',
         ],
     ],
 
@@ -171,7 +172,7 @@ return [
             'description' => 'Description',
             'video_image' => 'Video Image',
             'video'       => 'Video',
-            'created_by'  => 'Created By',        
+            'created_by'  => 'Created By',
         ],
     ],
 
@@ -183,11 +184,12 @@ return [
             'first_name'  => 'First Name',
             'last_name'   => 'Last Name',
             'email'       => 'Email',
-            'phone_number'=> 'Phone Number',
+            'phone_number' => 'Phone Number',
             'profile_image' => 'Profile Image',
             'password'      => 'Password',
             'password_confirmation'      => 'Password Confirmation',
-            'created_by'  => 'Created By',        
+            'created_by'  => 'Created By',
+            'joining_date' => 'Joining Date',
         ],
     ],
 

@@ -1,5 +1,5 @@
 @if($viewMode)
-@livewire('user.invoice.view-invoice')
+@livewire('user.invoice.view-invoice',['invoice_id' => $invoice_id])
 @else
 <div class="content-wrapper">
     <div class="row">
@@ -50,12 +50,15 @@
                                     <td>{{$allInvoiceData->invoice_number}}</td>
                                     <td>{{ucwords($packageTitle->title)}}</td>
                                     <td>{{ config('constants.levels')[$packageTitle->level] }}</td>
-                                    <td>{{$allInvoiceData->amount}}</td>
+                                    <td>&#x20B9; {{$allInvoiceData->amount}}</td>
                                     <td>{{convertDateTimeFormat($allInvoiceData->date_time,'datetime')}}</td>
                                     <td>
-                                        <span>
+                                        <!-- <span>
                                             <a href="javascript:void(0);" wire:click.prevent="show({{$allInvoiceData->id}})" type="button" class="btn btn-primary btn-sm">View</a>
-                                        </span>
+                                        </span> -->
+                                        <button wire:click.prevent="showInvoice({{$allInvoiceData->id}})" type="button" class="btn btn-sm btn-primary btn-icon-text float-right">
+                                            View
+                                        </button>
                                     </td>
                                 </tr>
                                 @endforeach

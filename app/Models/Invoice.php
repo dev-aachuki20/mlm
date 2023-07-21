@@ -23,6 +23,7 @@ class Invoice extends Model
         'invoice_number',
         'transaction_details',
         'package_json',
+        'user_json',
         'purpose',
         'amount',
         'type',

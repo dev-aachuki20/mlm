@@ -13,31 +13,33 @@ class Show extends Component
     use LivewireAlert;
 
     protected $layout = null;
-    
-    public $detail,$editMode = false, $formType, $editButtonStatus=['personal-detail'=>true,'nominee-detail'=>true,'kyc-detail'=>true];
+    public  $search = '';
+    public  $detail, $editMode = false, $formType, $editButtonStatus = ['personal-detail' => true, 'nominee-detail' => true, 'kyc-detail' => true];
 
-    public $user_id = null, $first_name, $last_name, $email,$phone, $dob, $date_of_join,$my_referral_code,$referral_code,$referral_name; 
+    public $user_id = null, $first_name, $last_name, $email, $phone, $dob, $date_of_join, $my_referral_code, $referral_code, $referral_name;
 
-    public $guardian_name, $gender, $profession, $marital_status, $address, $state, $city, $pin_code, $nominee_name, $nominee_dob, $nominee_relation; 
+    public $guardian_name, $gender, $profession, $marital_status, $address, $state, $city, $pin_code, $nominee_name, $nominee_dob, $nominee_relation;
 
     public $account_holder_name, $account_number, $bank_name, $branch_name, $ifsc_code, $aadhar_card_name, $aadhar_card_number,  $pan_card_name, $pan_card_number;
 
     protected $listeners = [
-        'updateDateOfJoin','updatedDob','updateNomineeDob','refreshComponent'=>'$refresh'
+        'updateDateOfJoin', 'updatedDob', 'updateNomineeDob', 'refreshComponent' => '$refresh'
     ];
 
-    public function mount($user_id){
+    public function mount($user_id)
+    {
         $this->user_id = $user_id;
         $this->detail = User::find($user_id);
     }
 
-    public function editStepForm($formType){
-        $this->editButtonStatus = ['personal-detail'=>true,'nominee-detail'=>true,'kyc-detail'=>true];
+    public function editStepForm($formType)
+    {
+        $this->editButtonStatus = ['personal-detail' => true, 'nominee-detail' => true, 'kyc-detail' => true];
         $this->formType = $formType;
         $this->editMode = true;
         $this->editButtonStatus[$this->formType] = false;
 
-        if($this->formType == 'personal-detail'){
+        if ($this->formType == 'personal-detail') {
 
             $this->first_name = $this->detail->first_name;
             $this->last_name  = $this->detail->last_name;
@@ -50,13 +52,11 @@ class Show extends Component
             $this->state            = $this->detail->profile->state;
             $this->city             = $this->detail->profile->city;
             $this->pin_code         = $this->detail->profile->pin_code;
-
-        }elseif($this->formType == 'nominee-detail'){
+        } elseif ($this->formType == 'nominee-detail') {
             $this->nominee_name     = $this->detail->profile->nominee_name;
             $this->nominee_dob      = Carbon::parse($this->detail->profile->nominee_dob)->format('d-m-Y');
             $this->nominee_relation = $this->detail->profile->nominee_relation;
-
-        }elseif($this->formType == 'kyc-detail'){
+        } elseif ($this->formType == 'kyc-detail') {
 
             $this->account_holder_name  = $this->detail->kycDetail->account_holder_name;
             $this->account_number   = $this->detail->kycDetail->account_number;
@@ -67,25 +67,31 @@ class Show extends Component
             $this->aadhar_card_number = $this->detail->kycDetail->aadhar_card_number;
             $this->pan_card_name      = $this->detail->kycDetail->pan_card_name;
             $this->pan_card_number    = $this->detail->kycDetail->pan_card_number;
-
         }
-        
+
         $this->emitUp('initializePlugins');
     }
 
-    public function cancelStepForm(){
-       $this->reset(['formType','editMode','editButtonStatus']);
+    public function cancelStepForm()
+    {
+        $this->reset(['formType', 'editMode', 'editButtonStatus']);
     }
-    
-    
-    public function cancel(){
+
+    public function clearSearch()
+    {
+        $this->search = '';
+    }
+
+    public function cancel()
+    {
         $this->emitUp('cancel');
     }
 
 
-    public function update(){
+    public function update()
+    {
         $validateDataArray = [];
-        if($this->formType == 'personal-detail'){
+        if ($this->formType == 'personal-detail') {
             $validateDataArray['first_name'] = 'required';
             $validateDataArray['last_name']  = 'required';
             $validateDataArray['dob']        = 'required';
@@ -97,13 +103,11 @@ class Show extends Component
             $validateDataArray['state']          = 'required';
             $validateDataArray['city']           = 'required';
             $validateDataArray['pin_code']       = 'required';
-
-        }else if($this->formType == 'nominee-detail'){
+        } else if ($this->formType == 'nominee-detail') {
             $validateDataArray['nominee_name']       = 'required';
             $validateDataArray['nominee_dob']        = 'required';
             $validateDataArray['nominee_relation']   = 'required';
-
-        }else if($this->formType == 'kyc-detail'){
+        } else if ($this->formType == 'kyc-detail') {
             $validateDataArray['account_number']      = 'required|numeric|digits_between:10,14|regex:/^\S*$/u';
             $validateDataArray['account_holder_name'] = 'required';
             $validateDataArray['bank_name']          = 'required';
@@ -113,7 +117,6 @@ class Show extends Component
             $validateDataArray['aadhar_card_number'] = 'required|digits:12|regex:/^\S*$/u';
             $validateDataArray['pan_card_name']      = 'required';
             $validateDataArray['pan_card_number']    = 'required|min:10|regex:/^\S*$/u';
-
         }
 
         $this->emitUp('initializePlugins');
@@ -128,7 +131,7 @@ class Show extends Component
 
             $updatedUser = User::find($this->user_id);
 
-            if($this->formType == 'personal-detail'){
+            if ($this->formType == 'personal-detail') {
 
                 $userDetails['first_name'] = $this->first_name;
                 $userDetails['last_name']  = $this->last_name;
@@ -146,16 +149,14 @@ class Show extends Component
                 $profileDetails['pin_code']       = $this->pin_code;
 
                 $updatedUser->profile()->update($profileDetails);
-
-            }elseif($this->formType == 'nominee-detail'){
+            } elseif ($this->formType == 'nominee-detail') {
 
                 $profileDetails['nominee_name']     = $this->nominee_name;
                 $profileDetails['nominee_dob']      = Carbon::parse($this->nominee_dob)->format('Y-m-d');
                 $profileDetails['nominee_relation'] = $this->nominee_relation;
 
                 $updatedUser->profile()->update($profileDetails);
-
-            }elseif($this->formType == 'kyc-detail'){
+            } elseif ($this->formType == 'kyc-detail') {
 
                 $kycDetails['account_number']      = $this->account_number;
                 $kycDetails['account_holder_name'] = $this->account_holder_name;
@@ -168,7 +169,6 @@ class Show extends Component
                 $kycDetails['pan_card_number']     = $this->pan_card_number;
 
                 $updatedUser->kycDetail()->update($kycDetails);
-
             }
 
             DB::commit();
@@ -179,25 +179,27 @@ class Show extends Component
 
             $this->cancelStepForm();
 
-            $this->alert('success',trans('messages.edit_success_message'));
-        
-        }catch (\Exception $e) {
+            $this->alert('success', trans('messages.edit_success_message'));
+        } catch (\Exception $e) {
             DB::rollBack();
             // dd($e->getMessage().'->'.$e->getLine());
-            $this->alert('error',trans('messages.error_message'));
+            $this->alert('error', trans('messages.error_message'));
         }
     }
 
-    public function updateDateOfJoin($date){
+    public function updateDateOfJoin($date)
+    {
         $this->date_of_join = Carbon::parse($date)->format('d-m-Y');
     }
 
-    public function updatedDob($date){
+    public function updatedDob($date)
+    {
         $this->dob = Carbon::parse($date)->format('d-m-Y');
         $this->emitUp('initializePlugins');
     }
 
-    public function updateNomineeDob($date){
+    public function updateNomineeDob($date)
+    {
         $this->nominee_dob = Carbon::parse($date)->format('d-m-Y');
     }
 
@@ -205,8 +207,4 @@ class Show extends Component
     {
         return view('livewire.admin.user-manage.show');
     }
-
-    
-
-
 }

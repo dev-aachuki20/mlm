@@ -47,12 +47,13 @@
                                 <tr>
                                 <th>{{ trans('global.sno') }}</th>
                                 <th>{{ trans('cruds.team.fields.name') }}</th>
-                                <th>Role</th>
+                                <th>Designation</th>
                                 <th>{{ trans('global.status') }}</th>
-                                <th>{{ trans('cruds.package.fields.created_at') }}
-                                    <span wire:click="sortBy('created_at')" class="float-right text-sm" style="cursor: pointer;">
-                                        <i class="fa fa-arrow-up {{ $sortColumnName === 'created_at' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
-                                        <i class="fa fa-arrow-down {{ $sortColumnName === 'created_at' && $sortDirection === 'desc' ? '' : 'text-muted' }}"></i>
+                                <!-- trans('cruds.package.fields.created_at')  -->
+                                <th>{{ trans('cruds.team.fields.joining_date') }}
+                                    <span wire:click="sortBy('date_of_join')" class="float-right text-sm" style="cursor: pointer;">
+                                        <i class="fa fa-arrow-up {{ $sortColumnName === 'date_of_join' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
+                                        <i class="fa fa-arrow-down {{ $sortColumnName === 'date_of_join' && $sortDirection === 'desc' ? '' : 'text-muted' }}"></i>
                                     </span>
                                 </th>
                                 <th>{{ trans('global.action') }}</th>
@@ -74,7 +75,7 @@
                                                 </label>
     
                                             </td>
-                                            <td>{{ convertDateTimeFormat($team->created_at,'datetime') }}</td>
+                                            <td>{{ convertDateTimeFormat($team->date_of_join,'date') }}</td>
                                             <td>
                                                 <button type="button" wire:click.prevent="show({{$team->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                     <i class="ti-eye"></i>

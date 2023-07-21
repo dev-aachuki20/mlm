@@ -11,27 +11,34 @@ class TeamList extends Component
 {
     use WithPagination, LivewireAlert;
 
-    public $search = '', $formMode = false , $updateMode = false, $viewMode = false;
+    public $search = '', $formMode = false, $updateMode = false, $viewMode = false;
     public $sortColumnName = 'date_of_join', $sortDirection = 'desc', $paginationLength = 10;
 
-    public $user_id,$userDetail;
+    public $user_id, $userDetail;
 
     protected $listeners = [
         'updatePaginationLength'
     ];
 
-    public function mount($user_id=''){
+    public function mount($user_id = '')
+    {
         $this->user_id = $user_id;
         $this->userDetail = User::find($user_id);
     }
 
-    public function updatePaginationLength($length){
+    public function updatePaginationLength($length)
+    {
         $this->paginationLength = $length;
     }
 
     public function updatedSearch()
     {
         $this->resetPage();
+    }
+
+    public function clearSearch()
+    {
+        $this->search = '';
     }
 
     public function sortBy($columnName)
@@ -52,14 +59,15 @@ class TeamList extends Component
         return $this->sortDirection === 'asc' ? 'desc' : 'asc';
     }
 
-    public function cancel(){
+    public function cancel()
+    {
         $this->emitUp('cancel');
     }
 
     public function render()
     {
         $allTeam = $this->userDetail->team;
-         // $statusSearch = null;
+        // $statusSearch = null;
         // $searchValue = $this->search;
         // if(Str::contains('active', strtolower($searchValue))){
         //     $statusSearch = 1;
@@ -67,8 +75,8 @@ class TeamList extends Component
         //     $statusSearch = 0;
         // }
 
-        
-       
-        return view('livewire.admin.partials.team-list',compact('allTeam'));
+
+
+        return view('livewire.admin.partials.team-list', compact('allTeam'));
     }
 }

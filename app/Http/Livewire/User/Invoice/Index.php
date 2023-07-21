@@ -14,7 +14,8 @@ class Index extends Component
 
     protected $layout = null;
 
-    public $search = '',  $viewMode = false;
+    public $search = '', $formMode = false, $updateMode = false, $viewMode = false;
+
 
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
@@ -75,13 +76,17 @@ class Index extends Component
     public function render()
     {
         $allInvoices = Invoice::where('user_id', auth()->user()->id)
-        ->orderBy($this->sortColumnName, $this->sortDirection)
-        ->paginate($this->paginationLength);
-
-        // $user = User::select('first_name', 'last_name')
-        // ->where('id', auth()->user()->id)->first();
-        // $userName = $user->first_name . ' ' . $user->last_name;
+            ->orderBy($this->sortColumnName, $this->sortDirection)
+            ->paginate($this->paginationLength);
 
         return view('livewire.user.invoice.index', compact('allInvoices'));
+    }
+
+    public function showInvoice($id)
+    {
+        $this->formMode = false;
+        $this->updateMode = false;
+        $this->viewMode = true;
+        $this->invoice_id = $id;
     }
 }
