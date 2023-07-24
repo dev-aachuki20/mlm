@@ -36,8 +36,11 @@
                             <thead>
                                 <tr>
                                     <th>{{ trans('global.sno') }}</th>
+                                    <th>{{ trans('cruds.user.fields.name') }}</th>
                                     <th>{{ trans('cruds.user.fields.referral_code') }}</th>
+                                    <th>Package</th>
                                     <th>{{ trans('cruds.user.fields.sponser_id') }}</th>
+                                    <th>{{ trans('cruds.user.fields.sponser_name') }}</th>
                                     {{--<th>{{ trans('global.status') }}</th>--}}
                                     <th>{{ trans('cruds.user.fields.joining_date') }}
                                         <span wire:click="sortBy('date_of_join')" class="float-right text-sm" style="cursor: pointer;">
@@ -53,9 +56,11 @@
                                 @foreach($allUser as $serialNo => $user)
                                 <tr>
                                     <td>{{ $serialNo+1 }}</td>
+                                    <td>{{ ucwords($user->name) }}</td>
                                     <td>{{ $user->my_referral_code }}</td>
-                                    <!-- $user->packages()->first()->title -->
+                                    <td>{{ucwords( $user->packages()->first()->title) }}</td>
                                     <td>{{ $user->referral_code }}</td>
+                                    <td>{{ ucwords($user->referral_name) }}</td>
                                     {{-- <td>
                         
                                             <label class="toggle-switch">

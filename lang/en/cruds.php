@@ -31,6 +31,7 @@ return [
             'updated_at'               => 'Updated at',
             'deleted_at'               => 'Deleted at',
             'sponser_id'               => 'Sponser ID',
+            'sponser_name'               => 'Sponser Name',
             'joining_date'             => 'Joining Date',
         ],
 
@@ -52,6 +53,17 @@ return [
             'created_at'               => 'Created at',
             'updated_at'               => 'Updated at',
             'deleted_at'               => 'Deleted at',
+        ],
+
+        'payment'         => [
+            'total_earning'            => 'Total Earning',
+            'total_remaning_earning'   => 'Total Remaning Earning',
+            'total_withdrawal'         => 'Total Withdrawal',
+        ],
+        'level'         => [
+            'level_01_earning'         => 'Level 01 Earning',
+            'level_02_earning'         => 'Level 02 Earning',
+            'level_03_earning'         => 'Level 03 Earning',
         ],
 
         'kyc'        => [

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin\Partials;
 use Gate;
 use App\Models\User;
 use App\Models\Payment;
+use App\Models\Transaction;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
@@ -16,6 +17,9 @@ class PaymentList extends Component
     use WithPagination, LivewireAlert;
 
     protected $layout = null;
+    
+    public $total_earning = 0, $total_withdrawal = 0, $total_remaning_earning = 0;
+    public $payment_type, $type;
 
     public $search = '', $formMode = false , $updateMode = false, $viewMode = false;
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
@@ -30,6 +34,15 @@ class PaymentList extends Component
         abort_if(Gate::denies('transactions_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->user_id = $user_id;
         $this->userDetail = User::find($user_id);
+
+        $this->total_earning = Transaction::where('user_id', $user_id)->where('payment_type', 'credit')->pluck('amount')->sum();
+        
+        $this->total_withdrawal = Transaction::where('user_id', $user_id)->where('payment_type', 'debit')->pluck('amount')->sum();
+
+        $this->total_remaning_earning = $this->total_earning -  $this->total_withdrawal;
+
+        $this->payment_type  = Payment::where('user_id', $user_id)->first();
+        $this->type =json_decode($this->payment_type->json_response)->card->type;
     }
 
     public function updatePaginationLength($length){

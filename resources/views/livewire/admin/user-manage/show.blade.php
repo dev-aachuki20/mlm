@@ -44,24 +44,24 @@
                     @include('livewire.admin.user-manage.show-detail')
                 </div>
                 <div class="tab-pane fade" id="paymentInfo">
-                    <div class="card mb-4">
-                        <div class="card-header background-purple-color">
+                    <!-- <div class="card mb-4"> -->
+                        <!-- <div class="card-header background-purple-color">
                             <label class="font-weight-bold">Payment Transactions</label>
-                        </div>
-                        <div class="card-body">
+                        </div> -->
+                        <!-- <div class="card-body"> -->
                             @livewire('admin.partials.payment-list',['user_id'=>$user_id])
-                        </div>
-                    </div> 
+                        <!-- </div> -->
+                    <!-- </div>  -->
                     <!-- Step 2 form content -->
                 </div>
                 <div class="tab-pane fade" id="teamInfo">
-                    <div class="card mb-4">
-                        <div class="card-header background-purple-color">
+                    <!-- <div class="card mb-4"> -->
+                        <!-- <div class="card-header background-purple-color">
                             <label class="font-weight-bold">Team List</label>
-                        </div>
-                        <div class="card-body">
+                        </div> -->
+                        <!-- <div class="card-body"> -->
                             @livewire('admin.partials.team-list',['user_id'=>$user_id])
-                        </div>
+                        <!-- </div> -->
                     </div> 
                     <!-- Step 3 form content -->
                 </div>

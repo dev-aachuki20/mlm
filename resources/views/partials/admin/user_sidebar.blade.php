@@ -98,7 +98,7 @@
     <li class="nav-item {{ request()->is('user/customer-support') ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('user.customer-support') }}">
             <img src="{{ asset('images/icons/customer-support.svg') }}" alt="customer support">
-            <span class="menu-title">Customer Supoort</span>
+            <span class="menu-title">Customer Support</span>
         </a>
     </li>
 

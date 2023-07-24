@@ -1,4 +1,33 @@
-<div>
+<!-- Start Payment Overview -->
+<div class="card mb-4">
+    <div class="card-header background-purple-color">
+        <label class="font-weight-bold">Payment Overview</label>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-4">
+                <label class="font-weight-bold">{{ __('cruds.user.payment.total_earning') }}</label> : 
+                <span class="p-2">&#8377; {{number_format($total_earning,2)}}</span>
+            </div>
+            <div class="col-sm-4">
+                <label class="font-weight-bold">{{ __('cruds.user.payment.total_remaning_earning') }}</label> : 
+                <span class="p-2">&#8377; {{number_format($total_remaning_earning,2)}}</span>
+            </div>
+            <div class="col-sm-4">
+                <label class="font-weight-bold">{{ __('cruds.user.payment.total_withdrawal') }}</label> : 
+                <span class="p-2">&#8377; {{number_format($total_withdrawal,2)}} </span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Payment Overview -->
+
+
+
+<div class="card mb-4">
+    <div class="card-header background-purple-color">
+        <label class="font-weight-bold">Payment Transactions</label>
+    </div>
     <div class="table-header-plugins">
         <!-- Start show length -->
         <div class="dataTables_length">
@@ -27,6 +56,7 @@
                 <th>Payment ID</th>
                 <th>Method</th>
                 <th>Amount</th>
+                <th>Payment Type</th>
                 <th>{{ trans('global.created_at') }}
                     <span wire:click="sortBy('created_at')" class="float-right text-sm" style="cursor: pointer;">
                         <i class="fa fa-arrow-up {{ $sortColumnName === 'created_at' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
@@ -43,6 +73,7 @@
                 <td>{{ $payment->r_payment_id }}</td>
                 <td>{{ $payment->method }}</td>
                 <td><i class="fa-sharp fa-solid fa-indian-rupee-sign"></i> {{ number_format($payment->amount,2) }}</td>
+                <td>{{ $type }}</td>
                 <td>{{ convertDateTimeFormat($payment->created_at,'datetime') }}</td>
 
             </tr>
@@ -55,3 +86,4 @@
     {{ $allPayments->links('vendor.pagination.bootstrap-5') }}
 
 </div>
+
