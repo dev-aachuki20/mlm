@@ -1,4 +1,5 @@
-<!-- Start Payment Overview -->
+<div>
+    <!-- Start Payment Overview -->
 <div class="card mb-4">
     <div class="card-header background-purple-color">
         <label class="font-weight-bold">Payment Overview</label>
@@ -28,27 +29,30 @@
     <div class="card-header background-purple-color">
         <label class="font-weight-bold">Payment Transactions</label>
     </div>
-    <div class="table-header-plugins">
-        <!-- Start show length -->
-        <div class="dataTables_length">
-         <label>Show 
-            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
-                @foreach(config('constants.datatable_paginations') as $length)
-                <option value="{{ $length }}">{{ $length }}</option>
-                @endforeach
-            </select> 
-          entries</label>
-        </div>
-        <!-- End show length -->
 
-        <!--Start search  -->
-        <div class="search-container">
-            <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search"/>
-            <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
-        </div>
-        <!-- End Search -->
-    </div>
-    <div class="table-responsive mt-3 my-team-details table-record">
+    
+
+    <div class="table-responsive p-3 my-team-details table-record">
+    <div class="table-header-plugins">
+                  <!-- Start show length -->
+                  <div class="dataTables_length">
+                        <label>Show 
+                            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                                @foreach(config('constants.datatable_paginations') as $length)
+                                <option value="{{ $length }}">{{ $length }}</option>
+                                @endforeach
+                            </select> 
+                        entries</label>
+                 </div>
+                  <!-- End show length -->
+                  <!--Start search  -->
+                  <div class="search-container">
+                    <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
+                    <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
+                  </div>
+
+                  <!-- End Search -->
+                </div>
         <table class="table table-striped table-hover">
         <thead>
             <tr>
@@ -78,6 +82,10 @@
 
             </tr>
             @endforeach
+            @else
+                <tr>
+                    <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
+                </tr>
             @endif
         </tbody>
         </table>
@@ -85,5 +93,6 @@
 
     {{ $allPayments->links('vendor.pagination.bootstrap-5') }}
 
+</div>
 </div>
 

@@ -12,6 +12,7 @@ use Livewire\WithPagination;
 class Index extends Component
 {
     use WithPagination, LivewireAlert;
+    
     protected $layout = null;
     public $search = '';
 
@@ -74,23 +75,41 @@ class Index extends Component
         $this->search = str_replace(',', '', $this->search);
         $searchValue = $this->search;
 
-        $levelOneUserIds = User::where('referral_user_id', auth()->user()->id)->pluck('id'); // Referrals (level 1) user IDs
-        $levelTwoUserIds = User::whereIn('referral_user_id', $levelOneUserIds)->pluck('id'); // Referrals (level 2) user IDs
-        $levelThreeUserIds = User::whereIn('referral_user_id', $levelTwoUserIds)->pluck('id'); // Referrals (level 3) user IDs
+        $levelOneUsers = User::where('referral_user_id', auth()->user()->id);
+        $levelOneUserIds = $levelOneUsers->pluck('id');
 
-        // all users
-        $allTeams = User::whereIn('id', $levelOneUserIds)
-            ->orWhereIn('id', $levelTwoUserIds)
-            ->orWhereIn('id', $levelThreeUserIds)
-            ->orderBy($this->sortColumnName, $this->sortDirection)
-            ->paginate($this->paginationLength);
+        $levelTwoUsers = User::whereIn('referral_user_id', $levelOneUserIds);
+        $levelTwoUserIds = $levelTwoUsers->pluck('id');
 
-        //Records of level 1, 2, 3
-        $levelOneRecords = User::whereIn('id', $levelOneUserIds)->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
-        $levelTwoRecords = User::whereIn('id', $levelTwoUserIds)->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
-        $levelThreeRecords = User::whereIn('id', $levelThreeUserIds)->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
+        $levelThreeUsers = User::whereIn('referral_user_id', $levelTwoUserIds);
+        $levelThreeUserIds = $levelThreeUsers->pluck('id');
 
-        return view('livewire.user.my-team.index', compact('allTeams', 'levelOneRecords', 'levelTwoRecords', 'levelThreeRecords'));
+        $allIdofUsers = $levelOneUserIds->merge($levelTwoUserIds,$levelThreeUserIds);
+
+        // serching 
+        $allTeams = null;
+        $allTeams = User::query()->where(function ($query) use($searchValue) {
+        $query->where('my_referral_code', 'like', '%'.$searchValue.'%')
+            ->orWhere('name', 'like', '%'.$searchValue.'%')
+            ->orWhere('referral_code', 'like', '%'.$searchValue.'%')
+            ->orWhere('phone', 'like', '%'.$searchValue.'%')
+            ->orWhere('is_active', 'like', '%'.$searchValue.'%')
+            ->orWhereRaw("date_format(date_of_join, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+        });
+
+        if($this->activeTab == 'all'){
+            $allTeams =   $allTeams->whereIn('id',$allIdofUsers);
+        }else if($this->activeTab == 'level_1'){
+            $allTeams =   $allTeams->whereIn('id',$levelOneUserIds);
+        }else if($this->activeTab == 'level_2'){
+            $allTeams =  $allTeams->whereIn('id',$levelTwoUserIds);
+        }else if($this->activeTab == 'level_3'){
+            $allTeams =  $allTeams->whereIn('id',$levelThreeUserIds);
+        }
+
+        $allTeams = $allTeams->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
+        return view('livewire.user.my-team.index', compact('allTeams'));
+    
     }
 
     public function toggle($id)

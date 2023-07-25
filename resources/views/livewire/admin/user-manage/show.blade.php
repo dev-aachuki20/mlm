@@ -62,7 +62,7 @@
                         <!-- <div class="card-body"> -->
                             @livewire('admin.partials.team-list',['user_id'=>$user_id])
                         <!-- </div> -->
-                    </div> 
+                    <!-- </div>  -->
                     <!-- Step 3 form content -->
                 </div>
             </div>

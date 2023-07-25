@@ -146,7 +146,7 @@ class Index extends Component
     {
         $userId = $event['data']['inputAttributes']['userId'];
         $model = User::find($userId);
-        $model->update(['is_active' => !$model->status]);
+        $model->update(['is_active' => !$model->is_active]);
         $this->alert('success', trans('messages.change_status_success_message'));
     }
 

@@ -14,7 +14,7 @@ class Show extends Component
 
     protected $layout = null;
     public  $search = '';
-    // public $activeTab = 'all';
+    // public $activeTab = 'personalInfo1';
     public  $detail, $editMode = false, $formType, $editButtonStatus = ['personal-detail' => true, 'nominee-detail' => true, 'kyc-detail' => true];
 
     public $user_id = null, $first_name, $last_name, $email, $phone, $dob, $date_of_join, $my_referral_code, $referral_code, $referral_name;
@@ -210,7 +210,7 @@ class Show extends Component
         return view('livewire.admin.user-manage.show');
     }
 
-    // public function switchTab($tab)
+    // public function switchTabShow($tab)
     // {
     //     $this->activeTab = $tab;
     // }

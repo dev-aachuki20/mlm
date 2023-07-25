@@ -41,7 +41,7 @@
                                     <th>Package</th>
                                     <th>{{ trans('cruds.user.fields.sponser_id') }}</th>
                                     <th>{{ trans('cruds.user.fields.sponser_name') }}</th>
-                                    {{--<th>{{ trans('global.status') }}</th>--}}
+                                    <th>{{ trans('global.status') }}</th>
                                     <th>{{ trans('cruds.user.fields.joining_date') }}
                                         <span wire:click="sortBy('date_of_join')" class="float-right text-sm" style="cursor: pointer;">
                                             <i class="fa fa-arrow-up {{ $sortColumnName === 'date_of_join' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
@@ -61,14 +61,12 @@
                                     <td>{{ucwords( $user->packages()->first()->title) }}</td>
                                     <td>{{ $user->referral_code }}</td>
                                     <td>{{ ucwords($user->referral_name) }}</td>
-                                    {{-- <td>
-                        
-                                            <label class="toggle-switch">
-                                                <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$user->id}})" {{ $user->is_active == 1 ? 'checked' : '' }}>
-                                    <div class="switch-slider round"></div>
-                                    </label>
-
-                                    </td> --}}
+                                    <td>
+                                    <label class="toggle-switch">
+                                            <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$user->id}})" {{ $user->is_active == 1 ? 'checked' : '' }}>
+                                            <div class="switch-slider round"></div>
+                                        </label>
+                                    </td>
                                     <td>{{ convertDateTimeFormat($user->created_at,'date') }}</td>
                                     <td>
                                         <button type="button" wire:click.prevent="show({{$user->id}})" class="btn btn-primary btn-rounded btn-icon">

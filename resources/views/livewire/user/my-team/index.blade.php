@@ -91,7 +91,9 @@
                   </tbody>
                 </table>
               </div>
+              
               {{ $allTeams->links('vendor.pagination.bootstrap-5') }}
+
             </div>
             <div class="tab-pane fade" id="level-01" role="tabpanel" aria-labelledby="level-01-tab">
               <div class="table-responsive my-team-details">
@@ -114,8 +116,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @if($levelOneRecords->count() > 0)
-                    @foreach($levelOneRecords as $levelone)
+                    @if($allTeams->count() > 0)
+                    @foreach($allTeams as $levelone)
                     <tr>
                       <td>{{$loop->iteration}}</td>
                       <td>{{$levelone->my_referral_code}}</td>
@@ -139,7 +141,7 @@
                   </tbody>
                 </table>
               </div>
-              {{ $levelOneRecords->links('vendor.pagination.bootstrap-5') }}
+              {{ $allTeams->links('vendor.pagination.bootstrap-5') }}
             </div>
             <div class="tab-pane fade" id="level-02" role="tabpanel" aria-labelledby="level-02-tab">
               <div class="table-responsive my-team-details">
@@ -162,8 +164,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @if($levelTwoRecords->count() > 0)
-                    @foreach($levelTwoRecords as $leveltwo)
+                    @if($allTeams->count() > 0)
+                    @foreach($allTeams as $leveltwo)
                     <tr>
                       <td>{{$loop->iteration}}</td>
                       <td>{{$leveltwo->my_referral_code}}</td>
@@ -187,7 +189,9 @@
                   </tbody>
                 </table>
               </div>
-              {{ $levelTwoRecords->links('vendor.pagination.bootstrap-5') }}
+              
+              {{ $allTeams->links('vendor.pagination.bootstrap-5') }}
+              
             </div>
             <div class="tab-pane fade" id="level-03" role="tabpanel" aria-labelledby="level-03-tab">
               <div class="table-responsive my-team-details">
@@ -210,8 +214,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @if($levelThreeRecords->count() > 0)
-                    @foreach($levelThreeRecords as $levelthree)
+                    @if($allTeams->count() > 0)
+                    @foreach($allTeams as $levelthree)
                     <tr>
                       <td>{{$loop->iteration}}</td>
                       <td>{{$levelthree->my_referral_code}}</td>

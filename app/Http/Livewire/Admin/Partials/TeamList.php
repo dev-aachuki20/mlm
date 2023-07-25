@@ -7,11 +7,14 @@ use App\Models\Transaction;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Illuminate\Support\Str;
+
 
 class TeamList extends Component
 {
     use WithPagination, LivewireAlert;
     public $activeTab = 'all';
+    
     public $search = '', $formMode = false, $updateMode = false, $viewMode = false;
     public $sortColumnName = 'date_of_join', $sortDirection = 'desc', $paginationLength = 10;
     public $user_id, $userDetail, $level1Comm = 0,$level2Comm = 0, $level3Comm =0;
@@ -40,12 +43,13 @@ class TeamList extends Component
 
     public function updatedSearch()
     {
-        $this->resetPage();
+      
+        $this->resetPage('page');
     }
 
     public function clearSearch()
     {
-        $this->search = '';
+       $this->search = '';
     }
 
     public function sortBy($columnName)
@@ -71,43 +75,66 @@ class TeamList extends Component
         $this->emitUp('cancel');
     }
 
-    public function render()
-    {
-        $allTeam = $this->userDetail->team;
-        // $statusSearch = null;
-        // $searchValue = $this->search;
-        // if(Str::contains('active', strtolower($searchValue))){
-        //     $statusSearch = 1;
-        // }else if(Str::contains('inactive', strtolower($searchValue))){
-        //     $statusSearch = 0;
-        // }
-
-
-        $levelOneUserIds = User::where('referral_user_id', $this->user_id)->pluck('id');
-        $levelTwoUserIds = User::whereIn('referral_user_id', $levelOneUserIds)->pluck('id');
-        $levelThreeUserIds = User::whereIn('referral_user_id', $levelTwoUserIds)->pluck('id');
-
-        // all users
-        $allTeams = User::whereIn('id', $levelOneUserIds)
-            ->orWhereIn('id', $levelTwoUserIds)
-            ->orWhereIn('id', $levelThreeUserIds)
-            ->orderBy($this->sortColumnName, $this->sortDirection)
-            ->paginate($this->paginationLength);
-
-        //  Records of level 1, 2, 3
-        $levelOneRecords = User::whereIn('id', $levelOneUserIds)->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
-
-        $levelTwoRecords = User::whereIn('id', $levelTwoUserIds)->orderBy($this->sortColumnName,$this->sortDirection)->paginate($this->paginationLength);
-
-        $levelThreeRecords = User::whereIn('id', $levelThreeUserIds)->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
-        $this->level2Comm =$levelTwoUserIds != '' ? Transaction::whereIn('referrer_id', $levelTwoUserIds)->sum('amount') : 0 ;
-        $this->level3Comm =$levelThreeUserIds != '' ?Transaction::whereIn('referrer_id', $levelThreeUserIds)->sum('amount'):0;
-
-        return view('livewire.admin.partials.team-list', compact('allTeam','levelOneRecords','levelTwoRecords','levelThreeRecords','allTeams'));
-    }
-
     public function switchTab($tab)
     {
         $this->activeTab = $tab;
+        $this->render();
     }
+
+    public function render()
+    {
+        $this->search = str_replace(',', '', $this->search);
+        $searchValue = $this->search;
+
+        $levelOneUsers = User::where('referral_user_id', $this->user_id);
+        $levelOneUserIds = $levelOneUsers->pluck('id');
+
+        $levelTwoUsers = User::whereIn('referral_user_id', $levelOneUserIds);
+        $levelTwoUserIds = $levelTwoUsers->pluck('id');
+
+        $levelThreeUsers = User::whereIn('referral_user_id', $levelTwoUserIds);
+        $levelThreeUserIds = $levelThreeUsers->pluck('id');
+ 
+        $allIdofUsers = $levelOneUserIds->merge($levelTwoUserIds,$levelThreeUserIds);
+   
+        //  Records of level 1, 2, 3
+        $levelOneRecords = $levelOneUsers->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
+
+        $levelTwoRecords = $levelTwoUsers->orderBy($this->sortColumnName,$this->sortDirection)->paginate($this->paginationLength);
+
+        $levelThreeRecords = $levelThreeUsers->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
+
+        
+
+        $this->level2Comm =$levelTwoUserIds != '' ? Transaction::whereIn('referrer_id', $levelTwoUserIds)->sum('amount') : 0 ;
+        $this->level3Comm =$levelThreeUserIds != '' ?Transaction::whereIn('referrer_id', $levelThreeUserIds)->sum('amount'):0;
+
+
+         // serching 
+         $allTeams = null;
+         $allTeams = User::query()->where(function ($query) use($searchValue) {
+            $query->where('name', 'like', '%'.$searchValue.'%')
+                ->orWhere('is_active', 'like', '%'.$searchValue.'%')
+                ->orWhere('phone', 'like', '%'.$searchValue.'%')
+                ->orWhere('email', 'like', '%'.$searchValue.'%')
+                ->orWhereRaw("date_format(date_of_join, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+            });
+
+            if($this->activeTab == 'all'){
+                $allTeams =   $allTeams->whereIn('id',$allIdofUsers);
+            }else if($this->activeTab == 'level_1'){
+                $allTeams =   $allTeams->whereIn('id',$levelOneUserIds);
+            }else if($this->activeTab == 'level_2'){
+                $allTeams =  $allTeams->whereIn('id',$levelTwoUserIds);
+            }else if($this->activeTab == 'level_3'){
+                $allTeams =  $allTeams->whereIn('id',$levelThreeUserIds);
+            }
+
+            $allTeams = $allTeams->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
+
+
+        return view('livewire.admin.partials.team-list', compact('allTeams'));
+    }
+
+   
 }

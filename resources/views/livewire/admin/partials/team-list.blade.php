@@ -1,4 +1,5 @@
-<!-- Start Level overview earning -->
+<div>
+  <!-- Start Level overview earning -->
 <div class="card mb-4">
     <div class="card-header background-purple-color">
         <label class="font-weight-bold">Level Overview Earning</label>
@@ -30,26 +31,25 @@
       <div class="card">
         <div class="card-body">
           <div class="my-team-head">
-
             <h4 class="card-title">Level Information</h4>
             <ul class="nav nav-tabs my-team-tab-head" id="myTab" role="tablist">
               <li class="nav-item">
-                <a class="nav-link active" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">all</a>
+                <a class="nav-link {{$activeTab == 'all' ? 'active' : ''}}" id="all-tab" data-toggle="tab" data-label="all" wire:click="switchTab('all')" href="#all" role="tab" aria-controls="all" aria-selected="true">all</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="level-01-tab" data-toggle="tab" href="#level-01" role="tab" aria-controls="level-01" aria-selected="false">level 01</a>
+                <a class="nav-link {{$activeTab == 'level_1' ? 'active' : ''}}" id="level-01-tab" data-toggle="tab" wire:click="switchTab('level_1')" href="#level-01" role="tab" aria-controls="level-01" aria-selected="false">level 01</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="level-02-tab" data-toggle="tab" href="#level-02" role="tab" aria-controls="level-02" aria-selected="false">level 02</a>
+                <a class="nav-link {{$activeTab == 'level_2' ? 'active' : ''}}" id="level-02-tab" data-toggle="tab" wire:click="switchTab('level_2')" href="#level-02" role="tab" aria-controls="level-02" aria-selected="false">level 02</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="level-03-tab" data-toggle="tab" href="#level-03" role="tab" aria-controls="level-03" aria-selected="false">level 03</a>
+                <a class="nav-link {{$activeTab == 'level_3' ? 'active' : ''}}" id="level-03-tab" data-toggle="tab" wire:click="switchTab('level_3')" href="#level-03" role="tab" aria-controls="level-03" aria-selected="false">level 03</a>
               </li>
             </ul>
           </div>
           <div class="tab-content border-0 p-0" id="myTabContent">
             
-            <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+            <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab" >
               <div class="table-responsive my-team-details leaderboard-data">
                 <div class="table-header-plugins">
                   <!-- Start show length -->
@@ -72,6 +72,7 @@
                   <!-- End Search -->
                 </div>
                <!-- table 1 -->
+               @if($activeTab == 'all')
                 <table class="table table-striped">
                   <thead>
                     <tr>
@@ -108,9 +109,29 @@
                {{$allTeams->links('vendor.pagination.bootstrap-5') }}
             </div>
 
-            <div class="tab-pane fade" id="level-01" role="tabpanel" aria-labelledby="level-01-tab">
-              <div class="table-responsive my-team-details">
-                
+            <div class="tab-pane fade" id="level-01" role="tabpanel" aria-labelledby="level-01-tab" >
+              <div class="table-responsive my-team-details leaderboard-data">
+              <div class="table-header-plugins">
+                  <!-- Start show length -->
+                  <div class="dataTables_length">
+                        <label>Show 
+                            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                                @foreach(config('constants.datatable_paginations') as $length)
+                                <option value="{{ $length }}">{{ $length }}</option>
+                                @endforeach
+                            </select> 
+                        entries</label>
+                 </div>
+                  <!-- End show length -->
+                  <!--Start search  -->
+                  <div class="search-container">
+                    <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
+                    <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
+                  </div>
+
+                  <!-- End Search -->
+                </div>
+                @elseif($activeTab == 'level_1')
                 <table class="table table-striped">
                   <thead>
                   <tr>
@@ -123,9 +144,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                  @if($levelOneRecords->count() > 0)
+                  @if($allTeams->count() > 0)
                 <tr>
-                @foreach($levelOneRecords as $team)
+                @foreach($allTeams as $team)
                     <td>{{$loop->iteration}}</td>
                     <td>{{ucwords($team->name)}}</td>
                     <td>{{$team->email}}</td>
@@ -142,12 +163,32 @@
                   </tbody>
                 </table>
               </div>
-             {{ $levelOneRecords->links('vendor.pagination.bootstrap-5') }}
+             {{ $allTeams->links('vendor.pagination.bootstrap-5') }}
             </div>
 
-            <div class="tab-pane fade" id="level-02" role="tabpanel" aria-labelledby="level-02-tab">
-              <div class="table-responsive my-team-details">
-              
+            <div class="tab-pane fade" id="level-02" role="tabpanel" aria-labelledby="level-02-tab" >
+              <div class="table-responsive my-team-details leaderboard-data">
+              <div class="table-header-plugins">
+                  <!-- Start show length -->
+                  <div class="dataTables_length">
+                        <label>Show 
+                            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                                @foreach(config('constants.datatable_paginations') as $length)
+                                <option value="{{ $length }}">{{ $length }}</option>
+                                @endforeach
+                            </select> 
+                        entries</label>
+                 </div>
+                  <!-- End show length -->
+                  <!--Start search  -->
+                  <div class="search-container">
+                    <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
+                    <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
+                  </div>
+
+                  <!-- End Search -->
+                </div>
+                @elseif($activeTab == 'level_2')
                 <table class="table table-striped">
                   <thead>
                     <tr>
@@ -160,9 +201,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                  @if($levelTwoRecords->count() > 0)
+                  @if($allTeams->count() > 0)
                     <tr>
-                    @foreach($levelTwoRecords as $team)
+                    @foreach($allTeams as $team)
                         <td>{{$loop->iteration}}</td>
                         <td>{{ucwords($team->name)}}</td>
                         <td>{{$team->email}}</td>
@@ -179,11 +220,32 @@
                   </tbody>
                 </table>
               </div>
-               {{$levelTwoRecords->links('vendor.pagination.bootstrap-5') }}
+               {{$allTeams->links('vendor.pagination.bootstrap-5') }}
             </div>
 
-            <div class="tab-pane fade" id="level-03" role="tabpanel" aria-labelledby="level-03-tab">
-              <div class="table-responsive my-team-details">
+            <div class="tab-pane fade" id="level-03" role="tabpanel" aria-labelledby="level-03-tab" >
+              <div class="table-responsive my-team-details leaderboard-data">
+              <div class="table-header-plugins">
+                  <!-- Start show length -->
+                  <div class="dataTables_length">
+                        <label>Show 
+                            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                                @foreach(config('constants.datatable_paginations') as $length)
+                                <option value="{{ $length }}">{{ $length }}</option>
+                                @endforeach
+                            </select> 
+                        entries</label>
+                 </div>
+                  <!-- End show length -->
+                  <!--Start search  -->
+                  <div class="search-container">
+                    <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
+                    <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
+                  </div>
+
+                  <!-- End Search -->
+                </div>
+                @else
                 <table class="table table-striped">
                   <thead>
                     <tr>
@@ -196,9 +258,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                  @if($levelThreeRecords->count() > 0)
+                  @if($allTeams->count() > 0)
                     <tr>
-                    @foreach($levelThreeRecords as $team)
+                    @foreach($allTeams as $team)
                         <td>{{$loop->iteration}}</td>
                         <td>{{ucwords($team->name)}}</td>
                         <td>{{$team->email}}</td>
@@ -215,10 +277,9 @@
                   </tbody>
                 </table>
               </div>
-              {{$levelThreeRecords->links('vendor.pagination.bootstrap-5') }}
+              {{$allTeams->links('vendor.pagination.bootstrap-5') }}
+              @endif
             </div>
-
-            
            
             
           </div>
@@ -228,6 +289,20 @@
   </div>
 </div>
 
+</div>
+
+@push('scripts')
+<!-- <script>
+  $(document).on('click','.data-label',function(){
+     console.log('hello');
+  });
+
+  $('.data-label').click(function(){
+     var data =  $this.data('label');
+    Livewire.emit('switchLebel', data);
+  })
+</script> -->
+@endpush
 
 
 
