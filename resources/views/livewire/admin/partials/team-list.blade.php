@@ -86,8 +86,8 @@
                   </thead>
                   <tbody>
                 @if($allTeams->count() > 0)
-                <tr>
                 @foreach($allTeams as $team)
+                <tr>
                     <td>{{$loop->iteration}}</td>
                     <td>{{ucwords($team->name)}}</td>
                     <td>{{$team->email}}</td>
@@ -95,8 +95,8 @@
                    
                     <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
                     <td>{{$team->date_of_join}}</td>
+                  </tr>
                 @endforeach
-                </tr>
                 @else
                 <tr>
                     <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
@@ -145,16 +145,16 @@
                   </thead>
                   <tbody>
                   @if($allTeams->count() > 0)
+                  @foreach($allTeams as $team)
                 <tr>
-                @foreach($allTeams as $team)
                     <td>{{$loop->iteration}}</td>
                     <td>{{ucwords($team->name)}}</td>
                     <td>{{$team->email}}</td>
                     <td>{{$team->phone}}</td>
                     <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
                     <td>{{$team->date_of_join}}</td>
-                @endforeach
-                    </tr>
+                  </tr>
+                  @endforeach
                 @else
                 <tr>
                     <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
@@ -202,16 +202,16 @@
                   </thead>
                   <tbody>
                   @if($allTeams->count() > 0)
+                  @foreach($allTeams as $team)
                     <tr>
-                    @foreach($allTeams as $team)
                         <td>{{$loop->iteration}}</td>
                         <td>{{ucwords($team->name)}}</td>
                         <td>{{$team->email}}</td>
                         <td>{{$team->phone}}</td>
                         <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
                         <td>{{$team->date_of_join}}</td>
-                    @endforeach
-                    </tr>
+                      </tr>
+                  @endforeach
                 @else
                 <tr>
                     <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
@@ -259,16 +259,16 @@
                   </thead>
                   <tbody>
                   @if($allTeams->count() > 0)
+                  @foreach($allTeams as $team)
                     <tr>
-                    @foreach($allTeams as $team)
                         <td>{{$loop->iteration}}</td>
                         <td>{{ucwords($team->name)}}</td>
                         <td>{{$team->email}}</td>
                         <td>{{$team->phone}}</td>
                         <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
                         <td>{{$team->date_of_join}}</td>
-                    @endforeach
-                    </tr>
+                      </tr>
+                  @endforeach
                 @else
                 <tr>
                     <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
