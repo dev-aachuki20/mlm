@@ -67,6 +67,7 @@
                         <i class="fa fa-arrow-down {{ $sortColumnName === 'created_at' && $sortDirection === 'desc' ? '' : 'text-muted' }}"></i>
                     </span>
                 </th>
+                <!-- <th>Action</th> -->
             </tr>
         </thead>
         <tbody>
@@ -79,6 +80,11 @@
                 <td><i class="fa-sharp fa-solid fa-indian-rupee-sign"></i> {{ number_format($payment->amount,2) }}</td>
                 <td>{{ $type }}</td>
                 <td>{{ convertDateTimeFormat($payment->created_at,'datetime') }}</td>
+                <!-- <td>
+                    <button  type="button" class="btn btn-sm btn-primary btn-icon-text float-right">
+                        View
+                    </button>
+                </td> -->
 
             </tr>
             @endforeach

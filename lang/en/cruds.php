@@ -107,7 +107,7 @@ return [
             'level' => 'Level',
             'image' => 'Image',
             'video' => 'Video',
-            // 'created_at' => 'Created At',
+            'created_at' => 'Created At',
         ],
     ],
 
