@@ -335,6 +335,18 @@ class SettingSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'created_by' => 1,
             ],
+            [
+                'id'     => 26,
+                'key'    => 'shipped_to',
+                'value'  =>  null,
+                'type'   => 'text_area',
+                'display_name'  => 'Shipped To',
+                'group'  => 'site',
+                'details' => null,
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
 
         ];
 

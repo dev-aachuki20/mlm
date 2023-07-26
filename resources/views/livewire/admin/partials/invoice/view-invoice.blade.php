@@ -4,7 +4,13 @@
             <div class="card">
                 <div class="card-body">
                     <div class="my-team-head">
-                        <h4 class="card-title">My Invoice</h4>
+                        <h4 class="card-title">{{ucwords($user_data['name'])}} Invoice</h4>
+                        <button class="btn btn-primary btn-sm" wire:loading.attr="disabled" wire:click="cancelbutton">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            <span wire:loading wire:target="cancelbutton">
+                                <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                            </span>
+                        </button>
                     </div>
                     <div class="invoice-box">
                         <div class="row">
@@ -107,7 +113,7 @@
                         <div class="row">
                             <div class="col-md-12 text-center">
                                 <!-- <a href="{{route('pdf.create',encrypt($detail->id))}}" class="btn btn-success ml15"><i class="fa fa-print mr5"></i> Preview</a> -->
-                                <a href="{{route('pdf.preview',encrypt($detail->id))}}" target="_blank" class="btn btn-success ml15"><i class="fa fa-print mr5"></i> Download/Print </a>
+                                <a href="{{route('pdf.preview',encrypt($detail->id))}}" target="_blank" class="btn btn-success ml15"><i class="fa fa-print mr5"></i> Download/Print</a>
                             </div>
                         </div>
                     </div>

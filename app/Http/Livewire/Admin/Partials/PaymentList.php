@@ -21,10 +21,11 @@ class PaymentList extends Component
     public $total_earning = 0, $total_withdrawal = 0, $total_remaning_earning = 0;
     public $payment_type, $type;
 
-    public $search = '', $formMode = false , $updateMode = false, $viewMode = false;
+    public $search = '', $formMode = false , $updateMode = false, $viewMode = false, $viewInvoice = false;
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
     public $payments;
+    public $user_id = null;
 
     protected $listeners = [
         'updatePaginationLength'
@@ -81,6 +82,8 @@ class PaymentList extends Component
         $this->emitUp('cancel');
     }
 
+    
+
     public function render()
     {
         $this->search = str_replace(',', '', $this->search);
@@ -104,5 +107,18 @@ class PaymentList extends Component
         ->paginate($this->paginationLength);
 
         return view('livewire.admin.partials.payment-list',compact('allPayments'));
+    }
+
+    public function cancelbutton(){
+        $this->viewMode = true;
+        $this->viewInvoice = false;
+        $this->emitSelf('cancel');
+    }
+
+    public function showInvoice($id)
+    {
+        $this->viewMode = false;
+        $this->user_id = $id;
+        $this->viewInvoice = true;
     }
 }

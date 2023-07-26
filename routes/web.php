@@ -96,7 +96,8 @@ Route::group(['middleware' => ['auth', 'preventBackHistory']], function () {
         Route::view('referral-link', 'user.referral-link')->name('referral-link');
         Route::view('customer-support', 'user.customer-support')->name('customer-support');
         Route::get('{slug}', [PageController::class, 'userPage'])->name('page');
-        Route::get('pdf/create/{invoice_id}', [PDFController::class, 'index'])->name('pdf.create');
-        Route::get('pdf/preview/{invoice_id}', [PDFController::class, 'preview'])->name('pdf.preview');
     });
+
+    Route::get('pdf/create/{invoice_id}', [PDFController::class, 'index'])->name('pdf.create');
+    Route::get('pdf/preview/{invoice_id}', [PDFController::class, 'preview'])->name('pdf.preview');
 });

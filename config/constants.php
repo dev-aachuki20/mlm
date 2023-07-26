@@ -28,6 +28,7 @@ return [
     'time_format'     => 'H:i:s',
     'search_datetime_format' => '%d-%m-%Y %H:%i',
     'search_date_format' => '%d-%m-%Y',
+    'month_format' =>'F j, Y',
 
     'set_timezone' => 'Asia/kolkata', // set timezone
 

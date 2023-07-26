@@ -59,8 +59,8 @@
                                                             <td style="text-align: right;">
                                                                 <b>Invoice</b><br>
                                                                 <b>Order #</b> {{$invoice_id}}<br>
-                                                                <b>Order Date:</b>
-                                                                {{convertDateTimeFormat($invoice_date,'date')}}<br>
+                                                                <!-- <b>Order Date:</b> -->
+                                                                {{convertDateTimeFormat($invoice_date,'monthformat')}}<br>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -69,15 +69,41 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <address>
-                                                <b>Billed To:</b><br>
-                                                {{ucwords($user_name)}}<br>
-                                                {{ucwords($user_address)}}
-                                            </address>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row mt-4">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive table-striped">
+                                                <table class="table table-condensed">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="col-md-6">
+                                                                    <address>
+                                                                        <b>Billed To:</b><br>
+                                                                        {{ucwords($user_name)}}<br>
+                                                                        {{ucwords($user_address)}}
+                                                                    </address>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align: right;">
+                                                                <div class="col-md-6">
+                                                                        <address>
+                                                                            <b>Shipped To:</b><br>
+                                                                            {{strip_tags(getSetting('shipped_to'))}}
+                                                                        </address>
+                                                                </div><br>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
+                                    <hr>
                                 </div>
                             </div>
 
@@ -89,35 +115,40 @@
                                                 <th><b>#</b></th>
                                                 <th><b>Description </b></th>
                                                 <th class="text-center"><b>Price</b></th>
-                                                <th class="text-center"><b>Totals</b></th>
+                                                <th class="text-center"><b>Quantity</b></th>
+                                                <th class="text-center"><b>Total</b></th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr class="trdata">
                                                 <td class="tddata">1</td>
 
-                                                <td class="tddata">{{ucwords($package_title)}} <br>
+                                                <td class="tddata"><b>{{ucwords($package_title)}}</b> <br>
                                                     <b>Duration :</b>{{$package_duration}} <br>
                                                     <b>Level :</b>{{ucfirst(config('constants.levels')[$package_level])}} <br>
                                                     <b>Enrolled :</b>{{$userenrolled}} Enrolled
                                                 </td>
 
-                                                <td class="tddata text-center"><span style="font-family: DejaVu Sans; sans-serif;">&#x20B9;</span> {{$invoice_amount}}</td>
+                                                <td class="tddata text-center"><span style="font-family: DejaVu Sans; sans-serif;">&#x20B9;</span> {{number_format($invoice_amount,2)}}</td>
 
-                                                <td class="text-center tddata"><span style="font-family: DejaVu Sans; sans-serif;">&#x20B9;</span> {{$invoice_amount}}</td>
+                                                <td class="tddata text-center"><span>1</td>
+
+                                                <td class="tddata text-center"><span style="font-family: DejaVu Sans; sans-serif;">&#x20B9;</span> {{number_format($invoice_amount,2)}}</td>
                                             </tr>
 
                                             <tr class="trdata">
+                                                <td class="thick-line"></td>
                                                 <td class="thick-line"></td>
                                                 <td class="thick-line"></td>
                                                 <td class="thick-line text-center"><strong>Subtotal</strong></td>
-                                                <td class="thick-line text-center"><span style="font-family: DejaVu Sans; sans-serif;">&#x20B9;</span> {{$invoice_amount}}</td>
+                                                <td class="thick-line text-center"><span style="font-family: DejaVu Sans; sans-serif;">&#x20B9;</span> {{number_format($invoice_amount,2)}}</td>
                                             </tr>
                                             <tr class="trdata">
                                                 <td class="no-line"></td>
                                                 <td class="no-line"></td>
+                                                <td class="no-line"></td>
                                                 <td class="no-line text-center"><strong>Total</strong></td>
-                                                <td class="no-line text-center"><span style="font-family: DejaVu Sans; sans-serif;">&#x20B9;</span> {{$invoice_amount}}</td>
+                                                <td class="no-line text-center"><span style="font-family: DejaVu Sans; sans-serif;">&#x20B9;</span> {{number_format($invoice_amount,2)}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
