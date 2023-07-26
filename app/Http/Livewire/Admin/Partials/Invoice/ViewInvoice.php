@@ -10,14 +10,16 @@ class ViewInvoice extends Component
 {
     protected $layout = null;
     public $search = '', $formMode = false, $updateMode = false, $viewMode = false;
-    public $detail, $userenrolled, $pkg_data, $user_data;
+    public $detail, $userenrolled, $pkg_data = null, $user_data = null;
     public $user_id = null;
 
     public function mount($user_id)
     { 
         $this->detail = Invoice::where('user_id',$user_id)->first();
-        $this->pkg_data = json_decode($this->detail->package_json,true);
-        $this->user_data = json_decode($this->detail->user_json,true);
+        if($this->detail){
+            $this->pkg_data = json_decode($this->detail->package_json,true);
+            $this->user_data = json_decode($this->detail->user_json,true);
+        }
     }
 
 

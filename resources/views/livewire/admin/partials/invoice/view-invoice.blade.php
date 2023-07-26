@@ -3,6 +3,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                    @if($detail)
                     <div class="my-team-head">
                         <h4 class="card-title">{{ucwords($user_data['name'])}} Invoice</h4>
                         <button class="btn btn-primary btn-sm" wire:loading.attr="disabled" wire:click="cancelbutton">
@@ -117,6 +118,9 @@
                             </div>
                         </div>
                     </div>
+                    @else
+                    <p>Invoice Not Available</p>
+                    @endif
                 </div>
             </div>
         </div>

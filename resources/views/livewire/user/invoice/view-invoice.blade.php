@@ -3,6 +3,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                @if($detail)
                     <div class="my-team-head">
                         <h4 class="card-title">My Invoice</h4>
                     </div>
@@ -111,6 +112,9 @@
                             </div>
                         </div>
                     </div>
+                @else
+                    <p>Invoice Not Available</p>
+                @endif
                 </div>
             </div>
         </div>

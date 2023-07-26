@@ -15,8 +15,10 @@ class ViewInvoice extends Component
     {
         $this->detail = Invoice::find($invoice_id);
         $this->userenrolled = auth()->user()->packages()->count();
+        if($this->detail){
         $this->pkg_data = json_decode($this->detail->package_json,true);
         $this->user_data = json_decode($this->detail->user_json,true);
+        }
     }
 
     public function render()
