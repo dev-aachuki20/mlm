@@ -252,6 +252,7 @@
                 <ul class="icon-data-list">
                   @if($weeklyTopRecords->count() > 0)
                     @foreach($weeklyTopRecords as $record)
+                    @if($record->user)
                     <li>
                       <div class="d-flex recent-list-detail">
                         <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
@@ -262,6 +263,7 @@
                       </div>                      
                       <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
                     </li>
+                    @endif
                     @endforeach
                   @else
                     <li>No Record Found!</li>
@@ -275,6 +277,7 @@
                 <ul class="icon-data-list">
                   @if($monthlyTopRecords->count() > 0)
                     @foreach($monthlyTopRecords as $record)
+                     @if($record->user)
                       <li>
                         <div class="d-flex recent-list-detail">
                           <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
@@ -285,6 +288,7 @@
                         </div>                      
                         <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
                       </li>
+                      @endif
                       @endforeach
                     @else
                       <li>No Record Found!</li>
@@ -298,16 +302,18 @@
                 <ul class="icon-data-list">
                   @if($yearlyTopRecords->count() > 0)
                     @foreach($yearlyTopRecords as $record)
-                    <li>
-                      <div class="d-flex recent-list-detail">
-                        <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
-                        <div class="leaderboard-row">
-                          {{ ucwords($record->user->name) }}
-                          <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
-                        </div>
-                      </div>                      
-                      <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
-                    </li>
+                     @if($record->user)
+                        <li>
+                          <div class="d-flex recent-list-detail">
+                            <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
+                            <div class="leaderboard-row">
+                              {{ ucwords($record->user->name) }}
+                              <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                            </div>
+                          </div>                      
+                          <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
+                        </li>
+                     @endif
                     @endforeach
                   @else
                     <li>No Record Found!</li>
@@ -322,16 +328,18 @@
                  
                   @if($allTimeTopRecords->count() > 0)
                     @foreach($allTimeTopRecords as $record)
-                    <li>
-                      <div class="d-flex recent-list-detail">
-                        <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
-                        <div class="leaderboard-row">
-                          {{ ucwords($record->user->name) }}
-                          <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
-                        </div>
-                      </div>                      
-                      <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
-                    </li>
+                     @if($record->user)
+                        <li>
+                          <div class="d-flex recent-list-detail">
+                            <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
+                            <div class="leaderboard-row">
+                              {{ ucwords($record->user->name) }}
+                              <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                            </div>
+                          </div>                      
+                          <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
+                        </li>
+                    @endif
                     @endforeach
                   @else
                     <li>No Record Found!</li>
