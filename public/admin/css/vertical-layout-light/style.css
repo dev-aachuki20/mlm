@@ -30870,13 +30870,23 @@ h1,h2,h3,h4,h5,h6{
     justify-content: space-between;
 }
 .form-control{
-    color: #464B70;
+    color: #464B70 !important;
     border: 1px solid #ECE6E6;
     height: 42px;
     font-family: 'Nunito Sans', sans-serif;
     padding: 0 12px;
     font-size: 18px !important;
     line-height: normal !important;
+}
+button.btn.w-auto.mt-0 {
+    background: #f24f00;
+    color: #fff;
+}
+button.btn.w-auto:focus {
+    box-shadow: 0px 0px 0 2px #f24f0066;
+}
+.panel-setion .panel-img img {
+    max-width: 100%;
 }
 input::placeholder{
     color: #464B70 !important;
@@ -31763,13 +31773,19 @@ img.hide-password, .fa-eye-slash img.view-password {
     height: 100%;
     color: #fff;
     width: 100%;
-    font-size: 18px;
+    font-size: 14px;
     text-transform: capitalize;
     max-width: 200px;
 }
+.copy-button input.btn:focus {
+  box-shadow: 0px 0px 0 2px #f24f0066;
+}
+.course-main .video-container video {
+    height: 127px;
+}
 select.form-control {
     background-image: url('data:image/svg+xml,<svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 7L13 1" stroke="%23464B70" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-    background-position: 93% 53%;
+    background-position: right 20px center;
     background-size: auto;
     background-repeat: no-repeat;
     -webkit-appearance: none;
@@ -31778,8 +31794,24 @@ select.form-control {
 .referral-link-form .row{
   row-gap: 20px;
 }
+body .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 43px;
+    right: 11px;
+}
+body .select2-container .select2-selection--single .select2-selection__rendered {
+    padding-left: 0;
+}
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 /*invoice design */
 
 .invoice-box {

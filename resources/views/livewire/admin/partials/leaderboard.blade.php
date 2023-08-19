@@ -53,6 +53,7 @@
                       @if($allTimeTopRecords)
                         @if($allTimeTopRecords->count() > 0)
                           @foreach($allTimeTopRecords as $serialNo => $record)
+                          @if($record->user)
                             <tr>
                               <td class="pr-0"  width="50px">
                                 <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
@@ -65,6 +66,7 @@
                               </td>
                               <td class="text-right"><strong>&#8377 {{ number_format($record->total_amount,2) }}</strong></td>
                             </tr>
+                            @endif
                           @endforeach
                         @else
                           <tr><td colspan="2">No Record Found!</td></tr>
@@ -109,6 +111,7 @@
                       @if($weeklyTopRecords)
                         @if($weeklyTopRecords->count() > 0)
                           @foreach($weeklyTopRecords as $serialNo => $record)
+                          @if($record->user)
                             <tr>
                               <td class="pr-0"  width="50px">
                                 <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
@@ -121,6 +124,7 @@
                               </td>
                               <td class="text-right"><strong>&#8377 {{ number_format($record->total_amount,2) }}</strong></td>
                             </tr>
+                            @endif
                           @endforeach
                         @else
                           <tr><td colspan="2">No Record Found!</td></tr>
@@ -163,6 +167,7 @@
                       @if($monthlyTopRecords)
                         @if($monthlyTopRecords->count() > 0)
                           @foreach($monthlyTopRecords as $serialNo => $record)
+                          @if($record->user)
                             <tr>
                               <td class="pr-0"  width="50px">
                                 <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
@@ -175,6 +180,7 @@
                               </td>
                               <td class="text-right"><strong>&#8377 {{ number_format($record->total_amount,2) }}</strong></td>
                             </tr>
+                            @endif
                           @endforeach
                         @else
                           <tr><td colspan="2">No Record Found!</td></tr>
@@ -217,6 +223,7 @@
                       @if($yearlyTopRecords)
                         @if($yearlyTopRecords->count() > 0)
                           @foreach($yearlyTopRecords as $serialNo => $record)
+                          @if($record->user)
                             <tr>
                               <td class="pr-0"  width="50px">
                                 <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
@@ -229,6 +236,7 @@
                               </td>
                               <td class="text-right"><strong>&#8377 {{ number_format($record->total_amount,2) }}</strong></td>
                             </tr>
+                            @endif
                           @endforeach
                         @else
                           <tr><td colspan="2">No Record Found!</td></tr>
