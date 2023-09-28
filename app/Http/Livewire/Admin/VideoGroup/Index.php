@@ -40,7 +40,7 @@ class Index extends Component
     {
         abort_if(Gate::denies('course_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->course_id = $course_id;
-        $this->courseName = Course::find($this->course_id)->value('name');
+        $this->courseName = Course::find($this->course_id)->name;        
     }
 
     public function updatePaginationLength($length)
@@ -112,7 +112,7 @@ class Index extends Component
     public function store()
     {
         $validatedData = $this->validate([
-            'title'       => 'required',
+            'title'       => 'required|max:191|unique:video_groups,title',
             'description' => 'required',
             'status'      => 'required',
             'image'       => 'required|image|max:' . config('constants.img_max_size'),
@@ -123,7 +123,7 @@ class Index extends Component
         $validatedData['course_id'] = $this->course_id;
         $validatedData['duration'] = $this->videoDuration ?? null;
 
-
+        
         $videoGroup = VideoGroup::create($validatedData);
 
         // Upload Image
@@ -170,7 +170,7 @@ class Index extends Component
 
     public function update()
     {
-        $validatedArray['title']        = 'required';
+        $validatedArray['title']        = 'required|max:191|unique:video_groups,title';
         $validatedArray['description'] = 'required';
         $validatedArray['status']      = 'required';
 
@@ -186,7 +186,7 @@ class Index extends Component
 
         $validatedData['course_id'] = $this->course_id;
         $validatedData['status'] = $this->status;
-
+        dd(1);
         $videoGroup = VideoGroup::find($this->group_video_id);
 
         // Check if the image has been changed

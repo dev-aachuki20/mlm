@@ -72,7 +72,7 @@
                                             <td>{{ ucwords($webinar->presenter) }}</td>
                                             <td>
                                                 <label class="toggle-switch">
-                                                    <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$webinar->id}})" wire:click.prevent="confirmAlert('You want to change the status.','updateStatus',{{$webinar->id}})" {{ $webinar->status == 1 ? 'checked' : '' }}>
+                                                    <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$webinar->id}})" {{ $webinar->status == 1 ? 'checked' : '' }}>
                                                     <div class="switch-slider round"></div>
                                                 </label>
 

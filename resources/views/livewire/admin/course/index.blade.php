@@ -81,7 +81,7 @@
                                     <td>
 
                                         @can('course_show')
-                                        <button title="Show" type="button" wire:click.prevent="show({{$course->id}})" class="btn btn-primary btn-rounded btn-icon">
+                                        <button title="View" type="button" wire:click.prevent="show({{$course->id}})" class="btn btn-primary btn-rounded btn-icon">
                                             <i class="ti-eye"></i>
                                         </button>
                                         @endcan

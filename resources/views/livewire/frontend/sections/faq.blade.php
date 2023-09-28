@@ -14,7 +14,6 @@
         <div class="col-lg-10 col-sm-12">
           <div class="faq-accordion">
             <div class="accordion" id="accordionExample">
-
               @if($allFaqs)
                 @foreach($allFaqs as $faq_key=>$faq)
                   <div class="accordion-item">

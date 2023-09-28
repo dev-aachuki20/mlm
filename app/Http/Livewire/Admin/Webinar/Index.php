@@ -262,12 +262,15 @@ class Index extends Component
     }
 
     public function confirmedToggleAction($event)
-    {
+    {        
         $webinarId = $event['data']['inputAttributes']['webinarId'];
-        $model = Webinar::find($courseId);
+        $model = Webinar::find($webinarId);
         $model->update(['status' => !$model->status]);
         $this->alert('success', trans('messages.change_status_success_message'));
     }
 
+    public function changeStatus($statusVal){
+        $this->status = (!$statusVal) ? 1 : 0;
+    }
 
 }

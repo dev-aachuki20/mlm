@@ -22,11 +22,14 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row">        
         <div class="col-lg-7 col-sm-12">
+          @if($ceoUserDetail)
           <div class="founder-details">
             <div class="founder-img">
+              
               <img src="{{ $ceoUserDetail->profile_image_url ? $ceoUserDetail->profile_image_url : asset(config('constants.default_user_logo')) }}">
+              
             </div>
             <div class="founder-about">
               <label class="color-orange body-size-normal">Founder</label>
@@ -60,6 +63,7 @@
               </div>
             </div>
           </div>
+          @endif
         </div>
         <div class="col-lg-5 col-sm-12">
           <div class="our-team-slider">

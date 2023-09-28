@@ -107,6 +107,7 @@ class Index extends Component
 
     public function store()
     {
+       // dd($this->all());
         $validatedData = $this->validate([
             'title'      => 'required|'.Rule::unique('package')->whereNull('deleted_at'),
             'sub_title'  => 'required',

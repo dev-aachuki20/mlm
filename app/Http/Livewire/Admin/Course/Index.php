@@ -284,5 +284,7 @@ class Index extends Component
         $this->alert('success', trans('messages.change_status_success_message'));
     }
 
-   
+    public function changeStatus($statusVal){
+        $this->status = (!$statusVal) ? 1 : 0;
+    }
 }
