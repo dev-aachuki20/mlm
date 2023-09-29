@@ -63,18 +63,18 @@
                                         
                                         <div class="col-md-4 col-sm-12">
                                             <div class="input-form">
-                                                <label for="referral-code" class="form-label">Referral ID</label>
-                                                <input id="referral-code" type="text" class="form-control p-24" wire:model.defer="referralCode" placeholder="Referral Code" autocomplete="off">
+                                                <label for="referral-code" class="form-label">{{ trans('cruds.user.fields.sponser_id') }}</label>
+                                                <input id="referral-code" type="text" class="form-control p-24" wire:model.defer="sponserCode" placeholder="Sponser ID" autocomplete="off">
                                             </div>
-                                            @error('referralCode') <span class="error text-danger">{{ $message }}</span> @enderror
+                                            @error('sponserCode') <span class="error text-danger">{{ $message }}</span> @enderror
                                         </div>
 
                                         <div class="col-md-4 col-sm-12">
                                             <div class="input-form">
-                                                <label for="referral-name" class="form-label">Referral Name</label>
-                                                <input id="referral-name" type="text" class="form-control p-24" wire:model.defer="referralName" placeholder="Referral Name" autocomplete="off">
+                                                <label for="referral-name" class="form-label">{{ trans('cruds.user.fields.sponser_name') }}</label>
+                                                <input id="referral-name" type="text" class="form-control p-24" wire:model.defer="sponserName" placeholder="Sponser Name" autocomplete="off">
                                             </div>
-                                            @error('referralName') <span class="error text-danger">{{ $message }}</span> @enderror
+                                            @error('sponserName') <span class="error text-danger">{{ $message }}</span> @enderror
                                         </div>
 
                                         <div class="col-md-2 col-sm-12">
@@ -219,16 +219,43 @@
 <script src="{{ asset('admin/assets/select2/select2.min.js') }}"></script>
 
 <script type="text/javascript">
+
+    document.addEventListener('reinitializePlugins', function (event) {
+        $(".select-city").select2({
+                placeholder: 'Select City',
+        });
+        $(document).on('change','.select-city',function(){
+            var selectCity = $(this).val();
+            // @this.set('city', selectCity);
+            Livewire.emit('updatedCity',selectCity);
+        });
+    });
     document.addEventListener('loadPlugins', function(event) {
         // print_state("state_id");
 
         if ($(".js-example-basic-single").length) {
             $(".js-example-basic-single").select2();
         }
+       
+        $(document).on('change','.select-state',function(){
+            var selectState = $(this).val();
+            var stateId = $('.select-state option:selected').attr('data-stateId');            
+            // @this.set('state', selectState);
+            Livewire.emit('updatedState',selectState,stateId);
+        });
+        // End select2 for state
 
-        $(document).on('change', '#state_id', function() {
-            var stateId = $(this).find('option:selected').attr('data-key');
-            print_city('city_id', stateId);
+        // Start select2 for city
+        if ($(".select-city").length) {
+            $(".select-city").select2({
+                placeholder: 'Select City',
+            });
+        }
+        
+        $(document).on('change','.select-city',function(){
+            var selectCity = $(this).val();
+            // @this.set('city', selectCity);
+            Livewire.emit('updatedCity',selectCity);
         });
 
         var today = new Date();

@@ -28,7 +28,7 @@ class Index extends Component
 
     public $allPackages;
 
-    public $salesReportId, $fromDate, $toDate, $userName, $packageName, $referralName, $referralCode;
+    public $salesReportId, $fromDate, $toDate, $userName, $packageName, $referralName, $referralCode, $sponserName, $sponserCode;
 
     public $filterApply = false;
 
@@ -79,7 +79,7 @@ class Index extends Component
     public function resetFilters()
     {
         $this->filterApply = false;
-        $this->reset(['fromDate', 'toDate', 'packageName', 'referralName', 'referralCode']);
+        $this->reset(['fromDate', 'toDate', 'packageName','sponserName', 'sponserCode']);
     }
 
     public function updatedFromDate($date)
@@ -138,7 +138,7 @@ class Index extends Component
 
             $allUser = User::query();
 
-            if ((!$this->fromDate && !$this->toDate && !$this->packageName && !$this->referralName && !$this->referralCode)) {
+            if ((!$this->fromDate && !$this->toDate && !$this->packageName && !$this->sponserName && !$this->sponserCode)) {
                 $allUser->get();
             }
 
@@ -148,11 +148,11 @@ class Index extends Component
             if ($this->packageName) {
                 $allUser->whereRelation('packages', 'title', 'like', $this->packageName);
             }
-            if ($this->referralName) {
-                $allUser->where('referral_name', $this->referralName);
+            if ($this->sponserName) {
+                $allUser->where('referral_name', $this->sponserName);
             }
-            if ($this->referralCode) {
-                $allUser->where('referral_code', $this->referralCode);
+            if ($this->sponserCode) {
+                $allUser->where('referral_code', $this->sponserCode);
             }
         }
         // End  filter

@@ -40,8 +40,8 @@ class Index extends BaseComponent
 
     public function updatedState($stateName,$stateId){
         $this->state = $stateName;
-        $this->stateId = (int)$stateId;
-        $this->allCities = explode(' | ' ,config('indian-regions.cities')[$this->stateId+1]);
+        $this->stateId = (int)$stateId;        
+        $this->allCities = explode(' | ' ,config('indian-regions.cities')[$this->stateId+1]);        
         $this->initializePlugins();
     }
 
@@ -158,7 +158,7 @@ class Index extends BaseComponent
     }
 
     public function updateProfile(){
-    //    dd($this->all());
+      
         $this->dispatchBrowserEvent('reinitializePlugins');
 
         if($this->activeTab == 'user-tab'){

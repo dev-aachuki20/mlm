@@ -89,25 +89,32 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="form-group">
-                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.state') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
-                            <input type="text" class="form-control" wire:model.defer="state" placeholder="{{ __('cruds.user.profile.state') }}"/>
-                            {{-- <select wire:model.defer="state" id="state_id" class="form-control">
-                                <option value="">Select State</option>
-                            </select> --}}
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.state') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>                            
+                            <select class="form-control select-state"  wire:model.defer="state" >
+                                <option>Select State</option>
+                                @foreach(config('indian-regions.states') as $id=>$stateName)
+                                    <option value="{{$stateName}}" {{ucwords($state) == $stateName ? 'selected':''}} data-stateId="{{$id}}">{{ ucwords($stateName) }}</option>
+                                @endforeach
+                            </select> 
                             @error('state') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.city') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
-                            <input type="text" class="form-control" wire:model.defer="city" placeholder="{{ __('cruds.user.profile.city') }}"/>
-                            {{-- <select wire:model.defer="city" id="city_id" class="form-control">
-                                <option value="">Select City</option>
-                            </select> --}}
+                            <select class="form-control select-city" wire:model.defer="city" >
+                                <option>Select City</option>                              
+                                    @if($allCities)
+                                    @foreach($allCities as $cityName)
+                                        <option value="{{$cityName}}" {{ucwords($city) == $cityName ? 'selected':''}}>{{ ucwords($cityName) }}</option>
+                                    @endforeach
+                                  
+                                    @endif
+                            </select>
                             @error('city') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>

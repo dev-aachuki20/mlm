@@ -23,14 +23,27 @@ class Show extends Component
 
     public $account_holder_name, $account_number, $bank_name, $branch_name, $ifsc_code, $aadhar_card_name, $aadhar_card_number,  $pan_card_name, $pan_card_number;
 
+    public $stateId, $allCities;
+
     protected $listeners = [
-        'updateDateOfJoin', 'updatedDob', 'updateNomineeDob', 'refreshComponent' => '$refresh'
+        'updateDateOfJoin','updatedState','updatedCity', 'updatedDob', 'updateNomineeDob', 'refreshComponent' => '$refresh'
     ];
 
     public function mount($user_id)
     {
         $this->user_id = $user_id;
         $this->detail = User::find($user_id);
+    }
+
+    public function updatedState($stateName,$stateId){
+        $this->state = $stateName;
+        $this->stateId = (int)$stateId;
+        $this->allCities = explode(' | ' ,config('indian-regions.cities')[$this->stateId+1]);        
+        $this->initializePlugins();
+    }
+    public function updatedCity($cityName){
+        $this->city = $cityName;
+        $this->initializePlugins();
     }
 
     public function editStepForm($formType)
@@ -53,6 +66,12 @@ class Show extends Component
             $this->state            = $this->detail->profile->state;
             $this->city             = $this->detail->profile->city;
             $this->pin_code         = $this->detail->profile->pin_code;
+
+            $keyIndex = array_search ($this->state, config('indian-regions.states'));
+            if($keyIndex){
+                $this->stateId = (int)$keyIndex;
+                $this->allCities = explode(' | ' ,config('indian-regions.cities')[$this->stateId+1]);    
+            }
         } elseif ($this->formType == 'nominee-detail') {
             $this->nominee_name     = $this->detail->profile->nominee_name;
             $this->nominee_dob      = Carbon::parse($this->detail->profile->nominee_dob)->format('d-m-Y');
@@ -91,6 +110,8 @@ class Show extends Component
 
     public function update()
     {
+        
+        $this->dispatchBrowserEvent('reinitializePlugins');
         $validateDataArray = [];
         if ($this->formType == 'personal-detail') {
             $validateDataArray['first_name'] = 'required';
@@ -101,8 +122,8 @@ class Show extends Component
             $validateDataArray['marital_status'] = 'required|in:married,unmarried';
             $validateDataArray['profession']     = 'required';
             $validateDataArray['address']        = 'required';
-            $validateDataArray['state']          = 'required';
-            $validateDataArray['city']           = 'required';
+            $validateDataArray['state']          = '';
+            $validateDataArray['city']           = '';
             $validateDataArray['pin_code']       = 'required';
         } else if ($this->formType == 'nominee-detail') {
             $validateDataArray['nominee_name']       = 'required';
@@ -214,4 +235,9 @@ class Show extends Component
     // {
     //     $this->activeTab = $tab;
     // }
+    
+
+    public function initializePlugins(){
+        $this->dispatchBrowserEvent('loadPlugins');
+    }
 }
