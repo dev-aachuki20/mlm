@@ -34,13 +34,13 @@
                                             <div class="name-list">
                                                 <span><img src="{{ asset('images/standard-pack/level.svg') }}"></span>Level
                                             </div>
-                                            <div class="details-course">{{ config('constants.levels')[$packageDetail->level] }}</div>
+                                            <div class="details-course">{{ ucfirst(config('constants.levels')[$packageDetail->level]) }}</div>
                                         </li>
                                         <li>
                                             <div class="name-list">
                                                 <span><img src="{{ asset('images/icons/my-course.svg') }}"></span>Lectures
                                             </div>
-                                            <div class="details-course">{{$lectureCount}}</div>
+                                            <div class="details-course">{{$lectureCount}} Enrolled</div>
                                         </li>
                                         <li>
                                             <div class="name-list">
