@@ -69,7 +69,7 @@
     <x-livewire-alert::flash />
 
     @stack('scripts')
-    
+
 </body>
 </html>
 <!-- new -->

@@ -51,7 +51,8 @@ class Index extends Component
 
         $currentWeekEarnings = Payment::whereBetween('created_at', [$currentStartOfWeek, $currentEndOfWeek])->sum('amount');
 
-        $diffreceWeekAmount = (float)$currentWeekEarnings - (float)$this->last7DaysEarnings;
+        // $diffreceWeekAmount = (float)$currentWeekEarnings - (float)$this->last7DaysEarnings;
+         $diffreceWeekAmount = (float)$this->todayEarnings - (float)$this->last7DaysEarnings;
         if($diffreceWeekAmount != 0 && $this->last7DaysEarnings != 0){
             $percentage = $diffreceWeekAmount / (float)$this->last7DaysEarnings * 100;
             $this->last7DaysEarningPercent = number_format(min($percentage, 100),2);
