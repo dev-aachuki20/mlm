@@ -59,6 +59,11 @@ return [
         'extensions' => 'jpeg,jpg,JPG',
     ],
 
+    'gateway' => [
+        1 => 'Razorpay',
+    ],
+
+
 
     'slider_limit' => '5',
 

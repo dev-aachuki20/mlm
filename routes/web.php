@@ -95,6 +95,7 @@ Route::group(['middleware' => ['auth', 'preventBackHistory']], function () {
         Route::view('invoice', 'user.invoice.index')->name('invoice');
         Route::view('referral-link', 'user.referral-link')->name('referral-link');
         Route::view('customer-support', 'user.customer-support')->name('customer-support');
+        Route::view('statement', 'user.statement.index')->name('statement');
         Route::get('{slug}', [PageController::class, 'userPage'])->name('page');
     });
 
