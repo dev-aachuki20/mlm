@@ -775,16 +775,22 @@ span.error.text-danger {
     margin: 40px 0 10px;
 }
 /**/
-
+.footer-logo {
+    max-width: 230px;
+}
 /*header main*/
 .header-top{
     background-color: var(--color-white);
-    padding: 25px 0px;
+    padding: 12px 0px;
     border-bottom: solid 1px #E9E3F0;
+}
+.logo {
+    max-width: 230px;
 }
 .header-top .container {
     max-width: 1804px;
 }
+
 .button-group {
     display: flex;
     gap: 30px;

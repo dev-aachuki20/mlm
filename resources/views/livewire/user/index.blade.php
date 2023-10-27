@@ -89,11 +89,7 @@
               <div class="user-details-list">
                 <ul>
                   <li>
-                    <div class="left">Designation</div>
-                    <div class="right"></div>
-                  </li>
-                  <li>
-                    <div class="left">Affilate</div>
+                    <div class="left"> Package </div>
                     <div class="right">{{ auth()->user()->packages[0]->title }}</div>
                   </li>
 
@@ -153,7 +149,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/1.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 {{ number_format($todayEarnings,2) }}</div>
+        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($todayEarnings,2) }}">0</span></div>
         <div class="box-discrip">
           
            @if($todayEarningPercent > 0)
@@ -179,7 +175,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/2.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 {{ number_format($last7DaysEarnings,2) }}</div>
+        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($last7DaysEarnings,2) }}">0</span></div>
         <div class="box-discrip">
            @if($last7DaysEarningPercent > 0)
               <span class="text-green">
@@ -203,7 +199,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/3.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 {{ number_format($last30DaysEarnings,2) }}</div>
+        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($last30DaysEarnings,2) }}">0</span></div>
         <div class="box-discrip">
            @if($last30DaysEarningPercent > 0)
               <span class="text-green">
@@ -227,7 +223,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/4.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 {{ number_format($allTimeEarning,2) }}</div>
+        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($allTimeEarning,2) }}">0</span></div>
         <div class="box-discrip">
           @if($allTimeEarningPercent > 0)
             <span class="text-green">
@@ -251,8 +247,8 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/5.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 {{ number_format($levelCommission,2) }}</div>
-        <div class="box-discrip">Level Commission</div>
+        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($levelCommission,2) }}">0</span></div>
+        <div class="box-discrip">Passive Income</div>
       </div>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-12">
@@ -263,7 +259,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/6.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 {{ number_format($totalWithdrawal,2) }}</div>
+        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($totalWithdrawal,2) }}">0</span></div>
         <div class="box-discrip">Total Withdrawal</div>
       </div>
     </div>
@@ -273,7 +269,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/7.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 {{ number_format($availableBalance,2) }}</div>
+        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($availableBalance,2) }}">0</span></div>
         <div class="box-discrip">Available Balance</div>
       </div>
     </div>
@@ -285,7 +281,7 @@
         <div class="bg-white icon-main">
           <img src="{{ asset('images/icons/8.svg') }}" alt="1">
         </div>
-        <div class="price-box">&#8377 {{ number_format($netProfit,2)}}</div>
+        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($netProfit,2)}}">0</span></div>
         <div class="box-discrip">Net Profit</div>
       </div>
     </div>
@@ -520,6 +516,24 @@
     document.body.classList.add('user-authenticated');
     });
   $(document).ready(function(){
+      
+      $(".counter-value").each(function(){
+            var t=$(this),
+                n=parseFloat(t.attr("data-count")),
+                countNum = parseFloat(t.text());
+        
+            $({countNum: countNum}).animate({countNum: n}, {
+                duration: 1000,
+                easing:'swing',
+                step: function() {
+                    t.text(this.countNum.toFixed(2));
+                },
+                complete: function() {
+                    t.text(this.countNum.toFixed(2));
+                }
+            });
+        });
+
      $(".window-popup button.btn-close").click(function(){
       $('#exampleModalToggle').modal('hide');
     });
