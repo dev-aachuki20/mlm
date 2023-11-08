@@ -3,7 +3,7 @@
       <div class="row">
         <div class="col-lg-3 col-md-4 col-sm-12 align-self-center">
           <div class="other-sec-head">
-            <h2 class="text-white">How <span class="color-orange">MyFutureBiz</span> Works?</h2>
+            <h2 class="text-white">How <span class="color-orange">{{config('constants.app_name')}}</span> Works?</h2>
             <div class="section-text body-size-normal text-white">
               <p>Influencing traffic to buy your products or services comes with a promise of quality.</p>
             </div>

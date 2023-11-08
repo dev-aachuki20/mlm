@@ -3,15 +3,15 @@
       <div class="row">
         <div class="col-lg-6 col-sm-12">
           <div class="other-sec-head">
-            <h2>Why <span class="color-orange">MyFutureBiz</span></h2>
+            <h2>Why <span class="color-orange">{{config('constants.app_name')}}</span></h2>
             <div class="section-text body-size-small">
               <p>It is an E-learning platform where you can learn different type of skills that will be helpful to create a better future for you.</p>
-              <p>MyFutureBiz is also an affiliate marketing platform where you can earn through promoting products and services.  </p>
+              <p>{{config('constants.app_name')}} is also an affiliate marketing platform where you can earn through promoting products and services.  </p>
             </div>
             <ul class="list large-list">
-              <li>The vision of MyFutureBiz is to develop entrepreneurial</li>
-              <li>The vision of MyFutureBiz is to develop.</li>
-              <li>The vision of MyFutureBiz is to develop entrepreneurial</li>
+              <li>The vision of {{config('constants.app_name')}} is to develop entrepreneurial</li>
+              <li>The vision of {{config('constants.app_name')}} is to develop.</li>
+              <li>The vision of {{config('constants.app_name')}} is to develop entrepreneurial</li>
             </ul>
           </div>
         </div>

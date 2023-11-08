@@ -64,7 +64,13 @@
                     <div class="name-list">
                       <span><img src="{{ asset('images/package/lectures.svg') }}"></span>Lectures
                     </div>
-                    <div class="details-course">{{ $package->courses()->first()->courseVideo()->count() }} Enrolled</div>
+                    <div class="details-course">
+                        @if($course = $package->courses()->first())
+                            {{ $course->courseVideo()->count() }} Enrolled
+                        @else
+                            0 Enrolled
+                        @endif
+                    </div>
                   </li>
                   <li>
                     <div class="name-list">

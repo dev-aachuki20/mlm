@@ -27,7 +27,7 @@
                 <div class="align-self-center founder-meet">
                   <h3>Meet Our Founder</h3>
                   <div class="section-text">
-                    <p>The vision of MyFutureBiz is to develop entrepreneurial mindset & create financially independent.</p>
+                    <p>The vision of {{config('constants.app_name')}} is to develop entrepreneurial mindset & create financially independent.</p>
                   </div>
                 </div>
                 <div class="founder-details-outer">
@@ -48,7 +48,7 @@
                               <img src="{{asset('images/youtube.svg')}}">
                             </div>
                             <div class="social-type">
-                              <h6 class="color-dark-blue"><span class="color-dark-gray">My Channel On</span>Youtube</h6>                        
+                              <h6 class="color-dark-blue"><span class="color-dark-gray">My Channel On</span>Youtube</h6>
                             </div>
                           </a>
                         </li>
@@ -58,7 +58,7 @@
                               <img src="{{ asset('images/instagram.svg')}}">
                             </div>
                             <div class="social-type">
-                              <h6 class="color-dark-blue"><span class="color-dark-gray">Follow Me On</span>Instagram</h6>                        
+                              <h6 class="color-dark-blue"><span class="color-dark-gray">Follow Me On</span>Instagram</h6>
                             </div>
                           </a>
                         </li>
@@ -78,7 +78,7 @@
               <div class="other-sec-head text-center">
                 <h2>Management Team</h2>
                 <div class="section-text body-size-normal">
-                  <p>The vision of MyFutureBiz is to develop entrepreneurial mindset and create financially independent person's excellent.</p>
+                  <p>The vision of {{config('constants.app_name')}} is to develop entrepreneurial mindset and create financially independent person's excellent.</p>
                 </div>
               </div>
             </div>
@@ -101,7 +101,7 @@
                   </div>
                 @endforeach
                 @endif
-              
+
 
             </div>
           </div>

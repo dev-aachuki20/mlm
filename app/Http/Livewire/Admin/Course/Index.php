@@ -114,21 +114,33 @@ class Index extends Component
 
         $validatedData['status'] = $this->status;
     
-        $course = Course::create($validatedData);
-
-        //Upload Image
-        uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'save', null);
-
-        //Upload video
-        uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'save', null);
-
-        $this->formMode = false;
-
-        $this->reset(['name','description','status','image','video','allPackage','package_id']);
-
-        $this->flash('success',trans('messages.add_success_message'));
-      
-        return redirect()->route('admin.course');
+        DB::beginTransaction();
+        try{
+            
+            $course = Course::create($validatedData);
+    
+            //Upload Image
+            uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'save', null);
+    
+            //Upload video
+            uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'save', null);
+    
+            DB::commit();
+     
+            $this->formMode = false;
+    
+            $this->reset(['name','description','status','image','video','allPackage','package_id']);
+    
+            $this->flash('success',trans('messages.add_success_message'));
+          
+            return redirect()->route('admin.course');
+            
+        }catch (\Exception $e) {
+            DB::rollBack();
+                // dd($e->getMessage().'->'.$e->getLine());
+            $this->alert('error',trans('messages.error_message'));
+                
+        }
     }
 
 
@@ -176,34 +188,44 @@ class Index extends Component
             ]
         );
 
-        $validatedData['status'] = $this->status;
-
-        $course = Course::find($this->course_id);
+        DB::beginTransaction();
+        try{
+            $validatedData['status'] = $this->status;
+    
+            $course = Course::find($this->course_id);
+          
+            // Check if the image has been changed
+            $uploadImageId = null;
+            if ($this->image) {
+                $uploadImageId = $course->courseImage->id;
+                uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'update', $uploadImageId);
+            }
+    
+            // Check if the video has been changed
+            $uploadVideoId = null;
+            if ($this->video) {
+                $uploadVideoId = $course->courseVideo->id;
+                uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'update', $uploadVideoId);
+            }
+    
+            $course->update($validatedData);
+         
+            DB::commit();
+            
+            $this->formMode = false;
+            $this->updateMode = false;
       
-        // Check if the image has been changed
-        $uploadImageId = null;
-        if ($this->image) {
-            $uploadImageId = $course->courseImage->id;
-            uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'update', $uploadImageId);
+            $this->flash('success',trans('messages.edit_success_message'));
+    
+            $this->reset(['name','description','status','image','video','allPackage','package_id']);
+    
+            return redirect()->route('admin.course');
+        }catch (\Exception $e) {
+            DB::rollBack();
+                // dd($e->getMessage().'->'.$e->getLine());
+            $this->alert('error',trans('messages.error_message'));
+                
         }
-
-        // Check if the video has been changed
-        $uploadVideoId = null;
-        if ($this->video) {
-            $uploadVideoId = $course->courseVideo->id;
-            uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'update', $uploadVideoId);
-        }
-
-        $course->update($validatedData);
-     
-        $this->formMode = false;
-        $this->updateMode = false;
-  
-        $this->flash('success',trans('messages.edit_success_message'));
-
-        $this->reset(['name','description','status','image','video','allPackage','package_id']);
-
-        return redirect()->route('admin.course');
     }
 
     public function show($id){
@@ -231,6 +253,7 @@ class Index extends Component
         $this->formMode = false;
         $this->updateMode = false;
         $this->viewMode = false;
+        $this->reset();
     }
 
 

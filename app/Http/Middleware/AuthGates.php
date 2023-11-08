@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use Closure;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class AuthGates
 {
@@ -32,8 +33,11 @@ class AuthGates
 
         }
 
+        // dd($request);
         return $next($request);
 
     }
+    
+  
 
 }

@@ -45,7 +45,7 @@
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
                 <label class="font-weight-bold justify-content-start">Image<i class="fas fa-asterisk"></i></label>
-                <input type="file" id="dropify-image"  wire:model.defer="image" class="dropify" data-default-file="{{ $originalImage }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M"  accept="image/jpeg, image/png, image/jpg,image/svg">
+                <input type="file" id="dropify-image"  wire:model.defer="image" class="dropify" data-default-file="{{ $originalImage }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" accept="image/jpeg, image/png, image/jpg,image/svg">
                 <span wire:loading wire:target="image">
                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
                 </span>
@@ -74,7 +74,7 @@
                 </div>
               
                 <div wire:ignore>
-                    <input type="file"  id="dropify-video"  wire:model.defer="video" class="dropify" data-default-file="{{ $originalVideo }}"  data-errors-position="outside" data-allowed-file-extensions="webm mp4 avi wmv flv mov" data-min-file-size-preview="1M" data-max-file-size-preview="3M" data-max-file-size="{{ config('constants.data_max_file_size') }}" accept="video/webm, video/mp4, video/avi,video/wmv,video/flv,video/mov">
+                    <input type="file"  id="dropify-video"  wire:model.defer="video" class="dropify" data-default-file="{{ $originalVideo }}"  data-errors-position="outside" data-allowed-file-extensions="webm mp4 avi wmv flv mov" data-max-file-size="{{ config('constants.data_max_file_size') }}" accept="video/webm, video/mp4, video/avi,video/wmv,video/flv,video/mov">
                     <span wire:loading wire:target="video">
                         <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
                     </span>

@@ -22,7 +22,13 @@ use App\Http\Controllers\PDFController;
 // });
 
 //Clear Cache facade value:
+Route::get('/php_info', function () {
+    return phpinfo();
+});
+
+//Clear Cache facade value:
 Route::get('/cache-clear', function () {
+    dd(php_info());
     Artisan::call('optimize:clear');
     return '<h1>All Cache cleared</h1>';
 });
@@ -46,7 +52,7 @@ Route::group(['middleware' => [], 'as' => 'front.', 'prefix' => ''], function ()
 
     Route::view('/', 'frontend.home')->name('home');
     Route::view('/about-us', 'frontend.about-us')->name('about-us');
-    Route::view('/how-myfuturebiz-works', 'frontend.how-myfuturebiz-works')->name('how-myfuturebiz-works');
+    Route::view('/how-biz-shiksha-works', 'frontend.how-myfuturebiz-works')->name('how-myfuturebiz-works');
     Route::view('/teams', 'frontend.teams')->name('teams');
     Route::view('/testimonials', 'frontend.testimonial')->name('testimonials');
     Route::view('/contact-us', 'frontend.contact-us')->name('contact-us');

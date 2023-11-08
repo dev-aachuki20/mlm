@@ -92,7 +92,7 @@
                 <h4 class="text-white">Support Menu</h4>
                 <ul>
                   <li><a href="{{ route('front.contact-us') }}">Contact Us</a></li>
-
+                  <!--<li><a href="#">Press</a></li>-->
                   @if($pages)
                   @foreach($pages as $key=>$page)
                     @if($page->type == 1)

@@ -132,8 +132,13 @@
 @push('scripts')
 <script type="text/javascript">
    $(document).ready(function(e){
+       
+    const dropdown = document.querySelector('.select-status');
+    let previousValue = dropdown.value;
+
     $(document).on('change','.select-status', function(event){
         event.preventDefault();
+        
         var $this = $(this);
         var kycId = $this.attr('data-kyc');
         var statusVal = $this.val();
@@ -186,6 +191,24 @@
             }
 
             if(result.isDismissed){
+                // console.log('new value',statusVal);
+                // console.log('previouse value',previousValue);
+                
+                // Loop through the options to find and remove the 'selected' attribute
+                var options = $this.find('option');
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].value === statusVal) {
+                        options[i].removeAttribute('selected');
+                    }
+                }
+            
+                // Loop through the options to find and add the 'selected' attribute to the new value
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].value === previousValue) {
+                        options[i].setAttribute('selected', 'selected');
+                    }
+                }
+                
                 Livewire.emit('refreshComponent');
             }
 

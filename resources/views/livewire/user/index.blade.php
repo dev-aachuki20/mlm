@@ -297,7 +297,7 @@
       <div class="card">
         <div class="card-body">
          <div class="d-block ">
-          <p class="card-title border-0">Monthly</p>
+          <p class="card-title border-0">Monthly Income Overview</p>
          </div>
           <canvas id="sales-chart"></canvas>
         </div>

@@ -11,7 +11,7 @@ class HowMyfuturebizWorks extends Component
     public $pageDetail;
 
     public function mount(){
-        $this->pageDetail = getPageContent('how-myfuturebiz-works');
+        $this->pageDetail = getPageContent('how-biz-shiksha-works');
     }
 
     public function render()

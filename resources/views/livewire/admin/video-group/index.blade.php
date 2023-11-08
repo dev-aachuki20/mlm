@@ -195,7 +195,7 @@
         //   Start video duration get js
         var videoFileInput = document.getElementById('video-file');
 
-        console.log('videoFileInput',videoFileInput);
+        // console.log('videoFileInput',videoFileInput);
 
         videoFileInput.addEventListener('change', function(event) {
             var file = event.target.files[0];
@@ -220,13 +220,13 @@
             var hours = Math.floor(timeInSeconds / 3600);
             var minutes = Math.floor((timeInSeconds % 3600) / 60);
             var seconds = Math.floor(timeInSeconds % 60);
-            
-            return (
-                (hours > 0 ? hours + ':' : '0'+ hours) + ':'+
-                (minutes < 10 ? '0' + minutes : minutes) +
-                ':' +
-                (seconds < 10 ? '0' + seconds : seconds)
-            );
+        
+            // Use a ternary operator to add leading zeros if needed
+            var formattedHours = (hours < 10 ? '0' : '') + hours;
+            var formattedMinutes = (minutes < 10 ? '0' : '') + minutes;
+            var formattedSeconds = (seconds < 10 ? '0' : '') + seconds;
+        
+            return formattedHours + ':' + formattedMinutes + ':' + formattedSeconds;
         }
         //   End video duration get js
 

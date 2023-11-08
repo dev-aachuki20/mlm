@@ -10,7 +10,7 @@ return [
     | Here you may specify which of the request type list 
     |
     */
-    'app_name' => 'MLM',
+    'app_name' => env('APP_NAME', 'Biz Shiksha'),
     'app_mode' => env('APP_MODE', 'staging'),
     'owner_email_id' => 'rohithelpfullinsight@gmail.com',
 
@@ -37,9 +37,9 @@ return [
 
     'profile_image_size' => '1024',
 
-    'img_max_size'   => '2048',
-    'video_max_size' => '50240',
-    'data_max_file_size' => "50M",
+    'img_max_size'   => '2048M',
+    'video_max_size' => '2097152', //'50240', //2048000
+    'data_max_file_size' => "2048M",
     'no_image_url'   => 'default/no-image.jpg',
     'default_user_logo' => 'default/default-user.svg',
 

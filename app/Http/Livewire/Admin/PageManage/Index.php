@@ -122,7 +122,6 @@ class Index extends Component
     }
 
     public function store(){
-
         if(in_array($this->type,array(1,2,3))){
             $validatedData = $this->validate([
                 'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/ 'max:255','unique:pages,title'],
@@ -205,7 +204,7 @@ class Index extends Component
         
         if($this->slider_image && in_array($this->type,array(1,2,3))){
             $validatedArray['slider_image'] = 'required|image|max:'.config('constants.img_max_size');
-        }elseif($this->slider_image && in_array($this->type,array(4,5))){
+        }elseif($this->image && in_array($this->type,array(4,5))){
             $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
         }
 

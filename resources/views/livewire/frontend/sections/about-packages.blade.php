@@ -5,7 +5,7 @@
         <div class="other-sec-head text-center">
         <h2>About Packages</h2>
         <div class="section-text body-size-normal">
-            <p>The vision of MyFutureBiz is to develop entrepreneurial mindset and create financially independent person's excellent.</p>
+            <p>The vision of {{config('constants.app_name')}} is to develop entrepreneurial mindset and create financially independent person's excellent.</p>
         </div>
         </div>
     </div>
