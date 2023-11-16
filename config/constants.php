@@ -7,7 +7,7 @@ return [
     | Default Request Type List
     |--------------------------------------------------------------------------
     |
-    | Here you may specify which of the request type list 
+    | Here you may specify which of the request type list
     |
     */
     'app_name' => env('APP_NAME', 'Biz Shiksha'),
@@ -20,7 +20,8 @@ return [
         'short_logo' => 'images/logo-mini.png',
         'transparent_logo' => 'assets/logo/logo-transparent.png',
         'profile_image' => 'default/default-user.svg',
-        'footer-logo'   => 'images/light-logo.png'
+        'footer-logo'   => 'images/light-logo.png',
+        'no-image' => 'images/no-image.jpg'
     ],
 
     'date_format'     => 'd-m-Y',
@@ -37,7 +38,7 @@ return [
 
     'profile_image_size' => '1024',
 
-    'img_max_size'   => '2097152',
+    'img_max_size'   => '2048M',
     'video_max_size' => '2097152', //'50240', //2048000
     'data_max_file_size' => "2097152",
     'no_image_url'   => 'default/no-image.jpg',

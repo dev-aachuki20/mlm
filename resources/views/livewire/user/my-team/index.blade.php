@@ -51,12 +51,13 @@
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th>S.no</th>
-                      <th>My Refferal Code</th>
-                      <th>Name</th>
-                      <th>Referral ID</th>
+                      <th>{{ trans('global.sno') }}</th>
+                      <th>My {{ trans('cruds.user.fields.referral_code') }}</th>
+                      <th>{{ trans('cruds.user.fields.name') }}</th>
+                      <th>{{ trans('cruds.user.fields.sponser_id') }}</th>
+                      <th>{{ trans('cruds.user.fields.sponser_name') }}</th>
                       <th>Mobile Number</th>
-                      <th>Status</th>
+                      {{-- <th>Status</th> --}}
                       <th>Joining Date
                         <span wire:click="sortBy('date_of_join')" class="float-right text-sm" style="cursor: pointer;">
                           <i class="fa fa-arrow-up {{ $sortColumnName === 'date_of_join' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
@@ -73,13 +74,14 @@
                       <td>{{$team->my_referral_code}}</td>
                       <td>{{$team->first_name}} {{$team->last_name}}</td>
                       <td>{{$team->referral_code}}</td>
+                      <td>{{ ucwords($team->referral_name) }}</td>
                       <td>{{$team->phone}}</td>
-                      <td>
+                      {{-- <td>
                         <label class="toggle-switch">
                           <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$team->id}})" {{ $team->is_active == 1 ? 'checked' : '' }}>
                           <div class="switch-slider round"></div>
                         </label>
-                      </td>
+                      </td> --}}
                       <td>{{$team->date_of_join}}</td>
                     </tr>
                     @endforeach
@@ -91,7 +93,7 @@
                   </tbody>
                 </table>
               </div>
-              
+
               {{ $allTeams->links('vendor.pagination.bootstrap-5') }}
 
             </div>
@@ -189,9 +191,9 @@
                   </tbody>
                 </table>
               </div>
-              
+
               {{ $allTeams->links('vendor.pagination.bootstrap-5') }}
-              
+
             </div>
             <div class="tab-pane fade" id="level-03" role="tabpanel" aria-labelledby="level-03-tab">
               <div class="table-responsive my-team-details">

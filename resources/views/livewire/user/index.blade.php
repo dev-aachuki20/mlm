@@ -1,6 +1,6 @@
 <div class="content-wrapper bg-white">
-  
-{{-- 
+
+{{--
   <div class="card grid-margin">
     <div class="card-header bg-white d-flex justify-content-between">
       <h3 class="mt-2 intro-video-title">{{ getSetting('introduction_video_title') }}</h3>
@@ -54,7 +54,7 @@
                   </div>
                 </div>
                 <div class="video-container">
-    
+
                   @if($introVideo->video)
                     <video controls="" width="420" height="315" preload="none" poster="{{ $introVideoImage ? $introVideoImage : asset('images/package.png') }}" id="introductionVideo"  playsinline>
                       <source class="js-video" src="{{ $introVideo->video_url }}" type="video/{{ $introVideo->video->extension }}">
@@ -62,7 +62,7 @@
                   @else
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/DGFvSDGUPCY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
                   @endif
-    
+
                 </div>
               </div>
             </div>
@@ -74,31 +74,35 @@
   </div>
   --}}
 
-  <div class="row">
-    <div class="col-md-12 grid-margin">
-        
-        <div  class="dash-user-pro">
-            <div class="dash-user-pro-inner">
-              <div class="profile-image">
-                <img src="{{ (Auth::user()->profileImage()->first()) ? Auth::user()->profileImage()->first()->file_url : asset(config('constants.default.profile_image')) }}" alt="PROFILE-IMAGE">
-              </div>
-              <div class="user-name-outer">
-                <h5 class="user-name">{{ ucwords(Auth::user()->name) }}</h5>
-                <p>ID No. <span>{{Auth::user()->my_referral_code}}</span></p>
-              </div>
-              <div class="user-details-list">
-                <ul>
-                  <li>
-                    <div class="left"> Package </div>
-                    <div class="right">{{ auth()->user()->packages[0]->title }}</div>
-                  </li>
+  <div class="row row-gap-30">
+    <div class="col-md-12 col-xxl-3 col-xl-4 gridmargin">
 
-                </ul>
-              </div>
+        <div  class="dash-user-pro">
+            <div class="dash-user-pro-inner d-block p-0">
+                <div class="card-box">
+                    <div class="d-flex justify-content-between gap-3 mb-3 align-items-center">
+                        <div class="profile-image m-0">
+                          <img src="{{ (Auth::user()->profileImage()->first()) ? Auth::user()->profileImage()->first()->file_url : asset(config('constants.default.profile_image')) }}" alt="PROFILE-IMAGE">
+                        </div>
+                        <div class="user-name-outer text-left">
+                            <h5 class="user-name">{{ ucwords(Auth::user()->name) }}</h5>
+                            <p>ID No. <span>{{Auth::user()->my_referral_code}}</span></p>
+                        </div>
+                    </div>
+                  <div class="user-details-list">
+                    <ul>
+                      <li class="border-bottom-0 pb-0">
+                        <div class="left"> Package </div>
+                        <div class="right">{{ auth()->user()->packages[0]->title }}</div>
+                      </li>
+
+                    </ul>
+                  </div>
+                </div>
             </div>
           </div>
-        
-        
+
+
      {{-- <div class="watch-our-introductory">
         <div class="introductory-text">
           <h1>{{ getSetting('introduction_video_title') }}</h1>
@@ -135,145 +139,146 @@
           </div>
         </div>
       </div> --}}
-      
+
     </div>
+    <div class="col-xxl-3 col-xl-4 col-md-6 col-sm-12">
+        <div class="old-lace card-box">
+          <div class="right-icon">
+            <img src="{{ asset('images/icons/right-icon-1.svg') }}" alt="right-icon-1">
+          </div>
+          <div class="bg-white icon-main">
+            <img src="{{ asset('images/icons/1.svg') }}" alt="1">
+          </div>
+          <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($todayEarnings,2) }}">0</span></div>
+          <div class="box-discrip">
+
+             @if($todayEarningPercent > 0)
+                <span class="text-green">
+                  <img src="{{ asset('images/icons/up-graph.svg') }}">
+                  {{$todayEarningPercent}}%
+                </span>
+              @else
+              <span class="text-red">
+                <img src="{{ asset('images/icons/down-graph.svg') }}">
+                {{$todayEarningPercent}}%
+              </span>
+              @endif
+
+              Today's Earning</div>
+        </div>
+      </div>
+      <div class="col-xxl-3 col-xl-4 col-md-6 col-sm-12">
+        <div class="titan-white card-box">
+          <div class="right-icon">
+            <img src="{{ asset('images/icons/right-icon-2.svg') }}" alt="right-icon-1">
+          </div>
+          <div class="bg-white icon-main">
+            <img src="{{ asset('images/icons/2.svg') }}" alt="1">
+          </div>
+          <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($last7DaysEarnings,2) }}">0</span></div>
+          <div class="box-discrip">
+             @if($last7DaysEarningPercent > 0)
+                <span class="text-green">
+                  <img src="{{ asset('images/icons/up-graph.svg') }}">
+                  {{$last7DaysEarningPercent}}%
+                </span>
+              @else
+              <span class="text-red">
+                <img src="{{ asset('images/icons/down-graph.svg') }}">
+                {{$last7DaysEarningPercent}}%
+              </span>
+              @endif
+            Last 7 Days Earning</div>
+        </div>
+      </div>
+      <div class="col-xxl-3 col-xl-4 col-md-6 col-sm-12">
+        <div class="pearl card-box">
+          <div class="right-icon">
+            <img src="{{ asset('images/icons/right-icon-3.svg') }}" alt="right-icon-1">
+          </div>
+          <div class="bg-white icon-main">
+            <img src="{{ asset('images/icons/3.svg') }}" alt="1">
+          </div>
+          <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($last30DaysEarnings,2) }}">0</span></div>
+          <div class="box-discrip">
+             @if($last30DaysEarningPercent > 0)
+                <span class="text-green">
+                  <img src="{{ asset('images/icons/up-graph.svg') }}">
+                  {{$last30DaysEarningPercent}}%
+                </span>
+              @else
+              <span class="text-red">
+                <img src="{{ asset('images/icons/down-graph.svg') }}">
+                {{$last30DaysEarningPercent}}%
+              </span>
+              @endif
+            30 Days Earning</div>
+        </div>
+      </div>
+      <div class="col-xxl-3 col-xl-4 col-md-6 col-sm-12">
+        <div class="lily-white card-box">
+          <div class="right-icon">
+            <img src="{{ asset('images/icons/right-icon-4.svg') }}" alt="right-icon-1">
+          </div>
+          <div class="bg-white icon-main">
+            <img src="{{ asset('images/icons/4.svg') }}" alt="1">
+          </div>
+          <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($allTimeEarning,2) }}">0</span></div>
+          <div class="box-discrip">
+            @if($allTimeEarningPercent > 0)
+              <span class="text-green">
+                <img src="{{ asset('images/icons/up-graph.svg') }}">
+                {{$allTimeEarningPercent}}%
+              </span>
+            @else
+            <span class="text-red">
+              <img src="{{ asset('images/icons/down-graph.svg') }}">
+              {{$allTimeEarningPercent}}%
+            </span>
+            @endif
+            All Time Earning</div>
+        </div>
+      </div>
+      <div class="col-xxl-3 col-xl-4 col-md-6 col-sm-12">
+        <div class="hint-green card-box">
+          <div class="right-icon">
+            <img src="{{ asset('images/icons/right-icon-5.svg') }}" alt="right-icon-1">
+          </div>
+          <div class="bg-white icon-main">
+            <img src="{{ asset('images/icons/5.svg') }}" alt="1">
+          </div>
+          <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($levelCommission,2) }}">0</span></div>
+          <div class="box-discrip">Passive Income</div>
+        </div>
+      </div>
+      <div class="col-xxl-3 col-xl-4 col-md-6 col-sm-12">
+        <div class="lily-white-off card-box">
+          <div class="right-icon">
+            <img src="{{ asset('images/icons/right-icon-6.svg') }}" alt="right-icon-1">
+          </div>
+          <div class="bg-white icon-main">
+            <img src="{{ asset('images/icons/6.svg') }}" alt="1">
+          </div>
+          <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($totalWithdrawal,2) }}">0</span></div>
+          <div class="box-discrip">Total Withdrawal</div>
+        </div>
+      </div>
+      <div class="col-xxl-3 col-xl-4 col-md-6 col-sm-12">
+        <div class="old-lace card-box">
+          <div class="label">Remaining balance in your wallet</div>
+          <div class="bg-white icon-main">
+            <img src="{{ asset('images/icons/7.svg') }}" alt="1">
+          </div>
+          <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($availableBalance,2) }}">0</span></div>
+          <div class="box-discrip">Available Balance</div>
+        </div>
+      </div>
   </div>
 
   {{-- Start package selling overview --}}
   <div class="row row-gap-30">
-    <div class="col-lg-3 col-md-4 col-sm-12">
-      <div class="old-lace card-box">
-        <div class="right-icon">
-          <img src="{{ asset('images/icons/right-icon-1.svg') }}" alt="right-icon-1">
-        </div>
-        <div class="bg-white icon-main">
-          <img src="{{ asset('images/icons/1.svg') }}" alt="1">
-        </div>
-        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($todayEarnings,2) }}">0</span></div>
-        <div class="box-discrip">
-          
-           @if($todayEarningPercent > 0)
-              <span class="text-green">
-                <img src="{{ asset('images/icons/up-graph.svg') }}">
-                {{$todayEarningPercent}}%
-              </span>
-            @else
-            <span class="text-red">
-              <img src="{{ asset('images/icons/down-graph.svg') }}">
-              {{$todayEarningPercent}}%
-            </span>
-            @endif
 
-            Today's Earning</div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-12">
-      <div class="titan-white card-box">
-        <div class="right-icon">
-          <img src="{{ asset('images/icons/right-icon-2.svg') }}" alt="right-icon-1">
-        </div>
-        <div class="bg-white icon-main">
-          <img src="{{ asset('images/icons/2.svg') }}" alt="1">
-        </div>
-        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($last7DaysEarnings,2) }}">0</span></div>
-        <div class="box-discrip">
-           @if($last7DaysEarningPercent > 0)
-              <span class="text-green">
-                <img src="{{ asset('images/icons/up-graph.svg') }}">
-                {{$last7DaysEarningPercent}}%
-              </span>
-            @else
-            <span class="text-red">
-              <img src="{{ asset('images/icons/down-graph.svg') }}">
-              {{$last7DaysEarningPercent}}%
-            </span>
-            @endif
-          Last 7 Days Earning</div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-12">
-      <div class="pearl card-box">
-        <div class="right-icon">
-          <img src="{{ asset('images/icons/right-icon-3.svg') }}" alt="right-icon-1">
-        </div>
-        <div class="bg-white icon-main">
-          <img src="{{ asset('images/icons/3.svg') }}" alt="1">
-        </div>
-        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($last30DaysEarnings,2) }}">0</span></div>
-        <div class="box-discrip">
-           @if($last30DaysEarningPercent > 0)
-              <span class="text-green">
-                <img src="{{ asset('images/icons/up-graph.svg') }}">
-                {{$last30DaysEarningPercent}}%
-              </span>
-            @else
-            <span class="text-red">
-              <img src="{{ asset('images/icons/down-graph.svg') }}">
-              {{$last30DaysEarningPercent}}%
-            </span>
-            @endif
-          30 Days Earning</div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-12">
-      <div class="lily-white card-box">
-        <div class="right-icon">
-          <img src="{{ asset('images/icons/right-icon-4.svg') }}" alt="right-icon-1">
-        </div>
-        <div class="bg-white icon-main">
-          <img src="{{ asset('images/icons/4.svg') }}" alt="1">
-        </div>
-        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($allTimeEarning,2) }}">0</span></div>
-        <div class="box-discrip">
-          @if($allTimeEarningPercent > 0)
-            <span class="text-green">
-              <img src="{{ asset('images/icons/up-graph.svg') }}">
-              {{$allTimeEarningPercent}}%
-            </span>
-          @else
-          <span class="text-red">
-            <img src="{{ asset('images/icons/down-graph.svg') }}">
-            {{$allTimeEarningPercent}}%
-          </span>
-          @endif
-          All Time Earning</div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-12">
-      <div class="hint-green card-box">
-        <div class="right-icon">
-          <img src="{{ asset('images/icons/right-icon-5.svg') }}" alt="right-icon-1">
-        </div>
-        <div class="bg-white icon-main">
-          <img src="{{ asset('images/icons/5.svg') }}" alt="1">
-        </div>
-        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($levelCommission,2) }}">0</span></div>
-        <div class="box-discrip">Passive Income</div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-12">
-      <div class="lily-white-off card-box">
-        <div class="right-icon">
-          <img src="{{ asset('images/icons/right-icon-6.svg') }}" alt="right-icon-1">
-        </div>
-        <div class="bg-white icon-main">
-          <img src="{{ asset('images/icons/6.svg') }}" alt="1">
-        </div>
-        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($totalWithdrawal,2) }}">0</span></div>
-        <div class="box-discrip">Total Withdrawal</div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-12">
-      <div class="old-lace card-box">
-        <div class="label">Remaining balance in your wallet</div>
-        <div class="bg-white icon-main">
-          <img src="{{ asset('images/icons/7.svg') }}" alt="1">
-        </div>
-        <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($availableBalance,2) }}">0</span></div>
-        <div class="box-discrip">Available Balance</div>
-      </div>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-12">
+    {{-- <div class="col-lg-3 col-md-4 col-sm-12">
       <div class="linen card-box">
         <div class="right-icon">
           <img src="{{ asset('images/icons/right-icon-8.svg') }}" alt="right-icon-8">
@@ -284,7 +289,7 @@
         <div class="price-box">&#8377 <span class="counter-value" data-count="{{ number_format($netProfit,2)}}">0</span></div>
         <div class="box-discrip">Net Profit</div>
       </div>
-    </div>
+    </div> --}}
   </div>
   {{-- End package selling overview --}}
 
@@ -322,8 +327,8 @@
                     {{ ucwords($sale->user->name) }}
                     <span>{{ $sale->payment->package->title ?? null }} &#8377 {{ number_format( $sale->payment->package->amount,2) }}</span>
                   </div>
-                </div>    
-                <span>{{ config('constants.referral_levels')[$sale->type] }}</span>                
+                </div>
+                <span>{{ config('constants.referral_levels')[$sale->type] }}</span>
                 <div class="price-recent">&#8377 {{ number_format($sale->amount,2) }}</div>
               </li>
              @endforeach
@@ -339,7 +344,7 @@
   {{-- End chart and recent sales section --}}
 
   {{-- Start Leaderboad --}}
-  <div class="row"> 
+  <div class="row">
     <div class="col-md-12 col-sm-12">
       <div class="card">
         <div class="card-body">
@@ -352,7 +357,7 @@
               <p class="small-title">This Week ({{\Carbon\Carbon::now()->startOfWeek()->format('d')}} - {{\Carbon\Carbon::now()->endOfWeek()->format('d')}} {{\Carbon\Carbon::now()->format('M')}})</p>
               <div class="recent-list small-text h-auto">
                 <ul class="icon-data-list">
-                 
+
                   @if($weeklyTopRecords->count() > 0)
                     @foreach($weeklyTopRecords as $record)
                     @if($record->user)
@@ -363,7 +368,7 @@
                           {{ ucwords($record->user->name) }}
                           <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
                         </div>
-                      </div>                      
+                      </div>
                       <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
                     </li>
                     @endif
@@ -371,15 +376,15 @@
                   @else
                     <li>No Record Found!</li>
                   @endif
-                
+
                 </ul>
-              </div>                  
+              </div>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-12">
               <p class="small-title">This Month ({{\Carbon\Carbon::now()->startOfMonth()->format('d')}} - {{\Carbon\Carbon::now()->endOfMonth()->format('d')}} {{\Carbon\Carbon::now()->format('M')}})</p>
               <div class="recent-list small-text h-auto">
                 <ul class="icon-data-list">
-                
+
                   @if($monthlyTopRecords->count() > 0)
                   @foreach($monthlyTopRecords as $record)
                   @if($record->user)
@@ -390,7 +395,7 @@
                           {{ ucwords($record->user->name) }}
                           <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
                         </div>
-                      </div>                      
+                      </div>
                       <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
                     </li>
                     @endif
@@ -400,7 +405,7 @@
                   @endif
 
                 </ul>
-              </div>                 
+              </div>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-12">
               <p class="small-title">Yearly ({{getFinancialYearMonths()[0]}} - {{getFinancialYearMonths()[11]}})</p>
@@ -417,7 +422,7 @@
                           {{ ucwords($record->user->name) }}
                           <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
                         </div>
-                      </div>                      
+                      </div>
                       <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
                     </li>
                      @endif
@@ -425,15 +430,15 @@
                   @else
                     <li>No Record Found!</li>
                   @endif
-                  
+
                 </ul>
-              </div>                 
+              </div>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-12">
               <p class="small-title">All Time</p>
               <div class="recent-list small-text h-auto">
                 <ul class="icon-data-list">
-                  
+
                   @if($allTimeTopRecords->count() > 0)
                     @foreach($allTimeTopRecords as $record)
                     @if($record->user)
@@ -444,7 +449,7 @@
                           {{ ucwords($record->user->name) }}
                           <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
                         </div>
-                      </div>                      
+                      </div>
                       <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
                     </li>
                     @endif
@@ -454,7 +459,7 @@
                   @endif
 
                 </ul>
-              </div>                 
+              </div>
             </div>
           </div>
         </div>
@@ -516,12 +521,12 @@
     document.body.classList.add('user-authenticated');
     });
   $(document).ready(function(){
-      
+
       $(".counter-value").each(function(){
             var t=$(this),
                 n=parseFloat(t.attr("data-count")),
                 countNum = parseFloat(t.text());
-        
+
             $({countNum: countNum}).animate({countNum: n}, {
                 duration: 1000,
                 easing:'swing',

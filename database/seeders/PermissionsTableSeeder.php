@@ -70,7 +70,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [   
+            [
                 'title'      => 'user_edit',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
@@ -100,7 +100,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [   
+            [
                 'title'      => 'package_edit',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
@@ -115,7 +115,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            
+
             [
                 'title'      => 'testimonial_access',
                 'created_at' => $createDate,
@@ -126,7 +126,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [   
+            [
                 'title'      => 'testimonial_edit',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
@@ -152,7 +152,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [   
+            [
                 'title'      => 'faq_edit',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
@@ -178,7 +178,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [   
+            [
                 'title'      => 'slider_edit',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
@@ -204,7 +204,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [   
+            [
                 'title'      => 'page_edit',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
@@ -230,7 +230,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [   
+            [
                 'title'      => 'setting_edit',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
@@ -256,7 +256,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [   
+            [
                 'title'      => 'course_edit',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
@@ -272,7 +272,7 @@ class PermissionsTableSeeder extends Seeder
                 'updated_at' => $updateDate,
             ],
 
-            
+
             [
                 'title'      => 'team_access',
                 'created_at' => $createDate,
@@ -283,7 +283,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [   
+            [
                 'title'      => 'team_edit',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
@@ -325,7 +325,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
-            [   
+            [
                 'title'      => 'webinar_edit',
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
@@ -345,8 +345,63 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => $createDate,
                 'updated_at' => $updateDate,
             ],
+            [
+                'title'      => 'service_access',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'service_create',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'service_edit',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'service_show',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'service_delete',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'sales_report_access',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'section_access',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'section_create',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'section_edit',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'section_show',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
+            [
+                'title'      => 'section_delete',
+                'created_at' => $createDate,
+                'updated_at' => $updateDate,
+            ],
 
-            
+
         ];
 
         Permission::insert($permissions);

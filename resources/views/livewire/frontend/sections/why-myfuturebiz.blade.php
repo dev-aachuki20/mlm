@@ -3,21 +3,22 @@
       <div class="row">
         <div class="col-lg-6 col-sm-12">
           <div class="other-sec-head">
-            <h2>Why <span class="color-orange">{{config('constants.app_name')}}</span></h2>
+            <h2>{!! ucwords($section->name) !!}</h2>
             <div class="section-text body-size-small">
-              <p>It is an E-learning platform where you can learn different type of skills that will be helpful to create a better future for you.</p>
-              <p>{{config('constants.app_name')}} is also an affiliate marketing platform where you can earn through promoting products and services.  </p>
+                {!! $section->description !!}
             </div>
             <ul class="list large-list">
-              <li>The vision of {{config('constants.app_name')}} is to develop entrepreneurial</li>
-              <li>The vision of {{config('constants.app_name')}} is to develop.</li>
-              <li>The vision of {{config('constants.app_name')}} is to develop entrepreneurial</li>
+                {!! ucwords($section->features) !!}
             </ul>
           </div>
         </div>
         <div class="col-lg-6 col-sm-12">
           <div class="why-fir-img">
-            <img src="{{ asset('images/why-fir.png') }}">
+            @if($section->image1_url)
+                <img src="{{ $section->image1_url }}"/>
+            @else
+                <img src="{{ asset('images/why-fir.png') }}">
+            @endif
             <div class="arrow-img">
               <img src="{{ asset('images/arrow-why.png')}}">
             </div>
@@ -31,37 +32,37 @@
               <li class="bg-light-orange">
                 <div>
                   <div class="count-data">
-                    <span class="count percent" data-count="200">0</span>
+                    <span class="count percent" data-count="{{ getSetting('total_trainers') }}">0</span>
                     <span>+</span>
                   </div>
-                  <label>Trainers</label>
+                  <label>{{ getSettingDisplayName('total_trainers') }} </label>
                 </div>
               </li>
               <li class="bg-light-orange">
                 <div>
                   <div class="count-data">
-                    <span class="count percent" data-count="1.8">0</span>
+                    <span class="count percent" data-count="{{ getSetting('students_enrolled') }}">0</span>
                     <span>Lakh+</span>
                   </div>
-                  <label>Students Enrolled</label>
+                  <label>{{ getSettingDisplayName('students_enrolled') }}</label>
                 </div>
               </li>
               <li class="bg-light-orange">
                 <div>
                   <div class="count-data">
-                    <span class="count percent" data-count="500">0</span>
+                    <span class="count percent" data-count="{{ getSetting('live_training') }}">0</span>
                     <span>+</span>
                   </div>
-                  <label>Live Training</label>
+                  <label>{{ getSettingDisplayName('live_training') }}</label>
                 </div>
               </li>
               <li class="bg-light-orange">
                 <div>
                   <div class="count-data">
-                    <span class="count percent" data-count="65">0</span>
+                    <span class="count percent" data-count="{{ getSetting('community_earning') }}">0</span>
                     <span>Cr.+</span>
                   </div>
-                  <label>Community Earning</label>
+                  <label>{{ getSettingDisplayName('community_earning') }}</label>
                 </div>
               </li>
             </ul>

@@ -12,7 +12,7 @@
         <div class="col-lg-5 col-sm-12">
           <div class="d-flex justify-content-end">
             <div class="button-group">
-              <a href="{{ route('front.teams') }}" class="btn fill">Learn More 
+              <a href="{{ route('front.teams') }}" class="btn fill">Learn More
                 <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M8 11L13 6L8 1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                   <path d="M1 11L6 6L1 1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -22,14 +22,14 @@
           </div>
         </div>
       </div>
-      <div class="row">        
+      <div class="row">
         <div class="col-lg-7 col-sm-12">
           @if($ceoUserDetail)
           <div class="founder-details">
             <div class="founder-img">
-              
+
               <img src="{{ $ceoUserDetail->profile_image_url ? $ceoUserDetail->profile_image_url : asset(config('constants.default_user_logo')) }}">
-              
+
             </div>
             <div class="founder-about">
               <label class="color-orange body-size-normal">Founder</label>
@@ -40,22 +40,22 @@
               <div class="founder-social">
                 <ul>
                   <li>
-                    <a href="{{ getSetting('youtube') }}">
+                    <a href="{{ getSetting('founder_youtube_link') }}" target="_blank">
                       <div class="social-icon">
                         <img src="{{ asset('images/youtube.svg') }}">
                       </div>
                       <div class="social-type">
-                        <h6 class="color-dark-blue"><span class="color-dark-gray">My Channel On</span>Youtube</h6>                        
+                        <h6 class="color-dark-blue"><span class="color-dark-gray">My Channel On</span>Youtube</h6>
                       </div>
                     </a>
                   </li>
                   <li>
-                    <a href="{{ getSetting('instagram') }}">
+                    <a href="{{ getSetting('founder_instagram_link') }}" target="_blank">
                       <div class="social-icon">
                         <img src="{{ asset('images/instagram.svg') }}">
                       </div>
                       <div class="social-type">
-                        <h6 class="color-dark-blue"><span class="color-dark-gray">Follow Me On</span>Instagram</h6>                        
+                        <h6 class="color-dark-blue"><span class="color-dark-gray">Follow Me On</span>Instagram</h6>
                       </div>
                     </a>
                   </li>
@@ -82,7 +82,7 @@
                   </div>
                 @endforeach
                 @endif
-                
+
             </div>
             <div class="custom-nav owl-nav"></div>
           </div>

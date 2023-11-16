@@ -17,7 +17,7 @@ class SettingSeeder extends Seeder
     {
         $settings = [
             [
-                'id'     => 1,
+
                 'key'    => 'site_logo',
                 'value'  => null,
                 'type'   => 'image',
@@ -29,7 +29,7 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 2,
+
                 'key'    => 'favicon',
                 'value'  => null,
                 'type'   => 'image',
@@ -41,7 +41,7 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 3,
+
                 'key'    => 'short_logo',
                 'value'  => null,
                 'type'   => 'image',
@@ -53,7 +53,7 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 4,
+
                 'key'    => 'footer_logo',
                 'value'  => null,
                 'type'   => 'image',
@@ -65,7 +65,7 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 5,
+
                 'key'    => 'introduction_video_title',
                 'value'  => null,
                 'type'   => 'text',
@@ -77,7 +77,7 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 6,
+
                 'key'    => 'introduction_video_description',
                 'value'  => null,
                 'type'   => 'text_area',
@@ -89,7 +89,7 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 7,
+
                 'key'    => 'introduction_video_image',
                 'value'  => null,
                 'type'   => 'image',
@@ -101,7 +101,7 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 8,
+
                 'key'    => 'introduction_video',
                 'value'  => null,
                 'type'   => 'video',
@@ -112,9 +112,9 @@ class SettingSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'created_by' => 1,
             ],
-            
+
             [
-                'id'     => 9,
+
                 'key'    => 'company_email',
                 'value'  => 'rohithelpfullinsight@gmail.com',
                 'type'   => 'text',
@@ -127,7 +127,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 10,
+
                 'key'    => 'company_address',
                 'value'  => 'MyFutureBiz Marketing Private Limited Meena Bhawan, Near Water Tank Tilwar, Tehsil, Rajgarh, Alwar, Rajasthan, India',
                 'type'   => 'text_area',
@@ -140,7 +140,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 11,
+
                 'key'    => 'founder_description',
                 'value'  => 'He Is An Entreprenuer, Trainer & Youtuber. He Has 3 Years Plus Experience In Sales And Marketing.',
                 'type'   => 'text_area',
@@ -153,7 +153,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 12,
+
                 'key'    => 'instagram',
                 'value'  => null,
                 'type'   => 'text',
@@ -166,7 +166,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 13,
+
                 'key'    => 'facebook',
                 'value'  => null,
                 'type'   => 'text',
@@ -179,7 +179,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 14,
+
                 'key'    => 'youtube',
                 'value'  => null,
                 'type'   => 'text',
@@ -190,9 +190,9 @@ class SettingSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'created_by' => 1,
             ],
-            
+
             [
-                'id'     => 15,
+
                 'key'    => 'linkedin',
                 'value'  => null,
                 'type'   => 'text',
@@ -205,7 +205,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 16,
+
                 'key'    => 'gmail',
                 'value'  => null,
                 'type'   => 'text',
@@ -218,7 +218,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 17,
+
                 'key'    => 'twitter',
                 'value'  => null,
                 'type'   => 'text',
@@ -231,7 +231,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 18,
+
                 'key'    => 'support_email',
                 'value'  => 'Info@Myfuturebiz.In',
                 'type'   => 'text',
@@ -244,7 +244,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 19,
+
                 'key'    => 'support_phone',
                 'value'  => '1234567890',
                 'type'   => 'text',
@@ -257,7 +257,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 20,
+
                 'key'    => 'support_whatsapp_number',
                 'value'  => '1234567890',
                 'type'   => 'text',
@@ -270,7 +270,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 21,
+
                 'key'    => 'support_available',
                 'value'  => '24*7',
                 'type'   => 'text',
@@ -282,10 +282,10 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
 
-           
+
 
             [
-                'id'     => 22,
+
                 'key'    => 'welcome_mail_content',
                 'value'  =>  null,
                 'type'   => 'text_area',
@@ -298,7 +298,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 23,
+
                 'key'    => 'package_purchased_mail_content',
                 'value'  =>  null,
                 'type'   => 'text_area',
@@ -311,7 +311,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 24,
+
                 'key'    => 'reset_password_mail_content',
                 'value'  =>  null,
                 'type'   => 'text_area',
@@ -324,7 +324,7 @@ class SettingSeeder extends Seeder
             ],
 
             [
-                'id'     => 25,
+
                 'key'    => 'contact_us_mail_content',
                 'value'  =>  null,
                 'type'   => 'text_area',
@@ -336,7 +336,7 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
             [
-                'id'     => 26,
+
                 'key'    => 'shipped_to',
                 'value'  =>  null,
                 'type'   => 'text_area',
@@ -347,6 +347,115 @@ class SettingSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'created_by' => 1,
             ],
+            [
+
+                'key'    => 'join_program_link',
+                'value'  => 'https://bizshiksha.com/',
+                'type'   => 'text',
+                'display_name'  => 'Join Program Link',
+                'group'  => 'site',
+                'details' => null,
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
+
+                'key'    => 'promote_link',
+                'value'  => 'https://bizshiksha.com/',
+                'type'   => 'text',
+                'display_name'  => 'Promote Link',
+                'group'  => 'site',
+                'details' => null,
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
+
+                'key'    => 'earn_money_link',
+                'value'  => 'https://bizshiksha.com/',
+                'type'   => 'text',
+                'display_name'  => 'Earn Money Link',
+                'group'  => 'site',
+                'details' => null,
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
+
+                'key'    => 'founder_youtube_link',
+                'value'  => 'https://youtube.com/',
+                'type'   => 'text',
+                'display_name'  => 'Founder Youtube Link',
+                'group'  => 'site',
+                'details' => null,
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
+
+                'key'    => 'founder_instagram_link',
+                'value'  => 'https://instagram.com/',
+                'type'   => 'text',
+                'display_name'  => 'Founder Instagram Link',
+                'group'  => 'site',
+                'details' => null,
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
+
+                'key'    => 'total_trainers',
+                'value'  => '200',
+                'type'   => 'text',
+                'display_name'  => 'Total Trainers',
+                'group'  => 'counters',
+                'details' => null,
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
+
+                'key'    => 'students_enrolled',
+                'value'  => '1.8',
+                'type'   => 'text',
+                'display_name'  => 'Students Enrolled',
+                'group'  => 'counters',
+                'details' => null,
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
+
+                'key'    => 'live_training',
+                'value'  => '500',
+                'type'   => 'text',
+                'display_name'  => 'Live Training',
+                'group'  => 'counters',
+                'details' => null,
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
+
+                'key'    => 'community_earning',
+                'value'  => '65',
+                'type'   => 'text',
+                'display_name'  => 'Community Earning',
+                'group'  => 'counters',
+                'details' => null,
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
 
         ];
 

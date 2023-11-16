@@ -37,13 +37,13 @@ class Package extends Model
         'deleted_at',
     ];
 
-    protected static function boot () 
+    protected static function boot ()
     {
         parent::boot();
         static::creating(function(Package $model) {
             $model->created_by = auth()->user()->id;
         });
-        
+
         static::deleting(function ($model) {
             // Delete all associated courses and their video groups
             $model->courses->each(function ($course) {

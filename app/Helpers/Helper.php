@@ -44,7 +44,7 @@ if (!function_exists('uploadImage')) {
 	 * @return array $input
 	 */
 	function uploadImage($directory, $file, $folder, $type="profile", $fileType="jpg",$actionType="save",$uploadId=null,$orientation=null)
-	{		
+	{
 		$oldFile = null;
 		if($actionType == "save"){
 			$upload               		= new Uploads;
@@ -88,7 +88,7 @@ if (!function_exists('sendEmail')) {
 	 * @return [type]        [description]
 	 */
 	function sendEmail()
-	{			
+	{
 		return true;
 	}
 }
@@ -101,7 +101,7 @@ if (!function_exists('sendResetPasswordEmail')) {
         // DB::table('password_resets')->insert(['email' => $user->email, 'token' => $token, 'created_at' =>  \Carbon\Carbon::now()->toDateTimeString()]);
 
         // $subject = trans('panel.email_contents.set_password.subject');
-        // Mail::to($user->email)->send(new SetPasswordMail($user, $token, $subject)); 
+        // Mail::to($user->email)->send(new SetPasswordMail($user, $token, $subject));
         // return true;
 	}
 }
@@ -131,7 +131,7 @@ if (!function_exists('CurlPostRequest')) {
 
 if (!function_exists('CurlGetRequest')) {
 	function CurlGetRequest($url,$headers)
-	{  
+	{
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
@@ -171,8 +171,8 @@ if (!function_exists('getCommonValidationRuleMsgs')) {
 
 if (!function_exists('generateRandomString')) {
 	function generateRandomString($length = 20) {
-		
-		$randomString = Str::random($length); 
+
+		$randomString = Str::random($length);
 
 		return $randomString;
 	}
@@ -188,7 +188,7 @@ if (!function_exists('convertDateTimeFormat')) {
 			case 'time':
 				$result = $changeFormatValue->format(config('constants.time_format'));
 				break;
-				
+
 			case 'datetime':
 				$result = $changeFormatValue->format(config('constants.datetime_format'));
 				break;
@@ -196,7 +196,7 @@ if (!function_exists('convertDateTimeFormat')) {
 			case 'monthformat':
 				$result = $changeFormatValue->format(config('constants.month_format'));
 				break;
-				
+
 			default:
 				$result =  $changeFormatValue->format(config('constants.date_format'));
 				break;
@@ -218,6 +218,22 @@ if (!function_exists('getSetting')) {
 			$result = $setting->video_url;
 		}else{
 			$result = $setting->value;
+		}
+		return $result;
+	}
+}
+
+if (!function_exists('getSettingDisplayName')) {
+	function getSettingDisplayName($key)
+	{
+		$result = null;
+		$setting = Setting::where('key',$key)->where('status',1)->first();
+		if($setting->type == 'image'){
+			$result = $setting->display_name;
+		}elseif($setting->type == 'video'){
+			$result = $setting->display_name;
+		}else{
+			$result = $setting->display_name;
 		}
 		return $result;
 	}

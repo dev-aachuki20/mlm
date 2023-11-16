@@ -24,7 +24,22 @@
                         </a>
                     </li>
                     @endcan
-
+                    @can('service_access')
+                    <li class="nav-item {{ request()->is('admin/services') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.service') }}">
+                            <!-- <i class="icon-grid menu-icon ti-package"></i> -->
+                            <span class="menu-title">{{__('cruds.service.title')}}</span>
+                        </a>
+                    </li>
+                    @endcan
+                    @can('section_access')
+                    <li class="nav-item {{ request()->is('admin/sections') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.section') }}">
+                            <!-- <i class="icon-grid menu-icon ti-package"></i> -->
+                            <span class="menu-title">{{__('cruds.section.title')}}</span>
+                        </a>
+                    </li>
+                    @endcan
                     @can('testimonial_access')
                     <li class="nav-item {{ request()->is('admin/testimonials') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin.testimonial') }}">
@@ -61,7 +76,7 @@
                     @endcan
                 </ul>
             </div>
-        </li> 
+        </li>
 
         @can('course_access')
         <li class="nav-item {{ request()->is('admin/courses') || request()->is('admin/courses/*')? 'active' : '' }}">
@@ -127,7 +142,7 @@
     @endcan
 
     @livewire('auth.admin.sidebar-logout')
-    
+
     <!-- <li class="nav-item">
     <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
         <i class="icon-layout menu-icon"></i>

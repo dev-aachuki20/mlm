@@ -19,7 +19,7 @@
                   </div>
                   <div class="our-works-text">
                     <h5 class="text-white">Join Program</h5>
-                    <p>Enroll yourself with any suitable course package.</p>
+                    <a href="{{ getSetting('join_program_link') }}" target="_blank" class="text-white">Enroll yourself with any suitable course package.</a>
                   </div>
                 </div>
                 <div class="our-works-count">
@@ -33,7 +33,7 @@
                   </div>
                   <div class="our-works-text">
                     <h5 class="text-white">Promote Links</h5>
-                    <p>Enroll yourself with any suitable course package.</p>
+                    <a href="{{ getSetting('promote_link') }}" target="_blank" class="text-white">Enroll yourself with any suitable course package.</a>
                   </div>
                 </div>
                 <div class="our-works-count">
@@ -47,7 +47,7 @@
                   </div>
                   <div class="our-works-text">
                     <h5 class="text-white">Earn Money</h5>
-                    <p>Enroll yourself with any suitable course package.</p>
+                    <a href="{{ getSetting('earn_money_link') }}" target="_blank" class="text-white">Enroll yourself with any suitable course package.</a>
                   </div>
                 </div>
                 <div class="our-works-count">

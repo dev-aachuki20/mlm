@@ -3,10 +3,14 @@
       <div class="row">
         <div class="col-lg-6 col-sm-12">
           <div class="about-img">
+            @if($section->image1_url)
+            <img src="{{ $section->image1_url }}"/>
+            @else
             <img src="{{ asset('images/about.png') }}">
+            @endif
             <div class="about-experience bg-dark-blue text-white">
               <h2 class="text-white">
-                <span class="outline-text">10</span>
+                <span class="outline-text">{{ $section->year_experience?? '' }}</span>
                 Year’s
                 <span class="f-39">Experience</span>
               </h2>
@@ -15,14 +19,12 @@
         </div>
         <div class="col-lg-6 col-sm-12">
           <div class="home-about-text">
-            <h2>What is <span class="color-orange">{{config('constants.app_name')}}?</span></h2>
+            <h2>{!! ucwords($section->name) !!}</h2>
             <div class="section-text ">
-              <p>it is an e-learning platform where you can learn different type of skills that will be helpful to create a better future for you.it is an e-learning platform where you can learn different type of skills that will be helpful to create a better future for you.it is an e-learning latform where you can learn different type of skills that will be helpful to create a better future for you a better future for you.</p>
+                {!! $section->description !!}
             </div>
             <ul class="list large-list">
-              <li>The vision of {{config('constants.app_name')}} is to develop.</li>
-              <li>The vision of {{config('constants.app_name')}} is to develop.</li>
-              <li>The vision of {{config('constants.app_name')}} is to develop entrepreneurial</li>
+                {!! ucwords($section->features) !!}
             </ul>
           </div>
         </div>

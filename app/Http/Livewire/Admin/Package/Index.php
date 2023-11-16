@@ -18,7 +18,7 @@ use App\Rules\CommissionRule;
 
 class Index extends Component
 {
-   
+
     use WithPagination, LivewireAlert,WithFileUploads;
 
     protected $layout = null;
@@ -72,7 +72,7 @@ class Index extends Component
     {
         return $this->sortDirection === 'asc' ? 'desc' : 'asc';
     }
-    
+
     public function render()
     {
         $this->search = str_replace(',', '', $this->search);
@@ -126,7 +126,7 @@ class Index extends Component
             'title.required' => 'The package name field is required.',
             'amount.required' => 'The package price field is required.',
         ]);
-        
+
         // $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
         $validatedData['status']   = $this->status;
 
@@ -136,8 +136,6 @@ class Index extends Component
             $insertRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators','duration']);
 
             $package = Package::create($insertRecord);
-            
-            
             //Image
             uploadImage($package, $this->image, 'package/image/',"package", 'original', 'save', null);
 
@@ -149,7 +147,7 @@ class Index extends Component
             $this->resetInputFields();
 
             $this->flash('success',trans('messages.add_success_message'));
-            
+
             return redirect()->route('admin.package');
         }catch (\Exception $e) {
             DB::rollBack();
@@ -208,7 +206,7 @@ class Index extends Component
         if($this->video || $this->removeVideo){
             $validatedArray['video'] = 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size');
         }
-  
+
         $validatedData = $this->validate(
             $validatedArray,
             [
@@ -235,14 +233,14 @@ class Index extends Component
             $uploadVideoId = $package->packageVideo->id;
             uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'update', $uploadVideoId);
         }
-        
+
         $updateRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators','uuid','duration']);
 
         $package->update($updateRecord);
-  
+
         $this->formMode = false;
         $this->updateMode = false;
-  
+
         $this->flash('success',trans('messages.edit_success_message'));
         $this->resetInputFields();
         return redirect()->route('admin.package');
@@ -251,6 +249,7 @@ class Index extends Component
 
     public function delete($id)
     {
+
         $this->confirm('Are you sure?', [
             'text'=>'You want to delete it.',
             'toast' => false,
@@ -334,7 +333,7 @@ class Index extends Component
     public function changeStatus($statusVal){
         $this->status = (!$statusVal) ? 1 : 0;
     }
-    
+
     public function initializePlugins(){
         $this->dispatchBrowserEvent('loadPlugins');
     }

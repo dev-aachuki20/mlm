@@ -43,7 +43,7 @@
                     <div class="founder-social">
                       <ul>
                         <li>
-                          <a href="#">
+                          <a href="{{ getSetting('founder_youtube_link') }}" target="_blank">
                             <div class="social-icon">
                               <img src="{{asset('images/youtube.svg')}}">
                             </div>
@@ -53,7 +53,7 @@
                           </a>
                         </li>
                         <li>
-                          <a href="#">
+                          <a href="{{ getSetting('founder_instagram_link') }}" target="_blank">
                             <div class="social-icon">
                               <img src="{{ asset('images/instagram.svg')}}">
                             </div>

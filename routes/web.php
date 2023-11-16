@@ -28,7 +28,7 @@ Route::get('/php_info', function () {
 
 //Clear Cache facade value:
 Route::get('/cache-clear', function () {
-    dd(php_info());
+    //dd(php_info());
     Artisan::call('optimize:clear');
     return '<h1>All Cache cleared</h1>';
 });
@@ -75,6 +75,8 @@ Route::group(['middleware' => ['auth', 'preventBackHistory']], function () {
     Route::group(['middleware' => ['role:admin'], 'as' => 'admin.', 'prefix' => 'admin'], function () {
         Route::view('dashboard', 'admin.index')->name('dashboard');
         Route::view('packages', 'admin.package.index')->name('package');
+        Route::view('services','admin.service.index')->name('service');
+        Route::view('sections','admin.section.index')->name('section');
         Route::view('testimonials', 'admin.testimonial.index')->name('testimonial');
         Route::view('faqs', 'admin.faq.index')->name('faq');
         Route::view('sliders', 'admin.slider.index')->name('slider');

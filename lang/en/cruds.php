@@ -111,6 +111,34 @@ return [
         ],
     ],
 
+    'service' => [
+        'title' => 'Services',
+        'title_singular' => 'Service',
+        'fields' => [
+            'title' => 'Service Name',
+            'sub_title' => 'Short Description',
+            'description' => 'Description',
+            'image' => 'Image',
+            'created_at' => 'Created At',
+        ],
+    ],
+
+    'section' => [
+        'title' => 'Sections',
+        'title_singular' => 'Section',
+        'fields' => [
+            'name'        => 'Name',
+            'year_experience'     => 'Year Of Experience',
+            'description' => 'Description',
+            'short_description' => 'Short Description',
+            'features' => 'Features',
+            'image1' => 'Image 1',
+            'image2' => 'Image 2',
+            'created_by'  => 'Created By',
+            'created_at' => 'Created At',
+        ],
+    ],
+
     'faq' => [
         'title' => 'Faqs',
         'title_singular' => 'Faq',
