@@ -15,7 +15,7 @@
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.course.fields.package')}}</label>
         <div class="col-sm-9 col-form-label">
-             {{ $detail->package->title }}
+             {{ $detail->package->title ?? ''}}
         </div>
     </div>
 

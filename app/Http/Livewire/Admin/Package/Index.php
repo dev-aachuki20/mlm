@@ -136,7 +136,8 @@ class Index extends Component
             $insertRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators','duration']);
 
             $package = Package::create($insertRecord);
-        
+            
+            
             //Image
             uploadImage($package, $this->image, 'package/image/',"package", 'original', 'save', null);
 

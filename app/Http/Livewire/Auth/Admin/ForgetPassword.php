@@ -69,7 +69,7 @@ class ForgetPassword extends Component
             $this->resetInputFields();
         }catch (\Exception $e) {
             DB::rollBack();
-            // dd($e->getMessage().'->'.$e->getLine());
+            dd($e->getMessage().'->'.$e->getLine());
             $this->alert('error',trans('messages.error_message'));
         }
     }

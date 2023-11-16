@@ -68,8 +68,8 @@
                                 @foreach($allCourse as $serialNo => $course)
                                 <tr>
                                     <td>{{ $serialNo+1 }}</td>
-                                    <td>{{ $course->name }}</td>
-                                    <td>{{ ucwords($course->package->title) }}</td>
+                                    <td>{{ $course->name ?? '' }}</td>
+                                    <td>{{ $course->package ? ucwords($course->package->title) : '' }}</td>
                                     <td>
                                         <label class="toggle-switch">
                                             <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$course->id}})" {{ $course->status == 1 ? 'checked' : '' }}>

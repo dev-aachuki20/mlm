@@ -158,7 +158,7 @@
                                 <td>{{ $serialNo+1 }}</td>
                                 <td>{{ ucwords($user->name) }}</td>
                                 <td>{{ $user->my_referral_code }}</td>
-                                <td>{{ucwords( $user->packages()->first()->title) }}</td>
+                                <td>{{$user->packages()->first() ? ucwords( $user->packages()->first()->title) : '' }}</td>
                                 <td>{{ $user->referral_code }}</td>
                                 <td>{{ ucwords($user->referral_name) }}</td>
                                 <td>

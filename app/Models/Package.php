@@ -42,7 +42,19 @@ class Package extends Model
         parent::boot();
         static::creating(function(Package $model) {
             $model->created_by = auth()->user()->id;
-        });               
+        });
+        
+        static::deleting(function ($model) {
+            // Delete all associated courses and their video groups
+            $model->courses->each(function ($course) {
+                // Delete all associated video groups for the course
+                $course->videoGroup->each(function ($videoGroup) {
+                    $videoGroup->delete();
+                });
+                // Delete the course itself
+                $course->delete();
+            });
+        });
     }
 
     public function uploads()

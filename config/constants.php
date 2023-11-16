@@ -37,9 +37,9 @@ return [
 
     'profile_image_size' => '1024',
 
-    'img_max_size'   => '2048M',
+    'img_max_size'   => '2097152',
     'video_max_size' => '2097152', //'50240', //2048000
-    'data_max_file_size' => "2048M",
+    'data_max_file_size' => "2097152",
     'no_image_url'   => 'default/no-image.jpg',
     'default_user_logo' => 'default/default-user.svg',
 

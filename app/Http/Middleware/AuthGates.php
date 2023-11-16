@@ -12,6 +12,8 @@ class AuthGates
 {
     public function handle($request, Closure $next)
     {
+        //dd($next);
+        
         $user = \Auth::user();
 
         if (!app()->runningInConsole() && $user) {
@@ -20,21 +22,27 @@ class AuthGates
 
             foreach ($roles as $role) {
                 foreach ($role->permissions as $permissions) {
-                    $permissionsArray[$permissions->title][] = $role->id;
+                   if (!empty($permissions->title)) {
+                        $permissionsArray[$permissions->title][] = $role->id;
+                    }
                 }
 
             }
 
             foreach ($permissionsArray as $title => $roles) {
-                Gate::define($title, function (User $user) use ($roles) {
-                    return count(array_intersect($user->roles->pluck('id')->toArray(), $roles)) > 0;
-                });
+                    Gate::define($title, function (User $user) use ($roles) {
+                        return count(array_intersect($user->roles->pluck('id')->toArray(), $roles)) > 0;
+                    });
+                
+               
             }
 
         }
 
-        // dd($request);
+     
         return $next($request);
+      
+      
 
     }
     

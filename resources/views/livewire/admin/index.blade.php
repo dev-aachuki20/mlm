@@ -283,7 +283,7 @@
                           <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
                           <div class="leaderboard-row">
                             {{ ucwords($record->user->name) }}
-                            <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                            <span>{{ $record->payment->package->title ?? null }} &#8377 {{ $record->payment->package ? number_format( $record->payment->package->amount,2) : '' }}</span>
                           </div>
                         </div>                      
                         <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
@@ -308,7 +308,7 @@
                             <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
                             <div class="leaderboard-row">
                               {{ ucwords($record->user->name) }}
-                              <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                              <span>{{ $record->payment->package->title ?? null }} &#8377 {{ $record->payment->package ? number_format( $record->payment->package->amount,2) : '' }}</span>
                             </div>
                           </div>                      
                           <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
@@ -334,7 +334,7 @@
                             <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
                             <div class="leaderboard-row">
                               {{ ucwords($record->user->name) }}
-                              <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                              <span>{{ $record->payment->package->title ?? null }} &#8377 {{ $record->payment->package ? number_format( $record->payment->package->amount,2) : '' }}</span>
                             </div>
                           </div>                      
                           <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>

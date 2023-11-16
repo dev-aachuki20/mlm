@@ -3,7 +3,7 @@
     {{ $updateMode ? __('global.edit') : __('global.create') }} 
     {{ strtolower(__('cruds.package.title_singular'))}}</h4>
 
-<form wire:submit.prevent="{{ $updateMode ? 'update' : 'store' }}" class="forms-sample">
+<form wire:submit.prevent="{{ $updateMode ? 'update' : 'store' }}" class="forms-sample" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
