@@ -103,7 +103,7 @@ class Index extends Component
             'sub_title'  => 'required',
             'description'   => 'required',
             'status'        => 'required',
-            'image'         => 'required|image|max:'.config('constants.img_max_size'),
+            'image'         => 'required|image|mimes:jpeg,png,jpg,svg|max:'.config('constants.img_max_size'),
         ],[
             'title.required' => 'The serive name field is required.',
             'sub_title.required' => 'The short description is required.',
@@ -153,7 +153,7 @@ class Index extends Component
         ];
 
         if($this->image || $this->removeImage){
-            $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
+            $validatedArray['image'] = 'required|image|mimes:jpeg,png,jpg,svg|max:'.config('constants.img_max_size');
         }
 
         $validatedData = $this->validate(
