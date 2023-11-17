@@ -19,7 +19,7 @@ class SectionSeeder extends Seeder
         $sections = [
             [
                 'id'     => 1,
-                'name'    => 'What is BizShiksha ?',
+                'name'    => 'What is <span class="color-orange">BizShiksha ?</span>',
                 'key'    => 'what_is_bizshiksha',
                 'year_experience'  => 10,
                 'short_description'   => null,
@@ -31,7 +31,7 @@ class SectionSeeder extends Seeder
             ],
             [
                 'id'     => 2,
-                'name'    => 'Why BizShiksha ?',
+                'name'    => 'Why <span class="color-orange">BizShiksha ?</span>',
                 'key'    => 'why_bizshiksha',
                 'year_experience'  => null,
                 'short_description'   => null,

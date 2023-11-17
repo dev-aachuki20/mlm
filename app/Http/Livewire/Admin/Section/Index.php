@@ -202,6 +202,7 @@ class Index extends Component
         $section = Section::findOrFail($id);
         $this->section_id = $id;
         $this->name  = $section->name;
+        $this->year_experience  = $section->year_experience;
         $this->short_description  = $section->short_description;
         $this->description = $section->description;
         $this->features    = $section->features;
