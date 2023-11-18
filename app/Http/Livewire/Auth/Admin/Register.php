@@ -17,6 +17,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SendRegisteredUserMail;
 use App\Mail\SendPlanPurchasedMail;
+use App\Mail\SendRefferalCommissionMail;
 
 class Register extends Component
 {
@@ -116,7 +117,6 @@ class Register extends Component
             try {
 
                 $referral_user = User::where('my_referral_code', $this->referral_id)->first();
-
                 $password = generateRandomString(8);
 
                 $data = [
@@ -141,19 +141,17 @@ class Register extends Component
                 if ($user) {
                     $userId = $user->id;
 
-
                     // Assign user Role
                     $user->roles()->sync([3]);
                     $user->packages()->sync([$package_id]);
                     $pkgData = Package::where('id', $package_id)->first();
 
-                    // Profile records 
+                    // Profile records
                     $profileData = [
                         'user_id'        => $user->id,
                         'gender'         => $this->gender,
                         'address'        => $this->address,
                     ];
-
 
                     $prodata =   $user->profile()->create($profileData);
 
@@ -177,7 +175,7 @@ class Register extends Component
 
                     $user_profile_data =  array_merge($userdata,$pro_data);
 
-                    // Kyc records 
+                    // Kyc records
                     $kycRecords = [
                         'user_id'        => $user->id,
                         'created_at'     => date('Y-m-d H:i:s'),
@@ -257,6 +255,23 @@ class Register extends Component
 
                     //Verification mail sent
                     // $user->sendEmailVerificationNotification();
+
+                    // Send mail to reffrals
+                    $LevelOnereffraluser= $user->referrer->id ?? null;
+                    if($LevelOnereffraluser){
+                        $LOnecommissionAmount   = $user->packages()->first()->level_one_commission;
+                        $levelOneuser=User::where('id',$LevelOnereffraluser)->first();
+                        $subject = "Congratulations! You've Earned a Commission";
+                        Mail::to($levelOneuser->email)->queue(new SendRefferalCommissionMail($subject,$levelOneuser->name,$user->name,$user->email,$user->phone,$planName,$LOnecommissionAmount));
+
+                        $LevelTworeffraluser= $user->referrer->referrer->id ?? null;
+                        if($LevelTworeffraluser){
+                            $LTwocommissionAmount   = $user->packages()->first()->level_two_commission;
+                            $levelTwouser=User::where('id',$LevelTworeffraluser)->first();
+                            $subject = "Congratulations! You've Earned a Commission";
+                            Mail::to($levelTwouser->email)->queue(new SendRefferalCommissionMail($subject,$levelTwouser->name,$user->name,$user->email,$user->phone,$planName,$LTwocommissionAmount));
+                        }
+                    }
 
                     DB::commit();
 

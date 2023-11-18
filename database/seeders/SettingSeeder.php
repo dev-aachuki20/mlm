@@ -309,7 +309,18 @@ class SettingSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'created_by' => 1,
             ],
+            [
 
+                'key'    => 'referral_commission_mail_content',
+                'value'  =>  null,
+                'type'   => 'text_area',
+                'display_name'  => 'Referral Commision Mail Content',
+                'group'  => 'mail',
+                'details' => '[REFERRAL_NAME], [PACKAGE_NAME], [REGISTERED_USER_NAME], [REGISTERED_USER_EMAIL], [REGISTERED_USER_PHONE], [REFERRAL_COMMISSION_AMOUNT], [SUPPORT_EMAIL], [SUPPORT_PHONE], [APP_NAME]',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
             [
 
                 'key'    => 'reset_password_mail_content',

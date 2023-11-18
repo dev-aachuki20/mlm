@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Admin\Setting;
 use Gate;
 use Livewire\Component;
 use App\Models\Setting;
-use Illuminate\Support\Str; 
+use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
@@ -44,7 +44,7 @@ class Index extends Component
     public function render()
     {
         $allSettingType = Setting::groupBy('group')->pluck('group');
-      
+
         return view('livewire.admin.setting.index',compact('allSettingType'));
     }
 
@@ -69,7 +69,7 @@ class Index extends Component
                 }
 
                 if ($setting->type == 'text_area') {
-                    $rules['state.'.$setting->key] = ($setting->group != 'mail') ? 'required|string' : 'string';
+                    $rules['state.'.$setting->key] = ($setting->group != 'mail') ? 'required' : '';
                 }
 
                 if($setting->type == 'image'){
@@ -81,17 +81,17 @@ class Index extends Component
                 if($setting->type == 'video'){
                     $rules['state.'.$setting->key] = 'nullable|max:'.config('constants.video_max_size').'|mimetypes:video/webm,video/mp4, video/avi,video/wmv,video/flv,video/mov';
                 }
-                
+
             }
         }
-   
+
         $customMessages = [
             'required' => 'The field is required.',
             'state.site_logo' => 'The site logo must be an image.',
             'state.site_logo.mimes' => 'The site logo must be jpeg,png,jpg,PNG,JPG.',
             'state.site_logo.max'   => 'The site logo maximum size is '.config('constants.img_max_size').' KB.',
             'state.site_logo.dimensions'=> 'The site logo size must be '.$dimensionsDetails['site_logo'],
-            
+
             'state.favicon.dimensions'=> 'The favicon size must be '.$dimensionsDetails['favicon'],
             'state.short_logo.dimensions'=> 'The short logo size must be '.$dimensionsDetails['short_logo'],
             'state.footer_logo.dimensions'=> 'The footer logo size must be '.$dimensionsDetails['footer_logo'],
@@ -114,7 +114,7 @@ class Index extends Component
         ];
 
         $validatedData = $this->validate($rules,$customMessages);
-        
+
         DB::beginTransaction();
         try {
             foreach($validatedData['state'] as $key=>$stateVal){
@@ -123,7 +123,7 @@ class Index extends Component
                 $setting_value = $stateVal;
 
                 if($setting->type == 'image'){
-                
+
                     $uploadId = $setting->image ? $setting->image->id : null;
 
                     if ($stateVal) {
@@ -142,7 +142,7 @@ class Index extends Component
                 }
 
                 if($setting->type == 'video'){
-                
+
                     $uploadId = $setting->video ? $setting->video->id : null;
                     if ($stateVal) {
                         if($uploadId){
@@ -168,7 +168,7 @@ class Index extends Component
             // $this->reset(['state']);
 
             $this->alert('success',trans('messages.edit_success_message'));
-        
+
         }catch (\Exception $e) {
             DB::rollBack();
             // dd($e->getMessage().'->'.$e->getLine());
@@ -177,12 +177,12 @@ class Index extends Component
 
     }
 
-  
+
     public function initializePlugins(){
         $this->dispatchBrowserEvent('loadPlugins');
     }
 
-  
+
     public function copyTextAlert(){
         $this->alert('success','Copied Successfully!');
     }

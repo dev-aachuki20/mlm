@@ -15,18 +15,18 @@ class Login extends BaseComponent
     use LivewireAlert;
 
     // protected $layout = null;
-    
+
     public $email, $password,$remember_me;
 
     public $verifyMailComponent = false;
 
     protected $listeners = [ 'verifiedAlert','alreadyVerifiedAlert' ];
-    
+
     public function render()
     {
         $verified = session('verified') ?? 'false';
         $alreadyVerified = session('alreadyVerified') ?? 'false';
-      
+
         return view('livewire.auth.admin.login',compact('verified','alreadyVerified'));
     }
 
@@ -37,23 +37,26 @@ class Login extends BaseComponent
 
     public function submitLogin()
     {
+
+
         $validated = $this->validate([
             'email'    => ['required','email',new IsActive],
             'password' => 'required',
         ]);
-         
+
         $remember_me = !is_null($this->remember_me) ? true : false;
         $credentialsOnly = [
             'email'    => $this->email,
             'password' => $this->password,
-        ]; 
+        ];
 
         try {
             $checkVerified = User::where('email',$this->email)->whereNull('email_verified_at')->first();
+
             if(!$checkVerified){
-               
+
                 if (Auth::attempt($credentialsOnly, $remember_me)) {
-            
+
                     $this->resetInputFields();
                     $this->resetErrorBag();
                     $this->resetValidation();
@@ -65,24 +68,24 @@ class Login extends BaseComponent
                     }else{
                         return redirect()->route('admin.dashboard');
                     }
-                
+
                 }
-        
+
                 $this->addError('email', trans('auth.failed'));
-              
+
             }else{
                 $this->addError('email', trans('panel.message.email_verify_first'));
                 // $checkVerified->sendEmailVerificationNotification();
                 // $this->verifyMailComponent = true;
             }
-            
+
             $this->resetInputFields();
-        
+
         } catch (ValidationException $e) {
 
             $this->addError('email', $e->getMessage());
         }
-    
+
     }
 
 

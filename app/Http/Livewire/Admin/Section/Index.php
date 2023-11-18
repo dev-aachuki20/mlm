@@ -20,7 +20,7 @@ class Index extends Component
     public $search = '', $formMode = false , $updateMode = false, $viewMode = false;
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    public $section_id = null, $removeImage = false,$name,$description,$year_experience,$short_description,$features ,$image1,$originalImage1, $image2,$originalImage2,$status = 1;
+    public $section_id = null,$section_key = null, $removeImage = false,$name,$description,$year_experience,$short_description,$features ,$image1,$originalImage1, $image2,$originalImage2,$status = 1;
 
     protected $listeners = [
         'cancel','updatePaginationLength', 'updateStatus', 'confirmedToggleAction','deleteConfirm',
@@ -201,6 +201,7 @@ class Index extends Component
         $this->resetPage('page');
         $section = Section::findOrFail($id);
         $this->section_id = $id;
+        $this->section_key = $section->key;
         $this->name  = $section->name;
         $this->year_experience  = $section->year_experience;
         $this->short_description  = $section->short_description;
