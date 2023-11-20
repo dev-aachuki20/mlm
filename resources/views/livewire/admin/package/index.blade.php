@@ -131,7 +131,6 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/resumable.js/1.1.0/resumable.min.js"></script>
-{{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> --}}
 
 <script type="text/javascript">
 
@@ -248,13 +247,12 @@
             }
         });
       
-
-        //Upload file
-        let browseFile = $('#browseFile');
+        //Upload Video file
+        let browseFile = $('#browseVideoFile');
         let resumable = new Resumable({
             target: "{{ route('upload-file') }}",
             query: {_token: '{{ csrf_token() }}'},
-            fileType: ['png', 'jpg', 'jpeg', 'mp4'],
+            fileType: ['webm', 'mp4', 'avi', 'wmv','flv','mov'],
             chunkSize: 2 * 1024 * 1024, // default is 1*1024*1024, this should be less than your maximum limit in php.ini
             headers: {
                 'Accept': 'application/json'
@@ -314,7 +312,7 @@
             progress.hide();
         }
         //End file upload
-
+       
     });
 
    
