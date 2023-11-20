@@ -13,8 +13,12 @@
             </div>
         </div>
     </div>
+<<<<<<< Updated upstream
 
     @if($section_key == 'what_is_bizshiksha')
+=======
+    @if($section_id != 2)
+>>>>>>> Stashed changes
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -73,7 +77,11 @@
         </div>
     </div>
 
+<<<<<<< Updated upstream
     {{-- <div class="row">
+=======
+    {{--<div class="row">
+>>>>>>> Stashed changes
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
                 <label class="font-weight-bold justify-content-start">{{ __('cruds.section.fields.image2')}}</label>
@@ -88,7 +96,11 @@
             </span>
             @endif
         </div>
+<<<<<<< Updated upstream
     </div> --}}
+=======
+    </div>--}}
+>>>>>>> Stashed changes
 
     <div class="row">
         <div class="col-md-12">

@@ -93,7 +93,7 @@
                     <ul>
                       <li class="border-bottom-0 pb-0">
                         <div class="left"> Package </div>
-                        <div class="right">{{ auth()->user()->packages[0]->title }}</div>
+                        <div class="right"></div>
                       </li>
 
                     </ul>
