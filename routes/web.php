@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\UploadFileController;
 
 
 // Route::get('/', function () {
@@ -72,9 +73,15 @@ Route::group(['middleware' => ['auth', 'preventBackHistory']], function () {
     Route::view('admin/change-password', 'auth.profile.change-password')->name('auth.admin-change-password')->middleware('role:admin');
     Route::view('user/change-password', 'auth.profile.change-password')->name('auth.user-change-password')->middleware('role:user,role:ceo,role:management');
 
+    Route::post('upload-file', [UploadFileController::class,'uploadVideo'])->name("upload-file");
+
+
     Route::group(['middleware' => ['role:admin'], 'as' => 'admin.', 'prefix' => 'admin'], function () {
         Route::view('dashboard', 'admin.index')->name('dashboard');
+        
+        //Package Routes
         Route::view('packages', 'admin.package.index')->name('package');
+
         Route::view('services','admin.service.index')->name('service');
         Route::view('sections','admin.section.index')->name('section');
         Route::view('testimonials', 'admin.testimonial.index')->name('testimonial');

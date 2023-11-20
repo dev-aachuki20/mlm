@@ -117,20 +117,46 @@
             <div class="form-group mb-0">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <label class="font-weight-bold mb-0 justify-content-start">Video<i class="fas fa-asterisk"></i></label> 
-
+                {{-- 
                     @if($updateMode && (!$removeVideo))
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary btn-sm mb-1" data-toggle="modal" data-target="#videoModal">
                     Preview
                     </button>
-                    @endif
+                    @endif --}}
                 </div>
 
-                <div wire:ignore>
+                {{-- <div wire:ignore>
                     <input type="file"  id="dropify-video"  wire:model.defer="video" class="dropify" data-default-file="{{ $originalVideo }}"  accept="video/webm, video/mp4, video/avi,video/wmv,video/flv,video/mov">
                     <span wire:loading wire:target="video">
                         <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
                     </span>
+                </div> --}}
+
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header text-center">
+                                    <h5>Upload File</h5>
+                                </div>
+                
+                                <div class="card-body">
+                                    <div id="upload-container" class="text-center">
+                                        <button type="button" id="browseFile" class="btn btn-primary">Browse File</button>
+                                    </div>
+                                    <div style="display: none" class="progress mt-3" style="height: 25px">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%; height: 100%">75%</div>
+                                    </div>
+                                </div>
+                
+                                <div class="card-footer p-4" style="display: none">
+                                    <img id="imagePreview" src="" style="width: 100%; height: auto; display: none" alt="img"/>
+                                    <video id="videoPreview" src="" controls style="width: 100%; height: auto; display: none"></video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             
