@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\MailContentSetting;
 use App\Mail\SendMailContentFromSetting;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 
 if (!function_exists('convertToFloat')) {
@@ -297,5 +298,67 @@ if (!function_exists('getFinancialYearMonths')) {
 if (!function_exists('generateUniqueInvoiceNumber')) {
 	function generateUniqueInvoiceNumber(){
 		return date('YmdHis') . mt_rand(100000, 999999);
+	}
+}
+
+if (!function_exists('uploadFile')) {
+	/**
+	 * Upload Image.
+	 *
+	 * @param array $input
+	 *
+	 * @return array $input
+	 */
+	function uploadFile($directory,$tmpFolderPath, $newFolderPath, $type="profile", $fileType="jpg",$actionType="save",$uploadId=null,$orientation=null)
+	{
+		$saveFilePath = $newFolderPath;
+
+		 // Set the paths for the tmp and new directories
+		 $tmpPath = storage_path('app/public/'.$tmpFolderPath);
+		 $newPath = storage_path('app/public/'.$newFolderPath);
+	 
+		// Check if the file exists in the tmp directory
+		if (File::exists("{$tmpPath}")) {
+			
+			if (!File::exists($newPath)) {
+				File::makeDirectory($newPath, 0775, true, true);
+			}
+
+			$extension = pathinfo($tmpPath, PATHINFO_EXTENSION);
+
+			$timestamp = now()->timestamp;
+			$uniqueId = uniqid();
+
+			$fileName = $timestamp . '_' . $uniqueId;
+
+			$newPath .= $fileName.'.'.$extension; 
+			$saveFilePath .= $fileName.'.'.$extension;
+
+			// Move the file to the new directory
+			File::move("{$tmpPath}", "{$newPath}");
+			
+			$oldFile = null;
+			if($actionType == "save"){
+				$upload               		= new Uploads;
+			}else{
+				$upload               		= Uploads::find($uploadId);
+				$oldFile = $upload->file_path;
+			}
+
+			$upload->file_path      	= $saveFilePath;
+			$upload->extension      	= $extension;
+			$upload->original_file_name = null;
+			$upload->type 				= $type;
+			$upload->file_type 			= $fileType;
+			$upload->orientation 		= $orientation;
+			$response             		= $directory->uploads()->save($upload);
+			// delete old file
+			if($oldFile){
+				Storage::disk('public')->delete($oldFile);
+			}
+			
+			return $upload;
+		}
+
 	}
 }

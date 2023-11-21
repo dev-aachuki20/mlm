@@ -114,7 +114,7 @@
 
 
 @push('styles')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
+{{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" /> --}}
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('admin/assets/select2/select2.min.css') }}">
 <link rel="stylesheet" href="{{ asset('admin/assets/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
@@ -123,7 +123,7 @@
 @endpush
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script> --}}
 
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script src="{{ asset('admin/assets/select2/select2.min.js') }}"></script>
@@ -146,23 +146,23 @@
             $(this).addClass('open');
         });
 
-        $('.dropify').dropify();
-        $('.dropify-errors-container').remove();
-        $('.dropify-clear').click(function(e) {
-            e.preventDefault();
-            var elementName = $(this).siblings('input[type=file]').attr('id');
-            if(elementName == 'dropify-image'){
-               @this.set('image',null);
-               @this.set('originalImage',null);
-               @this.set('removeImage',true);
+        // $('.dropify').dropify();
+        // $('.dropify-errors-container').remove();
+        // $('.dropify-clear').click(function(e) {
+        //     e.preventDefault();
+        //     var elementName = $(this).siblings('input[type=file]').attr('id');
+        //     if(elementName == 'dropify-image'){
+        //        @this.set('image',null);
+        //        @this.set('originalImage',null);
+        //        @this.set('removeImage',true);
 
-            }else if(elementName == 'dropify-video'){
-                @this.set('video',null);
-                @this.set('originalVideo',null);
-                @this.set('videoExtenstion',null);
-                @this.set('removeVideo',true);
-            }
-        });
+        //     }else if(elementName == 'dropify-video'){
+        //         @this.set('video',null);
+        //         @this.set('originalVideo',null);
+        //         @this.set('videoExtenstion',null);
+        //         @this.set('removeVideo',true);
+        //     }
+        // });
 
         if ($(".js-example-basic-single").length) {
             $(".js-example-basic-single").select2({
@@ -247,9 +247,10 @@
             }
         });
       
-        //Upload Video file
-        let browseFile = $('#browseVideoFile');
-        let resumable = new Resumable({
+      
+        //Start Upload Video file
+        let browseVideoFile = $("#browseVideoFile");
+        let resumableVideo = new Resumable({
             target: "{{ route('upload-file') }}",
             query: {_token: '{{ csrf_token() }}'},
             fileType: ['webm', 'mp4', 'avi', 'wmv','flv','mov'],
@@ -261,61 +262,84 @@
             throttleProgressCallbacks: 1,
         });
 
-        resumable.assignBrowse(browseFile[0]);
+        resumableVideo.assignBrowse(browseVideoFile[0]);
 
-        resumable.on('fileAdded', function (file) { // trigger when file picked
-            showProgress();
-            resumable.upload() // to actually start uploading.
+        resumableVideo.on('fileAdded', function (file) { // trigger when file picked
+            showProgress('.progress-video','#progress-bar-video');
+            resumableVideo.upload() // to actually start uploading.
         });
 
-        resumable.on('fileProgress', function (file) { // trigger when file progress update
-            updateProgress(Math.floor(file.progress() * 100));
+        resumableVideo.on('fileProgress', function (file) { // trigger when file progress update
+            updateProgress('.progress-video','#progress-bar-video',Math.floor(file.progress() * 100));
         });
 
-        resumable.on('fileSuccess', function (file, response) { // trigger when file upload complete
+        resumableVideo.on('fileSuccess', function (file, response) { // trigger when file upload complete
             response = JSON.parse(response)
 
-            if (response.mime_type.includes("image")) {
-                $('#imagePreview').attr('src', response.path + '/' + response.name).show();
-            }
-
             if (response.mime_type.includes("video")) {
-                $('#videoPreview').attr('src', response.path + '/' + response.name).show();
+                var videoPath = response.path + '/' + response.name;
+
+                @this.set('video',response.name);
+                @this.set('originalVideo',videoPath);
+
+                $('#videoPreview').attr('src', videoPath).show();
             }
 
             $('.card-footer').show();
         });
 
-        resumable.on('fileError', function (file, response) { // trigger when there is any error
+        resumableVideo.on('fileError', function (file, response) { // trigger when there is any error
             alert('file uploading error.')
         });
+        //End upload video file
 
-        let progress = $('.progress');
+        //Start Upload Image file
+        let browseImageFile = $("#browseImageFile");
+        let resumableImage = new Resumable({
+            target: "{{ route('upload-file') }}",
+            query: {_token: '{{ csrf_token() }}'},
+            fileType: ['jpg', 'png', 'jpeg','svg'],
+            chunkSize: 2 * 1024 * 1024, // default is 1*1024*1024, this should be less than your maximum limit in php.ini
+            headers: {
+                'Accept': 'application/json'
+            },
+            testChunks: false,
+            throttleProgressCallbacks: 1,
+        });
 
-        function showProgress() {
-            progress.find('.progress-bar').css('width', '0%');
-            progress.find('.progress-bar').html('0%');
-            progress.find('.progress-bar').removeClass('bg-success');
-            progress.show();
-        }
+        resumableImage.assignBrowse(browseImageFile[0]);
 
-        function updateProgress(value) {
-            progress.find('.progress-bar').css('width', `${value}%`)
-            progress.find('.progress-bar').html(`${value}%`)
+        resumableImage.on('fileAdded', function (file) { // trigger when file picked
+            showProgress('.progress-image','#progress-bar-image');
+            resumableImage.upload() // to actually start uploading.
+        });
 
-            if (value === 100) {
-                progress.find('.progress-bar').addClass('bg-success');
+        resumableImage.on('fileProgress', function (file) { // trigger when file progress update
+            updateProgress('.progress-image','#progress-bar-image',Math.floor(file.progress() * 100));
+        });
+
+        resumableImage.on('fileSuccess', function (file, response) { // trigger when file upload complete
+            response = JSON.parse(response)
+
+            if (response.mime_type.includes("image")) {
+                var imagePath = response.path + '/' + response.name;
+
+                @this.set('image',response.name);
+                @this.set('originalImage',imagePath);
+
+                $('#imagePreview').attr('src', imagePath).show();
             }
-        }
 
-        function hideProgress() {
-            progress.hide();
-        }
-        //End file upload
-       
+            $('.card-footer').show();
+        });
+
+        resumableImage.on('fileError', function (file, response) { // trigger when there is any error
+            alert('file uploading error.')
+        });
+        //End upload video file
     });
-
-   
-
 </script>
+ 
+@include('partials.admin.upload_file')
+
 @endpush

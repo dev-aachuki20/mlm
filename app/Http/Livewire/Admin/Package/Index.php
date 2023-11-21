@@ -73,6 +73,7 @@ class Index extends Component
         return $this->sortDirection === 'asc' ? 'desc' : 'asc';
     }
 
+
     public function render()
     {
         $this->search = str_replace(',', '', $this->search);
@@ -107,7 +108,7 @@ class Index extends Component
 
     public function store()
     {
-       // dd($this->all());
+    //    dd($this->all());
         $validatedData = $this->validate([
             'title'      => 'required|'.Rule::unique('package')->whereNull('deleted_at'),
             'sub_title'  => 'required',
@@ -120,8 +121,10 @@ class Index extends Component
             // 'duration'      => 'required',
             'level'         => 'required',
             'status'        => 'required',
-            'image'         => 'required|image|max:'.config('constants.img_max_size'),
-            'video'         => 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size'),
+            'image'         => 'required',
+            'video'         => 'required',
+            // 'image'         => 'required|image|max:'.config('constants.img_max_size'),
+            // 'video'         => 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size'),
         ],[
             'title.required' => 'The package name field is required.',
             'amount.required' => 'The package price field is required.',
@@ -130,19 +133,28 @@ class Index extends Component
         // $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
         $validatedData['status']   = $this->status;
 
+        DB::beginTransaction();
         try{
             $this->uuid     = Str::uuid();
 
             $insertRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators','duration']);
 
             $package = Package::create($insertRecord);
+
             //Image
-            uploadImage($package, $this->image, 'package/image/',"package", 'original', 'save', null);
+            // uploadImage($package, $this->image, 'package/image/',"package", 'original', 'save', null);
 
             //Upload video
-            uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'save', null);
+            // uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'save', null);
+
+           
+            uploadFile($package,'upload/image/'.$this->image, 'package/image/', "package", "original","save",null);
+
+            uploadFile($package,'upload/video/'.$this->video, 'package/video/', "package-video", "original","save",null);
 
             $this->formMode = false;
+
+            DB::commit();
 
             $this->resetInputFields();
 
@@ -161,6 +173,7 @@ class Index extends Component
     public function edit($id)
     {
         $this->resetPage('page');
+
         $package = Package::findOrFail($id);
 
         $this->package_id = $id;
@@ -200,11 +213,17 @@ class Index extends Component
         ];
 
         if($this->image || $this->removeImage){
-            $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
+            // $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
+
+            $validatedArray['image'] = 'required';
+
         }
 
         if($this->video || $this->removeVideo){
-            $validatedArray['video'] = 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size');
+            // $validatedArray['video'] = 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size');
+
+            $validatedArray['video'] = 'required';
+
         }
 
         $validatedData = $this->validate(
@@ -215,35 +234,50 @@ class Index extends Component
             ]
         );
 
-        // $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
-        $validatedData['status'] = $this->status;
+        DB::beginTransaction();
+        try{
+            // $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
+            $validatedData['status'] = $this->status;
 
-        $package = Package::find($this->package_id);
+            $package = Package::find($this->package_id);
 
-        // Check if the photo has been changed
-        $uploadId = null;
-        if ($this->image) {
-            $uploadId = $package->packageImage->id;
-            uploadImage($package, $this->image, 'package/image/',"package", 'original', 'update', $uploadId);
+            // Check if the photo has been changed
+            $uploadId = null;
+            if ($this->image) {
+                $uploadId = $package->packageImage->id;
+                // uploadImage($package, $this->image, 'package/image/',"package", 'original', 'update', $uploadId);
+
+                uploadFile($package,'upload/image/'.$this->image, 'package/image/', "package", "original","update",$uploadId);
+            }
+
+            // Check if the video has been changed
+            $uploadVideoId = null;
+            if ($this->video) {
+                $uploadVideoId = $package->packageVideo->id;
+
+                // uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'update', $uploadVideoId);
+
+                uploadFile($package,'upload/video/'.$this->video, 'package/video/', "package-video", "original","update",$uploadVideoId);
+            }
+
+            $updateRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators','uuid','duration']);
+
+            $package->update($updateRecord);
+
+            $this->formMode = false;
+            $this->updateMode = false;
+
+            DB::commit();
+
+            $this->flash('success',trans('messages.edit_success_message'));
+            $this->resetInputFields();
+            return redirect()->route('admin.package');
+
+        }catch (\Exception $e) {
+            DB::rollBack();
+            // dd($e->getMessage().'->'.$e->getLine());
+            $this->alert('error',trans('messages.error_message'));
         }
-
-        // Check if the video has been changed
-        $uploadVideoId = null;
-        if ($this->video) {
-            $uploadVideoId = $package->packageVideo->id;
-            uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'update', $uploadVideoId);
-        }
-
-        $updateRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators','uuid','duration']);
-
-        $package->update($updateRecord);
-
-        $this->formMode = false;
-        $this->updateMode = false;
-
-        $this->flash('success',trans('messages.edit_success_message'));
-        $this->resetInputFields();
-        return redirect()->route('admin.package');
 
     }
 
@@ -297,7 +331,9 @@ class Index extends Component
         $this->level = '';
         $this->status = 1;
         $this->image = null;
+        $this->originalImage = null;
         $this->video = null;
+        $this->originalVideo = null;
     }
 
     public function cancel(){
@@ -305,6 +341,8 @@ class Index extends Component
         $this->updateMode = false;
         $this->viewMode = false;
 
+        $this->resetInputFields();
+        $this->resetValidation();
     }
 
     public function toggle($id){

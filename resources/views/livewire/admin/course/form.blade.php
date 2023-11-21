@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="row logo-section">
+    {{-- <div class="row logo-section">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
                 <label class="font-weight-bold justify-content-start">Image<i class="fas fa-asterisk"></i></label>
@@ -86,8 +86,80 @@
             </span>
             @endif
         </div>
-    </div>
+    </div> --}}
 
+    <div class="row logo-section">
+        <div class="col-md-6 mb-4 image-section">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h5>Upload Image File</h5>
+                </div>
+
+                <div class="card-body">
+                    <div id="upload-container" class="text-center">
+                        <button type="button" id="browseImageFile" class="btn btn-primary">Browse File</button>
+                        @if($errors->has('image'))
+                        <p class="error text-danger">
+                            {{ $errors->first('image') }}
+                        </p>
+                        @endif
+                    </div>
+                    <div style="display: none" class="progress mt-3 progress-image" style="height: 25px">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress-bar-image" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%; height: 100%">75%</div>
+                    </div>
+                </div>
+
+                @if(!is_null($originalImage))
+                    <div class="card-footer p-4" style="display: block">
+                        <div class="imglayer_box">
+                            <img id="imagePreview" src="{{$originalImage}}" style="width: 100%; height: auto; display: block" alt="img"/>
+                        </div>
+                    </div>
+                @else
+                    <div class="card-footer p-4" style="display: none">
+                        <div class="imglayer_box">
+                            <img id="imagePreview" src="" style="width: 100%; height: auto; display: none" alt="img"/>
+                        </div>
+                    </div>
+                @endif
+                
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4 video-section">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h5>Upload Video File</h5>
+                </div>
+
+                <div class="card-body">
+                    <div id="upload-container" class="text-center">
+                        <button type="button" id="browseVideoFile" class="btn btn-primary">Browse File</button>
+                        @if($errors->has('video'))
+                        <p class="error text-danger">
+                            {{ $errors->first('video') }}
+                        </p>
+                        @endif
+                    </div>
+                    <div style="display: none" class="progress mt-3 progress-video" style="height: 25px">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" id="progress-bar-video" aria-valuemin="0" aria-valuemax="100" style="width: 75%; height: 100%">75%</div>
+                    </div>
+                </div>
+
+                @if(!is_null($originalVideo))
+                    <div class="card-footer p-4">
+                        <video class="videolayer_box" id="videoPreview" src="{{$originalVideo}}" controls style="width: 100%; height: auto;"></video>
+                    </div>
+                @else
+                    <div class="card-footer p-4" style="display: none">
+                        <video class="videolayer_box" id="videoPreview" src="" controls style="width: 100%; height: auto; display: none"></video>
+                    </div>
+                @endif
+              
+            </div>
+        </div>
+    </div>
+    
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">

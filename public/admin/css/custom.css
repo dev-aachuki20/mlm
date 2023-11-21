@@ -944,3 +944,27 @@ div:where(.swal2-container) div:where(.swal2-validation-message) {
     text-align: left !important;
     justify-self: flex-start !important;
 }
+
+/* //  */
+
+.imglayer_box {
+  height: 303px;
+}
+
+.imglayer_box>img {
+  height: 100% !important;
+  object-fit: contain;
+}
+
+.videolayer_box {
+  height: 294px !important;
+}
+
+@media(max-width:767px){
+  .imglayer_box {
+    height: 200px;
+  }
+  .videolayer_box {
+    height: auto !important;
+  }
+}

@@ -106,8 +106,10 @@ class Index extends Component
             'package_id'  => 'required',
             'description' => 'required',
             'status'      => 'required',
-            'image'       => 'required|image|max:'.config('constants.img_max_size'),
-            'video'       => 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size'),
+            // 'image'       => 'required|image|max:'.config('constants.img_max_size'),
+            // 'video'       => 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size'),
+            'image'         => 'required',
+            'video'         => 'required',
         ],[
             'package_id.required' => 'The package field is required.'
         ]);
@@ -119,17 +121,21 @@ class Index extends Component
             
             $course = Course::create($validatedData);
     
-            //Upload Image
-            uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'save', null);
+            // //Upload Image
+            // uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'save', null);
     
-            //Upload video
-            uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'save', null);
+            // //Upload video
+            // uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'save', null);
     
+            uploadFile($course,'upload/image/'.$this->image, 'course/image/', "course-image", "original","save",null);
+
+            uploadFile($course,'upload/video/'.$this->video, 'course/video/', "course-video", "original","save",null);
+
             DB::commit();
      
             $this->formMode = false;
-    
-            $this->reset(['name','description','status','image','video','allPackage','package_id']);
+
+            $this->reset(['name','description','status','image','originalImage','video','originalVideo','allPackage','package_id']);
     
             $this->flash('success',trans('messages.add_success_message'));
           
@@ -174,11 +180,15 @@ class Index extends Component
         $validatedArray['status']      = 'required';
 
         if($this->image || $this->removeImage){
-            $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
+            // $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
+
+            $validatedArray['image'] = 'required';
         }
 
         if($this->video || $this->removeVideo){
-            $validatedArray['video'] = 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size');
+            // $validatedArray['video'] = 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size');
+
+            $validatedArray['video'] = 'required';
         }
 
         $validatedData = $this->validate(
@@ -198,14 +208,18 @@ class Index extends Component
             $uploadImageId = null;
             if ($this->image) {
                 $uploadImageId = $course->courseImage->id;
-                uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'update', $uploadImageId);
+                // uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'update', $uploadImageId);
+
+                uploadFile($course,'upload/image/'.$this->image, 'course/image/', "course-image", "original","update",$uploadImageId);
             }
     
             // Check if the video has been changed
             $uploadVideoId = null;
             if ($this->video) {
                 $uploadVideoId = $course->courseVideo->id;
-                uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'update', $uploadVideoId);
+                // uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'update', $uploadVideoId);
+
+                uploadFile($course,'upload/video/'.$this->video, 'course/video/', "course-video", "original","update",$uploadVideoId);
             }
     
             $course->update($validatedData);
@@ -217,7 +231,7 @@ class Index extends Component
       
             $this->flash('success',trans('messages.edit_success_message'));
     
-            $this->reset(['name','description','status','image','video','allPackage','package_id']);
+            $this->reset(['name','description','status','image','originalImage','video','originalVideo','allPackage','package_id']);
     
             return redirect()->route('admin.course');
         }catch (\Exception $e) {
@@ -250,9 +264,6 @@ class Index extends Component
     }
 
     public function cancel(){
-        $this->formMode = false;
-        $this->updateMode = false;
-        $this->viewMode = false;
         $this->reset();
     }
 
