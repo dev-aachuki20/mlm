@@ -202,7 +202,7 @@
         let resumableVideo = new Resumable({
             target: "{{ route('upload-file') }}",
             query: {_token: '{{ csrf_token() }}'},
-            fileType: ['webm', 'mp4', 'avi', 'wmv','flv','mov'],
+            fileType: ['webm', 'mp4', 'wmv','flv','mov'],
             chunkSize: 2 * 1024 * 1024, // default is 1*1024*1024, this should be less than your maximum limit in php.ini
             headers: {
                 'Accept': 'application/json'
