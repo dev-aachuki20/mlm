@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Rule;
 
 class CommissionRule implements Rule
 {
-    private $planPrize;
+    public $planPrize;
 
     /**
      * Create a new rule instance.

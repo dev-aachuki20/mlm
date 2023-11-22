@@ -222,7 +222,9 @@
             throttleProgressCallbacks: 1,
         });
 
-        resumableVideo.assignBrowse(browseVideoFile[0]);
+        if (browseVideoFile && browseVideoFile.length > 0) {
+            resumableVideo.assignBrowse(browseVideoFile[0]);
+        }
 
         resumableVideo.on('fileAdded', function (file) { // trigger when file picked
             browseVideoFile.attr('disabled',true);

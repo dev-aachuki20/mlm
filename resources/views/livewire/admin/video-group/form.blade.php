@@ -74,7 +74,7 @@
 
     <div class="row logo-section">
         <div class="col-md-6 mb-4 image-section">
-            <div class="card">
+            <div class="card" wire:ignore wire:key="image-upload-key">
                 <div class="card-header text-center">
                     <h5>Upload Image File</h5>
                 </div>
@@ -111,7 +111,7 @@
         </div>
 
         <div class="col-md-6 mb-4 video-section">
-            <div class="card">
+            <div class="card" wire:ignore wire:key="video-upload-key">
                 <div class="card-header text-center">
                     <h5>Upload Video File</h5>
                 </div>
@@ -160,7 +160,7 @@
         </div>
     </div>
 
-    <button type="submit" wire:loading.attr="disabled" class="btn btn-primary mr-2">
+    <button type="submit" wire:loading.attr="disabled" class="btn btn-primary mr-2 submit-btn">
         {{ $updateMode ? __('global.update') : __('global.submit') }}
         <span wire:loading wire:target="{{ $updateMode ? 'update' : 'store' }}">
             <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>

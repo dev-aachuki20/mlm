@@ -278,7 +278,8 @@ class Index extends Component
 
     public function cancel()
     {
-        $this->reset();
+        $this->reset(['formMode','viewMode','updateMode','title', 'description', 'status', 'image','originalImage', 'video','originalVideo', 'videoDuration','group_video_id']);
+        $this->resetValidation();
     }
 
 

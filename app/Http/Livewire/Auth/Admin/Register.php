@@ -260,7 +260,7 @@ class Register extends Component
                     $LevelOnereffraluser= $user->referrer->id ?? null;
                     if($LevelOnereffraluser){
                         $LOnecommissionAmount   = $user->packages()->first()->level_one_commission;
-                        $levelOneuser=User::where('id',$LevelOnereffraluser)->first();
+                        $levelOneuser = User::where('id',$LevelOnereffraluser)->first();
                         $subject = "Congratulations! You've Earned a Commission";
                         Mail::to($levelOneuser->email)->queue(new SendRefferalCommissionMail($subject,$levelOneuser->name,$user->name,$user->email,$user->phone,$planName,$LOnecommissionAmount));
 

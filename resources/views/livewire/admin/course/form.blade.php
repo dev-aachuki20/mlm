@@ -148,7 +148,7 @@
 
                 @if(!is_null($originalVideo))
                     <div class="card-footer p-4">
-                        <video class="videolayer_box" id="videoPreview" src="{{$originalVideo}}" controls style="width: 100%; height: auto;"></video>
+                        <video class="videolayer_box" id="videoPreview" src="{{$originalVideo}}" controls style="width: 100%; height: auto;" autoplay></video>
                     </div>
                 @else
                     <div class="card-footer p-4" style="display: none">

@@ -25,11 +25,13 @@ class Index extends Component
 
     public $search = '', $formMode = false , $updateMode = false, $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10,
 
-     $uuid, $title, $sub_title, $amount, $status = 1, $features, $description='', /*$duration,*/ $level, $image=null, $viewMode = false, $originalImage, $video, $originalVideo,$videoExtenstion
+      $title, $sub_title, $amount, $status = 1, $features, $description='', /*$duration,*/ $level, $image=null, $viewMode = false, $originalImage, $video, $originalVideo,$videoExtenstion
 
     , $package_id =null, $level_one_commission, $level_two_commission, $level_three_commission,
 
      $removeImage = false , $removeVideo = false;
+
+    public ?string $uuid = null;
 
     protected $listeners = [
         'updatePaginationLength', 'confirmedToggleAction','deleteConfirm'
@@ -111,9 +113,9 @@ class Index extends Component
             'title'      => 'required|'.Rule::unique('package')->whereNull('deleted_at'),
             'sub_title'  => 'required',
             'amount'     => 'required',
-            'level_one_commission'   => ['required', new CommissionRule($this->amount)],
-            'level_two_commission'   => ['required', new CommissionRule($this->amount)],
-            'level_three_commission' => ['required', new CommissionRule($this->amount)],
+            'level_one_commission'   => ['numeric', new CommissionRule($this->amount)],
+            'level_two_commission'   => ['numeric', new CommissionRule($this->amount)],
+            'level_three_commission' => ['numeric', new CommissionRule($this->amount)],
             'features'      => 'required',
             'description'   => 'required',
             // 'duration'      => 'required',
@@ -135,7 +137,21 @@ class Index extends Component
         try{
             $this->uuid     = Str::uuid();
 
-            $insertRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators','duration']);
+            $exceptArray = ['search','formMode','updateMode','package_id','image','originalImage','page','paginators','duration'];
+
+            if(empty($this->level_one_commission)){
+                $exceptArray[] = 'level_one_commission';
+            }
+    
+            if(empty($this->level_two_commission)){
+                $exceptArray[] = 'level_two_commission';
+            }
+    
+            if(empty($this->level_three_commission)){
+                $exceptArray[] = 'level_three_commission';
+            }
+
+            $insertRecord = $this->except($exceptArray);
 
             $package = Package::create($insertRecord);
 
@@ -200,9 +216,9 @@ class Index extends Component
             'title'      => 'required|'.Rule::unique('package')->ignore($this->package_id)->whereNull('deleted_at'),
             'sub_title'  => 'required',
             'amount'     => 'required',
-            'level_one_commission'   => 'required',
-            'level_two_commission'   => 'required',
-            'level_three_commission' => 'required',
+            'level_one_commission'   => ['numeric', new CommissionRule($this->amount)],
+            'level_two_commission'   => ['numeric', new CommissionRule($this->amount)],
+            'level_three_commission' => ['numeric', new CommissionRule($this->amount)],
             'features'    => 'required',
             'description' => 'required',
             // 'duration'    => 'required',
@@ -258,7 +274,21 @@ class Index extends Component
                 uploadFile($package,'upload/video/'.$this->video, 'package/video/', "package-video", "original","update",$uploadVideoId);
             }
 
-            $updateRecord = $this->except(['search','formMode','updateMode','package_id','image','originalImage','page','paginators','uuid','duration']);
+            $exceptArray =['search','formMode','updateMode','package_id','image','originalImage','page','paginators','uuid','duration'];
+
+            if(empty($this->level_one_commission)){
+                $exceptArray[] = 'level_one_commission';
+            }
+    
+            if(empty($this->level_two_commission)){
+                $exceptArray[] = 'level_two_commission';
+            }
+    
+            if(empty($this->level_three_commission)){
+                $exceptArray[] = 'level_three_commission';
+            }
+
+            $updateRecord = $this->except($exceptArray);
 
             $package->update($updateRecord);
 
@@ -299,6 +329,8 @@ class Index extends Component
     public function deleteConfirm($event){
         $deleteId = $event['data']['inputAttributes']['deleteId'];
         $model = Package::find($deleteId);
+        $userIds = $model->users()->pluck('id')->toArray();
+        $model->users()->detach($userIds);
         $uploadImageId = $model->packageImage->id;
         $uploadVideoId = $model->packageVideo->id;
         deleteFile($uploadImageId);
