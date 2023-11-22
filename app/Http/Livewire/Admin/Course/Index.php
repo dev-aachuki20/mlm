@@ -20,13 +20,13 @@ class Index extends Component
 
     protected $layout = null;
 
-    public $search = '', $formMode = false , $updateMode = false, $viewMode = false;
+    public $search = '', $formMode = false , $updateMode = false, $viewMode = false,
 
-    public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
+     $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10,
 
-    public $course_id=null, $name, $allPackage, $package_id, $description, $image, $originalImage, $video, $originalVideo,$videoExtenstion, $status=1;
+     $course_id=null, $name, $allPackage, $package_id, $description, $image, $originalImage, $video, $originalVideo,$videoExtenstion, $status=1,
     
-    public $removeImage = false , $removeVideo = false;
+     $removeImage = false , $removeVideo = false;
 
     protected $listeners = [
         'cancel','updatePaginationLength', 'updateStatus', 'confirmedToggleAction','deleteConfirm',

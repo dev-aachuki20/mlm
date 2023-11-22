@@ -101,6 +101,12 @@ class Index extends Component
 
         return view('livewire.admin.video-group.index', compact('allLectures'));
     }
+    
+    public function updatedOriginalVideo($videoUrl)
+    {
+        $this->originalVideo = $videoUrl;
+        $this->dispatchBrowserEvent('videoUploaded',['originalVideo'=>$this->originalVideo]);
+    }
 
     public function create()
     {
@@ -115,36 +121,52 @@ class Index extends Component
             'title'       => 'required|max:191|unique:video_groups,title',
             'description' => 'required',
             'status'      => 'required',
-            'image'       => 'required|image|max:' . config('constants.img_max_size'),
-            'video'       => 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:' . config('constants.video_max_size'),
+            'image'         => 'required',
+            'video'         => 'required',
+            // 'image'       => 'required|image|max:' . config('constants.img_max_size'),
+            // 'video'       => 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:' . config('constants.video_max_size'),
         ]);
 
         $validatedData['status'] = $this->status;
         $validatedData['course_id'] = $this->course_id;
         $validatedData['duration'] = $this->videoDuration ?? null;
 
-        
-        $videoGroup = VideoGroup::create($validatedData);
-
-        // Upload Image
-        uploadImage($videoGroup, $this->image, 'course/image/', "course-image", 'original', 'save', null);
-
-        // Upload video
-        uploadImage($videoGroup, $this->video, 'course/video/', "course-video", 'original', 'save', null);
-
-
-        //Start to update package duration
-        $total_duration = VideoGroup::selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')->where('status', 1)->where('course_id',$this->course_id)->value('total_duration');
-        Course::find($this->course_id)->package()->update(['duration' =>  $total_duration]);
-        //End to update package duration
-
-        $this->formMode = false;
-
-        $this->reset(['title', 'description', 'status', 'image', 'video', 'videoDuration']);
-
-        $this->flash('success', trans('messages.add_success_message'));
-
-        return redirect()->route('admin.getAllVideos', $this->course_id);
+        DB::beginTransaction();
+        try{
+            
+            $videoGroup = VideoGroup::create($validatedData);
+    
+            // Upload Image
+            //uploadImage($videoGroup, $this->image, 'course/image/', "course-image", 'original', 'save', null);
+    
+            // Upload video
+            //uploadImage($videoGroup, $this->video, 'course/video/', "course-video", 'original', 'save', null);
+            
+            uploadFile($videoGroup,'upload/image/'.$this->image, 'course/image/', "course-image", "original","save",null);
+    
+            uploadFile($videoGroup,'upload/video/'.$this->video, 'course/video/', "course-video", "original","save",null);
+    
+    
+            //Start to update package duration
+            $total_duration = VideoGroup::selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')->where('status', 1)->where('course_id',$this->course_id)->value('total_duration');
+            Course::find($this->course_id)->package()->update(['duration' =>  $total_duration]);
+            //End to update package duration
+    
+            DB::commit();
+            
+            $this->formMode = false;
+    
+            $this->reset(['title', 'description', 'status', 'image','originalImage', 'video','originalVideo', 'videoDuration']);
+    
+            $this->flash('success', trans('messages.add_success_message'));
+    
+            return redirect()->route('admin.getAllVideos', $this->course_id);
+        }catch (\Exception $e) {
+            DB::rollBack();
+                // dd($e->getMessage().'->'.$e->getLine());
+            $this->alert('error',trans('messages.error_message'));
+                
+        }
     }
 
 
@@ -175,51 +197,69 @@ class Index extends Component
         $validatedArray['status']      = 'required';
 
         if ($this->image || $this->removeImage) {
-            $validatedArray['image'] = 'required|image|max:' . config('constants.img_max_size');
+            // $validatedArray['image'] = 'required|image|max:' . config('constants.img_max_size');
+            
+            $validatedArray['image'] = 'required';
         }
 
         if ($this->video || $this->removeVideo) {
-            $validatedArray['video'] = 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:' . config('constants.video_max_size');
+            // $validatedArray['video'] = 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:' . config('constants.video_max_size');
+            $validatedArray['video'] = 'required';
         }
 
         $validatedData = $this->validate($validatedArray);
 
-        $validatedData['course_id'] = $this->course_id;
-        $validatedData['status'] = $this->status;
-        dd(1);
-        $videoGroup = VideoGroup::find($this->group_video_id);
-
-        // Check if the image has been changed
-        $uploadImageId = null;
-        if ($this->image) {
-            $uploadImageId = $videoGroup->courseImage->id;
-            uploadImage($videoGroup, $this->image, 'course/image/', "course-image", 'original', 'update', $uploadImageId);
+        DB::beginTransaction();
+        try{
+            $validatedData['course_id'] = $this->course_id;
+            $validatedData['status'] = $this->status;
+            
+            $videoGroup = VideoGroup::find($this->group_video_id);
+    
+            // Check if the image has been changed
+            $uploadImageId = null;
+            if ($this->image) {
+                $uploadImageId = $videoGroup->courseImage->id;
+                // uploadImage($videoGroup, $this->image, 'course/image/', "course-image", 'original', 'update', $uploadImageId);
+                
+                uploadFile($videoGroup,'upload/image/'.$this->image, 'course/image/', "course-image", "original","update",$uploadImageId);
+            }
+    
+            // Check if the video has been changed
+            $uploadVideoId = null;
+            if ($this->video) {
+                $uploadVideoId = $videoGroup->courseVideo->id;
+                // uploadImage($videoGroup, $this->video, 'course/video/', "course-video", 'original', 'update', $uploadVideoId);
+    
+                uploadFile($videoGroup,'upload/video/'.$this->video, 'course/video/', "course-video", "original","update",$uploadVideoId);
+                
+                $validatedData['duration'] = $this->videoDuration;
+            }
+    
+            $videoGroup->update($validatedData);
+    
+            //Start to update package duration
+            $total_duration = VideoGroup::selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')->where('status', 1)->where('course_id',$this->course_id)->value('total_duration');
+            Course::find($this->course_id)->package()->update(['duration' =>  $total_duration]);
+            //End to update package duration
+            
+            DB::commit();
+    
+            $this->formMode = false;
+            $this->updateMode = false;
+    
+            $this->flash('success', trans('messages.edit_success_message'));
+    
+            $this->reset(['title', 'description', 'status', 'image','originalImage', 'video', 'originalVideo', 'videoDuration']);
+    
+            return redirect()->route('admin.getAllVideos', $this->course_id);
+            
+        }catch (\Exception $e) {
+            DB::rollBack();
+                // dd($e->getMessage().'->'.$e->getLine());
+            $this->alert('error',trans('messages.error_message'));
+                
         }
-
-        // Check if the video has been changed
-        $uploadVideoId = null;
-        if ($this->video) {
-            $uploadVideoId = $videoGroup->courseVideo->id;
-            uploadImage($videoGroup, $this->video, 'course/video/', "course-video", 'original', 'update', $uploadVideoId);
-
-            $validatedData['duration'] = $this->videoDuration;
-        }
-
-        $videoGroup->update($validatedData);
-
-        //Start to update package duration
-        $total_duration = VideoGroup::selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')->where('status', 1)->where('course_id',$this->course_id)->value('total_duration');
-        Course::find($this->course_id)->package()->update(['duration' =>  $total_duration]);
-        //End to update package duration
-
-        $this->formMode = false;
-        $this->updateMode = false;
-
-        $this->flash('success', trans('messages.edit_success_message'));
-
-        $this->reset(['title', 'description', 'status', 'image', 'video', 'videoDuration']);
-
-        return redirect()->route('admin.getAllVideos', $this->course_id);
     }
 
     public function show($id)
@@ -238,9 +278,7 @@ class Index extends Component
 
     public function cancel()
     {
-        $this->formMode = false;
-        $this->updateMode = false;
-        $this->viewMode = false;
+        $this->reset();
     }
 
 

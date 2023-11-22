@@ -2621,4 +2621,13 @@ span.outline-text {
   .fa-eye:before{
     opacity: 0;
   }
+  
+  .video_wrapper_play{
+    padding-bottom: 55.90198%;
+  }
+  
+  .video_wrapper_play>video{
+        width: 100% !important;
+        height: fit-content !important;
+  }
 /* End css added by rohit */

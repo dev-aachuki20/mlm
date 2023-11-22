@@ -43,7 +43,7 @@
                         </div>
                     </div>
             
-                    <div class="video-container">
+                    <div class="video-container video_wrapper_play">
                         @if($package->packageVideo)
                         <video  controls="" width="420" height="315" preload="none" poster="{{ $package->image_url }}" id="clip-video-{{$key+1}}" playsinline>
                             <source class="js-video" src="{{ $package->video_url }}" type="video/{{ $package->packageVideo->extension }}">

@@ -23,15 +23,13 @@ class Index extends Component
 
     protected $layout = null;
 
-    public $search = '', $formMode = false , $updateMode = false;
+    public $search = '', $formMode = false , $updateMode = false, $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10,
 
-    public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
+     $uuid, $title, $sub_title, $amount, $status = 1, $features, $description='', /*$duration,*/ $level, $image=null, $viewMode = false, $originalImage, $video, $originalVideo,$videoExtenstion
 
-    public  $uuid, $title, $sub_title, $amount, $status = 1, $features, $description='', /*$duration,*/ $level, $image=null,$viewMode = false,$originalImage,$video, $originalVideo,$videoExtenstion;
+    , $package_id =null, $level_one_commission, $level_two_commission, $level_three_commission,
 
-    public $package_id =null, $level_one_commission, $level_two_commission, $level_three_commission;
-
-    public $removeImage = false , $removeVideo = false;
+     $removeImage = false , $removeVideo = false;
 
     protected $listeners = [
         'updatePaginationLength', 'confirmedToggleAction','deleteConfirm'

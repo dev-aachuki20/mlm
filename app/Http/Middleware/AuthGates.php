@@ -14,33 +14,40 @@ class AuthGates
     {
         //dd($next);
         
-        $user = \Auth::user();
+        try {
+           $user = \Auth::user();
 
-        if (!app()->runningInConsole() && $user) {
-            $roles            = Role::with('permissions')->get();
-            $permissionsArray = [];
-
-            foreach ($roles as $role) {
-                foreach ($role->permissions as $permissions) {
-                   if (!empty($permissions->title)) {
-                        $permissionsArray[$permissions->title][] = $role->id;
+            if (!app()->runningInConsole() && $user) {
+                $roles            = Role::with('permissions')->get();
+                $permissionsArray = [];
+    
+                foreach ($roles as $role) {
+                    foreach ($role->permissions as $permissions) {
+                       if (!empty($permissions->title)) {
+                            $permissionsArray[$permissions->title][] = $role->id;
+                        }
                     }
                 }
-
-            }
-
-            foreach ($permissionsArray as $title => $roles) {
+    
+                foreach ($permissionsArray as $title => $roles) {
                     Gate::define($title, function (User $user) use ($roles) {
                         return count(array_intersect($user->roles->pluck('id')->toArray(), $roles)) > 0;
                     });
-                
-               
+                }
+    
             }
-
+    
+            return $next($request);
+            
+        } catch (\Exception $e) {
+            // dd($e->getMessage().'->'.$e->getLine());
+             Log::error('Error in auth gate middleware: ' . $e->getMessage().'->'.$e->getLine());
+             
+            // Handle the exception and display the custom message
+            return response()->json(['error' => trans('messages.error_message')], 500);
         }
-
-     
-        return $next($request);
+        
+       
       
       
 

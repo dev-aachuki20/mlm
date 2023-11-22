@@ -16,10 +16,10 @@
                         <div wire:loading wire:target="create" class="loader"></div>
                         <div class="card-title d-flex justify-content-between align-items-center">
                             <h4 class="mb-0">{{__('cruds.section.title')}}</h4>
-                            <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
+                            {{--<button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
                                 <i class="fa-solid fa-plus"></i>
                                     {{__('global.add')}}
-                            </button>
+                            </button>--}}
                         </div>
                         <div class="table-header-plugins">
                             <!-- Start show length -->
