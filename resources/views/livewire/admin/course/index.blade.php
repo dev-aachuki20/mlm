@@ -225,6 +225,10 @@
         resumableVideo.assignBrowse(browseVideoFile[0]);
 
         resumableVideo.on('fileAdded', function (file) { // trigger when file picked
+            browseVideoFile.attr('disabled',true);
+
+            $('.submit-btn').attr('disabled',true);
+
             showProgress('.progress-video','#progress-bar-video');
             resumableVideo.upload() // to actually start uploading.
         });
@@ -235,6 +239,9 @@
 
         resumableVideo.on('fileSuccess', function (file, response) { // trigger when file upload complete
             response = JSON.parse(response)
+
+            browseVideoFile.attr('disabled',false);
+            $('.submit-btn').attr('disabled',false);
 
             if (response.mime_type.includes("video")) {
                 var videoPath = response.path + '/' + response.name;
@@ -270,6 +277,9 @@
         resumableImage.assignBrowse(browseImageFile[0]);
 
         resumableImage.on('fileAdded', function (file) { // trigger when file picked
+            browseImageFile.attr('disabled',true);
+            $('.submit-btn').attr('disabled',true);
+
             showProgress('.progress-image','#progress-bar-image');
             resumableImage.upload() // to actually start uploading.
         });
@@ -280,6 +290,9 @@
 
         resumableImage.on('fileSuccess', function (file, response) { // trigger when file upload complete
             response = JSON.parse(response)
+
+            browseImageFile.attr('disabled',false);
+            $('.submit-btn').attr('disabled',false);
 
             if (response.mime_type.includes("image")) {
                 var imagePath = response.path + '/' + response.name;
