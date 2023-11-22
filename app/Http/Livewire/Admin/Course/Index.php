@@ -104,14 +104,15 @@ class Index extends Component
         $validatedData = $this->validate([
             'name'        => 'required|'.Rule::unique('courses')->whereNull('deleted_at'),
             'package_id'  => 'required',
-            'description' => 'required',
+            'description' => 'required|strip_tags',
             'status'      => 'required',
             // 'image'       => 'required|image|max:'.config('constants.img_max_size'),
             // 'video'       => 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:'.config('constants.video_max_size'),
             'image'         => 'required',
             'video'         => 'required',
         ],[
-            'package_id.required' => 'The package field is required.'
+            'package_id.required' => 'The package field is required.',
+            'description.strip_tags'=> 'The description field is required',
         ]);
 
         $validatedData['status'] = $this->status;
@@ -176,7 +177,7 @@ class Index extends Component
         $validatedArray['name']        = 'required|'.Rule::unique('courses')->ignore($this->course_id)->whereNull('deleted_at');
         
         $validatedArray['package_id']  = 'required';
-        $validatedArray['description'] = 'required';
+        $validatedArray['description'] = 'required|strip_tags';
         $validatedArray['status']      = 'required';
 
         if($this->image || $this->removeImage){
@@ -194,7 +195,8 @@ class Index extends Component
         $validatedData = $this->validate(
             $validatedArray,
             [
-                'package_id.required' => 'The package field is required.'
+                'package_id.required' => 'The package field is required.',
+                'description.strip_tags'=> 'The description field is required',
             ]
         );
 
@@ -265,6 +267,7 @@ class Index extends Component
 
     public function cancel(){
         $this->reset();
+        $this->resetValidation();
     }
 
 

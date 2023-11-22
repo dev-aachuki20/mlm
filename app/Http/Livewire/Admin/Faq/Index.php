@@ -96,8 +96,10 @@ class Index extends Component
     {
         $validatedDate = $this->validate([
             'question' => 'required',
-            'answer'   => 'required',
+            'answer'   => 'required|strip_tags',
             'status'  => 'required',
+        ],[
+            'answer.strip_tags'=> 'The answer field is required',
         ]);
 
         $validatedDate['status'] = $this->status;
@@ -130,8 +132,10 @@ class Index extends Component
     public function update(){
         $validatedDate = $this->validate([
             'question' => 'required',
-            'answer'   => 'required',
+            'answer'   => 'required|strip_tags',
             'status'  => 'required',
+        ],[
+            'answer.strip_tags'=> 'The answer field is required',
         ]);
   
         $validatedDate['status'] = $this->status;
@@ -187,6 +191,8 @@ class Index extends Component
         $this->formMode = false;
         $this->updateMode = false;
         $this->viewMode = false;
+        $this->resetInputFields();
+        $this->resetValidation();
     }
 
     public function toggle($id){

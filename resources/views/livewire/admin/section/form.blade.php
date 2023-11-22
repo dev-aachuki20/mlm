@@ -60,15 +60,15 @@
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="form-group mb-0" wire:ignore>
-                <label class="font-weight-bold justify-content-start">{{ __('cruds.section.fields.image1')}}<i class="fas fa-asterisk"></i></label>
-                <input type="file"  id="dropify-image" wire:model.defer="image1" class="dropify" data-default-file="{{ $originalImage1 }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
+                <label class="font-weight-bold justify-content-start">Image<i class="fas fa-asterisk"></i></label>
+                <input type="file"  id="dropify-image" wire:model.defer="image" class="dropify" data-default-file="{{ $originalImage }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
                 <span wire:loading wire:target="image1">
                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
                 </span>
             </div>
-            @if($errors->has('image1'))
+            @if($errors->has('image'))
             <span class="error text-danger">
-                {{ $errors->first('image1') }}
+                {{ $errors->first('image') }}
             </span>
             @endif
         </div>

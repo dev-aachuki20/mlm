@@ -101,12 +101,13 @@ class Index extends Component
         $validatedData = $this->validate([
             'title'      => 'required|'.Rule::unique('services')->whereNull('deleted_at'),
             'sub_title'  => 'required',
-            'description'   => 'required',
+            'description'   => 'required|strip_tags',
             'status'        => 'required',
             'image'         => 'required|image|mimes:jpeg,png,jpg,svg|max:'.config('constants.img_max_size'),
         ],[
             'title.required' => 'The serive name field is required.',
-            'sub_title.required' => 'The short description is required.',
+            'sub_title.required' => 'The short description field is required.',
+            'description.strip_tags'=>'The description field is required.'
         ]);
 
         $validatedData['status']   = $this->status;
@@ -148,7 +149,7 @@ class Index extends Component
         $validatedArray = [
             'title'      => 'required|'.Rule::unique('services')->ignore($this->service_id)->whereNull('deleted_at'),
             'sub_title'  => 'required',
-            'description' => 'required',
+            'description' => 'required|strip_tags',
             'status'      => 'required',
         ];
 
@@ -161,6 +162,7 @@ class Index extends Component
             [
                 'title.required'  => 'The service name field is required.',
                 'sub_title.required' => 'The short description is required.',
+                'description.strip_tags'=>'The description field is required.'
             ]
         );
 

@@ -325,9 +325,8 @@ class Index extends Component
 
     public function cancel()
     {
-        $this->formMode = false;
-        $this->updateMode = false;
-        $this->viewMode = false;
+        $this->reset();
+        $this->resetValidation();
     }
 
     public function toggle($id)

@@ -116,7 +116,9 @@ class Index extends Component
         $this->template_name = '';
         $this->status = 1;
         $this->slider_image = null;
+        $this->originalsliderImage =null;
         $this->image = null;
+        $this->originalImage=null;
         $this->link = '';
 
     }
@@ -127,7 +129,7 @@ class Index extends Component
                 'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/ 'max:255','unique:pages,title'],
                 'sub_title'       => ['required'],
                 // 'template_name'   => ['required', 'alpha', 'max:255'],
-                'description'     => '',
+                'description'     => 'strip_tags',
                 'type'            => 'required',
                 'status'          => 'required',
                 'slider_image'     => 'required|image|max:'.config('constants.img_max_size'),
@@ -136,7 +138,7 @@ class Index extends Component
         }else{
             $validatedData = $this->validate([
                 'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/ 'max:255','unique:pages,title'],
-                'description'     => '',
+                'description'     => 'strip_tags',
                 'link'            => '',
                 'type'            => 'required',
                 'status'          => 'required',
@@ -186,17 +188,17 @@ class Index extends Component
         if(in_array($this->type,array(1,2,3))){
             $validatedArray =[
                 'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/'max:255','unique:pages,title,'.$this->page_id],
-                'sub_title' => ['required'],
+                'sub_title'     => ['required'],
                 'type'  => 'required',
                 // 'template_name'   => ['required', 'alpha', 'max:255'],
-                'description'     => '',
+                'description'     => 'strip_tags',
                 'status'          => 'required',
             ];
         }else{
             $validatedArray =[
                 'title'           => ['required', /*'regex:/^[A-Za-z]+( [A-Za-z]+)?$/u',*/'max:255','unique:pages,title,'.$this->page_id],
                 'type'  => 'required',
-                'description'     => '',
+                'description'     => 'strip_tags',
                 'link'            => '',
                 'status'          => 'required',
             ];
@@ -282,9 +284,8 @@ class Index extends Component
     }
 
     public function cancel(){
-        $this->formMode = false;
-        $this->updateMode = false;
-        $this->viewMode = false;
+        $this->reset();
+        $this->resetValidation();
     }
 
     public function toggle($id){

@@ -116,8 +116,8 @@ class Index extends Component
             'level_one_commission'   => ['numeric', new CommissionRule($this->amount)],
             'level_two_commission'   => ['numeric', new CommissionRule($this->amount)],
             'level_three_commission' => ['numeric', new CommissionRule($this->amount)],
-            'features'      => 'required',
-            'description'   => 'required',
+            'features'      => 'required|strip_tags',
+            'description'   => 'required|strip_tags',
             // 'duration'      => 'required',
             'level'         => 'required',
             'status'        => 'required',
@@ -128,6 +128,8 @@ class Index extends Component
         ],[
             'title.required' => 'The package name field is required.',
             'amount.required' => 'The package price field is required.',
+            'features.strip_tags'=> 'The features field is required',
+            'description.strip_tags'=> 'The description field is required',
         ]);
 
         // $validatedData['duration'] = Carbon::parse($this->duration)->format('HH:mm');
@@ -219,8 +221,8 @@ class Index extends Component
             'level_one_commission'   => ['numeric', new CommissionRule($this->amount)],
             'level_two_commission'   => ['numeric', new CommissionRule($this->amount)],
             'level_three_commission' => ['numeric', new CommissionRule($this->amount)],
-            'features'    => 'required',
-            'description' => 'required',
+            'features'    => 'required|strip_tags',
+            'description' => 'required|strip_tags',
             // 'duration'    => 'required',
             'level'       => 'required',
             'status'      => 'required',
@@ -245,7 +247,9 @@ class Index extends Component
             [
                 'title.required'  => 'The package name field is required.',
                 'amount.required' => 'The package price field is required.',
-            ]
+                'features.strip_tags'=> 'The features field is required',
+                'description.strip_tags'=> 'The description field is required',
+            ],
         );
 
         DB::beginTransaction();

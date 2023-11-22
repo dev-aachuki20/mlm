@@ -69,7 +69,7 @@ class Index extends Component
                 }
 
                 if ($setting->type == 'text_area') {
-                    $rules['state.'.$setting->key] = ($setting->group != 'mail') ? 'required' : '';
+                    $rules['state.'.$setting->key] = ($setting->group != 'mail') ? 'required|strip_tags' : '';
                 }
 
                 if($setting->type == 'image'){
@@ -87,6 +87,7 @@ class Index extends Component
 
         $customMessages = [
             'required' => 'The field is required.',
+            'strip_tags'=>'The field is required.',
             'state.site_logo' => 'The site logo must be an image.',
             'state.site_logo.mimes' => 'The site logo must be jpeg,png,jpg,PNG,JPG.',
             'state.site_logo.max'   => 'The site logo maximum size is '.config('constants.img_max_size').' KB.',

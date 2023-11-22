@@ -23,7 +23,7 @@ class Index extends Component
 
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    public $webinar_id=null, $title, $presenter, $date, $time, $description, $image, $originalImage, $status=1;
+    public $webinar_id=null, $title, $presenter, $date = null, $time=null, $description, $image, $originalImage, $status=1;
 
     public $removeImage = false;
 
@@ -110,9 +110,11 @@ class Index extends Component
             'presenter'    => 'required',
             'date'         => 'required',
             'time'         => 'required',
-            'description' => 'required',
+            'description' => 'required|strip_tags',
             'status'      => 'required',
             'image'       => 'required|image|max:'.config('constants.img_max_size'),
+        ],[
+            'description.strip_tags'=> 'The description field is required',
         ]);
 
         $validatedData['date']   = Carbon::parse($this->date)->format('Y-m-d');
@@ -160,14 +162,16 @@ class Index extends Component
         $validatedArray['presenter']    = 'required';
         $validatedArray['date']         = 'required';
         $validatedArray['time']         = 'required';
-        $validatedArray['description'] = 'required';
+        $validatedArray['description'] = 'required|strip_tags';
         $validatedArray['status']      = 'required';
 
         if($this->image || $this->removeImage){
             $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
         }
 
-        $validatedData = $this->validate($validatedArray);
+        $validatedData = $this->validate($validatedArray,[
+            'description.strip_tags'=> 'The description field is required',
+        ]);
 
         $validatedData['date']   = Carbon::parse($this->date)->format('Y-m-d');
         $validatedData['time']   = Carbon::parse($this->time)->format('H:i');
@@ -216,9 +220,8 @@ class Index extends Component
     }
 
     public function cancel(){
-        $this->formMode = false;
-        $this->updateMode = false;
-        $this->viewMode = false;
+        $this->reset();
+        $this->resetValidation();
     }
 
     public function delete($id)

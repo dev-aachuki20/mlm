@@ -82,11 +82,6 @@
                 <div class="card-body">
                     <div id="upload-container" class="text-center">
                         <button type="button" id="browseImageFile" class="btn btn-primary">Browse File</button>
-                        @if($errors->has('image'))
-                        <p class="error text-danger">
-                            {{ $errors->first('image') }}
-                        </p>
-                        @endif
                     </div>
                     <div style="display: none" class="progress mt-3 progress-image" style="height: 25px">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" id="progress-bar-image" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%; height: 100%">75%</div>
@@ -108,6 +103,11 @@
                 @endif
                 
             </div>
+            @if($errors->has('image'))
+            <span class="error text-danger">
+                {{ $errors->first('image') }}
+            </span>
+            @endif
         </div>
 
         <div class="col-md-6 mb-4 video-section">
@@ -119,11 +119,6 @@
                 <div class="card-body">
                     <div id="upload-container" class="text-center">
                         <button type="button" id="browseVideoFile" class="btn btn-primary">Browse File</button>
-                        @if($errors->has('video'))
-                        <p class="error text-danger">
-                            {{ $errors->first('video') }}
-                        </p>
-                        @endif
                     </div>
                     <div style="display: none" class="progress mt-3 progress-video" style="height: 25px">
                         <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" id="progress-bar-video" aria-valuemin="0" aria-valuemax="100" style="width: 75%; height: 100%">75%</div>
@@ -141,6 +136,11 @@
                 @endif
               
             </div>
+            @if($errors->has('video'))
+            <span class="error text-danger">
+                {{ $errors->first('video') }}
+            </span>
+            @endif
         </div>
     </div>
     

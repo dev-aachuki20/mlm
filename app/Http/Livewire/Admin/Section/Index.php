@@ -20,7 +20,7 @@ class Index extends Component
     public $search = '', $formMode = false , $updateMode = false, $viewMode = false;
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
 
-    public $section_id = null,$section_key = null, $removeImage = false,$name,$description,$year_experience,$short_description,$features ,$image1,$originalImage1, $image2,$originalImage2,$status = 1;
+    public $section_id = null,$section_key = null, $removeImage = false,$name,$description,$year_experience,$short_description,$features ,$image,$originalImage,$status = 1;
 
     protected $listeners = [
         'cancel','updatePaginationLength', 'updateStatus', 'confirmedToggleAction','deleteConfirm',
@@ -96,11 +96,12 @@ class Index extends Component
             'name'        => 'required|'.Rule::unique('sections')->whereNull('deleted_at'),
             'year_experience'  => 'nullable',
             'short_description' => 'nullable',
-            'description' => 'required',
+            'description' => 'required|strip_tags',
             'features' => 'nullable',
             'status'      => 'required',
-            'image1'       => 'required|image|max:'.config('constants.img_max_size'),
-            'image2'       => 'nullable|image|max:'.config('constants.img_max_size'),
+            'image'       => 'required|image|max:'.config('constants.img_max_size'),
+        ],[
+           'description.strip_tags'=> 'The description field is required',
         ]);
 
         $validatedData['status'] = $this->status;
@@ -110,17 +111,15 @@ class Index extends Component
 
             $section = Section::create($validatedData);
 
-            //Upload Image1
-            uploadImage($section, $this->image1, 'section/image/',"section-image1", 'original', 'save', null);
-            //Upload Image2
-            uploadImage($section, $this->image2, 'section/image/',"section-image2", 'original', 'save', null);
+            //Upload Image
+            uploadImage($section, $this->image, 'section/image/',"section-image", 'original', 'save', null);
 
 
             DB::commit();
 
             $this->formMode = false;
 
-            $this->reset(['name','description','year_experience','short_description','features','status','image1','image2']);
+            $this->reset(['name','description','year_experience','short_description','features','status','image','originalImage']);
 
             $this->flash('success',trans('messages.add_success_message'));
 
@@ -128,7 +127,7 @@ class Index extends Component
 
         }catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage().'->'.$e->getLine());
+            // dd($e->getMessage().'->'.$e->getLine());
             $this->alert('error',trans('messages.error_message'));
 
         }
@@ -139,44 +138,36 @@ class Index extends Component
             'name'        => 'required|'.Rule::unique('sections')->ignore($this->section_id)->whereNull('deleted_at'),
             'year_experience'  => 'nullable',
             'short_description' => 'nullable',
-            'description' => 'required',
+            'description' => 'required|strip_tags',
             'features' => 'nullable',
             'status'      => 'required',
         ];
 
-        if($this->image1 || $this->removeImage){
-            $validatedArray['image1'] = 'required|image|max:'.config('constants.img_max_size');
+        if($this->image || $this->removeImage){
+            $validatedArray['image'] = 'required|image|max:'.config('constants.img_max_size');
         }
-        if($this->image2 || $this->removeImage){
-            $validatedArray['image2'] = 'nullable|image|max:'.config('constants.img_max_size');
-        }
+        
         $validatedData = $this->validate(
-            $validatedArray
+            $validatedArray,[
+                'description.strip_tags'=> 'The description field is required',
+            ]
         );
         $validatedData['status'] = $this->status;
         $section = Section::find($this->section_id);
+        
         // Check if the photo has been changed
-        $uploadId1 = null;
-        $uploadId2 = null;
-        if ($this->image1 || $this->image2) {
-            $uploadId1 = $section->sectionImage1 ? $section->sectionImage1->id : '';
-            $uploadId2 = $section->sectionImage2 ? $section->sectionImage2->id : '';
+        $uploadId = null;
+        if ($this->image) {
+            $uploadId = $section->sectionImage1 ? $section->sectionImage1->id : '';
 
-                if($uploadId1!='' && $this->image1){
-                    uploadImage($section, $this->image1, 'section/image/',"section-image1", 'original', 'update', $uploadId1);
-                }
-                if($uploadId2!='' && $this->image2){
-                    uploadImage($section, $this->image2, 'section/image/',"section-image2", 'original', 'update', $uploadId2);
-                }
-                if($uploadId1=='' && $this->image1){
-                    uploadImage($section, $this->image1, 'section/image/',"section-image1", 'original', 'save', null);
-                }
-                if($uploadId2=='' && $this->image2){
-                    uploadImage($section, $this->image2, 'section/image/',"section-image2", 'original', 'save', null);
-                }
+            if($uploadId != ''){
+                uploadImage($section, $this->image, 'section/image/',"section-image", 'original', 'update', $uploadId);
+            }else{
+                uploadImage($section, $this->image, 'section/image/',"section-image", 'original', 'save', null);
+            }
         }
 
-        $updateRecord = $this->except(['search','formMode','updateMode','section_id','image1','originalImage1','image2','originalImage2','page','paginators']);
+        $updateRecord = $this->except(['search','formMode','updateMode','section_id','image','originalImage','page','paginators']);
 
         $section->update($updateRecord);
 
@@ -208,8 +199,7 @@ class Index extends Component
         $this->description = $section->description;
         $this->features    = $section->features;
         $this->status = $section->status;
-        $this->originalImage1 = $section->image1_url;
-        $this->originalImage2 = $section->image2_url;
+        $this->originalImage = $section->image1_url;
         $this->formMode = true;
         $this->updateMode = true;
         $this->initializePlugins();

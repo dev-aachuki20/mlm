@@ -68,7 +68,7 @@
                                 @foreach($allCourse as $serialNo => $course)
                                 <tr>
                                     <td>{{ $serialNo+1 }}</td>
-                                    <td>{{ $course->name ?? '' }}</td>
+                                    <td>{{ $course->name ? ucwords($course->name) : '' }}</td>
                                     <td>{{ $course->package ? ucwords($course->package->title) : '' }}</td>
                                     <td>
                                         <label class="toggle-switch">
@@ -196,7 +196,7 @@
                 // ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
                 ['table', ['table']],
-                ['insert', ['link', /*'picture', 'video'*/ ]],
+                ['insert', [/*'link', 'picture', 'video'*/ ]],
                 ['view', ['codeview', /*'help'*/ ]],
             ],
             callbacks: {

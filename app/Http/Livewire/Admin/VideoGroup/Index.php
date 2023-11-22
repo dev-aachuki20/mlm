@@ -14,6 +14,7 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Validation\Rule;
 
 class Index extends Component
 {
@@ -118,13 +119,15 @@ class Index extends Component
     public function store()
     {
         $validatedData = $this->validate([
-            'title'       => 'required|max:191|unique:video_groups,title',
-            'description' => 'required',
+            'title'       => 'required|'.Rule::unique('video_groups')->whereNull('deleted_at'),
+            'description' => 'required|strip_tags',
             'status'      => 'required',
             'image'         => 'required',
             'video'         => 'required',
             // 'image'       => 'required|image|max:' . config('constants.img_max_size'),
             // 'video'       => 'required|file|mimes:mp4,avi,mov,wmv,webm,flv|max:' . config('constants.video_max_size'),
+        ],[
+            'description.strip_tags'=> 'The description field is required',
         ]);
 
         $validatedData['status'] = $this->status;
@@ -192,8 +195,8 @@ class Index extends Component
 
     public function update()
     {
-        $validatedArray['title']        = 'required|max:191|unique:video_groups,title';
-        $validatedArray['description'] = 'required';
+        $validatedArray['title']        = 'required|'.Rule::unique('video_groups')->ignore($this->group_video_id)->whereNull('deleted_at');
+        $validatedArray['description'] = 'required|strip_tags';
         $validatedArray['status']      = 'required';
 
         if ($this->image || $this->removeImage) {
@@ -207,7 +210,9 @@ class Index extends Component
             $validatedArray['video'] = 'required';
         }
 
-        $validatedData = $this->validate($validatedArray);
+        $validatedData = $this->validate($validatedArray,[
+            'description.strip_tags'=> 'The description field is required',
+        ]);
 
         DB::beginTransaction();
         try{

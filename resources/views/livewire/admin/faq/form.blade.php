@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label class="font-weight-bold justify-content-start">{{ __('cruds.faq.fields.question')}} <i class="fas fa-asterisk"></i></label>
-                <input class="form-control" wire:model.defer="question">
+                <input class="form-control" wire:model.defer="question" placeholder="{{ __('cruds.faq.fields.question')}}">
                 @error('question') <span class="error text-danger">{{ $message }}</span>@enderror
             </div>
         </div>

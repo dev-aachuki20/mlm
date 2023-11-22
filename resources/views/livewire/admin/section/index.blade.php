@@ -150,41 +150,6 @@
                 }
             });
 
-            if ($(".js-example-basic-single").length) {
-                $(".js-example-basic-single").select2({
-                    placeholder: 'Select Level',
-                });
-            }
-
-            $('input[id="duration"]').daterangepicker({
-                autoApply: true,
-                timePicker: true,
-                timePicker24Hour: true,
-                singleDatePicker: true,
-                timePickerIncrement: 15,
-                // minDate: moment().startOf('day'),
-                // maxDate: moment().startOf('day').add(12, 'hour'),
-                locale: {
-                 format: 'HH:mm'
-                }
-
-            },function(start, end, label) {
-                // Handle your apply button logic here
-                // console.log(start.format('HH:mm'));
-
-                @this.set('duration', start.format('HH:mm'));
-
-
-            }).on('show.daterangepicker', function(ev, picker) {
-                picker.container.find(".calendar-table").hide();
-            });
-
-
-
-            $(document).on('change','.select-level',function(){
-                var selectLevel = $(this).val();
-                @this.set('level', selectLevel);
-            });
 
 
             $('textarea#summernote-features').summernote({
@@ -199,7 +164,7 @@
                     // ['color', ['color']],
                     ['para', ['ul', 'ol', 'paragraph']],
                     // ['table', ['table']],
-                    ['insert', ['link', /*'picture', 'video'*/]],
+                    ['insert', [/*'link', 'picture', 'video'*/]],
                     ['view', [/*'fullscreen',*/ 'codeview', /*'help'*/]],
                 ],
                 callbacks: {
