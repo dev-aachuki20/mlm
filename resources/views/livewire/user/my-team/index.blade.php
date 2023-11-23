@@ -87,7 +87,7 @@
                     @endforeach
                     @else
                     <tr>
-                      <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
+                      <td class="text-center" colspan="7">{{ __('messages.no_record_found')}}</td>
                     </tr>
                     @endif
                   </tbody>
@@ -137,7 +137,7 @@
                     @endforeach
                     @else
                     <tr>
-                      <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
+                      <td class="text-center" colspan="7">{{ __('messages.no_record_found')}}</td>
                     </tr>
                     @endif
                   </tbody>
@@ -185,7 +185,7 @@
                     @endforeach
                     @else
                     <tr>
-                      <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
+                      <td class="text-center" colspan="7">{{ __('messages.no_record_found')}}</td>
                     </tr>
                     @endif
                   </tbody>
@@ -235,7 +235,7 @@
                     @endforeach
                     @else
                     <tr>
-                      <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
+                      <td class="text-center" colspan="7">{{ __('messages.no_record_found')}}</td>
                     </tr>
                     @endif
                   </tbody>

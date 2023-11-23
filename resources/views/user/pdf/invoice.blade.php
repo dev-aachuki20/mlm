@@ -54,7 +54,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <img src="{{ $logoImage}}">
+                                                                <img width="227" height="76" src="{{ $logoImage}}">
                                                             </td>
                                                             <td style="text-align: right;">
                                                                 <b>Invoice</b><br>
