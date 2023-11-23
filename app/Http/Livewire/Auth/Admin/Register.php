@@ -261,14 +261,14 @@ class Register extends Component
                     if($LevelOnereffraluser){
                         $LOnecommissionAmount   = $user->packages()->first()->level_one_commission;
                         $levelOneuser = User::where('id',$LevelOnereffraluser)->first();
-                        $subject = "Congratulations! You've Earned a Commission";
+                        $subject = "Passive Income";
                         Mail::to($levelOneuser->email)->queue(new SendRefferalCommissionMail($subject,$levelOneuser->name,$user->name,$user->email,$user->phone,$planName,$LOnecommissionAmount));
 
                         $LevelTworeffraluser= $user->referrer->referrer->id ?? null;
                         if($LevelTworeffraluser){
                             $LTwocommissionAmount   = $user->packages()->first()->level_two_commission;
-                            $levelTwouser=User::where('id',$LevelTworeffraluser)->first();
-                            $subject = "Congratulations! You've Earned a Commission";
+                            $levelTwouser = User::where('id',$LevelTworeffraluser)->first();
+                            $subject = "Active Income";
                             Mail::to($levelTwouser->email)->queue(new SendRefferalCommissionMail($subject,$levelTwouser->name,$user->name,$user->email,$user->phone,$planName,$LTwocommissionAmount));
                         }
                     }

@@ -21,16 +21,18 @@
             <tr>
                 <td>
                     <p class="mail-title" style="font-size:14px;">
-                        <b>Hello</b> {{ $referalName ?? "" }},
+                        <b>Hello</b> {{ $referalName ? ucwords($referalName) : "" }},
                     </p>
                     <div class="mail-desc">
-                        <p style="font-size:14px;">We are excited to inform you that a new user has successfully registered using your referral ID. As a token of our appreciation, you've earned a commission of Amount <span style="color:black; font-weight:bold">{{ $commissionAmount }}</span>!
+                        <p style="font-size:14px;">Congratulations! You've Earned a Commission</p>
+
+                        <p style="font-size:14px;">We are excited to inform you that a new user has successfully registered by referral. As a token of our appreciation, you've earned a commission of Amount <span style="color:black; font-weight:bold">₹ {{ $commissionAmount }}</span>
                         </p>
                         <p style="font-size:14px;">Details of the newly registered user: <br>
-                            <strong>- Package Purchased:</strong> {{ $planName }} <br>
-                            <strong>- Name:</strong> {{ $username }} <br>
-                            {{-- <strong>- Email:</strong> {{ $useremail }} <br>
-                            <strong> - Phone:</strong> {{ $userphone }} <br> --}}
+                            <strong>- Package Purchased:</strong> {{ ucwords($planName) }} <br>
+                            <strong>- Name:</strong> {{ ucwords($username) }} <br>
+                            <strong>- Email:</strong> {{ $useremail }} <br>
+                            <strong>- Phone:</strong> {{ $userphone }} <br>
                         </p>
                     </div>
                 </td>
