@@ -62,14 +62,13 @@ class UploadFileController extends Controller
 
         $mime = explode('/', $file->getMimeType())[0];
 
-
         // Group files by the date (week
-        // $dateFolder = date("Y-m-W");
+        $dateFolder = date("Y-m-W");
 
         // Build the file path
-        // $filePath = "upload/{$mime}/{$dateFolder}";
+        $filePath = "upload/{$mime}/{$dateFolder}";
         
-        $filePath = "upload/{$mime}/";
+        // $filePath = "upload/{$mime}/";
         $finalPath = storage_path("app/public/" . $filePath);
 
         // move the file name

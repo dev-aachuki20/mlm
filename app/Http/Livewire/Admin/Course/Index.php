@@ -128,9 +128,13 @@ class Index extends Component
             // //Upload video
             // uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'save', null);
     
-            uploadFile($course,'upload/image/'.$this->image, 'course/image/', "course-image", "original","save",null);
+            $dateFolder = date("Y-m-W");
+            
+            $tmpImagePath = 'upload/image/'.$dateFolder.'/'.$this->image;
+            uploadFile($course, $tmpImagePath, 'course/image/', "course-image", "original","save",null);
 
-            uploadFile($course,'upload/video/'.$this->video, 'course/video/', "course-video", "original","save",null);
+            $tmpVideoPath = 'upload/video/'.$dateFolder.'/'.$this->video;
+            uploadFile($course, $tmpVideoPath, 'course/video/', "course-video", "original","save",null);
 
             DB::commit();
      
@@ -208,11 +212,14 @@ class Index extends Component
           
             // Check if the image has been changed
             $uploadImageId = null;
+            $dateFolder = date("Y-m-W");
+
             if ($this->image) {
                 $uploadImageId = $course->courseImage->id;
                 // uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'update', $uploadImageId);
 
-                uploadFile($course,'upload/image/'.$this->image, 'course/image/', "course-image", "original","update",$uploadImageId);
+                $tmpImagePath = 'upload/image/'.$dateFolder.'/'.$this->image;
+                uploadFile($course, $tmpImagePath, 'course/image/', "course-image", "original","update",$uploadImageId);
             }
     
             // Check if the video has been changed
@@ -221,7 +228,8 @@ class Index extends Component
                 $uploadVideoId = $course->courseVideo->id;
                 // uploadImage($course, $this->video, 'course/video/',"course-video", 'original', 'update', $uploadVideoId);
 
-                uploadFile($course,'upload/video/'.$this->video, 'course/video/', "course-video", "original","update",$uploadVideoId);
+                $tmpVideoPath = 'upload/video/'.$dateFolder.'/'.$this->video;
+                uploadFile($course, $tmpVideoPath, 'course/video/', "course-video", "original","update",$uploadVideoId);
             }
     
             $course->update($validatedData);

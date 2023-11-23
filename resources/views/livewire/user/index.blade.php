@@ -93,7 +93,16 @@
                     <ul>
                       <li class="border-bottom-0 pb-0">
                         <div class="left"> Package </div>
-                        <div class="right"></div>
+                        <div class="right">
+                          @if(auth()->user()->packages()->count() > 0)
+                            @php
+                              $authUser = auth()->user()->packages()->first();
+                            @endphp
+
+                           <span>{{ $authUser->title }} &#8377 {{ number_format($authUser->amount,2) }}</span>
+                            
+                          @endif
+                        </div>
                       </li>
 
                     </ul>

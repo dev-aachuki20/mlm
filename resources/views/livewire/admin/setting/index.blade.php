@@ -61,7 +61,11 @@
                                     @elseif($setting->type == 'text_area')
                                         <div class="col-sm-12 mb-4">
                                             <div class="form-group mb-0" wire:ignore>
-                                                <label class="font-weight-bold justify-content-start">{{ $setting->display_name }}<i class="fas fa-asterisk"></i></label>
+                                                <label class="font-weight-bold justify-content-start">{{ $setting->display_name }}
+                                                    @if($setting->group != 'mail')
+                                                    <i class="fas fa-asterisk"></i>
+                                                    @endif
+                                                </label>
 
                                                 @if($setting->details)
                                                     @php
@@ -222,7 +226,7 @@
                 // ['color', ['color']],
                 ['para', ['ul', 'ol', 'paragraph']],
                 ['table', ['table']],
-                ['insert', ['link', /*'picture', 'video'*/]],
+                ['insert', [/*'link', 'picture', 'video'*/]],
                 ['view', [/*'fullscreen',*/ 'codeview', /*'help'*/]],
             ],
             callbacks: {

@@ -467,6 +467,19 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
 
+            [
+
+                'key'    => 'weekly_payment_mail_content',
+                'value'  =>  null,
+                'type'   => 'text_area',
+                'display_name'  => 'Weekly Payment Mail Content',
+                'group'  => 'mail',
+                'details' => '[USERNAME], [WEEKLY_EARNING_AMOUNT], [TOTAL_EARNING_AMOUNT], [SUPPORT_EMAIL], [SUPPORT_PHONE], [APP_NAME]',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
 
         ];
 

@@ -163,10 +163,13 @@ class Index extends Component
             //Upload video
             // uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'save', null);
 
-           
-            uploadFile($package,'upload/image/'.$this->image, 'package/image/', "package", "original","save",null);
+            $dateFolder = date("Y-m-W");
+            
+            $tmpImagePath = 'upload/image/'.$dateFolder.'/'.$this->image;
+            uploadFile($package, $tmpImagePath, 'package/image/', "package", "original","save",null);
 
-            uploadFile($package,'upload/video/'.$this->video, 'package/video/', "package-video", "original","save",null);
+            $tmpVideoPath = 'upload/video/'.$dateFolder.'/'.$this->video;
+            uploadFile($package,$tmpVideoPath, 'package/video/', "package-video", "original","save",null);
 
             $this->formMode = false;
 
@@ -261,11 +264,14 @@ class Index extends Component
 
             // Check if the photo has been changed
             $uploadId = null;
+            $dateFolder = date("Y-m-W");
+
             if ($this->image) {
                 $uploadId = $package->packageImage->id;
                 // uploadImage($package, $this->image, 'package/image/',"package", 'original', 'update', $uploadId);
 
-                uploadFile($package,'upload/image/'.$this->image, 'package/image/', "package", "original","update",$uploadId);
+                $tmpImagePath = 'upload/image/'.$dateFolder.'/'.$this->image;
+                uploadFile($package, $tmpImagePath, 'package/image/', "package", "original","update",$uploadId);
             }
 
             // Check if the video has been changed
@@ -275,7 +281,8 @@ class Index extends Component
 
                 // uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'update', $uploadVideoId);
 
-                uploadFile($package,'upload/video/'.$this->video, 'package/video/', "package-video", "original","update",$uploadVideoId);
+                $tmpVideoPath = 'upload/video/'.$dateFolder.'/'.$this->video;
+                uploadFile($package, $tmpVideoPath, 'package/video/', "package-video", "original","update",$uploadVideoId);
             }
 
             $exceptArray =['search','formMode','updateMode','package_id','image','originalImage','page','paginators','uuid','duration'];

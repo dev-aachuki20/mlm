@@ -362,3 +362,33 @@ if (!function_exists('uploadFile')) {
 
 	}
 }
+
+if (!function_exists('removeUploadTmpFolderAndFile')) {
+	/**
+	 * Upload Image.
+	 *
+	 * @param array $input
+	 *
+	 * @return array $input
+	 */
+	function removeUploadTmpFolderAndFile(){
+		//Delete all last week folder
+		$lastWeekFolder = now()->subWeek()->format('Y-m-W'); 
+
+		//Image
+		$imageFolderPath = public_path("storage/upload/image/{$lastWeekFolder}");
+
+		if (File::exists($imageFolderPath)) {
+			File::deleteDirectory($imageFolderPath);
+		}
+
+		//Video
+		$videoFolderPath = public_path("storage/upload/video/{$lastWeekFolder}");
+		if (File::exists($videoFolderPath)) {
+			File::deleteDirectory($videoFolderPath);
+		}
+		//End Delete all last week folder
+
+		return true;
+	}
+}

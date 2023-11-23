@@ -69,7 +69,8 @@ class Index extends Component
                 }
 
                 if ($setting->type == 'text_area') {
-                    $rules['state.'.$setting->key] = ($setting->group != 'mail') ? 'required|strip_tags' : '';
+                    $textAreaValidation = ($setting->group != 'mail') ? '|required' : '';
+                    $rules['state.'.$setting->key] = 'strip_tags'.$textAreaValidation;
                 }
 
                 if($setting->type == 'image'){

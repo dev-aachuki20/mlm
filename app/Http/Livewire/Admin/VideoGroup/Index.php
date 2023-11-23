@@ -145,9 +145,13 @@ class Index extends Component
             // Upload video
             //uploadImage($videoGroup, $this->video, 'course/video/', "course-video", 'original', 'save', null);
             
-            uploadFile($videoGroup,'upload/image/'.$this->image, 'course/image/', "course-image", "original","save",null);
+            $dateFolder = date("Y-m-W");
+            
+            $tmpImagePath = 'upload/image/'.$dateFolder.'/'.$this->image;
+            uploadFile($videoGroup, $tmpImagePath, 'course/image/', "course-image", "original","save",null);
     
-            uploadFile($videoGroup,'upload/video/'.$this->video, 'course/video/', "course-video", "original","save",null);
+            $tmpVideoPath = 'upload/video/'.$dateFolder.'/'.$this->video;
+            uploadFile($videoGroup, $tmpVideoPath, 'course/video/', "course-video", "original","save",null);
     
     
             //Start to update package duration
@@ -223,11 +227,12 @@ class Index extends Component
     
             // Check if the image has been changed
             $uploadImageId = null;
+            $dateFolder = date("Y-m-W");
             if ($this->image) {
                 $uploadImageId = $videoGroup->courseImage->id;
                 // uploadImage($videoGroup, $this->image, 'course/image/', "course-image", 'original', 'update', $uploadImageId);
-                
-                uploadFile($videoGroup,'upload/image/'.$this->image, 'course/image/', "course-image", "original","update",$uploadImageId);
+                $tmpImagePath = 'upload/image/'.$dateFolder.'/'.$this->image;
+                uploadFile($videoGroup, $tmpImagePath, 'course/image/', "course-image", "original","update",$uploadImageId);
             }
     
             // Check if the video has been changed
@@ -235,8 +240,8 @@ class Index extends Component
             if ($this->video) {
                 $uploadVideoId = $videoGroup->courseVideo->id;
                 // uploadImage($videoGroup, $this->video, 'course/video/', "course-video", 'original', 'update', $uploadVideoId);
-    
-                uploadFile($videoGroup,'upload/video/'.$this->video, 'course/video/', "course-video", "original","update",$uploadVideoId);
+                $tmpVideoPath = 'upload/video/'.$dateFolder.'/'.$this->video;
+                uploadFile($videoGroup, $tmpVideoPath, 'course/video/', "course-video", "original","update",$uploadVideoId);
                 
                 $validatedData['duration'] = $this->videoDuration;
             }
