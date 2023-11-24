@@ -67,7 +67,7 @@ class Register extends Component
             $this->referral_id   = $getReferralUser->my_referral_code;
             $this->referral_name = $getReferralUser->name;
             $this->from_url_referral_id   = $this->referral_id;
-            $this->from_url_referral_name = $this->referral_name;
+            $this->from_url_referral_name = ucwords($this->referral_name);
         }
 
         if (!empty($packageUUID)) {
@@ -85,7 +85,7 @@ class Register extends Component
         if ($checkReferal) {
             $this->resetErrorBag('referral_id');
             $this->referral_id = $checkReferal->my_referral_code;
-            $this->referral_name = $checkReferal->name;
+            $this->referral_name = ucwords($checkReferal->name);
         } else {
             $this->referral_name = '';
             $this->addError('referral_id', 'Invalid referral Id');

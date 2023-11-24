@@ -57,6 +57,7 @@ class Index extends Component
         $dimensionsDetails['short_logo']    = '';
         $dimensionsDetails['footer_logo']   = '';
         $dimensionsDetails['introduction_video_image'] ='';
+        $dimensionsDetails['payment_qr_code'] ='';
         foreach ($this->settings as $setting) {
             if($setting){
 
@@ -73,14 +74,27 @@ class Index extends Component
                     $rules['state.'.$setting->key] = 'strip_tags'.$textAreaValidation;
                 }
 
-                if($setting->type == 'image'){
+                if($setting->type == 'image' && $this->state[$setting->key] != 'delete'){
                     $dimensions = explode(' × ',$setting->details);
                     $dimensionsDetails[$setting->key] = $setting->details;
-                    $rules['state.'.$setting->key] = 'nullable|image|dimensions:max_width='.$dimensions[0].',max_height='.$dimensions[1].'|max:'.config('constants.img_max_size').'|mimes:jpeg,png,jpg,svg,PNG,JPG,SVG|';
+
+                    if(isset($dimensions[0]) && isset($dimensions[1])){
+                        $rules['state.'.$setting->key] = 'nullable|image|dimensions:max_width='.$dimensions[0].',max_height='.$dimensions[1].'|max:'.config('constants.img_max_size').'|mimes:jpeg,png,jpg,svg,PNG,JPG,SVG|';
+                    }else{
+                        $rules['state.'.$setting->key] = 'nullable|image|max:'.config('constants.img_max_size').'|mimes:jpeg,png,jpg,svg,PNG,JPG,SVG|';
+                    }
+                }elseif($setting->type == 'image' && $this->state[$setting->key] == 'delete'){
+                    $rules['state.'.$setting->key] = '';
+                }
+                
+                if($setting->type == 'video' && $this->state[$setting->key] != 'delete'){
+                    $rules['state.'.$setting->key] = 'nullable|max:'.config('constants.video_max_size').'|mimetypes:video/webm,video/mp4, video/avi,video/wmv,video/flv,video/mov';
+                }elseif($setting->type == 'video' && $this->state[$setting->key] == 'delete'){
+                    $rules['state.'.$setting->key] = '';
                 }
 
-                if($setting->type == 'video'){
-                    $rules['state.'.$setting->key] = 'nullable|max:'.config('constants.video_max_size').'|mimetypes:video/webm,video/mp4, video/avi,video/wmv,video/flv,video/mov';
+                if ($setting->type == 'toggle') {
+                    $rules['state.'.$setting->key] = 'required|in:'.$setting->details;
                 }
 
             }
@@ -112,6 +126,8 @@ class Index extends Component
             'state.reset_password_mail_content.string'=> 'The reset password mail content must be a string.',
             'state.contact_us_mail_content.string'=> 'The contact us mail content must be a string.',
 
+            'state.payment_qr_code_status.in' => 'The selected qr code status is invalid.',
+
 
         ];
 
@@ -128,14 +144,14 @@ class Index extends Component
 
                     $uploadId = $setting->image ? $setting->image->id : null;
 
-                    if ($stateVal) {
+                    if ($stateVal && $stateVal != 'delete') {
                         if($uploadId){
                             uploadImage($setting, $stateVal, 'settings/images/',"setting", 'original', 'update', $uploadId);
                         }else{
                             uploadImage($setting, $stateVal, 'settings/images/',"setting", 'original', 'save', null);
                         }
                     }else{
-                        if($uploadId){
+                        if($uploadId && $stateVal == 'delete'){
                             deleteFile($uploadId);
                         }
                     }

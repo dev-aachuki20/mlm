@@ -33,7 +33,6 @@
                 <div>
                   <div class="count-data">
                     <span class="count percent" data-count="{{ getSetting('total_trainers') }}">0</span>
-                    <span>+</span>
                   </div>
                   <label>{{ getSettingDisplayName('total_trainers') }} </label>
                 </div>
@@ -42,7 +41,6 @@
                 <div>
                   <div class="count-data">
                     <span class="count percent" data-count="{{ getSetting('students_enrolled') }}">0</span>
-                    <span>Lakh+</span>
                   </div>
                   <label>{{ getSettingDisplayName('students_enrolled') }}</label>
                 </div>
@@ -51,7 +49,6 @@
                 <div>
                   <div class="count-data">
                     <span class="count percent" data-count="{{ getSetting('live_training') }}">0</span>
-                    <span>+</span>
                   </div>
                   <label>{{ getSettingDisplayName('live_training') }}</label>
                 </div>
@@ -60,7 +57,6 @@
                 <div>
                   <div class="count-data">
                     <span class="count percent" data-count="{{ getSetting('community_earning') }}">0</span>
-                    <span>Cr.+</span>
                   </div>
                   <label>{{ getSettingDisplayName('community_earning') }}</label>
                 </div>

@@ -42,7 +42,8 @@ class PaymentComponent extends Component
     public function render()
     {
         $packages = Package::where('status',1)->get();
-        return view('livewire.auth.payment-component',compact('packages'));
+
+        return view('livewire.auth.payment-component',compact('packages','paymentQrCodeStatus','paymentQrCodeImage'));
     }
 
     public function pay()

@@ -322,19 +322,24 @@ class Index extends Component
 
     public function delete($id)
     {
-
-        $this->confirm('Are you sure?', [
-            'text'=>'You want to delete it.',
-            'toast' => false,
-            'position' => 'center',
-            'confirmButtonText' => 'Yes, delete it!',
-            'cancelButtonText' => 'No, cancel!',
-            'onConfirmed' => 'deleteConfirm',
-            'onCancelled' => function () {
-                // Do nothing or perform any desired action
-            },
-            'inputAttributes' => ['deleteId' => $id],
-        ]);
+        $package = Package::find($id);
+       
+        if($package->users()->count() > 0){
+            $this->alert('warning',trans('messages.delete_package_alert'));
+        }else{
+            $this->confirm('Are you sure?', [
+                'text'=>'You want to delete it.',
+                'toast' => false,
+                'position' => 'center',
+                'confirmButtonText' => 'Yes, delete it!',
+                'cancelButtonText' => 'No, cancel!',
+                'onConfirmed' => 'deleteConfirm',
+                'onCancelled' => function () {
+                    // Do nothing or perform any desired action
+                },
+                'inputAttributes' => ['deleteId' => $id],
+            ]);
+        }
     }
 
     public function deleteConfirm($event){

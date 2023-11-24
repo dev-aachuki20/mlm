@@ -480,6 +480,54 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
 
+            [
+                'key'    => 'payment_qr_code_google',
+                'value'  => null,
+                'type'   => 'image',
+                'display_name'  => 'COD QR Code Image',
+                'group'  => 'payment',
+                'details' => '',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
+            [
+                'key'    => 'payment_cod_status',
+                'value'  => null,
+                'type'   => 'toggle',
+                'display_name'  => 'COD Status',
+                'group'  => 'payment',
+                'details' => 'active, inactive',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
+            [
+                'key'    => 'razorpay_key',
+                'value'  => null,
+                'type'   => 'text',
+                'display_name'  => 'Razorpay Key',
+                'group'  => 'payment',
+                'details' => '',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
+            [
+                'key'    => 'razorpay_secret',
+                'value'  => null,
+                'type'   => 'text',
+                'display_name'  => 'Razorpay Secret',
+                'group'  => 'payment',
+                'details' => '',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
 
         ];
 

@@ -47,7 +47,7 @@
 
                                 <div class="row">
                                  @foreach($settings as $setting)
-                                    
+                                  
                                     @if($setting->type == 'text')
                                         <div class="{{ in_array($setting->group,array('site','introduction_video')) ? 'col-sm-12' : 'col-sm-6'}}">
                                             <div class="form-group">
@@ -88,7 +88,11 @@
                                             <div class="form-group mb-0" wire:ignore>
                                                 <label class="font-weight-bold">
                                                     {{ $setting->display_name }} 
-                                                    <span>Size : {{ $setting->details }} </span>
+
+                                                    @if($setting->details)
+                                                        <span>Size : {{ $setting->details }} </span>
+                                                    @endif
+
                                                 </label>
                                                 <input type="file" id="{{$setting->key}}-image" wire:model.defer="state.{{$setting->key}}" class="dropify" data-default-file="{{ $setting->image_url }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
                                                 <span wire:loading wire:target="state.{{$setting->key}}">
@@ -117,6 +121,27 @@
                                                 {{ $errors->first('state.'.$setting->key) }}
                                             </span>
                                             @endif
+                                        </div>
+                                    
+                                    @elseif($setting->type == 'toggle')
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="font-weight-bold justify-content-start">{{ $setting->display_name }}
+                                                    <i class="fas fa-asterisk"></i>
+                                                </label>
+                                                <div class="form-group">
+                                                    <label class="toggle-switch">
+                                                        <input type="checkbox" id="{{$setting->key}}" value="{{$state[$setting->key]}}"  class="toggleSwitch setting-toggle" {{ $state[$setting->key] == 'active' ? 'checked': '' }}>
+                                                        <span class="switch-slider"></span>
+                                                    </label>
+                                                    @if($errors->has('state.'.$setting->key))
+                                                        <span class="error text-danger">
+                                                            {{ $errors->first('state.'.$setting->key) }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                                
+                                            </div>
                                         </div>
                                     @endif
                                     
@@ -208,9 +233,9 @@
             var elementName = $(this).siblings('input[type=file]').attr('id');
             elementName = elementName.split('-');
             if(elementName[1] == 'image'){
-                @this.set('state.'+elementName[0],null);
+                @this.set('state.'+elementName[0],'delete');
             }else if(elementName[1] == 'video'){
-                @this.set('state.'+elementName[0],null);
+                @this.set('state.'+elementName[0],'delete');
             }
         });
 
@@ -237,6 +262,7 @@
                 }
             }
         });
+
     });
 
 
@@ -253,6 +279,20 @@
             var sectionType = $(this).val();
             Livewire.emit('changeType',sectionType);
 
+        });
+
+        $(document).on('change','.setting-toggle',function(){
+
+            var $this = $(this);
+            var elementId = $this.attr('id');
+            var status = $this.val();
+
+            if(status == 'inactive'){
+                @this.set('state.'+elementId,'active');
+            }else if(status == 'active'){
+                @this.set('state.'+elementId,'inactive');
+            }
+          
         });
     });
 

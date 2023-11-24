@@ -8,6 +8,7 @@ return [
     'error_message'   => 'Something went wrong....please try again later!',
     'no_record_found' => 'No Records Found!',
     'suspened'=> "Your account has been suspened!",
+    'delete_package_alert'=> "Cannot delete the package. Users are registered with this package.",
 
     'email_messages' => [
        
