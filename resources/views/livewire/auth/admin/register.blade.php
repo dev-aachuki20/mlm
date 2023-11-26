@@ -8,7 +8,7 @@
       <div class="login-left bg-white">
         <div class="login-left-inner">
             <div class="login-quote">
-              <h4>Welcome to MyFutureBiz</h4>
+              <h4>Welcome to {{ config('constants.app_name') }}</h4>
               <p>It is an e-learning platform where you can learn different type of skills that will be helpful to create a better future for you.it is an e-learning platform where you can learn.</p>
             </div>
             <div class="login-img-left">
