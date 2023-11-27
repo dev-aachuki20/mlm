@@ -330,6 +330,7 @@ class Register extends Component
                     $this->paymentSuccess  = false;
                     
                     // Set Flash Message
+                    $this->dispatchBrowserEvent('closedCODModal');
                     $this->alert('error', trans('panel.message.error'));
                     
                 }
@@ -340,8 +341,9 @@ class Register extends Component
                 $this->paymentMode     = false;
                 $this->paymentSuccess  = false;
                 
-                dd($e->getMessage() . '->' . $e->getLine());
+                // dd($e->getMessage() . '->' . $e->getLine());
                 $this->dispatchBrowserEvent('closedLoader');
+                $this->dispatchBrowserEvent('closedCODModal');
 
                 $this->alert('error', trans('messages.error_message'));
             }
