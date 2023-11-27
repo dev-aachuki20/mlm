@@ -288,11 +288,20 @@ class Register extends Component
                 } else {
                     $this->resetInputFields();
 
+                    //24-11-2023
+                    $this->paymentMode     = false;
+                    $this->paymentSuccess  = false;
+                    
                     // Set Flash Message
                     $this->alert('error', trans('panel.message.error'));
                 }
             } catch (\Exception $e) {
                 DB::rollBack();
+                
+                //24-11-2023
+                $this->paymentMode     = false;
+                $this->paymentSuccess  = false;
+                
                 // dd($e->getMessage() . '->' . $e->getLine());
                 $this->alert('error', trans('messages.error_message'));
             }

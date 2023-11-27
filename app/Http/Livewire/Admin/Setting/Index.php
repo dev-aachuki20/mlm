@@ -32,6 +32,8 @@ class Index extends Component
         $this->settings = Setting::where('group',$this->tab)->where('status',1)->get();
 
         $this->state = $this->settings->pluck('value','key')->toArray();
+
+        // dd(Setting::all()->where('group','payment')->where('status',1)->groupBy('sub_group')->toArray());
     }
 
     public function changeTab($tab){

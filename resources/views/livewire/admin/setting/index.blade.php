@@ -124,7 +124,7 @@
                                         </div>
                                     
                                     @elseif($setting->type == 'toggle')
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label class="font-weight-bold justify-content-start">{{ $setting->display_name }}
                                                     <i class="fas fa-asterisk"></i>
