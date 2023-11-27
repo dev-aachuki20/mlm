@@ -43,10 +43,21 @@
         <div class="login-right bg-light-orange">
         <div class="login-form">
             <div class="form-head mb-0">
-            <div class="icon-head">
-                <img src="{{asset('images/icons/completed.svg')}}">
-            </div>
-            <h3>You have Completed SignUp!</h3>
+                <div class="icon-head">
+                    <img src="{{asset('images/icons/completed.svg')}}">
+                </div>
+                <h3>You have Completed SignUp!</h3>
+                <div class="payment_radio row justify-content-center">
+                    <div class="col-auto d-flex align-items-center gap-2">
+                        <input type="radio" wire:model="payment_gateway" value="razorpay" {{ $payment_gateway == 'razorpay' ? 'checked' : '' }}> Razorpay
+                    </div>
+                    @if(getSetting('payment_cod_status') == 'active')
+                    <div class="col-auto d-flex align-items-center gap-2">
+                            <input type="radio" wire:model="payment_gateway" value="cod" {{ $payment_gateway == 'cod' ? 'checked' : '' }}> COD
+                        </div>
+                        @endif
+
+                </div>
             </div>
             <div class="go-back">
             <button wire:loading.attr="disabled"  class="btn w-100" wire:click.prevent="pay">
@@ -61,3 +72,4 @@
 
       </section>
 </div>
+

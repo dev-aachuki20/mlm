@@ -18,10 +18,12 @@ use Illuminate\Support\Facades\DB;
 use App\Mail\SendRegisteredUserMail;
 use App\Mail\SendPlanPurchasedMail;
 use App\Mail\SendRefferalCommissionMail;
+use Livewire\WithFileUploads;
+
 
 class Register extends Component
 {
-    use LivewireAlert;
+    use LivewireAlert, WithFileUploads;
 
     public $first_name, $last_name, $email, $phone, $dob, $gender, $password, $password_confirmation;
 
@@ -31,8 +33,9 @@ class Register extends Component
 
     public $showResetBtn = false;
 
+    public $cod_transaction_id = null, $paymentReceiptImage = null, $paymentReceiptImageOriginal = null, $codRequest = null;
 
-    protected $listeners = ['updateDOB', 'updatePaymentStatus'];
+    protected $listeners = ['updateDOB', 'updatePaymentStatus','makeCODPayment','cancelCODPayment','updatedPaymentReceiptImage','updatedPaymentReceiptImageOriginal','updatedCodRequest'];
 
     protected function rules()
     {
@@ -92,12 +95,12 @@ class Register extends Component
         }
     }
 
-    public function updatePaymentStatus($package_id, $paymentResponse)
+    public function updatePaymentStatus($paymentGateway, $package_id, $paymentResponse)
     {
         $this->paymentMode     = false;
         $this->paymentSuccess  = true;
         $this->paymentResponse = json_decode($paymentResponse, true);
-        $this->storeRegister($package_id);
+        $this->storeRegister($paymentGateway, $package_id);
     }
 
 
@@ -106,7 +109,7 @@ class Register extends Component
         return view('livewire.auth.admin.register');
     }
 
-    public function storeRegister($package_id = '')
+    public function storeRegister($paymentGateway = '', $package_id = '')
     {
         $validated = $this->validate($this->rules(), $this->messages());
 
@@ -185,19 +188,41 @@ class Register extends Component
 
                     //Start Payment Transaction
                     $response = $this->paymentResponse;
-                    $amount = (float)$response['amount'] / 100;
-                    $payment = Payment::create([
-                        'user_id'       => $userId,
-                        'package_id'    => $package_id,
-                        'r_payment_id'  => $response['id'],
-                        'method'        => $response['method'],
-                        'currency'      => $response['currency'],
-                        'user_email'    => $response['email'],
-                        'amount'        => $amount,
-                        'json_response' => json_encode((array)$response)
-                    ]);
+                    $amount = $paymentGateway == 'razorpay' ? (float)$response['amount'] / 100 : (float)$response['amount'];
+
+                    $payment = null;
+                    if($paymentGateway == 'razorpay'){
+                        $payment = Payment::create([
+                            'user_id'       => $userId,
+                            'package_id'    => $package_id,
+                            'r_payment_id'  => $response['id'],
+                            'method'        => $response['method'],
+                            'currency'      => $response['currency'],
+                            'user_email'    => $response['email'],
+                            'amount'        => $amount,
+                            'payment_gateway' => 'razorpay',
+                            'json_response' => json_encode((array)$response)
+                        ]);
+                    }else if($paymentGateway == 'cod'){
+                        $payment = Payment::create([
+                            'user_id'       => $userId,
+                            'package_id'    => $package_id,
+                            'r_payment_id'  => $response['id'],
+                            'method'        => $response['method'],
+                            'currency'      => $response['currency'],
+                            'user_email'    => $response['email'],
+                            'amount'        => $amount,
+                            'payment_gateway' => 'cod',
+                            'json_response' => json_encode((array)$response)
+                        ]);
+                    }
 
                     if ($payment) {
+
+                        if($paymentGateway == 'cod'){
+                            uploadImage($payment, $this->paymentReceiptImage, 'payment/reciept/',"payment-reciept", 'original', 'save', null);
+                        }
+
                         foreach (config('constants.referral_levels') as $levelKey => $level) {
                             $transactionRecords = [];
                             $commissionAmount = null;
@@ -213,12 +238,21 @@ class Register extends Component
                                 $referralUserId     = $referral_user->referrer->referrer->id ?? null;
                             }
 
+                            $gateway = null;
+                            if($paymentGateway == 'razorpay'){
+
+                                $gateway = 1;
+
+                            }else if($paymentGateway == 'cod'){
+                                $gateway = 2;
+                            }
+
                             if ($commissionAmount && $referralUserId) {
                                 $transactionRecords['user_id']         = $userId;
                                 $transactionRecords['payment_id']      = $payment->id;
                                 $transactionRecords['payment_type']    = 'credit';
                                 $transactionRecords['type']            = $levelKey;
-                                $transactionRecords['gateway']         = '1';
+                                $transactionRecords['gateway']         = $gateway;
                                 $transactionRecords['amount']          = $commissionAmount;
                                 $transactionRecords['referrer_id']     = $referralUserId;
 
@@ -281,10 +315,13 @@ class Register extends Component
                     $this->resetInputFields();
 
                     // Set Flash Message
+                    $this->cancelCODPayment();
+                    $this->dispatchBrowserEvent('closedCODModal');
                     $this->alert('success', trans('panel.message.register_success'));
                     // $this->flash('success', trans('panel.message.register_success'));
 
                     // return redirect()->route('auth.payment-success');
+
                 } else {
                     $this->resetInputFields();
 
@@ -294,6 +331,7 @@ class Register extends Component
                     
                     // Set Flash Message
                     $this->alert('error', trans('panel.message.error'));
+                    
                 }
             } catch (\Exception $e) {
                 DB::rollBack();
@@ -302,7 +340,9 @@ class Register extends Component
                 $this->paymentMode     = false;
                 $this->paymentSuccess  = false;
                 
-                // dd($e->getMessage() . '->' . $e->getLine());
+                dd($e->getMessage() . '->' . $e->getLine());
+                $this->dispatchBrowserEvent('closedLoader');
+
                 $this->alert('error', trans('messages.error_message'));
             }
         }
@@ -343,5 +383,44 @@ class Register extends Component
         $this->referral_name = '';
         $this->address = '';
         $this->paymentResponse = null;
+    }
+
+
+    public function updatedPaymentReceiptImage($image){
+        $this->paymentReceiptImage = $image;
+    }
+
+    public function updatedPaymentReceiptImageOriginal($image){
+        $this->paymentReceiptImageOriginal = $image;
+    }
+
+    public function updatedCodRequest($codRequest){
+        $this->codRequest = $codRequest;
+    }
+
+    public function makeCODPayment(){
+        $validatedData = $this->validate([
+            'cod_transaction_id' => 'required|string|regex:/^[^\s]+$/',
+            'paymentReceiptImage'   => 'required|image',
+        ],[],[
+            'cod_transaction_id'=>'transaction id',
+            'paymentReceiptImage'=>'upload transction receipt'
+        ]);
+
+        $requestRecord['id'] = $validatedData['cod_transaction_id'];
+        $requestRecord['method'] = 'cod';
+        $requestRecord['currency'] = 'INR';
+        $requestRecord['name'] = $this->codRequest['name'];
+        $requestRecord['email'] = $this->codRequest['email'];
+        $requestRecord['amount'] = $this->codRequest['amount'];
+        $requestRecord['payment_gateway'] = 'cod';
+
+        $this->updatePaymentStatus('cod',$this->codRequest['packageId'],json_encode($requestRecord));
+    }
+
+    public function cancelCODPayment(){
+        $this->reset(['cod_transaction_id','paymentReceiptImage','paymentReceiptImageOriginal']);
+        $this->resetValidation();
+        $this->dispatchBrowserEvent('clearDropify');
     }
 }

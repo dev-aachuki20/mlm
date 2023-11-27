@@ -528,6 +528,18 @@ class SettingSeeder extends Seeder
                 'created_by' => 1,
             ],
 
+            // [
+            //     'key'    => 'razorpay_status',
+            //     'value'  => null,
+            //     'type'   => 'toggle',
+            //     'display_name'  => 'Razorpay Status',
+            //     'group'  => 'payment',
+            //     'details' => 'active, inactive',
+            //     'status' => 1,
+            //     'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            //     'created_by' => 1,
+            // ],
+
 
         ];
 

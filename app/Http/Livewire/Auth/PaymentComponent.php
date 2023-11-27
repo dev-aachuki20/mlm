@@ -8,20 +8,23 @@ use App\Models\Payment;
 use App\Models\Package;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\WithFileUploads;
+
 
 class PaymentComponent extends Component
 {
-    use LivewireAlert;
+    use LivewireAlert, WithFileUploads;
 
     public $amount=0.00, $getData;
     
-    public $defaultSelectedPackage = 1, $fromURLPackageSelected=false, $select_package, $packageId;
-
+    public $defaultSelectedPackage = 1, $fromURLPackageSelected=false, $select_package, $packageId, $payment_gateway;
 
     protected $listeners = ['pay','paymentSuccessful'];
 
     public function mount($data,$packageUUID = ''){
         $this->getData = $data;
+        
+        $this->payment_gateway = 'razorpay';
 
         if(!empty($packageUUID)){
             $this->fromURLPackageSelected = true;
@@ -39,6 +42,8 @@ class PaymentComponent extends Component
         $this->select_package = $seletPackage;
     }
 
+   
+
     public function render()
     {
         $packages = Package::where('status',1)->get();
@@ -50,21 +55,44 @@ class PaymentComponent extends Component
     {
         $validated = $this->validate([
             'select_package' => 'required',
+            'payment_gateway'   => 'required',
         ]);
 
-       
         $package = Package::where('status',1)->where('id',$this->select_package)->first();
         if($package){
             $this->packageId = $package->id;
             $this->amount = $package->amount;
           
-            // Redirect to the Razorpay checkout form
-            $this->dispatchBrowserEvent('openRazorpayCheckout', [
-                'name' => $this->getData['first_name'].' '.$this->getData['last_name'],
-                'email' => $this->getData['email'],
-                'phone' => $this->getData['phone'],
-                'amount' => (float)$this->amount * 100,
-            ]);
+            switch($this->payment_gateway) {
+                case('razorpay'):
+                    // Redirect to the Razorpay checkout form
+                    $this->dispatchBrowserEvent('openRazorpayCheckout', [
+                        'name'  => $this->getData['first_name'].' '.$this->getData['last_name'],
+                        'email' => $this->getData['email'],
+                        'phone' => $this->getData['phone'],
+                        'amount' => (float)$this->amount * 100,
+                        'payment_gateway' => $this->payment_gateway,
+                    ]);
+                    break;
+     
+                case('cod'):
+                     
+                    // Open the cod modal
+                    $this->dispatchBrowserEvent('openCODModal',[
+                        'packageId'=>$this->packageId,
+                        'name'  => $this->getData['first_name'].' '.$this->getData['last_name'],
+                        'email' => $this->getData['email'],
+                        'phone' => $this->getData['phone'],
+                        'amount' => (float)$this->amount,
+                        'payment_gateway' => $this->payment_gateway,
+                    ]);
+                    break;
+     
+                default:
+                  $this->alert('error','Invalid payment type!');
+            }
+
+           
         }else{
             $this->alert('error','Package is required!');
         }
@@ -73,7 +101,10 @@ class PaymentComponent extends Component
 
     public function paymentSuccessful($payment_id)
     {
-        $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
+        $razorPayKey = getSetting('razorpay_key') ? getSetting('razorpay_key') : config('services.razorpay.key');
+        $razorPaySecret = getSetting('razorpay_secret') ? getSetting('razorpay_secret') : config('services.razorpay.secret');
+        
+        $api = new Api($razorPayKey, $razorPaySecret);
 
         DB::beginTransaction();
      
@@ -91,7 +122,7 @@ class PaymentComponent extends Component
 
                 DB::commit();
 
-                $this->emit('updatePaymentStatus',$this->packageId,$jsonData);
+                $this->emit('updatePaymentStatus','razorpay',$this->packageId,$jsonData);
 
 
             }catch (\Exception $e) {
@@ -102,4 +133,6 @@ class PaymentComponent extends Component
         }
 
     }
+
+   
 }

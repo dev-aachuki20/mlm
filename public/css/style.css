@@ -2631,3 +2631,28 @@ span.outline-text {
         height: fit-content !important;
   }
 /* End css added by rohit */
+
+
+.codModal .modal-footer button{
+    height: 40px;
+}
+.codModal ::-webkit-scrollbar {
+    width: 6px;
+  }
+/* Track */
+.codModal::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+.codModal::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  .payment_radio input {
+    width:20px;
+    height:20px;
+}
+.payment_radio input:checked{
+      accent-color: #f24f00;
+  }

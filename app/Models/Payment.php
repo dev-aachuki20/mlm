@@ -22,6 +22,7 @@ class Payment extends Model
         'currency',
         'user_email',
         'amount',
+        'payment_gateway',
         'json_response',
         'created_at',
         'updated_at',
@@ -34,5 +35,24 @@ class Payment extends Model
     public function package(){
         return $this->belongsTo(Package::class, 'package_id','id');
     }
+
+    public function uploads()
+    {
+        return $this->morphMany(Uploads::class, 'uploadsable');
+    }
+
+    public function receiptImage()
+    {
+        return $this->morphOne(Uploads::class, 'uploadsable')->where('type','payment-reciept');
+    }
+
+    public function getReceiptImageUrlAttribute()
+    {
+        if($this->receiptImage){
+            return $this->receiptImage->file_url;
+        }
+        return "";
+    }
+
 
 }
