@@ -43,7 +43,8 @@ class PaymentList extends Component
         $this->total_remaning_earning = $this->total_earning -  $this->total_withdrawal;
 
         $this->payment_type  = Payment::where('user_id', $user_id)->first();
-        $this->type =json_decode($this->payment_type->json_response)->card->type;
+        // $this->type =json_decode($this->payment_type->json_response)->card->type;
+         $this->type = isset(json_decode($this->payment_type->json_response)->card->type) ? json_decode($this->payment_type->json_response)->card->type : null;
     }
 
     public function updatePaginationLength($length){
