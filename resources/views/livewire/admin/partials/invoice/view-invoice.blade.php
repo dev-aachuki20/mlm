@@ -19,7 +19,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="invoice-logo">
-                                            <img src="{{ asset('images/logo.png') }}" alt="logo">
+                                            <img src="{{ asset('images/logo.png') }}" alt="logo" width="227" height="76">
                                         </div>
                                     </div>
                                     <div class="col-md-6 text-right">
