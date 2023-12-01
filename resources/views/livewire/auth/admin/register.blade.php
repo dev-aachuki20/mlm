@@ -111,7 +111,7 @@
 
               </div>
               <div class="submit-btn">
-                <button type="submit" class="btn " wire:loading.attr="disabled">SignUp
+                <button type="submit" class="btn " wire:loading.attr="disabled">SignUp &nbsp;
                         <span wire:loading wire:target="storeRegister">
                             <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
                         </span>
@@ -176,7 +176,7 @@
         <div class="modal-footer">
             <button type="button" wire:click.prevent="cancelCODPayment" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="submit" class="btn btnprimary" wire:loading.attr="disabled">
-                Submit
+                Submit &nbsp;
                 <span wire:loading wire:target="makeCODPayment">
                     <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
                 </span>

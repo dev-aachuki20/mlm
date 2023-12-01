@@ -55,7 +55,7 @@
                 </div>
                 <div class="submit-btn">
                     <button type="submit"  wire:loading.attr="disabled" class="btn">
-                        Login Now!
+                        Login Now!&nbsp;
                         <span wire:loading wire:target="submitLogin">
                             <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
                         </span>

@@ -103,7 +103,7 @@ class Index extends Component
         ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
         ->where('payment_type','credit')
         ->where('referrer_id',$this->userId)
-        ->groupBy('user_id')
+        ->groupBy('referrer_id')
         ->orderByDesc('total_amount')
         ->limit(5)
         ->get();
@@ -114,7 +114,7 @@ class Index extends Component
         ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = ?", [$currentMonth])
         ->where('payment_type','credit')
         ->where('referrer_id',$this->userId)
-        ->groupBy('user_id')
+        ->groupBy('referrer_id')
         ->orderByDesc('total_amount')
         ->limit(5)
         ->get();
@@ -126,7 +126,7 @@ class Index extends Component
          ->whereBetween('created_at', [$yearStart, $yearEnd])
          ->where('payment_type','credit')
          ->where('referrer_id',$this->userId)
-         ->groupBy('user_id')
+         ->groupBy('referrer_id')
          ->orderByDesc('total_amount')
          ->limit(5)
          ->get();
@@ -135,7 +135,7 @@ class Index extends Component
         $this->allTimeTopRecords = Transaction::selectRaw('*, SUM(amount) as total_amount')
         ->where('payment_type','credit')
         ->where('referrer_id',$this->userId)
-        ->groupBy('user_id')
+        ->groupBy('referrer_id')
         ->orderByDesc('total_amount')
         ->limit(5)
         ->get();
