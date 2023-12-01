@@ -84,7 +84,7 @@ class Index extends Component
             })
              ->where('referrer_id',$this->userId)
              ->where('payment_type','credit')
-             ->groupBy('user_id')
+             ->groupBy('referrer_id')
             //  ->havingRaw('SUM(amount) LIKE ?', ['%' . $searchValue . '%'])
              ->orderBy($this->sortColumnName, $this->sortDirection)
              ->paginate($this->paginationLength);
@@ -103,7 +103,7 @@ class Index extends Component
             ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
             ->where('payment_type','credit')
             ->where('referrer_id',$this->userId)
-            ->groupBy('user_id')
+            ->groupBy('referrer_id')
             ->orderBy($this->sortColumnName, $this->sortDirection)
             ->paginate($this->paginationLength);
 
@@ -123,7 +123,7 @@ class Index extends Component
             ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = ?", [$currentMonth])
             ->where('payment_type','credit')
             ->where('referrer_id',$this->userId)
-            ->groupBy('user_id')
+            ->groupBy('referrer_id')
             ->orderBy($this->sortColumnName, $this->sortDirection)
             ->paginate($this->paginationLength);
 
@@ -145,7 +145,7 @@ class Index extends Component
             ->whereBetween('created_at', [$yearStart, $yearEnd])
             ->where('payment_type','credit')
             ->where('referrer_id',$this->userId)
-            ->groupBy('user_id')
+            ->groupBy('referrer_id')
             ->orderBy($this->sortColumnName, $this->sortDirection)
             ->paginate($this->paginationLength);
 

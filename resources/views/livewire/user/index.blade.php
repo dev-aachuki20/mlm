@@ -375,16 +375,17 @@
                         <img src="{{ $record->referralUser->profile_image_url ? $record->referralUser->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
                         <div class="leaderboard-row">
                           {{ ucwords($record->referralUser->name) }}
-                          <span>
-                            @if(isset(json_decode($record->referralUser->invoices()->first()->package_json)->title))
-                              {{ json_decode($record->referralUser->invoices()->first()->package_json)->title ?? null }} 
-                            @endif
-
-                            
-                            @if(isset(json_decode($record->referralUser->invoices()->first()->package_json)->amount))
-                            &#8377  {{ number_format(json_decode($record->referralUser->invoices()->first()->package_json)->amount,2) }}
-                            @endif
-                          </span>
+                         @php
+                               $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
+                            @endphp
+                            <span>
+                                 
+                                @if($packageDetail)
+                                  {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
+                               
+                                &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
+                                @endif
+                              </span>
                         </div>
                       </div>
                       <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
@@ -412,16 +413,17 @@
                         <div class="leaderboard-row">
                           {{ ucwords($record->referralUser->name) }}
                           {{-- <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span> --}}
-                          <span>
-                            @if(isset(json_decode($record->referralUser->invoices()->first()->package_json)->title))
-                              {{ json_decode($record->referralUser->invoices()->first()->package_json)->title ?? null }} 
-                            @endif
-
-                            
-                            @if(isset(json_decode($record->referralUser->invoices()->first()->package_json)->amount))
-                            &#8377  {{ number_format(json_decode($record->referralUser->invoices()->first()->package_json)->amount,2) }}
-                            @endif
-                          </span>
+                        @php
+                               $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
+                            @endphp
+                            <span>
+                                 
+                                @if($packageDetail)
+                                  {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
+                               
+                                &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
+                                @endif
+                              </span>
                         </div>
                       </div>
                       <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
@@ -450,16 +452,17 @@
                           {{ ucwords($record->referralUser->name) }}
                           {{-- <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span> --}}
 
-                          <span>
-                            @if(isset(json_decode($record->referralUser->invoices()->first()->package_json)->title))
-                              {{ json_decode($record->referralUser->invoices()->first()->package_json)->title ?? null }} 
-                            @endif
-
-                            
-                            @if(isset(json_decode($record->referralUser->invoices()->first()->package_json)->amount))
-                            &#8377  {{ number_format(json_decode($record->referralUser->invoices()->first()->package_json)->amount,2) }}
-                            @endif
-                          </span>
+                        @php
+                               $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
+                            @endphp
+                            <span>
+                                 
+                                @if($packageDetail)
+                                  {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
+                               
+                                &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
+                                @endif
+                              </span>
                         </div>
                       </div>
                       <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>
@@ -488,16 +491,17 @@
                           {{ ucwords($record->referralUser->name) }}
                           {{-- <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span> --}}
 
-                          <span>
-                            @if(isset(json_decode($record->referralUser->invoices()->first()->package_json)->title))
-                              {{ json_decode($record->referralUser->invoices()->first()->package_json)->title ?? null }} 
-                            @endif
-
-                            
-                            @if(isset(json_decode($record->referralUser->invoices()->first()->package_json)->amount))
-                            &#8377  {{ number_format(json_decode($record->referralUser->invoices()->first()->package_json)->amount,2) }}
-                            @endif
-                          </span>
+                         @php
+                               $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
+                            @endphp
+                            <span>
+                                 
+                                @if($packageDetail)
+                                  {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
+                               
+                                &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
+                                @endif
+                              </span>
                         </div>
                       </div>
                       <div class="price-recent">&#8377 {{ number_format($record->total_amount,2) }}</div>

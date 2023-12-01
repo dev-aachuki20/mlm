@@ -53,15 +53,26 @@
                       @if($allTimeTopRecords)
                         @if($allTimeTopRecords->count() > 0)
                           @foreach($allTimeTopRecords as $serialNo => $record)
-                          @if($record->user)
+                          @if($record->referralUser)
                             <tr>
                               <td class="pr-0"  width="50px">
                                 <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
                               </td>
                               <td>
                                 <div class="leaderboard-row">
-                                  {{ ucwords($record->user->name) }}
-                                  <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                                  {{ ucwords($record->referralUser->name) }}
+                                  
+                                   @php
+                                   $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
+                                  @endphp
+                                 <span>
+                                     
+                                    @if($packageDetail)
+                                      {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
+                                   
+                                    &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
+                                    @endif
+                                  </span>
                                 </div>
                               </td>
                               <td class="text-right"><strong>&#8377 {{ number_format($record->total_amount,2) }}</strong></td>
@@ -111,15 +122,26 @@
                       @if($weeklyTopRecords)
                         @if($weeklyTopRecords->count() > 0)
                           @foreach($weeklyTopRecords as $serialNo => $record)
-                          @if($record->user)
+                          @if($record->referralUser)
                             <tr>
                               <td class="pr-0"  width="50px">
                                 <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
                               </td>
                               <td>
                                 <div class="leaderboard-row">
-                                  {{ ucwords($record->user->name) }}
-                                  <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                                  {{ ucwords($record->referralUser->name) }}
+                                  
+                                  @php
+                                   $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
+                                  @endphp
+                                 <span>
+                                     
+                                    @if($packageDetail)
+                                      {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
+                                   
+                                    &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
+                                    @endif
+                                  </span>
                                 </div>
                               </td>
                               <td class="text-right"><strong>&#8377 {{ number_format($record->total_amount,2) }}</strong></td>
@@ -167,15 +189,26 @@
                       @if($monthlyTopRecords)
                         @if($monthlyTopRecords->count() > 0)
                           @foreach($monthlyTopRecords as $serialNo => $record)
-                          @if($record->user)
+                          @if($record->referralUser)
                             <tr>
                               <td class="pr-0"  width="50px">
                                 <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
                               </td>
                               <td>
                                 <div class="leaderboard-row">
-                                  {{ ucwords($record->user->name) }}
-                                  <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                                  {{ ucwords($record->referralUser->name) }}
+                                  
+                                  @php
+                                   $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
+                                  @endphp
+                                 <span>
+                                     
+                                    @if($packageDetail)
+                                      {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
+                                   
+                                    &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
+                                    @endif
+                                  </span>
                                 </div>
                               </td>
                               <td class="text-right"><strong>&#8377 {{ number_format($record->total_amount,2) }}</strong></td>
@@ -223,15 +256,27 @@
                       @if($yearlyTopRecords)
                         @if($yearlyTopRecords->count() > 0)
                           @foreach($yearlyTopRecords as $serialNo => $record)
-                          @if($record->user)
+                          @if($record->referralUser)
                             <tr>
                               <td class="pr-0"  width="50px">
                                 <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
                               </td>
                               <td>
                                 <div class="leaderboard-row">
-                                  {{ ucwords($record->user->name) }}
-                                  <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span>
+                                  {{ ucwords($record->referralUser->name) }}
+                                 
+                                  @php
+                                   $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
+                                  @endphp
+                                 <span>
+                                     
+                                    @if($packageDetail)
+                                      {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
+                                   
+                                    &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
+                                    @endif
+                                  </span>
+                                  
                                 </div>
                               </td>
                               <td class="text-right"><strong>&#8377 {{ number_format($record->total_amount,2) }}</strong></td>
