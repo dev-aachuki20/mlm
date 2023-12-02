@@ -57,6 +57,7 @@ class Show extends Component
 
             $this->first_name = $this->detail->first_name;
             $this->last_name  = $this->detail->last_name;
+            $this->email      = $this->detail->email;
             $this->dob        = Carbon::parse($this->detail->dob)->format('d-m-Y');
             $this->guardian_name    = $this->detail->profile->guardian_name;
             $this->gender           = $this->detail->profile->gender;
@@ -116,6 +117,7 @@ class Show extends Component
         if ($this->formType == 'personal-detail') {
             $validateDataArray['first_name'] = 'required';
             $validateDataArray['last_name']  = 'required';
+            $validateDataArray['email']  = 'required';
             $validateDataArray['dob']        = 'required';
             $validateDataArray['guardian_name']  = 'required';
             $validateDataArray['gender']         = 'required|in:male,female,other';
@@ -157,6 +159,7 @@ class Show extends Component
 
                 $userDetails['first_name'] = $this->first_name;
                 $userDetails['last_name']  = $this->last_name;
+                $userDetails['email']  = $this->email;
                 $userDetails['dob']        = Carbon::parse($this->dob)->format('Y-m-d');
 
                 $updatedUser->update($userDetails);

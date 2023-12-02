@@ -144,7 +144,7 @@
         $('input[id="webinar_time"]').daterangepicker({
             autoApply: true,
             timePicker: true,
-            timePicker24Hour: true,
+            timePicker24Hour: false,
             singleDatePicker: true,
             timePickerIncrement: 15,
             // minDate: moment().startOf('day'),

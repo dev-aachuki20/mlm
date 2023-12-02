@@ -33,7 +33,8 @@
         <div class="form-group row">
             <label class="col-sm-3 col-form-label font-weight-bold">Time</label>
             <div class="col-sm-9 col-form-label">
-                {{ \Carbon\Carbon::parse($detail->time)->format('H:i') }}
+                {{-- \Carbon\Carbon::parse($detail->time)->format('H:i A') --}}
+                {{ \Carbon\Carbon::createFromFormat('H:i:s', $detail->time)->format('h:i A') }}
             </div>
         </div>
     

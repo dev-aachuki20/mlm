@@ -26,7 +26,9 @@
                                         <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M9.74219 17.0068C13.8843 17.0068 17.2422 13.649 17.2422 9.50684C17.2422 5.3647 13.8843 2.00684 9.74219 2.00684C5.60005 2.00684 2.24219 5.3647 2.24219 9.50684C2.24219 13.649 5.60005 17.0068 9.74219 17.0068Z" stroke="#464B70" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M9.74219 5.00684V9.50684L12.7422 11.0068" stroke="#464B70" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg> {{convertDateTimeFormat($record->time,'time')}}
+                                        </svg>{{ \Carbon\Carbon::createFromFormat('H:i:s', $record->time)->format('h:i A') }}
+                                        
+                                        {{--convertDateTimeFormat($record->time,'time')--}}
                                     </li>
                                     <li class="bg-light-orange">
                                         <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">

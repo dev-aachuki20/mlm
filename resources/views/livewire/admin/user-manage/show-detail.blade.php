@@ -30,7 +30,24 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.fields.email') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <input type="email" class="form-control" wire:model.defer="email" placeholder="{{ __('cruds.user.fields.email') }}" />
+                            @error('email') <span class="error text-danger">{{ $message }}</span>@enderror
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.fields.dob') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
+                            <input type="text" class="form-control" id="dob" wire:model.defer="dob" placeholder="{{ __('cruds.user.fields.dob') }}" autocomplete="off"/>
+                            @error('dob') <span class="error text-danger">{{ $message }}</span>@enderror
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.gender') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <select wire:model.defer="gender" class="form-control">
@@ -42,7 +59,7 @@
                             @error('gender') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
                         <div class="form-group">
                             <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.marital_status') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <select wire:model.defer="marital_status" class="form-control">
@@ -52,14 +69,6 @@
                             </select>
                             @error('marital_status') <span class="error text-danger">{{ $message }}</span>@enderror
                         </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label class="font-weight-bold justify-content-start">{{ __('cruds.user.fields.dob') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
-                            <input type="text" class="form-control" id="dob" wire:model.defer="dob" placeholder="{{ __('cruds.user.fields.dob') }}" autocomplete="off"/>
-                            @error('dob') <span class="error text-danger">{{ $message }}</span>@enderror
-                        </div>
-                       
                     </div>
                 </div>
 
@@ -94,7 +103,7 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.state') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>                            
-                            <select class="form-control select-state"  wire:model.defer="state" >
+                            <select class="form-control select-state" wire:model.defer="state" >
                                 <option>Select State</option>
                                 @foreach(config('indian-regions.states') as $id=>$stateName)
                                     <option value="{{$stateName}}" {{ucwords($state) == $stateName ? 'selected':''}} data-stateId="{{$id}}">{{ ucwords($stateName) }}</option>
@@ -106,7 +115,7 @@
                     <div class="col-sm-4">
                         <div class="form-group">
                             <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.city') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
-                            <select class="form-control select-city" wire:model.defer="city" >
+                            <select class="form-control select-city" wire:model.defer="city">
                                 <option>Select City</option>                              
                                     @if($allCities)
                                     @foreach($allCities as $cityName)
