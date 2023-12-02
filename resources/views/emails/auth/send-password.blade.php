@@ -13,7 +13,7 @@
 	</td>
     <tr>
         <td>
-            <p style="font-size:14px;">If you have any questions or issues, please contact us at {{ config('constants.support_email') }} or {{ config('constants.support_phone') }}.</p>
+            <p style="font-size:14px;">If you have any questions or issues, please contact us at {{ getSetting('support_email') ? getSetting('support_email') : config('constants.support_email') }} or {{ getSetting('support_phone') ? getSetting('support_phone') : config('constants.support_phone') }}.</p>
             
             <p style="font-size:14px;">We hope you enjoy using our service.</p>
         </td>

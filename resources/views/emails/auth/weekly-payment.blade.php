@@ -47,7 +47,7 @@
 
                 <tr>
                     <td>
-                        <p style="font-size:14px;">If you have any questions or need assistance with our support team is here to help. Simply reply to this email, and we'll get back to you promptly. {{ config('constants.support_email') }} or {{ config('constants.support_phone') }}.</p>
+                        <p style="font-size:14px;">If you have any questions or need assistance with our support team is here to help. Simply reply to this email, and we'll get back to you promptly.{{ getSetting('support_email') ? getSetting('support_email') : config('constants.support_email') }} or {{ getSetting('support_phone') ? getSetting('support_phone') : config('constants.support_phone') }}.</p>
                     </td>
                 </tr>
 

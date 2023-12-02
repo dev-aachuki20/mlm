@@ -20,7 +20,7 @@ class Index extends Component
 
     // protected $layout = null;
 
-    public $tab = 'site', $settings = null, $state = [];
+    public $tab = 'site', $settings = null, $state = [], $removeFile = [];
 
     protected $listeners = [
         'changeTab','copyTextAlert',
@@ -33,7 +33,13 @@ class Index extends Component
 
         $this->state = $this->settings->pluck('value','key')->toArray();
 
-        // dd(Setting::all()->where('group','payment')->where('status',1)->groupBy('sub_group')->toArray());
+        $this->removeFile['remove_site_logo'] = false;
+        $this->removeFile['remove_favicon'] = false;
+        $this->removeFile['remove_footer_logo'] = false;
+        $this->removeFile['remove_short_logo'] = false;
+        $this->removeFile['remove_introduction_video_image'] = false;
+        $this->removeFile['remove_introduction_video'] = false;
+        $this->removeFile['remove_payment_qr_code'] = false;
     }
 
     public function changeTab($tab){
@@ -60,6 +66,7 @@ class Index extends Component
         $dimensionsDetails['footer_logo']   = '';
         $dimensionsDetails['introduction_video_image'] ='';
         $dimensionsDetails['payment_qr_code'] ='';
+
         foreach ($this->settings as $setting) {
             if($setting){
 
@@ -72,11 +79,16 @@ class Index extends Component
                 }
 
                 if ($setting->type == 'text_area') {
-                    $textAreaValidation = ($setting->group != 'mail') ? '|required' : '';
-                    $rules['state.'.$setting->key] = 'strip_tags'.$textAreaValidation;
+                    if($setting->group == 'mail'){
+                        $textAreaValidation = ($setting->group != 'mail') ? '|nullable_strip_tags' : '';
+                        $rules['state.'.$setting->key] = 'nullable'.$textAreaValidation;
+                    }else{
+                        $textAreaValidation = ($setting->group != 'mail') ? 'required|' : '';
+                        $rules['state.'.$setting->key] = $textAreaValidation.'strip_tags';
+                    }
                 }
 
-                if($setting->type == 'image' && $this->state[$setting->key] != 'delete'){
+                if($setting->type == 'image' && (!$this->removeFile['remove_'.$setting->key])){
                     $dimensions = explode(' × ',$setting->details);
                     $dimensionsDetails[$setting->key] = $setting->details;
 
@@ -85,13 +97,13 @@ class Index extends Component
                     }else{
                         $rules['state.'.$setting->key] = 'nullable|image|max:'.config('constants.img_max_size').'|mimes:jpeg,png,jpg,svg,PNG,JPG,SVG|';
                     }
-                }elseif($setting->type == 'image' && $this->state[$setting->key] == 'delete'){
+                }elseif($setting->type == 'image' && $this->removeFile['remove_'.$setting->key]){
                     $rules['state.'.$setting->key] = '';
                 }
                 
-                if($setting->type == 'video' && $this->state[$setting->key] != 'delete'){
+                if($setting->type == 'video' && (!$this->removeFile['remove_'.$setting->key])){
                     $rules['state.'.$setting->key] = 'nullable|max:'.config('constants.video_max_size').'|mimetypes:video/webm,video/mp4, video/avi,video/wmv,video/flv,video/mov';
-                }elseif($setting->type == 'video' && $this->state[$setting->key] == 'delete'){
+                }elseif($setting->type == 'video' && $this->removeFile['remove_'.$setting->key]){
                     $rules['state.'.$setting->key] = '';
                 }
 
@@ -146,14 +158,14 @@ class Index extends Component
 
                     $uploadId = $setting->image ? $setting->image->id : null;
 
-                    if ($stateVal && $stateVal != 'delete') {
+                    if ($stateVal && (!$this->removeFile['remove_'.$key])) {
                         if($uploadId){
                             uploadImage($setting, $stateVal, 'settings/images/',"setting", 'original', 'update', $uploadId);
                         }else{
                             uploadImage($setting, $stateVal, 'settings/images/',"setting", 'original', 'save', null);
                         }
                     }else{
-                        if($uploadId && $stateVal == 'delete'){
+                        if($uploadId && $this->removeFile['remove_'.$key]){
                             deleteFile($uploadId);
                         }
                     }
@@ -164,14 +176,14 @@ class Index extends Component
                 if($setting->type == 'video'){
 
                     $uploadId = $setting->video ? $setting->video->id : null;
-                    if ($stateVal) {
+                    if ($stateVal && (!$this->removeFile['remove_'.$key])) {
                         if($uploadId){
                             uploadImage($setting, $stateVal, 'settings/videos/',"setting", 'original', 'update', $uploadId);
                         }else{
                             uploadImage($setting, $stateVal, 'settings/videos/',"setting", 'original', 'save', null);
                         }
                     }else{
-                        if($uploadId){
+                        if($uploadId && $this->removeFile['remove_'.$key]){
                             deleteFile($uploadId);
                         }
                     }

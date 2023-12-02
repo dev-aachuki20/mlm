@@ -291,7 +291,7 @@ class SettingSeeder extends Seeder
                 'type'   => 'text_area',
                 'display_name'  => 'Welcome Mail Content',
                 'group'  => 'mail',
-                'details' => '[NAME], [SUPPORT_EMAIL], [SUPPORT_PHONE], [APP_NAME]',
+                'details' => '[NAME], [EMAIL], [PASSWORD], [SUPPORT_EMAIL], [SUPPORT_PHONE], [APP_NAME]',
                 'status' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'created_by' => 1,

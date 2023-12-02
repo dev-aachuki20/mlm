@@ -193,8 +193,10 @@
                 elementName = elementName.split('-');
                 if(elementName[1] == 'image'){
                     @this.set('state.'+elementName[0],null);
+                    @this.set('removeFile.remove_'+elementName[0],true);
                 }else if(elementName[1] == 'video'){
                     @this.set('state.'+elementName[0],null);
+                    @this.set('removeFile.remove_'+elementName[0],true);
                 }
             });
         });
@@ -234,8 +236,10 @@
             elementName = elementName.split('-');
             if(elementName[1] == 'image'){
                 @this.set('state.'+elementName[0],'delete');
+                @this.set('removeFile.remove_'+elementName[0],true);
             }else if(elementName[1] == 'video'){
                 @this.set('state.'+elementName[0],'delete');
+                @this.set('removeFile.remove_'+elementName[0],true);
             }
         });
 

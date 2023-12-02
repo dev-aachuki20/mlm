@@ -22,7 +22,7 @@ class SendPlanPurchasedMail extends Mailable
     public function __construct($subject,$name,$planName)
     {
         $this->subject = $subject;
-        $this->name    = $name;
+        $this->name    = ucwords($name);
         $this->planName = $planName;
 
     }

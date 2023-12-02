@@ -280,7 +280,7 @@ class Register extends Component
 
                     //Send welcome mail for user
                     $subject = 'Welcome to ' . config('app.name');
-                    Mail::to($user->email)->queue(new SendRegisteredUserMail($subject, $user->name));
+                    Mail::to($user->email)->queue(new SendRegisteredUserMail($subject, $user->name, $user->email,$password));
 
                     //Send mail for plan purchased
                     $subject = 'Plan Purchased';
