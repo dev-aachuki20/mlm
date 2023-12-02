@@ -23,6 +23,7 @@ class Payment extends Model
         'user_email',
         'amount',
         'payment_gateway',
+        'payment_approval',
         'json_response',
         'created_at',
         'updated_at',

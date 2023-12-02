@@ -27,13 +27,13 @@ class TeamList extends Component
     public function mount($user_id = '')
     {
         $this->user_id = $user_id;
-        $this->userDetail = User::find($user_id);
-        $id = $this->userDetail->referrals->pluck('referral_user_id');
-        if($id)
+        $this->userDetail = User::where('referral_user_id', $this->user_id)->get();
+        $levelOneIds = $this->userDetail->pluck('id')->toArray();
+        if($levelOneIds)
         {
-            
-            $this->level1Comm = Transaction::whereIn('referrer_id', $id)->sum('amount');
+            $this->level1Comm = Transaction::whereIn('user_id', $levelOneIds)->where('type',1)->sum('amount');
         }
+
     }
 
     public function updatePaginationLength($length)
@@ -89,6 +89,7 @@ class TeamList extends Component
         $levelOneUsers = User::where('referral_user_id', $this->user_id);
         $levelOneUserIds = $levelOneUsers->pluck('id');
 
+
         $levelTwoUsers = User::whereIn('referral_user_id', $levelOneUserIds);
         $levelTwoUserIds = $levelTwoUsers->pluck('id');
 
@@ -106,8 +107,8 @@ class TeamList extends Component
 
         
 
-        $this->level2Comm =$levelTwoUserIds != '' ? Transaction::whereIn('referrer_id', $levelTwoUserIds)->sum('amount') : 0 ;
-        $this->level3Comm =$levelThreeUserIds != '' ?Transaction::whereIn('referrer_id', $levelThreeUserIds)->sum('amount'):0;
+        $this->level2Comm =$levelTwoUserIds != '' ? Transaction::whereIn('user_id', $levelTwoUserIds)->where('type',2)->sum('amount') : 0 ;
+        $this->level3Comm =$levelThreeUserIds != '' ?Transaction::whereIn('user_id', $levelThreeUserIds)->where('type',3)->sum('amount'):0;
 
 
          // serching 

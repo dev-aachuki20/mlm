@@ -25,11 +25,15 @@
             </ul>
           </div>
           <div class="go-back mb-0">
-            <button class="btn w-100 text-center back-login " wire:click="submitLogin" wire:loading.attr="disabled">login Now
-                    <span wire:loading wire:target="submitLogin">
-                        <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
-                    </span>
-            </button>
+            @if($paymentGatewayType == 'cod')
+              <span class="error text-danger">{{__('messages.review_payment_approval')}} </span>
+            @else
+              <button class="btn w-100 text-center back-login " wire:click="submitLogin" wire:loading.attr="disabled">login Now
+                      <span wire:loading wire:target="submitLogin">
+                          <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                      </span>
+              </button>
+            @endif
           </div>
         </div>
       </div>

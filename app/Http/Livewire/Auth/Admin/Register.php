@@ -29,7 +29,7 @@ class Register extends Component
 
     public $from_url_referral_id, $from_url_referral_name, $packageUUID, $referral_id, $referral_name, $address;
 
-    public $paymentMode = false, $paymentSuccess = false, $paymentResponse = null, $share_email, $share_password;
+    public $paymentMode = false, $paymentSuccess = false, $paymentResponse = null, $share_email, $share_password,$paymentGatewayType = 'razorpay';
 
     public $showResetBtn = false;
 
@@ -42,7 +42,7 @@ class Register extends Component
         return [
             'first_name' => ['required', 'string', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
             'last_name'  => ['required', 'string', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
-            'email'      => ['required', 'string', 'email', 'max:255', Rule::unique((new User)->getTable(), 'email')],
+            'email'      => ['required', 'string', 'email:dns', 'max:255', Rule::unique((new User)->getTable(), 'email')],
             'phone'      => ['required', 'digits:10'],
             'dob'        => ['required'],
             'gender'     => ['required'],
@@ -99,6 +99,7 @@ class Register extends Component
     {
         $this->paymentMode     = false;
         $this->paymentSuccess  = true;
+        $this->paymentGatewayType = $paymentGateway;
         $this->paymentResponse = json_decode($paymentResponse, true);
         $this->storeRegister($paymentGateway, $package_id);
     }
@@ -138,6 +139,7 @@ class Register extends Component
                     'password'         => Hash::make($password),
                     'password_set_at'   => Carbon::now(),
                     'email_verified_at' => Carbon::now(),
+                    'payment_status'    => $paymentGateway == 'cod' ? 1 : 2,
                 ];
                 $user = User::create($data);
 
@@ -223,40 +225,33 @@ class Register extends Component
                             uploadImage($payment, $this->paymentReceiptImage, 'payment/reciept/',"payment-reciept", 'original', 'save', null);
                         }
 
-                        foreach (config('constants.referral_levels') as $levelKey => $level) {
-                            $transactionRecords = [];
-                            $commissionAmount = null;
-                            $referralUserId = null;
-                            if ($levelKey == 1) {
-                                $commissionAmount   = $user->packages()->first()->level_one_commission;
-                                $referralUserId     = $referral_user->id ?? null;
-                            } elseif ($levelKey == 2) {
-                                $commissionAmount   = $user->packages()->first()->level_two_commission;
-                                $referralUserId     = $referral_user->referrer->id ?? null;
-                            } elseif ($levelKey == 3) {
-                                $commissionAmount   = $user->packages()->first()->level_three_commission;
-                                $referralUserId     = $referral_user->referrer->referrer->id ?? null;
-                            }
+                        if($paymentGateway != 'cod'){
+                            foreach (config('constants.referral_levels') as $levelKey => $level) {
+                                $transactionRecords = [];
+                                $commissionAmount = null;
+                                $referralUserId = null;
+                                if ($levelKey == 1) {
+                                    $commissionAmount   = $user->packages()->first()->level_one_commission;
+                                    $referralUserId     = $referral_user->id ?? null;
+                                } elseif ($levelKey == 2) {
+                                    $commissionAmount   = $user->packages()->first()->level_two_commission;
+                                    $referralUserId     = $referral_user->referrer->id ?? null;
+                                } elseif ($levelKey == 3) {
+                                    $commissionAmount   = $user->packages()->first()->level_three_commission;
+                                    $referralUserId     = $referral_user->referrer->referrer->id ?? null;
+                                }
 
-                            $gateway = null;
-                            if($paymentGateway == 'razorpay'){
+                                if ($commissionAmount && $referralUserId) {
+                                    $transactionRecords['user_id']         = $userId;
+                                    $transactionRecords['payment_id']      = $payment->id;
+                                    $transactionRecords['payment_type']    = 'credit';
+                                    $transactionRecords['type']            = $levelKey;
+                                    $transactionRecords['gateway']         = 1;
+                                    $transactionRecords['amount']          = $commissionAmount;
+                                    $transactionRecords['referrer_id']     = $referralUserId;
 
-                                $gateway = 1;
-
-                            }else if($paymentGateway == 'cod'){
-                                $gateway = 2;
-                            }
-
-                            if ($commissionAmount && $referralUserId) {
-                                $transactionRecords['user_id']         = $userId;
-                                $transactionRecords['payment_id']      = $payment->id;
-                                $transactionRecords['payment_type']    = 'credit';
-                                $transactionRecords['type']            = $levelKey;
-                                $transactionRecords['gateway']         = $gateway;
-                                $transactionRecords['amount']          = $commissionAmount;
-                                $transactionRecords['referrer_id']     = $referralUserId;
-
-                                $transactionCreated = Transaction::create($transactionRecords);
+                                    $transactionCreated = Transaction::create($transactionRecords);
+                                }
                             }
                         }
 

@@ -134,7 +134,7 @@
 
 @else
 
-  @livewire('auth.payment-success',['share_email'=>$share_email,'share_password'=>$share_password])
+  @livewire('auth.payment-success',['share_email'=>$share_email,'share_password'=>$share_password,'paymentGatewayType'=>$paymentGatewayType])
 
 @endif
 

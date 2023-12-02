@@ -960,6 +960,19 @@ div:where(.swal2-container) div:where(.swal2-validation-message) {
   height: 294px !important;
 }
 
+#codReceiptModal .select2-selection.select2-selection--single {
+  height: auto;
+  padding: 7px 20px;
+}
+
+#codReceiptModal .select2.select2-container {
+  width: 100% !important;
+}
+
+#codReceiptModal .modal-dialog {
+  margin-top: 0;
+}
+
 @media(max-width:767px){
   .imglayer_box {
     height: 200px;

@@ -8,8 +8,9 @@ return [
     'error_message'   => 'Something went wrong....please try again later!',
     'no_record_found' => 'No Records Found!',
     'suspened'=> "Your account has been suspened!",
+    'deactive'=> "Your account has been deactived!",
     'delete_package_alert'=> "Cannot delete the package. Users are registered with this package.",
-
+    'review_payment_approval' => "Your payment has been received and is currently being reviewed by our administrator.",
     'email_messages' => [
        
 

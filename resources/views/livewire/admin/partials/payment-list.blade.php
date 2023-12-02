@@ -2,6 +2,7 @@
     @livewire('admin.partials.invoice.view-invoice',['user_id' => $user_id])
 @else
 <div>
+
     <!-- Start Payment Overview -->
     <div class="card mb-4">
         <div class="card-header background-purple-color">
@@ -84,9 +85,16 @@
                     <td>{{ strtoupper($payment->payment_gateway) }}</td>
                     <td>{{ convertDateTimeFormat($payment->created_at,'datetime') }}</td>
                     <td>
-                        <button wire:click.prevent="showInvoice({{$payment->user_id}})"  type="button" class="btn btn-sm btn-primary btn-icon-text float-right">
+                        @if($payment->method == 'cod' && $payment->payment_approval != 'approved')
+                            <button wire:click.prevent="showReceipt({{$payment->id}})"  type="button" class="btn btn-sm btn-info btn-icon-text">
+                                View Reciept
+                            </button>
+                        @endif
+
+                        <button wire:click.prevent="showInvoice({{$payment->user_id}})"  type="button" class="btn btn-sm btn-primary btn-icon-text">
                             View
                         </button>
+                        
                     </td>
 
                 </tr>
@@ -103,6 +111,59 @@
         {{ $allPayments->links('vendor.pagination.bootstrap-5') }}
 
     </div>
+
+    <div wire:ignore.self wire:key="cod-payment-modal" class="modal fade" id="codReceiptModal" tabindex="-1" data-bs-backdrop='static' aria-hidden="true">
+        <div class="modal-dialog codModal modal-dialog-centered">
+          <form wire:submit.prevent="submitPaymentApproval" class="modal-content border-0">
+            <div class="modal-header">
+              <h5 class="modal-title fs-5" id="exampleModalLabel">COD Payment Reciept</h5>
+              <button type="button" wire:click.prvent="hideReceipt" class="btn-close shadow-none border-0" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+              @if($paymentDetail)
+              <div class="modal-body">
+                  <div class="mb-3 text-center">
+                        @if($paymentDetail->receipt_image_url)
+                        <a href="{{$paymentDetail->receipt_image_url}}" target="_blank">
+                            <img src="{{ $paymentDetail->receipt_image_url }}"  width="200px"/>
+                        </a>
+                        @else
+                            No Image
+                        @endif
+                  </div>
+                  <div class="mb-3">
+                    <label class="font-weight-bold justify-content-start">Transaction Id:</label>
+                    <span>{{ $paymentDetail->r_payment_id ?? null}}</span>
+                  </div>
+                  <div class="form-group mb-3"  wire:ignore>
+                      <select class="js-example-basic-single select-payment-approval w-100" wire:model.="payment_approval">
+                        <option value="pending" {{ $payment_approval == 'pending' ? 'selected' : ''}}>Pending</option>
+                        <option value="approved" {{ $payment_approval == 'approved' ? 'selected' : ''}}>Approved</option>
+                        <option value="rejected" {{ $payment_approval == 'rejected' ? 'selected' : ''}}>Rejected</option>
+                      </select>
+                      @if($errors->has('payment_approval'))
+                        <span class="error text-danger">
+                            {{ $errors->first('payment_approval') }}
+                        </span>
+                      @endif
+                  </div>
+              
+              </div>
+              @endif
+              <div class="modal-footer">
+                  <button type="button" wire:click.prvent="hideReceipt" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">
+                    Submit &nbsp;
+                    <span wire:loading wire:target="makeCODPayment">
+                        <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                    </span>
+                </button>
+              </div>
+              </form>
+        </div>
+      </div>
 </div>
+
+
+
 
 @endif

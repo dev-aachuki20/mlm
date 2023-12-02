@@ -218,6 +218,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="{{ asset('admin/assets/select2/select2.min.js') }}"></script>
 
+
 <script type="text/javascript">
 
     document.addEventListener('reinitializePlugins', function (event) {
@@ -291,7 +292,6 @@
             }
         );
 
-
     });
 </script>
 
@@ -346,5 +346,24 @@
         // End To Date
 
     });
+</script>
+
+<script>
+    document.addEventListener('paymentRecieptOpenModal', function(event) {
+        $('#codReceiptModal').modal('show');
+        if ($(".select-payment-approval").length) {
+            $(".select-payment-approval").select2();
+        }
+
+        $(document).on('change','.select-payment-approval',function(){
+            var selectStatus = $(this).val();
+            Livewire.emit('setPaymentApproval', selectStatus);
+        });
+    });
+
+    document.addEventListener('paymentRecieptClosedModal', function(event) {
+        $('#codReceiptModal').modal('hide');
+    });
+    
 </script>
 @endpush

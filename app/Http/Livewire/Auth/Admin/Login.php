@@ -38,9 +38,8 @@ class Login extends BaseComponent
     public function submitLogin()
     {
 
-
         $validated = $this->validate([
-            'email'    => ['required','email',new IsActive],
+            'email'    => ['required','email:dns',new IsActive],
             'password' => 'required',
         ]);
 
@@ -51,9 +50,14 @@ class Login extends BaseComponent
         ];
 
         try {
-            $checkVerified = User::where('email',$this->email)->whereNull('email_verified_at')->first();
+            $checkVerified = User::where('email',$this->email)->where('email_verified_at','!=',null)->first();
+         
+            if(!is_null($checkVerified)){
 
-            if(!$checkVerified){
+                if($checkVerified->payment_status == 1){
+                    $this->alert('warning', 'Your payment is not approved. so you cannot login!');
+                    return redirect()->route('auth.login');
+                }
 
                 if (Auth::attempt($credentialsOnly, $remember_me)) {
 
