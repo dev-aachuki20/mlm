@@ -19,7 +19,6 @@ class PaymentList extends Component
     protected $layout = null;
     
     public $total_earning = 0, $total_withdrawal = 0, $total_remaning_earning = 0;
-    public $payment_type, $type;
 
     public $search = '', $formMode = false , $updateMode = false, $viewMode = false, $viewInvoice = false;
     public $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10;
@@ -36,15 +35,12 @@ class PaymentList extends Component
         $this->user_id = $user_id;
         $this->userDetail = User::find($user_id);
 
-        $this->total_earning = Transaction::where('user_id', $user_id)->where('payment_type', 'credit')->pluck('amount')->sum();
+        $this->total_earning = Transaction::where('referrer_id', $user_id)->where('payment_type', 'credit')->pluck('amount')->sum();
         
-        $this->total_withdrawal = Transaction::where('user_id', $user_id)->where('payment_type', 'debit')->pluck('amount')->sum();
+        $this->total_withdrawal = Transaction::where('referrer_id', $user_id)->where('payment_type', 'debit')->pluck('amount')->sum();
 
-        $this->total_remaning_earning = $this->total_earning -  $this->total_withdrawal;
-
-        $this->payment_type  = Payment::where('user_id', $user_id)->first();
-        // $this->type =json_decode($this->payment_type->json_response)->card->type;
-         $this->type = isset(json_decode($this->payment_type->json_response)->card->type) ? json_decode($this->payment_type->json_response)->card->type : null;
+        $this->total_remaning_earning = (float)$this->total_earning -  (float)$this->total_withdrawal;
+        
     }
 
     public function updatePaginationLength($length){

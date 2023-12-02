@@ -93,7 +93,7 @@
                     <td>{{$team->email}}</td>
                     <td>{{$team->phone}}</td>
                    
-                    <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
+                    <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->groupBy('user_id')->sum('amount') ,2)}}</td>
                     <td>{{$team->date_of_join}}</td>
                   </tr>
                 @endforeach
@@ -151,7 +151,7 @@
                     <td>{{ucwords($team->name)}}</td>
                     <td>{{$team->email}}</td>
                     <td>{{$team->phone}}</td>
-                    <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
+                    <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->groupBy('user_id')->sum('amount') ,2)}}</td>
                     <td>{{$team->date_of_join}}</td>
                   </tr>
                   @endforeach
@@ -208,7 +208,7 @@
                         <td>{{ucwords($team->name)}}</td>
                         <td>{{$team->email}}</td>
                         <td>{{$team->phone}}</td>
-                        <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
+                        <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->groupBy('user_id')->sum('amount') ,2)}}</td>
                         <td>{{$team->date_of_join}}</td>
                       </tr>
                   @endforeach

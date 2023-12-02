@@ -63,7 +63,7 @@
                     <th>Payment ID</th>
                     <th>Method</th>
                     <th>Amount</th>
-                    <th>Payment Type</th>
+                    <th>Payment Gateway</th>
                     <th>{{ trans('global.created_at') }}
                         <span wire:click="sortBy('created_at')" class="float-right text-sm" style="cursor: pointer;">
                             <i class="fa fa-arrow-up {{ $sortColumnName === 'created_at' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
@@ -81,7 +81,7 @@
                     <td>{{ $payment->r_payment_id }}</td>
                     <td>{{ $payment->method }}</td>
                     <td><i class="fa-sharp fa-solid fa-indian-rupee-sign"></i> {{ number_format($payment->amount,2) }}</td>
-                    <td>{{ $type }}</td>
+                    <td>{{ strtoupper($payment->payment_gateway) }}</td>
                     <td>{{ convertDateTimeFormat($payment->created_at,'datetime') }}</td>
                     <td>
                         <button wire:click.prevent="showInvoice({{$payment->user_id}})"  type="button" class="btn btn-sm btn-primary btn-icon-text float-right">

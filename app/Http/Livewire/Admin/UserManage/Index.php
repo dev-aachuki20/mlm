@@ -133,11 +133,10 @@ class Index extends Component
 
         $allUser = [];
 
+        $allUser = User::query();
+
         // Start  filter
         if ($this->filterApply) {
-
-            $allUser = User::query();
-
             if ((!$this->fromDate && !$this->toDate && !$this->packageName && !$this->sponserName && !$this->sponserCode)) {
                 $allUser->get();
             }
@@ -175,7 +174,7 @@ class Index extends Component
                     ->orWhere('referral_name', 'like', '%' . $searchValue . '%')
                     ->orWhere('is_active', $statusSearch)
                     ->orWhereRelation('packages', 'title', 'like', '%' . $searchValue . '%')
-                    ->orWhereRaw("date_format(date_of_join, '" . config('constants.search_date_format') . "') like ?", ['%' . $searchValue . '%']);
+                    ->orWhereRaw("date_format(date_of_join, '" . config('constants.search_date_format') . "') like ?", '%' . $searchValue . '%');
             });
         }
 
@@ -183,8 +182,8 @@ class Index extends Component
             $allUser = $allUser->whereHas('roles', function ($query) {
                 $query->whereIn('id', [3]);
             })
-                ->orderBy($this->sortColumnName, $this->sortDirection)
-                ->paginate($this->paginationLength);
+            ->orderBy($this->sortColumnName, $this->sortDirection)
+            ->paginate($this->paginationLength);
         }
 
 
