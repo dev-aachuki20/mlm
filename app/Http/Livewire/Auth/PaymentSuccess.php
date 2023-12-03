@@ -37,46 +37,51 @@ class PaymentSuccess extends Component
             'email'    => ['required','email',new IsActive],
             'password' => 'required',
         ]);
-         
+
         $remember_me = !is_null($this->remember_me) ? true : false;
         $credentialsOnly = [
             'email'    => $this->email,
             'password' => $this->password,
-        ]; 
+        ];
 
         try {
-            $checkVerified = User::where('email',$this->email)->whereNull('email_verified_at')->first();
-            if(!$checkVerified){
-                if($checkVerified->payment_status == 1){
-                    $this->alert('warning', 'Your payment is not approved. so you cannot login!');
-                    return redirect()->route('auth.login');
-                }
-                
-                if (Auth::attempt($credentialsOnly, $remember_me)) {
-            
-                    $this->reset(['email','password']);
-                    $this->resetErrorBag();
-                    $this->resetValidation();
+            $checkVerified = User::where('email',$this->email)->first();
+            if(!is_null($checkVerified)){
 
-                    $this->flash('success', trans('panel.message.login_success'));
-
-                    if(Auth::user()->is_user){
-                        return redirect()->route('user.dashboard');
-                    }else{
-                        return redirect()->route('admin.dashboard');
-                    }
-                  
+                if(is_null($checkVerified->email_verified_at)){
+                    $this->addError('email', trans('panel.message.email_verify_first'));
+                    return false;
                 }
-        
-                $this->addError('email', trans('auth.failed'));
+
+                if($checkVerified->is_user && $checkVerified->plan_purchased != 'approved'){
+                    $this->alert('warning', trans('auth.payment_pending'));
+                    return false;
+                }
+
             }
-            
+
+            if (Auth::attempt($credentialsOnly, $remember_me)) {
+
+                $this->reset(['email','password']);
+                $this->resetErrorBag();
+                $this->resetValidation();
+
+                $this->flash('success', trans('panel.message.login_success'));
+
+                if(Auth::user()->is_user){
+                    return redirect()->route('user.dashboard');
+                }else{
+                    return redirect()->route('admin.dashboard');
+                }
+
+            }
+
             $this->reset(['email','password']);
-        
+
         } catch (ValidationException $e) {
 
             $this->addError('email', $e->getMessage());
         }
-    
+
     }
 }

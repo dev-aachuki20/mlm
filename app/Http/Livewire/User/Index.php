@@ -12,7 +12,7 @@ use Livewire\Component;
 class Index extends Component
 {
     protected $layout = null;
-    
+
     public $todayEarnings, $last7DaysEarnings, $last30DaysEarnings, $allTimeEarning;
 
     public $todayEarningPercent = 0, $last7DaysEarningPercent=0, $last30DaysEarningPercent=0, $allTimeEarningPercent = 0;
@@ -31,7 +31,7 @@ class Index extends Component
         $this->todayEarnings = Transaction::whereDate('created_at', today())->where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
         $yesterday = Carbon::yesterday()->toDateString();
         $yesterdayClosedAmount = Transaction::whereDate('created_at', $yesterday)->where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
-       
+
         $diffreceTodayAmount = (float)$this->todayEarnings - (float)$yesterdayClosedAmount;
         if($diffreceTodayAmount != 0 && $yesterdayClosedAmount != 0){
             $percentage = $diffreceTodayAmount / (float)$yesterdayClosedAmount * 100;
@@ -97,12 +97,12 @@ class Index extends Component
         // End Commission
 
 
-        // Start Leaderboard 
+        // Start Leaderboard
         // Weekly
         $this->weeklyTopRecords = Transaction::selectRaw('*, SUM(amount) as total_amount')
         ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
         ->where('payment_type','credit')
-        ->where('referrer_id',$this->userId)
+        // ->where('referrer_id',$this->userId)
         ->groupBy('referrer_id')
         ->orderByDesc('total_amount')
         ->limit(5)
@@ -113,19 +113,19 @@ class Index extends Component
         $this->monthlyTopRecords = Transaction::selectRaw('*, SUM(amount) as total_amount')
         ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = ?", [$currentMonth])
         ->where('payment_type','credit')
-        ->where('referrer_id',$this->userId)
+        // ->where('referrer_id',$this->userId)
         ->groupBy('referrer_id')
         ->orderByDesc('total_amount')
         ->limit(5)
         ->get();
 
         // Yearly
-        $yearStart = date('Y-04-01'); 
+        $yearStart = date('Y-04-01');
         $yearEnd = date('Y-03-31', strtotime('+1 year'));
         $this->yearlyTopRecords = Transaction::selectRaw('*, SUM(amount) as total_amount')
          ->whereBetween('created_at', [$yearStart, $yearEnd])
          ->where('payment_type','credit')
-         ->where('referrer_id',$this->userId)
+        //  ->where('referrer_id',$this->userId)
          ->groupBy('referrer_id')
          ->orderByDesc('total_amount')
          ->limit(5)
@@ -134,7 +134,7 @@ class Index extends Component
         // All Time
         $this->allTimeTopRecords = Transaction::selectRaw('*, SUM(amount) as total_amount')
         ->where('payment_type','credit')
-        ->where('referrer_id',$this->userId)
+        // ->where('referrer_id',$this->userId)
         ->groupBy('referrer_id')
         ->orderByDesc('total_amount')
         ->limit(5)
@@ -149,9 +149,9 @@ class Index extends Component
         for($i=1; $i <= $totalWeeks; $i++){
             $this->incomeGrowthChart['labels'][$i-1] = 'Week '.$i;
         }
-      
+
         // Retrieve records based on current month and week
-        $this->incomeGrowthChart['week_data'] = Transaction::selectRaw('YEAR(created_at) as year, WEEK(created_at) as week_number, SUM(amount) as total_amount')->whereRaw('MONTH(created_at) = ?', [Carbon::now()->month]) 
+        $this->incomeGrowthChart['week_data'] = Transaction::selectRaw('YEAR(created_at) as year, WEEK(created_at) as week_number, SUM(amount) as total_amount')->whereRaw('MONTH(created_at) = ?', [Carbon::now()->month])
             ->whereRaw('WEEK(created_at) = ?', [Carbon::now()->weekOfYear])
             ->where('payment_type','credit')
             ->where('referrer_id',$this->userId)

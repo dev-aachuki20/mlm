@@ -50,37 +50,41 @@ class Login extends BaseComponent
         ];
 
         try {
-            $checkVerified = User::where('email',$this->email)->where('email_verified_at','!=',null)->first();
-         
+            $checkVerified = User::where('email',$this->email)->first();
+
             if(!is_null($checkVerified)){
 
-                if($checkVerified->payment_status == 1){
-                    $this->alert('warning', 'Your payment is not approved. so you cannot login!');
-                    return redirect()->route('auth.login');
+                if(is_null($checkVerified->email_verified_at)){
+                    $this->addError('email', trans('panel.message.email_verify_first'));
+                    return false;
+
+                    // $checkVerified->sendEmailVerificationNotification();
+                    // $this->verifyMailComponent = true;
                 }
 
-                if (Auth::attempt($credentialsOnly, $remember_me)) {
-
-                    $this->resetInputFields();
-                    $this->resetErrorBag();
-                    $this->resetValidation();
-
-                    $this->flash('success', trans('panel.message.login_success'));
-
-                    if(Auth::user()->is_user){
-                        return redirect()->route('user.dashboard');
-                    }else{
-                        return redirect()->route('admin.dashboard');
-                    }
-
+                if($checkVerified->is_user && $checkVerified->plan_purchased != 'approved'){
+                    $this->alert('warning', trans('auth.payment_pending'));
+                    return false;
                 }
 
-                $this->addError('email', trans('auth.failed'));
+            }
+
+            if (Auth::attempt($credentialsOnly, $remember_me)) {
+
+                $this->resetInputFields();
+                $this->resetErrorBag();
+                $this->resetValidation();
+
+                $this->flash('success', trans('panel.message.login_success'));
+
+                if(Auth::user()->is_user){
+                    return redirect()->route('user.dashboard');
+                }else{
+                    return redirect()->route('admin.dashboard');
+                }
 
             }else{
-                $this->addError('email', trans('panel.message.email_verify_first'));
-                // $checkVerified->sendEmailVerificationNotification();
-                // $this->verifyMailComponent = true;
+                $this->addError('email', trans('auth.failed'));
             }
 
             $this->resetInputFields();

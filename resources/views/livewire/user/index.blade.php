@@ -100,7 +100,7 @@
                             @endphp
 
                            <span>{{ $authUser->title }} &#8377 {{ number_format($authUser->amount,2) }}</span>
-                            
+
                           @endif
                         </div>
                       </li>
@@ -379,10 +379,10 @@
                                $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
                             @endphp
                             <span>
-                                 
+
                                 @if($packageDetail)
-                                  {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
-                               
+                                  {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }}
+
                                 &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
                                 @endif
                               </span>
@@ -417,10 +417,10 @@
                                $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
                             @endphp
                             <span>
-                                 
+
                                 @if($packageDetail)
-                                  {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
-                               
+                                  {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }}
+
                                 &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
                                 @endif
                               </span>
@@ -456,10 +456,10 @@
                                $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
                             @endphp
                             <span>
-                                 
+
                                 @if($packageDetail)
-                                  {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
-                               
+                                  {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }}
+
                                 &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
                                 @endif
                               </span>
@@ -495,10 +495,10 @@
                                $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
                             @endphp
                             <span>
-                                 
+
                                 @if($packageDetail)
-                                  {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
-                               
+                                  {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }}
+
                                 &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
                                 @endif
                               </span>
@@ -541,7 +541,7 @@
                         $introVideoImage = getSetting('introduction_video_image');
                     @endphp
                 <div class="box-video" style="background-image: url({{ $introVideoImage ? $introVideoImage : asset('images/package.png') }});">
-                
+
                 <div class="video-container">
                     @if($introVideo->video)
                     <video controls="" width="420" height="315" preload="none" poster="{{ $introVideoImage ? $introVideoImage : asset('images/package.png') }}" id="introductionVideo"  playsinline>
@@ -551,7 +551,7 @@
                      <iframe width="560" height="315" src="https://www.youtube.com/embed/DGFvSDGUPCY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
                     @endif
                 </div>
-              
+
               </div>
                </div>
             </div>

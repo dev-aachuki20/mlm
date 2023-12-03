@@ -24,6 +24,7 @@ class Payment extends Model
         'amount',
         'payment_gateway',
         'payment_approval',
+        'payment_type',
         'json_response',
         'created_at',
         'updated_at',

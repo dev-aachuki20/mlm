@@ -144,11 +144,11 @@ class Index extends Component
             if(empty($this->level_one_commission)){
                 $exceptArray[] = 'level_one_commission';
             }
-    
+
             if(empty($this->level_two_commission)){
                 $exceptArray[] = 'level_two_commission';
             }
-    
+
             if(empty($this->level_three_commission)){
                 $exceptArray[] = 'level_three_commission';
             }
@@ -164,7 +164,7 @@ class Index extends Component
             // uploadImage($package, $this->video, 'package/video/',"package-video", 'original', 'save', null);
 
             $dateFolder = date("Y-m-W");
-            
+
             $tmpImagePath = 'upload/image/'.$dateFolder.'/'.$this->image;
             uploadFile($package, $tmpImagePath, 'package/image/', "package", "original","save",null);
 
@@ -209,7 +209,7 @@ class Index extends Component
         $this->status = $package->status;
         $this->originalImage = $package->image_url;
         $this->originalVideo = $package->video_url;
-        $this->videoExtenstion = $package->packageVideo->extension;
+        $this->videoExtenstion = $package->packageVideo ? $package->packageVideo->extension : null;
 
         $this->formMode = true;
         $this->updateMode = true;
@@ -290,11 +290,11 @@ class Index extends Component
             if(empty($this->level_one_commission)){
                 $exceptArray[] = 'level_one_commission';
             }
-    
+
             if(empty($this->level_two_commission)){
                 $exceptArray[] = 'level_two_commission';
             }
-    
+
             if(empty($this->level_three_commission)){
                 $exceptArray[] = 'level_three_commission';
             }
@@ -323,7 +323,7 @@ class Index extends Component
     public function delete($id)
     {
         $package = Package::find($id);
-       
+
         if($package->users()->count() > 0){
             $this->alert('warning',trans('messages.delete_package_alert'));
         }else{

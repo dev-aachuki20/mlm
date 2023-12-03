@@ -18,7 +18,7 @@ class PaymentList extends Component
     use WithPagination, LivewireAlert;
 
     protected $layout = null;
-    
+
     public $total_earning = 0, $total_withdrawal = 0, $total_remaning_earning = 0;
 
     public $search = '', $formMode = false , $updateMode = false, $viewMode = false, $viewInvoice = false;
@@ -37,7 +37,7 @@ class PaymentList extends Component
         $this->userDetail = User::find($user_id);
 
         $this->total_earning = Transaction::where('referrer_id', $user_id)->where('payment_type', 'credit')->pluck('amount')->sum();
-        
+
         $this->total_withdrawal = Transaction::where('referrer_id', $user_id)->where('payment_type', 'debit')->pluck('amount')->sum();
 
         $this->total_remaning_earning = (float)$this->total_earning -  (float)$this->total_withdrawal;
@@ -93,30 +93,35 @@ class PaymentList extends Component
             $isUpdated = Payment::where('id',$this->payment_id)->update($validatedData);
             if($isUpdated){
                 $findUser = User::find($this->user_id);
-            
-                if($this->payment_approval == 'pending'){
-                    $findUser->payment_status = 1;
-                    $findUser->save();
-                }elseif($this->payment_approval == 'approved'){
-                    $findUser->payment_status = 2;
-                    $findUser->save();
 
-                    $refferalByUser = User::find($findUser->id);
+                if($this->payment_approval == 'approved'){
 
-                   
+                    $refferalByUser = User::find($findUser->referral_user_id);
+
+                    $packagePurchased = $findUser->packages()->first();
+
                     foreach (config('constants.referral_levels') as $levelKey => $level) {
                         $transactionRecords = [];
                         $commissionAmount = null;
                         $referralUserId = null;
-                        if ($levelKey == 1) {
-                            $commissionAmount   = $refferalByUser->packages()->first()->level_one_commission;
-                            $referralUserId     = $refferalByUser->referral_user_id ?? null;
-                        } elseif ($levelKey == 2) {
-                            $commissionAmount   = $refferalByUser->packages()->first()->level_two_commission;
-                            $referralUserId     = $refferalByUser->referrer->id ?? null;
-                        } elseif ($levelKey == 3) {
-                            $commissionAmount   = $refferalByUser->packages()->first()->level_three_commission;
-                            $referralUserId     = $refferalByUser->referrer->referrer->id ?? null;
+
+                        if ($levelKey == 1 && $refferalByUser) {
+
+                            $commissionAmount   = $packagePurchased->level_one_commission;
+                            $referralUserId     = $refferalByUser->is_user ? $refferalByUser->id : null;
+
+                        } elseif ($levelKey == 2 && $refferalByUser->referrer) {
+
+                            $commissionAmount   = $packagePurchased->level_two_commission;
+                            $referralUserId     = $refferalByUser->referrer->is_user ? $refferalByUser->referrer->id : null;
+
+                        } elseif ($levelKey == 3 && $refferalByUser->referrer) {
+
+                            if($refferalByUser->referrer->referrer){
+                                $commissionAmount   = $packagePurchased->level_three_commission;
+                                $referralUserId     = $refferalByUser->referrer->referrer->is_user ? $refferalByUser->referrer->referrer->id : null;
+                            }
+
                         }
 
                         if ($commissionAmount && $referralUserId) {
@@ -131,19 +136,20 @@ class PaymentList extends Component
                             $transactionCreated = Transaction::create($transactionRecords);
                         }
                     }
+
                 }elseif($this->payment_approval == 'rejected'){
-                    $findUser->payment_status = 3;
-                    $findUser->save();
                     $findUser->delete();
                 }
             }
-            
+
             DB::commit();
             $this->hideReceipt();
             $this->alert('success', trans('messages.change_status_success_message'));
         }catch (\Exception $e) {
             DB::rollBack();
-         
+
+            dd($e->getMessage() . '->' . $e->getLine());
+
             $this->alert('error', trans('messages.error_message'));
         }
     }

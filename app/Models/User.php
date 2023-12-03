@@ -44,7 +44,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'deleted_at',
         'remember_token',
         'is_active',
-        'payment_status',
         'email_verified_at',
     ];
 
@@ -185,6 +184,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return "";
     }
 
+    public function getPlanPurchasedAttribute()
+    {
+        $planPurchased = $this->payments()->where('payment_type','plan purchased')->value('payment_approval');
+
+        return $planPurchased;
+    }
+
     public function team()
     {
         return $this->hasMany(User::class, 'referral_user_id', 'id');
@@ -200,70 +206,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(User::class, 'referral_user_id');
     }
 
-    // Relationship with the direct referrals (level 1)
-    public function referrals()
-    {
-        return $this->hasMany(User::class, 'referral_user_id');
-    }
-
-    // Relationship with the referrals of referrals (level 2)
-    public function levelTwoReferrals()
-    {
-        return $this->hasManyThrough(User::class, User::class, 'referral_user_id', 'referral_user_id');
-    }
-
-    // Relationship with the referrals of referrals of referrals (level 3)
-    public function levelThreeReferrals()
-    {
-        return $this->hasManyThrough(User::class, User::class, 'referral_user_id', 'referral_user_id')
-            ->select('users.*')
-            ->whereNotNull('users.id');
-    }
-
-    function getReferralUsers($level = 1, $maxLevel = 3, $referrerId)
-    {
-
-        if ($level > $maxLevel) {
-            return collect();
-        }
-
-        // $referralUsers = User::where('referral_user_id', $userId);
-
-        // $referrals = collect();
-
-        // foreach ($referralUsers as $user) {
-        //     $user->level = $level;
-        //     $referrals->push($user);
-        //     $subReferrals = $this->getReferralUsers($user->id, $level + 1, $maxLevel);
-        //     $referrals = $referrals->merge($subReferrals);
-        // }
-
-        // return $referrals;
-
-        // Create a recursive query using a Common Table Expression (CTE)
-        $query = User::select('users.*')
-            ->where('referral_user_id', $referrerId)
-            ->union(function ($query) use ($referrerId, $maxLevel) {
-                if ($maxLevel > 1) {
-                    $query->select('users.*')
-                        ->from('users')
-                        ->where('users.referral_user_id', $referrerId)
-                        ->union(function ($query) use ($referrerId, $maxLevel) {
-                            if ($maxLevel > 2) {
-                                $query->select('users.*')
-                                    ->from('users')
-                                    ->join('users AS ref_ref_users', 'ref_ref_users.id', '=', 'users.referral_user_id')
-                                    ->where('ref_ref_users.referral_user_id', $referrerId);
-                            }
-                        });
-                }
-            });
-
-        // Perform pagination
-        return $query->paginate(10);
-    }
-
-
     public function packages()
     {
         return $this->belongsToMany(Package::class, 'package_user');
@@ -271,7 +213,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function payments()
     {
-        return $this->hasMany(Payment::class, 'user_email', 'email');
+        return $this->hasMany(Payment::class, 'user_id', 'id');
     }
 
     public function invoices()

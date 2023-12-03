@@ -42,7 +42,7 @@ class Register extends Component
         return [
             'first_name' => ['required', 'string', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
             'last_name'  => ['required', 'string', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
-            'email'      => ['required', 'string', 'email:dns', 'max:255', Rule::unique((new User)->getTable(), 'email')],
+            'email'      => ['required', 'string', 'email:dns', 'max:255', Rule::unique((new User)->getTable(), 'email')->whereNull('deleted_at')],
             'phone'      => ['required', 'digits:10'],
             'dob'        => ['required'],
             'gender'     => ['required'],
@@ -139,7 +139,6 @@ class Register extends Component
                     'password'         => Hash::make($password),
                     'password_set_at'   => Carbon::now(),
                     'email_verified_at' => Carbon::now(),
-                    'payment_status'    => $paymentGateway == 'cod' ? 1 : 2,
                 ];
                 $user = User::create($data);
 
@@ -203,6 +202,8 @@ class Register extends Component
                             'user_email'    => $response['email'],
                             'amount'        => $amount,
                             'payment_gateway' => 'razorpay',
+                            'payment_approval'   => 'approved',
+                            'payment_type'   => 'plan purchased',
                             'json_response' => json_encode((array)$response)
                         ]);
                     }else if($paymentGateway == 'cod'){
@@ -215,6 +216,8 @@ class Register extends Component
                             'user_email'    => $response['email'],
                             'amount'        => $amount,
                             'payment_gateway' => 'cod',
+                            'payment_approval'   => 'pending',
+                            'payment_type'   => 'plan purchased',
                             'json_response' => json_encode((array)$response)
                         ]);
                     }
@@ -226,19 +229,31 @@ class Register extends Component
                         }
 
                         if($paymentGateway != 'cod'){
+
+                            $packagePurchased = $user->packages()->first();
+
                             foreach (config('constants.referral_levels') as $levelKey => $level) {
                                 $transactionRecords = [];
                                 $commissionAmount = null;
                                 $referralUserId = null;
-                                if ($levelKey == 1) {
-                                    $commissionAmount   = $user->packages()->first()->level_one_commission;
-                                    $referralUserId     = $referral_user->id ?? null;
-                                } elseif ($levelKey == 2) {
-                                    $commissionAmount   = $user->packages()->first()->level_two_commission;
-                                    $referralUserId     = $referral_user->referrer->id ?? null;
-                                } elseif ($levelKey == 3) {
-                                    $commissionAmount   = $user->packages()->first()->level_three_commission;
-                                    $referralUserId     = $referral_user->referrer->referrer->id ?? null;
+
+                                if ($levelKey == 1 && $referral_user) {
+
+                                    $commissionAmount   = $packagePurchased->level_one_commission;
+                                    $referralUserId     = $referral_user->is_user ? $referral_user->id : null;
+
+                                } elseif ($levelKey == 2 && $referral_user->referrer) {
+
+                                    $commissionAmount   = $packagePurchased->level_two_commission;
+                                    $referralUserId     = $referral_user->referrer->is_user ? $referral_user->referrer->id : null;
+
+                                } elseif ($levelKey == 3 && $referral_user->referrer) {
+
+                                    if($referral_user->referrer->referrer){
+                                        $commissionAmount   = $packagePurchased->level_three_commission;
+                                        $referralUserId     = $referral_user->referrer->referrer->is_user ? $referral_user->referrer->referrer->id : null;
+                                    }
+
                                 }
 
                                 if ($commissionAmount && $referralUserId) {
@@ -323,19 +338,19 @@ class Register extends Component
                     //24-11-2023
                     $this->paymentMode     = false;
                     $this->paymentSuccess  = false;
-                    
+
                     // Set Flash Message
                     $this->dispatchBrowserEvent('closedCODModal');
                     $this->alert('error', trans('panel.message.error'));
-                    
+
                 }
             } catch (\Exception $e) {
                 DB::rollBack();
-                
+
                 //24-11-2023
                 $this->paymentMode     = false;
                 $this->paymentSuccess  = false;
-                
+
                 // dd($e->getMessage() . '->' . $e->getLine());
                 $this->dispatchBrowserEvent('closedLoader');
                 $this->dispatchBrowserEvent('closedCODModal');

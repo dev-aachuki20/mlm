@@ -7,15 +7,15 @@
     <div class="card-body">
         <div class="row">
             <div class="col-sm-4">
-                <label class="font-weight-bold">{{ __('cruds.user.level.level_01_earning') }}</label> : 
+                <label class="font-weight-bold">{{ __('cruds.user.level.level_01_earning') }}</label> :
                 <span class="p-2">&#8377; {{number_format($level1Comm,2)}}</span>
             </div>
             <div class="col-sm-4">
-                <label class="font-weight-bold">{{ __('cruds.user.level.level_02_earning') }}</label> : 
+                <label class="font-weight-bold">{{ __('cruds.user.level.level_02_earning') }}</label> :
                 <span class="p-2">&#8377; {{number_format($level2Comm,2)}}</span>
             </div>
             <div class="col-sm-4">
-                <label class="font-weight-bold">{{ __('cruds.user.level.level_03_earning') }}</label> : 
+                <label class="font-weight-bold">{{ __('cruds.user.level.level_03_earning') }}</label> :
                 <span class="p-2">&#8377; {{number_format($level3Comm,2)}} </span>
             </div>
         </div>
@@ -48,18 +48,18 @@
             </ul>
           </div>
           <div class="tab-content border-0 p-0" id="myTabContent">
-            
+
             <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab" >
               <div class="table-responsive my-team-details leaderboard-data">
                 <div class="table-header-plugins">
                   <!-- Start show length -->
                   <div class="dataTables_length">
-                        <label>Show 
-                            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                        <label>Show
+                            <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                                 @foreach(config('constants.datatable_paginations') as $length)
                                 <option value="{{ $length }}">{{ $length }}</option>
                                 @endforeach
-                            </select> 
+                            </select>
                         entries</label>
                  </div>
                   <!-- End show length -->
@@ -92,8 +92,9 @@
                     <td>{{ucwords($team->name)}}</td>
                     <td>{{$team->email}}</td>
                     <td>{{$team->phone}}</td>
-                   
-                    <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->groupBy('user_id')->sum('amount') ,2)}}</td>
+
+                    <td>&#8377; {{ number_format(\App\Models\Transaction::where('user_id',$team->id)->where('referrer_id', $user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
+
                     <td>{{$team->date_of_join}}</td>
                   </tr>
                 @endforeach
@@ -114,12 +115,12 @@
               <div class="table-header-plugins">
                   <!-- Start show length -->
                   <div class="dataTables_length">
-                        <label>Show 
-                            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                        <label>Show
+                            <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                                 @foreach(config('constants.datatable_paginations') as $length)
                                 <option value="{{ $length }}">{{ $length }}</option>
                                 @endforeach
-                            </select> 
+                            </select>
                         entries</label>
                  </div>
                   <!-- End show length -->
@@ -151,7 +152,7 @@
                     <td>{{ucwords($team->name)}}</td>
                     <td>{{$team->email}}</td>
                     <td>{{$team->phone}}</td>
-                    <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->groupBy('user_id')->sum('amount') ,2)}}</td>
+                    <td>&#8377; {{ number_format(\App\Models\Transaction::where('user_id',$team->id)->where('referrer_id', $user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
                     <td>{{$team->date_of_join}}</td>
                   </tr>
                   @endforeach
@@ -171,12 +172,12 @@
               <div class="table-header-plugins">
                   <!-- Start show length -->
                   <div class="dataTables_length">
-                        <label>Show 
-                            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                        <label>Show
+                            <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                                 @foreach(config('constants.datatable_paginations') as $length)
                                 <option value="{{ $length }}">{{ $length }}</option>
                                 @endforeach
-                            </select> 
+                            </select>
                         entries</label>
                  </div>
                   <!-- End show length -->
@@ -208,7 +209,7 @@
                         <td>{{ucwords($team->name)}}</td>
                         <td>{{$team->email}}</td>
                         <td>{{$team->phone}}</td>
-                        <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->groupBy('user_id')->sum('amount') ,2)}}</td>
+                        <td>&#8377; {{ number_format(\App\Models\Transaction::where('user_id',$team->id)->where('referrer_id', $user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
                         <td>{{$team->date_of_join}}</td>
                       </tr>
                   @endforeach
@@ -228,12 +229,12 @@
               <div class="table-header-plugins">
                   <!-- Start show length -->
                   <div class="dataTables_length">
-                        <label>Show 
-                            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                        <label>Show
+                            <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                                 @foreach(config('constants.datatable_paginations') as $length)
                                 <option value="{{ $length }}">{{ $length }}</option>
                                 @endforeach
-                            </select> 
+                            </select>
                         entries</label>
                  </div>
                   <!-- End show length -->
@@ -265,7 +266,7 @@
                         <td>{{ucwords($team->name)}}</td>
                         <td>{{$team->email}}</td>
                         <td>{{$team->phone}}</td>
-                        <td>{{number_format(\App\Models\Transaction::where('referrer_id', $team->referral_user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
+                        <td>&#8377; {{ number_format(\App\Models\Transaction::where('user_id',$team->id)->where('referrer_id', $user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
                         <td>{{$team->date_of_join}}</td>
                       </tr>
                   @endforeach
@@ -280,8 +281,8 @@
               {{$allTeams->links('vendor.pagination.bootstrap-5') }}
               @endif
             </div>
-           
-            
+
+
           </div>
         </div>
       </div>

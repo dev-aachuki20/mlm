@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('payments', function (Blueprint $table) {
             $table->enum('payment_approval', ['pending', 'approved', 'rejected'])->default('pending')->after('payment_gateway');
+            $table->enum('payment_type', ['plan purchased'])->after('payment_approval');
         });
     }
 

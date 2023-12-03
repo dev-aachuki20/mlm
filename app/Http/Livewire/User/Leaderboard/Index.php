@@ -20,7 +20,7 @@ class Index extends Component
     public $sortColumnName = 'total_amount', $sortDirection = 'desc', $paginationLength = 10;
 
     public $activeTab = 'all',$userId;
-    
+
     protected $listeners = [
         'updatePaginationLength',
     ];
@@ -82,7 +82,7 @@ class Index extends Component
                 ->orWhereRelation('payment.package','title','like',  $searchValue . '%')
                 ->orWhereRelation('payment.package','amount','like',  $searchValue . '%');
             })
-             ->where('referrer_id',$this->userId)
+            //  ->where('referrer_id',$this->userId)
              ->where('payment_type','credit')
              ->groupBy('referrer_id')
             //  ->havingRaw('SUM(amount) LIKE ?', ['%' . $searchValue . '%'])
@@ -102,7 +102,7 @@ class Index extends Component
             })
             ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
             ->where('payment_type','credit')
-            ->where('referrer_id',$this->userId)
+            // ->where('referrer_id',$this->userId)
             ->groupBy('referrer_id')
             ->orderBy($this->sortColumnName, $this->sortDirection)
             ->paginate($this->paginationLength);
@@ -122,7 +122,7 @@ class Index extends Component
             })
             ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = ?", [$currentMonth])
             ->where('payment_type','credit')
-            ->where('referrer_id',$this->userId)
+            // ->where('referrer_id',$this->userId)
             ->groupBy('referrer_id')
             ->orderBy($this->sortColumnName, $this->sortDirection)
             ->paginate($this->paginationLength);
@@ -132,8 +132,8 @@ class Index extends Component
 
         $yearlyTopRecords = null;
         if($this->activeTab == 'yearly'){
-            
-            $yearStart = date('Y-04-01'); 
+
+            $yearStart = date('Y-04-01');
             $yearEnd = date('Y-03-31', strtotime('+1 year'));
 
             $yearlyTopRecords = Transaction::selectRaw('*, SUM(amount) as total_amount')
@@ -144,7 +144,7 @@ class Index extends Component
             })
             ->whereBetween('created_at', [$yearStart, $yearEnd])
             ->where('payment_type','credit')
-            ->where('referrer_id',$this->userId)
+            // ->where('referrer_id',$this->userId)
             ->groupBy('referrer_id')
             ->orderBy($this->sortColumnName, $this->sortDirection)
             ->paginate($this->paginationLength);

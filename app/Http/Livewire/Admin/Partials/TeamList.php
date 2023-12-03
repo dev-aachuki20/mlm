@@ -14,7 +14,7 @@ class TeamList extends Component
 {
     use WithPagination, LivewireAlert;
     public $activeTab = 'all';
-    
+
     public $search = '', $formMode = false, $updateMode = false, $viewMode = false;
     public $sortColumnName = 'date_of_join', $sortDirection = 'desc', $paginationLength = 10;
     public $user_id, $userDetail, $level1Comm = 0,$level2Comm = 0, $level3Comm =0;
@@ -43,7 +43,7 @@ class TeamList extends Component
 
     public function updatedSearch()
     {
-      
+
         $this->resetPage('page');
     }
 
@@ -95,9 +95,9 @@ class TeamList extends Component
 
         $levelThreeUsers = User::whereIn('referral_user_id', $levelTwoUserIds);
         $levelThreeUserIds = $levelThreeUsers->pluck('id');
- 
+
         $allIdofUsers = $levelOneUserIds->merge($levelTwoUserIds,$levelThreeUserIds);
-   
+
         //  Records of level 1, 2, 3
         $levelOneRecords = $levelOneUsers->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
 
@@ -105,13 +105,13 @@ class TeamList extends Component
 
         $levelThreeRecords = $levelThreeUsers->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
 
-        
+
 
         $this->level2Comm =$levelTwoUserIds != '' ? Transaction::whereIn('user_id', $levelTwoUserIds)->where('type',2)->sum('amount') : 0 ;
         $this->level3Comm =$levelThreeUserIds != '' ?Transaction::whereIn('user_id', $levelThreeUserIds)->where('type',3)->sum('amount'):0;
 
 
-         // serching 
+         // serching
          $allTeams = null;
          $allTeams = User::query()->where(function ($query) use($searchValue) {
             $query->where('name', 'like', '%'.$searchValue.'%')
@@ -122,6 +122,7 @@ class TeamList extends Component
             });
 
             if($this->activeTab == 'all'){
+                // dd($allIdofUsers);
                 $allTeams =   $allTeams->whereIn('id',$allIdofUsers);
             }else if($this->activeTab == 'level_1'){
                 $allTeams =   $allTeams->whereIn('id',$levelOneUserIds);
@@ -137,5 +138,5 @@ class TeamList extends Component
         return view('livewire.admin.partials.team-list', compact('allTeams'));
     }
 
-   
+
 }
