@@ -57,40 +57,44 @@
                         <div class="col-lg-12 col-sm-12">
                             <hr>
                             <div class="course-main">
-                                @if($lectureList->count() > 0)
-                                @foreach($lectureList as $lecture)
-                                <div class="course-item">
-                                    <div class="course-video">
-                                        <div class="course-count">
-                                            <span>{{$loop->iteration}}</span>
-                                        </div>
-                                        <div class="box-video">
-                                            <div class="video-container">
-                                                <video id="lecture-video-{{$loop->iteration}}" controls="controls" preload='none' width="560" height="315" poster="{{$lecture->course_image_url}}">
-                                                    <source src="{{$lecture->course_video_url}}" type='video/{{$lecture->courseVideo->extension}}' />
-                                                    </track>
-                                                </video>
+                                @if($lectureList)
+                                    @if($lectureList->count() > 0)
+                                    @foreach($lectureList as $lecture)
+                                    <div class="course-item">
+                                        <div class="course-video">
+                                            <div class="course-count">
+                                                <span>{{$loop->iteration}}</span>
                                             </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="course-text">
-                                        <div class="course-text-width">
-                                            <h5 class="head-f-25 color-dark-blue">{{ ucwords($lecture->title) }}</h5>
-                                            <div class="content">
-                                                <p> {!! $lecture->description !!}</p>
+                                            <div class="box-video">
+                                                <div class="video-container">
+                                                    <video id="lecture-video-{{$loop->iteration}}" controls="controls" preload='none' width="560" height="315" poster="{{$lecture->course_image_url}}">
+                                                        <source src="{{$lecture->course_video_url}}" type='video/{{$lecture->courseVideo->extension}}' />
+                                                        </track>
+                                                    </video>
+                                                </div>
+    
                                             </div>
                                         </div>
+                                        <div class="course-text">
+                                            <div class="course-text-width">
+                                                <h5 class="head-f-25 color-dark-blue">{{ ucwords($lecture->title) }}</h5>
+                                                <div class="content">
+                                                    <p> {!! $lecture->description !!}</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                @endforeach
-                                @else
-                                <h6>{{ __('messages.no_record_found')}}</h6>
+                                    @endforeach
+                                    @else
+                                    <h6>{{ __('messages.no_record_found')}}</h6>
+                                    @endif
                                 @endif
                             </div>
                         </div>
-
+                        
+                        @if($lectureList)
                         {{$lectureList->links('vendor.pagination.bootstrap-5')}}
+                        @endif
                     </div>
 
                 </div>

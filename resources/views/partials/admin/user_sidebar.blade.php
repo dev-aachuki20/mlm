@@ -35,6 +35,7 @@
             </a>
         </li>
 
+        @if(getDynamicPages(4)->count() > 0)
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic-growth" aria-expanded="false" aria-controls="ui-basic-growth">
                 <img src="{{ asset('images/icons/growth-panel.svg') }}" alt="growth-panel">
@@ -43,7 +44,6 @@
             </a>
             <div class="collapse" id="ui-basic-growth">
                 <ul class="nav flex-column sub-menu">
-                    @if(getDynamicPages(4)->count() > 0)
                     @foreach(getDynamicPages(4) as $page)
                     <li class="nav-item {{ request()->is('user/'.$page->slug) ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('user.page',$page->slug) }}">
@@ -52,11 +52,12 @@
                         </a>
                     </li>
                     @endforeach
-                    @endif
                 </ul>
             </div>
         </li>
+        @endif
 
+        @if(getDynamicPages(5)->count() > 0)
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic-reward" aria-expanded="false" aria-controls="ui-basic-reward">
                 <img src="{{ asset('images/icons/rewards.svg') }}" alt="rewards">
@@ -65,7 +66,6 @@
             </a>
             <div class="collapse" id="ui-basic-reward">
                 <ul class="nav flex-column sub-menu">
-                    @if(getDynamicPages(5)->count() > 0)
                     @foreach(getDynamicPages(5) as $page)
                     <li class="nav-item {{ request()->is('user/'.$page->slug) ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('user.page',$page->slug) }}">
@@ -74,10 +74,10 @@
                         </a>
                     </li>
                     @endforeach
-                    @endif
                 </ul>
             </div>
         </li>
+        @endif
 
         <li class="nav-item {{ request()->is('user/webinar') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('user.webinar') }}">

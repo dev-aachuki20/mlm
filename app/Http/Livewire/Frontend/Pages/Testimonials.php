@@ -4,13 +4,15 @@ namespace App\Http\Livewire\Frontend\Pages;
 
 use Livewire\Component;
 use App\Models\Testimonial;
+use App\Rules\NoMoreThanOneSpace;
+use Livewire\WithFileUploads;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Testimonials extends Component
 {
-    use LivewireAlert;
+    use LivewireAlert, WithFileUploads;
 
-    public $rating, $description,$status = 0;
+    public $name, $image=null, $originalImage=null, $rating, $description,$status = 0;
 
     public $perPage = 6, $pageDetail;
 
@@ -40,8 +42,10 @@ class Testimonials extends Component
 
     public function storeReview(){
         $validatedData = $this->validate([
+            'name'        => ['required','string'],
+            'image'       => ['nullable','image'],
             'rating'      => ['required'],
-            'description' => ['required',/*'min:'.config('constants.min_review_length')*/],
+            'description' => ['required','strip_tags',/*'min:'.config('constants.min_review_length')*/],
             'status'      => ['required']
         ],[
             'description.required' => 'The review field is required.',
@@ -49,11 +53,16 @@ class Testimonials extends Component
         ]);
 
       
-        Testimonial::create($validatedData);
+        $testimonial = Testimonial::create($validatedData);
+        
+        if($this->image){
+             uploadImage($testimonial, $this->image, 'testimonial/',"testimonial", 'original', 'save', null);
+        }
 
-        $this->reset(['rating','description']);
+        $this->reset(['name','image','originalImage','rating','description']);
 
         $this->alert('success', 'Your review added successfully!');
+        $this->dispatchBrowserEvent('resetImage');
     }
 
     

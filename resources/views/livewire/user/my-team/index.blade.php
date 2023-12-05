@@ -57,7 +57,6 @@
                       <th>{{ trans('cruds.user.fields.sponser_id') }}</th>
                       <th>{{ trans('cruds.user.fields.sponser_name') }}</th>
                       <th>Mobile Number</th>
-                      {{-- <th>Status</th> --}}
                       <th>Joining Date
                         <span wire:click="sortBy('date_of_join')" class="float-right text-sm" style="cursor: pointer;">
                           <i class="fa fa-arrow-up {{ $sortColumnName === 'date_of_join' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
@@ -76,12 +75,6 @@
                       <td>{{$team->referral_code}}</td>
                       <td>{{ ucwords($team->referral_name) }}</td>
                       <td>{{$team->phone}}</td>
-                      {{-- <td>
-                        <label class="toggle-switch">
-                          <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$team->id}})" {{ $team->is_active == 1 ? 'checked' : '' }}>
-                          <div class="switch-slider round"></div>
-                        </label>
-                      </td> --}}
                       <td>{{$team->date_of_join}}</td>
                     </tr>
                     @endforeach
@@ -106,9 +99,9 @@
                       <th>S.no</th>
                       <th>My Refferal Code</th>
                       <th>Name</th>
-                      <th>Referral ID</th>
+                      <th>{{ trans('cruds.user.fields.sponser_id') }}</th>
+                      <th>{{ trans('cruds.user.fields.sponser_name') }}</th>
                       <th>Mobile Number</th>
-                      <th>Status</th>
                       <th>Joining Date
                         <span wire:click="sortBy('date_of_join')" class="float-right text-sm" style="cursor: pointer;">
                           <i class="fa fa-arrow-up {{ $sortColumnName === 'date_of_join' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
@@ -125,13 +118,8 @@
                       <td>{{$levelone->my_referral_code}}</td>
                       <td>{{$levelone->first_name}} {{$levelone->last_name}}</td>
                       <td>{{$levelone->referral_code}}</td>
+                      <td>{{ ucwords($levelone->referral_name) }}</td>
                       <td>{{$levelone->phone}}</td>
-                      <td>
-                        <label class="toggle-switch">
-                          <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$levelone->id}})" {{ $levelone->is_active == 1 ? 'checked' : '' }}>
-                          <div class="switch-slider round"></div>
-                        </label>
-                      </td>
                       <td>{{$levelone->date_of_join}}</td>
                     </tr>
                     @endforeach
@@ -154,9 +142,9 @@
                       <th>S.no</th>
                       <th>My Refferal Code</th>
                       <th>Name</th>
-                      <th>Referral ID</th>
+                      <th>{{ trans('cruds.user.fields.sponser_id') }}</th>
+                      <th>{{ trans('cruds.user.fields.sponser_name') }}</th>
                       <th>Mobile Number</th>
-                      <th>Status</th>
                       <th>Joining Date
                         <span wire:click="sortBy('date_of_join')" class="float-right text-sm" style="cursor: pointer;">
                           <i class="fa fa-arrow-up {{ $sortColumnName === 'date_of_join' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
@@ -173,13 +161,8 @@
                       <td>{{$leveltwo->my_referral_code}}</td>
                       <td>{{$leveltwo->first_name}} {{$leveltwo->last_name}}</td>
                       <td>{{$leveltwo->referral_code}}</td>
+                      <td>{{ ucwords($leveltwo->referral_name) }}</td>
                       <td>{{$leveltwo->phone}}</td>
-                      <td>
-                        <label class="toggle-switch">
-                          <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$leveltwo->id}})" {{ $leveltwo->is_active == 1 ? 'checked' : '' }}>
-                          <div class="switch-slider round"></div>
-                        </label>
-                      </td>
                       <td>{{$leveltwo->date_of_join}}</td>
                     </tr>
                     @endforeach
@@ -204,9 +187,9 @@
                       <th>S.no</th>
                       <th>My Refferal Code</th>
                       <th>Name</th>
-                      <th>Referral ID</th>
+                      <th>{{ trans('cruds.user.fields.sponser_id') }}</th>
+                      <th>{{ trans('cruds.user.fields.sponser_name') }}</th>
                       <th>Mobile Number</th>
-                      <th>Status</th>
                       <th>Joining Date
                         <span wire:click="sortBy('date_of_join')" class="float-right text-sm" style="cursor: pointer;">
                           <i class="fa fa-arrow-up {{ $sortColumnName === 'date_of_join' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
@@ -223,13 +206,8 @@
                       <td>{{$levelthree->my_referral_code}}</td>
                       <td>{{$levelthree->first_name}} {{$levelthree->last_name}}</td>
                       <td>{{$levelthree->referral_code}}</td>
+                      <td>{{ ucwords($levelthree->referral_name) }}</td>
                       <td>{{$levelthree->phone}}</td>
-                      <td>
-                        <label class="toggle-switch">
-                          <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$levelthree->id}})" {{ $levelthree->is_active == 1 ? 'checked' : '' }}>
-                          <div class="switch-slider round"></div>
-                        </label>
-                      </td>
                       <td>{{$levelthree->date_of_join}}</td>
                     </tr>
                     @endforeach

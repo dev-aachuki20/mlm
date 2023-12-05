@@ -19,7 +19,6 @@
         </div>
     </section>
 
-    @if(auth()->check() && (!auth()->user()->testimonial()->exists()))
     <section class="contact-form ptb-120 bg-white">
         <div class="container">
           <div class="row">
@@ -33,6 +32,33 @@
                 </div>
                 <form class="form" wire:submit.prevent="storeReview">            
                   <div class="form-outer">
+                    <div class="form-group">
+                      <div class="input-form">
+                        <label class="form-label">Name</label>
+                        <input type="text" class="form-control" wire:model.defer="name"  placeholder="Enter Your Name" ></textarea>
+                        @error('name') <span class="error text-danger">{{ $message }}</span>@enderror
+                      </div>
+                    </div>
+                   
+        
+                    <div class="form-group mb-0">
+                        <div wire:key="testimonial-image" wire:ignore>
+                            <label class="font-weight-bold justify-content-start">Image</label>
+                            <input type="file" id="dropify-image"  wire:model.defer="image" class="dropify" data-default-file="{{ $originalImage }}"  data-show-loader="true" data-errors-position="outside" data-allowed-file-extensions="jpeg png jpg svg" data-min-file-size-preview="1M" data-max-file-size-preview="3M" accept="image/jpeg, image/png, image/jpg,image/svg">
+                            <span wire:loading wire:target="image">
+                                <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
+                            </span>
+                        </div>
+                        
+                        @if($errors->has('image'))
+                        <span class="error text-danger">
+                            {{ $errors->first('image') }}
+                        </span>
+                        @endif
+                    </div>
+                   
+        
+   
                     <div class="form-group mb-20">
                       <span class="label">Overall rating</span>
                       <div class="stars">
@@ -89,8 +115,7 @@
           </div>
         </div>
     </section>
-    @endif
-
+  
     <section class="all-testimonial-sec ptb-120">
         <div class="container">
           <div class="row justify-content-center">
@@ -106,13 +131,13 @@
           <div class="row testimonial-outer">
             @foreach ($testimonials as $testimonial)
          
-            @if(auth()->check() && auth()->user()->testimonial()->exists() && auth()->user()->testimonial()->first()->status == 0)
+            @if(auth()->check() && auth()->user()->is_super_admin && (!$testimonial->status))
             <div class="col-lg-4 col-md-6 col-sm-12">
               <div class="testimonial-details bg-white">
                 <div class="testimonial-img">
-                  <img src="{{ $testimonial->user->profile_image_url ? $testimonial->user->profile_image_url : asset(config('constants.default_user_logo')) }}">
+                  <img src="{{ $testimonial->image_url ? $testimonial->image_url : asset(config('constants.default_user_logo')) }}">
                 </div>
-                <div class="author-name body-size-large">{{ ucfirst($testimonial->user->name) }}</div>
+                <div class="author-name body-size-large">{{ $testimonial->name ? ucfirst($testimonial->name) : '' }}</div>
                 <div class="author-rating">
                   @php
                       $rating = (int)$testimonial->rating;
@@ -135,9 +160,9 @@
             <div class="col-lg-4 col-md-6 col-sm-12">
               <div class="testimonial-details bg-white">
                 <div class="testimonial-img">
-                  <img src="{{ $testimonial->user->profile_image_url ? $testimonial->user->profile_image_url : asset(config('constants.default_user_logo')) }}">
+                  <img src="{{ $testimonial->image_url ? $testimonial->image_url : asset(config('constants.default_user_logo')) }}">
                 </div>
-                <div class="author-name body-size-large">{{ ucfirst($testimonial->user->name) }}</div>
+                <div class="author-name body-size-large">{{ $testimonial->name ? ucfirst($testimonial->name) : '' }}</div>
                 <div class="author-rating">
                   @php
                       $rating = (int)$testimonial->rating;
@@ -179,7 +204,12 @@
     </section>
 
 </div>
+@push('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
+@endpush
+
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 <script type="text/javascript">
     $(function() {
      
@@ -205,6 +235,35 @@
          }
        });
        
+        $('.dropify').dropify();
+        $('.dropify-errors-container').remove();
+        $('.dropify-clear').click(function(e) {
+            e.preventDefault();
+            var elementName = $(this).siblings('input[type=file]').attr('id');
+            if(elementName == 'dropify-image'){
+                @this.set('image',null);
+                @this.set('originalImage',null);
+            }
+        });
+       
+        
+        document.addEventListener('resetImage', function (event) {
+            console.log('reset image');
+              // Find the Dropify container
+            var dropifyContainer = document.querySelector('.dropify-wrapper');
+        
+            // Find the "Remove" button within the container
+            var removeButton = dropifyContainer.querySelector('.dropify-clear');
+        
+            // Trigger a click event on the "Remove" button
+            removeButton.click();
+        });
+        
+        
+       
     });
+    
+    
+    
 </script>
 @endpush

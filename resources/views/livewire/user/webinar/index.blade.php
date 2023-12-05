@@ -8,7 +8,7 @@
                         @foreach($webinarRecords as $record)
                         <div class="webinar-item">
                             <div class="webinar-img">
-                                <img src="{{ asset('images/package.png') }}" alt="package">
+                                <img src="{{ $record->image_url ? $record->image_url : asset('images/package.png') }}" alt="webinar">
                             </div>
                             <div class="webinar-text">
 

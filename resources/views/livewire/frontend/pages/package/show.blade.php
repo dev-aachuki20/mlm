@@ -86,12 +86,14 @@
                 <div class="buy-now-btn">
 
                   @if(!auth()->check())
+                  
                   <a href="{{ route('auth.registerWithPlan',$package->uuid) }}" class="btn w-100 fill">Buy Now!</a>
                   @else
                     @php
+                    
                      $referralLink = null;
                      if(auth()->user()->is_user && $package->users()->count() > 0){
-                      $referralUUID = $package->users()->find(auth()->user()->id)->uuid;
+                      $referralUUID = auth()->user()->uuid;
                       $packageUUID = $package->uuid;
                       $referralLink = route('auth.register',[$referralUUID,$packageUUID]);
                      }

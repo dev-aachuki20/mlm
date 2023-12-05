@@ -29,10 +29,14 @@ class Index extends Component
 
         //Today
         $this->todayEarnings = Transaction::whereDate('created_at', today())->where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
+       
         $yesterday = Carbon::yesterday()->toDateString();
         $yesterdayClosedAmount = Transaction::whereDate('created_at', $yesterday)->where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
 
+        
+        
         $diffreceTodayAmount = (float)$this->todayEarnings - (float)$yesterdayClosedAmount;
+        
         if($diffreceTodayAmount != 0 && $yesterdayClosedAmount != 0){
             $percentage = $diffreceTodayAmount / (float)$yesterdayClosedAmount * 100;
             $this->todayEarningPercent = number_format(min($percentage, 100),2);

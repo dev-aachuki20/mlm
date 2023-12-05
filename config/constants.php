@@ -62,6 +62,7 @@ return [
 
     'gateway' => [
         1 => 'Razorpay',
+        2 => 'COD',
     ],
 
 

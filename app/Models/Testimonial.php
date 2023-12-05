@@ -33,7 +33,10 @@ class Testimonial extends Model
     {
         parent::boot();
         static::creating(function(Testimonial $model) {
-            $model->created_by = auth()->user()->id;
+            if(auth()->user()){
+                $model->created_by = auth()->user()->id;
+            }
+            
         });               
     }
 

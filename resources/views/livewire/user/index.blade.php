@@ -572,9 +572,13 @@
   $(document).ready(function(){
 
       $(".counter-value").each(function(){
-            var t=$(this),
-                n=parseFloat(t.attr("data-count")),
-                countNum = parseFloat(t.text());
+            var t=$(this);
+            var attrValue = t.attr("data-count");
+            
+            var newAttrVal = attrValue.replace(/,/g, '');
+            
+            var  n=parseFloat(newAttrVal);
+            var  countNum = parseFloat(t.text());
 
             $({countNum: countNum}).animate({countNum: n}, {
                 duration: 1000,
