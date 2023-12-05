@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('rating')->nullable();
             $table->text('description')->nullable();
             $table->tinyInteger('status')->default(1)->comment('0=> deactive, 1=> active');
-            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

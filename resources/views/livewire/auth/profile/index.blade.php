@@ -7,16 +7,16 @@
       <div class="card">
         <div class="card-body">
           <div class="my-team-head  mb-3">
-            <div class="profile-img-edit">
-              <img src="{{ ($authUser->profileImage()->first()) ? $authUser->profileImage()->first()->file_url : asset(config('constants.default.profile_image')) }}" alt="profile">
-               @if(auth()->user()->is_user)
-                <!--<a class="btn btn-default custom-btn btn-save js-save w-auto mt-0 ml-auto" href="{{ route('user.kyc') }}">-->
-                <!--    <img src="{{ asset('images/icons/edit-icon.svg') }}"> Change Picture-->
-                <!--</a>-->
+            <div class="profile_wrapper">
+                <div class="profile-img-edit">
+                  <img src="{{ ($authUser->profileImage()->first()) ? $authUser->profileImage()->first()->file_url : asset(config('constants.default.profile_image')) }}" alt="profile">
+                </div>
+                @if(auth()->user()->is_user)
+                <a class="btn btn-default custom-btn btn-save js-save w-auto mt-0 ml-auto" href="{{ route('user.kyc') }}">
+                    <img src="{{ asset('images/icons/edit-icon.svg') }}"> Change Picture
+                </a>
                 @endif
             </div>
-            
-            
             <ul class="nav nav-tabs my-team-tab-head" id="myTab" role="tablist">
               <li class="nav-item">
                 <a class="nav-link {{$activeTab == 'user-tab' ? 'active' : ''}}" id="users-tab" wire:click="switchTab('user-tab')" data-toggle="tab" href="#users" role="tab" aria-controls="users"
