@@ -46,12 +46,12 @@
                                                 <label for="package-name" class="form-label">Package Name</label>
                                                 <input id="package-name" type="text" class="form-control p-24" wire:model.defer="packageName" placeholder="Package Name" autocomplete="off">
 
-                                                <!-- <select wire:model="package" class="form-select form-control" aria-label="Default select example">
+                                                {{-- <select wire:model="package" class="form-select form-control" aria-label="Default select example">
                                                     <option value="" selected>All</option>
                                                     @foreach($allPackages as $allpkg)
                                                     <option value="{{$allpkg->id}}">{{$allpkg->title}}</option>
                                                     @endforeach
-                                                </select> -->
+                                                </select> --}}
                                             </div>
 
 
@@ -60,7 +60,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        
+
                                         <div class="col-md-4 col-sm-12">
                                             <div class="input-form">
                                                 <label for="referral-code" class="form-label">{{ trans('cruds.user.fields.sponser_id') }}</label>
@@ -237,10 +237,10 @@
         if ($(".js-example-basic-single").length) {
             $(".js-example-basic-single").select2();
         }
-       
+
         $(document).on('change','.select-state',function(){
             var selectState = $(this).val();
-            var stateId = $('.select-state option:selected').attr('data-stateId');            
+            var stateId = $('.select-state option:selected').attr('data-stateId');
             // @this.set('state', selectState);
             Livewire.emit('updatedState',selectState,stateId);
         });
@@ -252,7 +252,7 @@
                 placeholder: 'Select City',
             });
         }
-        
+
         $(document).on('change','.select-city',function(){
             var selectCity = $(this).val();
             // @this.set('city', selectCity);
@@ -364,6 +364,6 @@
     document.addEventListener('paymentRecieptClosedModal', function(event) {
         $('#codReceiptModal').modal('hide');
     });
-    
+
 </script>
 @endpush

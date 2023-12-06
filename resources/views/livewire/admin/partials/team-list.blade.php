@@ -65,7 +65,7 @@
                   <!-- End show length -->
                   <!--Start search  -->
                   <div class="search-container">
-                    <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
+                    <input type="text" class="form-control" id="all_searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
                     <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
                   </div>
 
@@ -93,9 +93,9 @@
                     <td>{{$team->email}}</td>
                     <td>{{$team->phone}}</td>
 
-                    <td>&#8377; {{ number_format(\App\Models\Transaction::where('user_id',$team->id)->where('referrer_id', $user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
+                    <td>&#8377; {{ number_format($team->refferalTransaction()->where('referrer_id',$user_id)->where('payment_type','credit')->sum('amount'),2) }} </td>
 
-                    <td>{{$team->date_of_join}}</td>
+                    <td>{{ convertDateTimeFormat($team->date_of_join,'date')}}</td>
                   </tr>
                 @endforeach
                 @else
@@ -126,7 +126,7 @@
                   <!-- End show length -->
                   <!--Start search  -->
                   <div class="search-container">
-                    <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
+                    <input type="text" class="form-control" id="level_one_searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
                     <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
                   </div>
 
@@ -152,8 +152,8 @@
                     <td>{{ucwords($team->name)}}</td>
                     <td>{{$team->email}}</td>
                     <td>{{$team->phone}}</td>
-                    <td>&#8377; {{ number_format(\App\Models\Transaction::where('user_id',$team->id)->where('referrer_id', $user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
-                    <td>{{$team->date_of_join}}</td>
+                    <td>&#8377; {{ number_format($team->refferalTransaction()->where('referrer_id',$user_id)->where('payment_type','credit')->sum('amount'),2) }} </td>
+                    <td>{{ convertDateTimeFormat($team->date_of_join,'date')}}</td>
                   </tr>
                   @endforeach
                 @else
@@ -183,7 +183,7 @@
                   <!-- End show length -->
                   <!--Start search  -->
                   <div class="search-container">
-                    <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
+                    <input type="text" class="form-control" id="level_two_searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
                     <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
                   </div>
 
@@ -209,8 +209,8 @@
                         <td>{{ucwords($team->name)}}</td>
                         <td>{{$team->email}}</td>
                         <td>{{$team->phone}}</td>
-                        <td>&#8377; {{ number_format(\App\Models\Transaction::where('user_id',$team->id)->where('referrer_id', $user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
-                        <td>{{$team->date_of_join}}</td>
+                        <td>&#8377; {{ number_format($team->refferalTransaction()->where('referrer_id',$user_id)->where('payment_type','credit')->sum('amount'),2) }} </td>
+                        <td>{{ convertDateTimeFormat($team->date_of_join,'date')}}</td>
                       </tr>
                   @endforeach
                 @else
@@ -240,7 +240,7 @@
                   <!-- End show length -->
                   <!--Start search  -->
                   <div class="search-container">
-                    <input type="text" class="form-control" id="searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
+                    <input type="text" class="form-control" id="level_three_searchInput" placeholder="{{ __('global.search')}}" wire:model="search" />
                     <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
                   </div>
 
@@ -266,8 +266,8 @@
                         <td>{{ucwords($team->name)}}</td>
                         <td>{{$team->email}}</td>
                         <td>{{$team->phone}}</td>
-                        <td>&#8377; {{ number_format(\App\Models\Transaction::where('user_id',$team->id)->where('referrer_id', $user_id)->where('payment_type','credit')->sum('amount') ,2)}}</td>
-                        <td>{{$team->date_of_join}}</td>
+                        <td>&#8377; {{ number_format($team->refferalTransaction()->where('referrer_id',$user_id)->where('payment_type','credit')->sum('amount'),2) }} </td>
+                        <td>{{ convertDateTimeFormat($team->date_of_join,'date')}}</td>
                       </tr>
                   @endforeach
                 @else

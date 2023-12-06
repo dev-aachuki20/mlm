@@ -49,8 +49,8 @@
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$allInvoiceData->invoice_number}}</td>
                                     <td>{{ucwords($packageTitle->title)}}</td>
-                                    <td>{{ config('constants.levels')[$packageTitle->level] }}</td>
-                                    <td>&#x20B9; {{$allInvoiceData->amount}}</td>
+                                    <td>{{ Ucwords(config('constants.levels')[$packageTitle->level]) }}</td>
+                                    <td>&#x20B9; {{ number_format($allInvoiceData->amount,2)}}</td>
                                     <td>{{convertDateTimeFormat($allInvoiceData->date_time,'datetime')}}</td>
                                     <td>
                                         <!-- <span>

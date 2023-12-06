@@ -6,7 +6,7 @@ use Gate;
 use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\Webinar;
-use Illuminate\Support\Str; 
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\DB;
@@ -38,7 +38,7 @@ class Index extends Component
     public function updatePaginationLength($length){
         $this->paginationLength = $length;
     }
-    
+
     public function updatedSearch()
     {
         $this->resetPage();
@@ -72,7 +72,7 @@ class Index extends Component
     }
 
     public function updatedTime(){
-        $this->time = Carbon::parse($this->time)->format('H:i');
+        $this->time = Carbon::parse($this->time)->format('h:i A');
     }
 
     public function render()
@@ -132,7 +132,7 @@ class Index extends Component
         $this->reset(['title','presenter','date','time','description','status','image']);
 
         $this->flash('success',trans('messages.add_success_message'));
-      
+
         return redirect()->route('admin.webinar');
     }
 
@@ -143,13 +143,13 @@ class Index extends Component
         $this->formMode = true;
         $this->updateMode = true;
 
-    
+
         $webinar = Webinar::findOrFail($id);
         $this->webinar_id      =  $webinar->id;
         $this->title           =  $webinar->title;
         $this->presenter       =  $webinar->presenter;
         $this->date            =  Carbon::parse($webinar->date)->format('d-m-Y');
-        $this->time            =  Carbon::parse($webinar->time)->format('H:i');
+        $this->time            =  Carbon::parse($webinar->time)->format('h:i:a');
         $this->description    =  $webinar->description;
         $this->status         =  $webinar->status;
         $this->originalImage  =  $webinar->image_url;
@@ -178,7 +178,7 @@ class Index extends Component
         $validatedData['status'] = $this->status;
 
         $webinar = Webinar::find($this->webinar_id);
-      
+
         // Check if the image has been changed
         $uploadImageId = null;
         if ($this->image) {
@@ -186,12 +186,12 @@ class Index extends Component
             uploadImage($course, $this->image, 'webinar/image/',"webinar", 'original', 'update', $uploadImageId);
         }
 
-      
+
         $webinar->update($validatedData);
-     
+
         $this->formMode = false;
         $this->updateMode = false;
-  
+
         $this->flash('success',trans('messages.edit_success_message'));
 
         $this->reset(['title','presenter','date','time','description','status','image']);
@@ -265,7 +265,7 @@ class Index extends Component
     }
 
     public function confirmedToggleAction($event)
-    {        
+    {
         $webinarId = $event['data']['inputAttributes']['webinarId'];
         $model = Webinar::find($webinarId);
         $model->update(['status' => !$model->status]);

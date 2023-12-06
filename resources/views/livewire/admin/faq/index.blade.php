@@ -5,31 +5,31 @@
             <div class="card-body">
 
                 @if($formMode)
-    
+
                     @include('livewire.admin.faq.form')
 
                 @elseif($viewMode)
 
                     @livewire('admin.faq.show', ['faq_id' => $faq_id])
-                  
+
                 @else
                     <div wire:loading wire:target="create" class="loader"></div>
                     <div class="card-title d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">{{__('cruds.faq.title')}}</h4>
                         <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                            <i class="fa-solid fa-plus"></i>                                                    
+                            <i class="fa-solid fa-plus"></i>
                                 {{__('global.add')}}
                         </button>
-                    </div>   
+                    </div>
                     <div class="table-header-plugins">
                         <!-- Start show length -->
                         <div class="dataTables_length">
-                            <label>Show 
-                            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                            <label>Show
+                            <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                                 @foreach(config('constants.datatable_paginations') as $length)
                                 <option value="{{ $length }}">{{ $length }}</option>
                                 @endforeach
-                            </select> 
+                            </select>
                             entries</label>
                         </div>
                         <!-- End show length -->
@@ -40,7 +40,7 @@
                             <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
                         </div>
                         <!-- End Search -->
-                    </div>             
+                    </div>
                     <div class="table-responsive mt-3 my-team-details table-record">
                         <table class="table table-striped table-hover">
                         <thead>
@@ -64,14 +64,14 @@
                                         <td>{{ $serialNo+1 }}</td>
                                         <td>{{ $faq->question }}</td>
                                         <td>
-                        
+
                                             <label class="toggle-switch">
                                                 <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$faq->id}})" {{ $faq->status == 1 ? 'checked' : '' }}>
                                                 <div class="switch-slider round"></div>
                                             </label>
 
                                         </td>
-                                        <td>{{ convertDateTimeFormat($faq->created_at,'datetime') }}</td>
+                                        <td>{{ convertDateTimeFormat($faq->created_at,'date') }}</td>
                                         <td>
                                             <button type="button" wire:click.prevent="show({{$faq->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                 <i class="ti-eye"></i>
@@ -92,7 +92,7 @@
                                 <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
                             </tr>
                             @endif
-                        
+
                         </tbody>
                         </table>
                     </div>
@@ -118,7 +118,7 @@
 <script type="text/javascript">
 
     document.addEventListener('loadPlugins', function (event) {
-      
+
         $('textarea#summernote').summernote({
             placeholder: 'Type somthing...',
             tabsize: 2,
@@ -140,7 +140,7 @@
                 }
             }
         });
-      
+
     });
 
 

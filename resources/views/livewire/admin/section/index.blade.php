@@ -69,7 +69,7 @@
                                                     <span class="switch-slider"></span>
                                                 </label>
                                             </td>
-                                            <td>{{ convertDateTimeFormat($section->created_at,'datetime') }}</td>
+                                            <td>{{ convertDateTimeFormat($section->created_at,'date') }}</td>
                                             <td>
                                                 <button type="button" wire:click.prevent="show({{$section->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                     <i class="ti-eye"></i>

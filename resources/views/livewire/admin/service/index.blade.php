@@ -72,7 +72,7 @@
                                                 </label>
 
                                             </td>
-                                            <td>{{ convertDateTimeFormat($service->created_at,'datetime') }}</td>
+                                            <td>{{ convertDateTimeFormat($service->created_at,'date') }}</td>
                                             <td>
                                                 <button type="button" wire:click.prevent="show({{$service->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                     <i class="ti-eye"></i>
@@ -111,7 +111,7 @@
     @push('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" />
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="{{ asset('admin/css/vertical-layout-light/style.css') }}">
     @endpush
 
@@ -119,7 +119,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-    
+
 
     <script type="text/javascript">
 

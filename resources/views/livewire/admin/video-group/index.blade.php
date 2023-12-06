@@ -6,13 +6,13 @@
                 <div class="card-body">
 
                     @if($formMode)
-        
+
                         @include('livewire.admin.video-group.form')
 
                     @elseif($viewMode)
 
                         @livewire('admin.video-group.show', ['group_video_id' => $group_video_id])
-                    
+
                     @else
                         <div wire:loading wire:target="create" class="loader"></div>
                         <div class="card-title d-flex justify-content-between align-items-center">
@@ -20,11 +20,11 @@
                                 <h4>{{__('cruds.course.title_singular')}} Name :- {{ ucfirst($courseName) }}</h4>
                                 <h6>Lecture List</h6>
                             </div>
-                         
+
                             <div class="mb-0">
                                 @can('course_create')
                                 <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                                    <i class="fa-solid fa-plus"></i>                                                   
+                                    <i class="fa-solid fa-plus"></i>
                                         {{__('global.add')}}
                                 </button>
                                 @endcan
@@ -34,16 +34,16 @@
                                 </a>
                             </div>
 
-                        </div>  
+                        </div>
                         <div class="table-header-plugins">
                             <!-- Start show length -->
                             <div class="dataTables_length">
-                            <label>Show 
-                                <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                            <label>Show
+                                <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                                     @foreach(config('constants.datatable_paginations') as $length)
                                     <option value="{{ $length }}">{{ $length }}</option>
                                     @endforeach
-                                </select> 
+                                </select>
                             entries</label>
                             </div>
                             <!-- End show length -->
@@ -54,7 +54,7 @@
                                 <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
                             </div>
                             <!-- End Search -->
-                        </div>              
+                        </div>
                         <div class="table-responsive mt-3 my-team-details table-record">
                             <table class="table table-striped table-hover">
                             <thead>
@@ -84,7 +84,7 @@
                                                 </label>
 
                                             </td>
-                                            <td>{{ convertDateTimeFormat($lecture->created_at,'datetime') }}</td>
+                                            <td>{{ convertDateTimeFormat($lecture->created_at,'date') }}</td>
                                             <td>
 
                                                 @can('course_show')
@@ -105,7 +105,7 @@
                                                 </button>
                                                 @endcan
 
-                                            
+
                                             </td>
                                         </tr>
                                     @endforeach
@@ -114,7 +114,7 @@
                                     <td class="text-center" colspan="5">{{ __('messages.no_record_found')}}</td>
                                 </tr>
                                 @endif
-                            
+
                             </tbody>
                             </table>
                         </div>
@@ -142,7 +142,7 @@
 <script type="text/javascript">
 
     document.addEventListener('loadPlugins', function (event) {
-      
+
         // video js
         $(".box-video").click(function(){
             var videoId = $(this).find('.video-container video').attr('id');
@@ -152,8 +152,8 @@
             $('video source',this)[0].src;
             $(this).addClass('open');
         });
-        
-    /*  
+
+    /*
         $('.dropify').dropify();
         $('.dropify-errors-container').remove();
         $('.dropify-clear').click(function(e) {
@@ -195,8 +195,8 @@
                 }
             }
         });
-       
-       
+
+
        //Start Upload Video file
         let browseVideoFile = $("#browseVideoFile");
         let resumableVideo = new Resumable({
@@ -300,13 +300,13 @@
         });
         //End upload video file
 
-     
-     
-     
-        //   Start video duration get js
-        
 
-        
+
+
+        //   Start video duration get js
+
+
+
      /*   var videoFileInput = document.getElementById('video-file');
 
         // console.log('videoFileInput',videoFileInput);
@@ -314,7 +314,7 @@
         videoFileInput.addEventListener('change', function(event) {
             var file = event.target.files[0];
             var reader = new FileReader();
-            
+
             reader.onload = function(event) {
                 var video = document.createElement('video');
                 video.addEventListener('loadedmetadata', function() {
@@ -325,47 +325,47 @@
                 });
                 video.src = event.target.result;
             };
-            
+
             reader.readAsDataURL(file);
         });
     */
-    
+
 
     });
 
     document.addEventListener('videoUploaded', function (event) {
-        
+
         var videoUrl = event.detail.originalVideo;
-        
+
         getVideoDuration(videoUrl, function(duration) {
             console.log('Video duration: ' + formatTime(duration));
             @this.emit('updateVideoDuration',formatTime(duration));
         });
     });
-    
+
     function getVideoDuration(url, callback) {
         if(url != ''){
             var video = document.createElement('video');
-            
+
             video.onloadedmetadata = function() {
                 callback(video.duration);
             };
 
-            video.src = url;    
+            video.src = url;
         }
     }
-        
+
     // Function to format time in HH:MM:SS format
     function formatTime(timeInSeconds) {
         var hours = Math.floor(timeInSeconds / 3600);
         var minutes = Math.floor((timeInSeconds % 3600) / 60);
         var seconds = Math.floor(timeInSeconds % 60);
-    
+
         // Use a ternary operator to add leading zeros if needed
         var formattedHours = (hours < 10 ? '0' : '') + hours;
         var formattedMinutes = (minutes < 10 ? '0' : '') + minutes;
         var formattedSeconds = (seconds < 10 ? '0' : '') + seconds;
-    
+
         return formattedHours + ':' + formattedMinutes + ':' + formattedSeconds;
     }
     //   End video duration get js

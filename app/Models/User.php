@@ -225,4 +225,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Transaction::class, 'referrer_id', 'id');
     }
+
+    public function refferalTransaction(){
+        return $this->hasMany(Transaction::class, 'user_id', 'id');
+    }
 }

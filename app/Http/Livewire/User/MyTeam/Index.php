@@ -12,7 +12,7 @@ use Livewire\WithPagination;
 class Index extends Component
 {
     use WithPagination, LivewireAlert;
-    
+
     protected $layout = null;
     public $search = '';
 
@@ -86,15 +86,20 @@ class Index extends Component
 
         $allIdofUsers = $levelOneUserIds->merge($levelTwoUserIds,$levelThreeUserIds);
 
-        // serching 
+        // serching
         $allTeams = null;
-        $allTeams = User::query()->where(function ($query) use($searchValue) {
+        $userId = auth()->user()->id;
+        $allTeams = User::query()->where(function ($query) use($searchValue,$userId) {
         $query->where('my_referral_code', 'like', '%'.$searchValue.'%')
             ->orWhere('name', 'like', '%'.$searchValue.'%')
             ->orWhere('referral_code', 'like', '%'.$searchValue.'%')
             ->orWhere('phone', 'like', '%'.$searchValue.'%')
             ->orWhere('is_active', 'like', '%'.$searchValue.'%')
-            ->orWhereRaw("date_format(date_of_join, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+            ->orWhereRaw("date_format(date_of_join, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%'])
+            ->orWhereHas('refferalTransaction', function ($q) use ($searchValue,$userId) {
+                $q->where('amount', 'like', "$searchValue%")
+                ->where('payment_type','credit')->where('referrer_id',$userId);
+            });
         });
 
         if($this->activeTab == 'all'){
@@ -109,7 +114,7 @@ class Index extends Component
 
         $allTeams = $allTeams->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
         return view('livewire.user.my-team.index', compact('allTeams'));
-    
+
     }
 
     public function toggle($id)

@@ -57,6 +57,7 @@
                       <th>{{ trans('cruds.user.fields.sponser_id') }}</th>
                       <th>{{ trans('cruds.user.fields.sponser_name') }}</th>
                       <th>Mobile Number</th>
+                      <th>Commission</th>
                       <th>Joining Date
                         <span wire:click="sortBy('date_of_join')" class="float-right text-sm" style="cursor: pointer;">
                           <i class="fa fa-arrow-up {{ $sortColumnName === 'date_of_join' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
@@ -71,16 +72,17 @@
                     <tr>
                       <td>{{$loop->iteration}}</td>
                       <td>{{$team->my_referral_code}}</td>
-                      <td>{{$team->first_name}} {{$team->last_name}}</td>
+                      <td>{{ ucwords($team->name) }}</td>
                       <td>{{$team->referral_code}}</td>
                       <td>{{ ucwords($team->referral_name) }}</td>
-                      <td>{{$team->phone}}</td>
-                      <td>{{$team->date_of_join}}</td>
+                      <td>{{ $team->phone }}</td>
+                      <td>&#8377; {{ number_format($team->refferalTransaction()->where('referrer_id',auth()->user()->id)->where('payment_type','credit')->sum('amount'),2) }} </td>
+                      <td>{{ convertDateTimeFormat($team->date_of_join,'date')}}</td>
                     </tr>
                     @endforeach
                     @else
                     <tr>
-                      <td class="text-center" colspan="7">{{ __('messages.no_record_found')}}</td>
+                      <td class="text-center" colspan="8">{{ __('messages.no_record_found')}}</td>
                     </tr>
                     @endif
                   </tbody>
@@ -102,6 +104,7 @@
                       <th>{{ trans('cruds.user.fields.sponser_id') }}</th>
                       <th>{{ trans('cruds.user.fields.sponser_name') }}</th>
                       <th>Mobile Number</th>
+                      <th>Commission</th>
                       <th>Joining Date
                         <span wire:click="sortBy('date_of_join')" class="float-right text-sm" style="cursor: pointer;">
                           <i class="fa fa-arrow-up {{ $sortColumnName === 'date_of_join' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
@@ -116,16 +119,17 @@
                     <tr>
                       <td>{{$loop->iteration}}</td>
                       <td>{{$levelone->my_referral_code}}</td>
-                      <td>{{$levelone->first_name}} {{$levelone->last_name}}</td>
+                      <td>{{ ucwords($levelone->name) }}</td>
                       <td>{{$levelone->referral_code}}</td>
                       <td>{{ ucwords($levelone->referral_name) }}</td>
                       <td>{{$levelone->phone}}</td>
-                      <td>{{$levelone->date_of_join}}</td>
+                      <td>&#8377; {{ number_format($levelone->refferalTransaction()->where('referrer_id',auth()->user()->id)->where('payment_type','credit')->sum('amount'),2) }} </td>
+                      <td>{{ convertDateTimeFormat($levelone->date_of_join,'date')}}</td>
                     </tr>
                     @endforeach
                     @else
                     <tr>
-                      <td class="text-center" colspan="7">{{ __('messages.no_record_found')}}</td>
+                      <td class="text-center" colspan="8">{{ __('messages.no_record_found')}}</td>
                     </tr>
                     @endif
                   </tbody>
@@ -145,6 +149,7 @@
                       <th>{{ trans('cruds.user.fields.sponser_id') }}</th>
                       <th>{{ trans('cruds.user.fields.sponser_name') }}</th>
                       <th>Mobile Number</th>
+                      <th>Commission</th>
                       <th>Joining Date
                         <span wire:click="sortBy('date_of_join')" class="float-right text-sm" style="cursor: pointer;">
                           <i class="fa fa-arrow-up {{ $sortColumnName === 'date_of_join' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
@@ -159,16 +164,17 @@
                     <tr>
                       <td>{{$loop->iteration}}</td>
                       <td>{{$leveltwo->my_referral_code}}</td>
-                      <td>{{$leveltwo->first_name}} {{$leveltwo->last_name}}</td>
+                      <td>{{ ucwords($leveltwo->name) }}</td>
                       <td>{{$leveltwo->referral_code}}</td>
                       <td>{{ ucwords($leveltwo->referral_name) }}</td>
                       <td>{{$leveltwo->phone}}</td>
-                      <td>{{$leveltwo->date_of_join}}</td>
+                      <td>&#8377; {{ number_format($leveltwo->refferalTransaction()->where('referrer_id',auth()->user()->id)->where('payment_type','credit')->sum('amount'),2) }} </td>
+                      <td>{{ convertDateTimeFormat($leveltwo->date_of_join,'date')}}</td>
                     </tr>
                     @endforeach
                     @else
                     <tr>
-                      <td class="text-center" colspan="7">{{ __('messages.no_record_found')}}</td>
+                      <td class="text-center" colspan="8">{{ __('messages.no_record_found')}}</td>
                     </tr>
                     @endif
                   </tbody>
@@ -190,6 +196,7 @@
                       <th>{{ trans('cruds.user.fields.sponser_id') }}</th>
                       <th>{{ trans('cruds.user.fields.sponser_name') }}</th>
                       <th>Mobile Number</th>
+                      <th>Commission</th>
                       <th>Joining Date
                         <span wire:click="sortBy('date_of_join')" class="float-right text-sm" style="cursor: pointer;">
                           <i class="fa fa-arrow-up {{ $sortColumnName === 'date_of_join' && $sortDirection === 'asc' ? '' : 'text-muted' }}"></i>
@@ -204,16 +211,17 @@
                     <tr>
                       <td>{{$loop->iteration}}</td>
                       <td>{{$levelthree->my_referral_code}}</td>
-                      <td>{{$levelthree->first_name}} {{$levelthree->last_name}}</td>
+                      <td>{{ucwords($levelthree->name)}}</td>
                       <td>{{$levelthree->referral_code}}</td>
                       <td>{{ ucwords($levelthree->referral_name) }}</td>
                       <td>{{$levelthree->phone}}</td>
-                      <td>{{$levelthree->date_of_join}}</td>
+                      <td>&#8377; {{ number_format($levelthree->refferalTransaction()->where('referrer_id',auth()->user()->id)->where('payment_type','credit')->sum('amount'),2) }} </td>
+                      <td>{{ convertDateTimeFormat($levelthree->date_of_join,'date')}}</td>
                     </tr>
                     @endforeach
                     @else
                     <tr>
-                      <td class="text-center" colspan="7">{{ __('messages.no_record_found')}}</td>
+                      <td class="text-center" colspan="8">{{ __('messages.no_record_found')}}</td>
                     </tr>
                     @endif
                   </tbody>

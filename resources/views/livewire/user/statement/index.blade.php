@@ -55,8 +55,8 @@
                     <tr>
                       <td>{{$loop->iteration}}</td>
                       <td>{{ucfirst($transaction->payment_type)}}</td>
-                      <td>Rs {{number_format($transaction->amount,2)}}</td>
-                      <td>{{$transaction->referralUser->name}}</td>
+                      <td>&#8377; {{number_format($transaction->amount,2)}}</td>
+                      <td>{{ ucwords($transaction->user->name) }}</td>
                       <td> {{ ucfirst(config('constants.gateway')[$transaction->gateway])}}</td>
                       <td> {{ ucfirst(config('constants.referral_levels')[$transaction->type])}}
                         <!-- <label class="toggle-switch">
@@ -64,7 +64,7 @@
                           <div class="switch-slider round"></div>
                         </label> -->
                       </td>
-                      <td>{{ convertDateTimeFormat($transaction->created_at,'datetime') }}</td>
+                      <td>{{ convertDateTimeFormat($transaction->created_at,'date') }}</td>
                     </tr>
                     @endforeach
                     @else

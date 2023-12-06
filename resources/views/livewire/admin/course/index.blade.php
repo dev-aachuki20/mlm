@@ -77,7 +77,7 @@
                                         </label>
 
                                     </td>
-                                    <td>{{ convertDateTimeFormat($course->created_at,'datetime') }}</td>
+                                    <td>{{ convertDateTimeFormat($course->created_at,'date') }}</td>
                                     <td>
 
                                         @can('course_show')

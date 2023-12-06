@@ -27,11 +27,10 @@ class TeamList extends Component
     public function mount($user_id = '')
     {
         $this->user_id = $user_id;
-        $this->userDetail = User::where('referral_user_id', $this->user_id)->get();
-        $levelOneIds = $this->userDetail->pluck('id')->toArray();
-        if($levelOneIds)
-        {
-            $this->level1Comm = Transaction::whereIn('user_id', $levelOneIds)->where('type',1)->sum('amount');
+        if($this->user_id){
+            $this->level1Comm = Transaction::where('referrer_id', $this->user_id)->where('payment_type','credit')->where('type',1)->sum('amount');
+            $this->level2Comm = Transaction::where('referrer_id', $this->user_id)->where('payment_type','credit')->where('type',2)->sum('amount');
+            $this->level3Comm = Transaction::where('referrer_id', $this->user_id)->where('payment_type','credit')->where('type',3)->sum('amount');
         }
 
     }
@@ -106,19 +105,20 @@ class TeamList extends Component
         $levelThreeRecords = $levelThreeUsers->orderBy($this->sortColumnName, $this->sortDirection)->paginate($this->paginationLength);
 
 
-
-        $this->level2Comm =$levelTwoUserIds != '' ? Transaction::whereIn('user_id', $levelTwoUserIds)->where('type',2)->sum('amount') : 0 ;
-        $this->level3Comm =$levelThreeUserIds != '' ?Transaction::whereIn('user_id', $levelThreeUserIds)->where('type',3)->sum('amount'):0;
-
-
          // serching
          $allTeams = null;
-         $allTeams = User::query()->where(function ($query) use($searchValue) {
+         $userId = $this->user_id;
+         $allTeams = User::query()->where(function ($query) use($searchValue,$userId) {
             $query->where('name', 'like', '%'.$searchValue.'%')
                 ->orWhere('is_active', 'like', '%'.$searchValue.'%')
                 ->orWhere('phone', 'like', '%'.$searchValue.'%')
                 ->orWhere('email', 'like', '%'.$searchValue.'%')
-                ->orWhereRaw("date_format(date_of_join, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
+                ->orWhereRaw("date_format(date_of_join, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%'])
+
+                ->orWhereHas('refferalTransaction', function ($q) use ($searchValue,$userId) {
+                    $q->where('amount', 'like', "$searchValue%")
+                    ->where('payment_type','credit')->where('referrer_id',$userId);
+                });
             });
 
             if($this->activeTab == 'all'){

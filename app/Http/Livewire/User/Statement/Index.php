@@ -61,24 +61,27 @@ class Index extends Component
         $levelSearch = null;
         $gatewaySearch = null;
         $searchValue = $this->search;
-        if (Str::contains('level1', strtolower($searchValue))) {
+        if (Str::contains('level 1', strtolower($searchValue))) {
             $levelSearch = 1;
-        } else if (Str::contains('level2', strtolower($searchValue))) {
+        } else if (Str::contains('level 2', strtolower($searchValue))) {
             $levelSearch = 2;
-        } else if (Str::contains('level3', strtolower($searchValue))) {
+        } else if (Str::contains('level 3', strtolower($searchValue))) {
             $levelSearch = 3;
         }
 
         if (Str::contains('razorpay', strtolower($searchValue))) {
             $gatewaySearch = 1;
         }
+        if (Str::contains('cod', strtolower($searchValue))) {
+            $gatewaySearch = 2;
+        }
 
         $allTransaction = null;
-        $allTransaction = Transaction::query()->where('user_id', $this->userId)->where(function ($query) use ($searchValue, $levelSearch, $gatewaySearch) {
+        $allTransaction = Transaction::query()->where('referrer_id', $this->userId)->where(function ($query) use ($searchValue, $levelSearch, $gatewaySearch) {
             $query->where('payment_type', 'like', '%' . $searchValue . '%')
                 ->orWhere('amount', 'like', '%' . $searchValue . '%')
-                ->orWhere('gateway', 'like', '%' . $searchValue . '%')
-                ->orWhere('referrer_id', $gatewaySearch)
+                ->orWhere('gateway', $gatewaySearch)
+                ->orWhereRelation('user', 'name','like', '%' . $searchValue . '%')
                 ->orWhere('type', $levelSearch)
                 ->orWhereRaw("date_format(created_at, '" . config('constants.search_datetime_format') . "') like ?", ['%' . $searchValue . '%']);
         });

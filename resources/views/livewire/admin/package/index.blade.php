@@ -5,7 +5,7 @@
             <div class="card-body">
 
                 @if($formMode)
-    
+
                     @include('livewire.admin.package.form')
 
                 @elseif($viewMode)
@@ -17,23 +17,23 @@
                     <div class="card-title d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">{{__('cruds.package.title')}}</h4>
                         <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                            <i class="fa-solid fa-plus"></i>                                                    
+                            <i class="fa-solid fa-plus"></i>
                                 {{__('global.add')}}
                         </button>
                         {{-- <a href="{{ route('admin.package.create') }}" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                            <i class="fa-solid fa-plus"></i>                                                    
+                            <i class="fa-solid fa-plus"></i>
                                 {{__('global.add')}}
                         </a> --}}
-                    </div>  
+                    </div>
                     <div class="table-header-plugins">
                         <!-- Start show length -->
                         <div class="dataTables_length">
-                            <label>Show 
-                            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                            <label>Show
+                            <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                                 @foreach(config('constants.datatable_paginations') as $length)
                                 <option value="{{ $length }}">{{ $length }}</option>
                                 @endforeach
-                            </select> 
+                            </select>
                             entries</label>
                         </div>
                         <!-- End show length -->
@@ -44,7 +44,7 @@
                             <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
                         </div>
                         <!-- End Search -->
-                    </div>              
+                    </div>
                     <div class="table-responsive mt-3 my-team-details table-record">
                         <table class="table table-striped table-hover">
                         <thead>
@@ -70,19 +70,19 @@
                                         <td>{{ ucfirst($package->title) }}</td>
                                         <td><i class="fa-solid fa-indian-rupee-sign"></i> {{ number_format($package->amount,2) }}</td>
                                         <td>
-                        
+
                                             <label class="toggle-switch">
                                                 <input type="checkbox" class="toggleSwitch"  wire:click.prevent="toggle({{$package->id}})" {{ $package->status == 1 ? 'checked' : '' }}>
                                                 <span class="switch-slider"></span>
                                             </label>
 
                                         </td>
-                                        <td>{{ convertDateTimeFormat($package->created_at,'datetime') }}</td>
+                                        <td>{{ convertDateTimeFormat($package->created_at,'date') }}</td>
                                         <td>
                                             <button type="button" wire:click.prevent="show({{$package->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                 <i class="ti-eye"></i>
                                             </button>
-                                            
+
                                             <button type="button" wire:click.prevent="edit({{$package->id}})" class="btn btn-info btn-rounded btn-icon">
                                                 <i class="ti-pencil-alt"></i>
                                             </button>
@@ -98,7 +98,7 @@
                                 <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
                             </tr>
                             @endif
-                        
+
                         </tbody>
                         </table>
                     </div>
@@ -135,7 +135,7 @@
 <script type="text/javascript">
 
     document.addEventListener('loadPlugins', function (event) {
-      
+
         // video js
         $(".box-video").click(function(){
             var videoId = $(this).find('.video-container video').attr('id');
@@ -187,7 +187,7 @@
             // console.log(start.format('HH:mm'));
 
             @this.set('duration', start.format('HH:mm'));
-            
+
 
         }).on('show.daterangepicker', function(ev, picker) {
             picker.container.find(".calendar-table").hide();
@@ -200,7 +200,7 @@
             @this.set('level', selectLevel);
         });
 
-       
+
         $('textarea#summernote-features').summernote({
             placeholder: 'Type somthing...',
             tabsize: 2,
@@ -246,8 +246,8 @@
                 }
             }
         });
-      
-      
+
+
         //Start Upload Video file
         let browseVideoFile = $("#browseVideoFile");
         let resumableVideo = new Resumable({
@@ -352,7 +352,7 @@
         //End upload video file
     });
 </script>
- 
+
 @include('partials.admin.upload_file')
 
 @endpush

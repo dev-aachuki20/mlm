@@ -78,8 +78,9 @@ class Index extends Component
 
             $allTimeTopRecords = Transaction::query()->selectRaw('*, SUM(amount) as total_amount')
             ->where(function ($query) use($searchValue) {
-                $query->whereRelation('user','name','like',  $searchValue . '%')
-                ->orWhereRelation('payment.package','title','like',  $searchValue . '%')
+                $query->whereRelation('referralUser', 'name','like', '%' . $searchValue . '%')
+
+                ->orWhereRelation('payment.package','title','like',  '%' . $searchValue . '%')
                 ->orWhereRelation('payment.package','amount','like',  $searchValue . '%');
             })
             //  ->where('referrer_id',$this->userId)
@@ -96,8 +97,8 @@ class Index extends Component
 
             $weeklyTopRecords = Transaction::selectRaw('*, SUM(amount) as total_amount')
             ->where(function ($query) use($searchValue) {
-                $query->whereRelation('user','name','like',  $searchValue . '%')
-                ->orWhereRelation('payment.package','title','like',  $searchValue . '%')
+                $query->whereRelation('referralUser','name','like',  '%' . $searchValue . '%')
+                ->orWhereRelation('payment.package','title','like',  '%' . $searchValue . '%')
                 ->orWhereRelation('payment.package','amount','like',  $searchValue . '%');
             })
             ->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
@@ -116,8 +117,8 @@ class Index extends Component
             $currentMonth = Carbon::now()->format('Y-m');
             $monthlyTopRecords = Transaction::selectRaw('*, SUM(amount) as total_amount')
             ->where(function ($query) use($searchValue) {
-                $query->whereRelation('user','name','like',  $searchValue . '%')
-                ->orWhereRelation('payment.package','title','like',  $searchValue . '%')
+                $query->whereRelation('referralUser','name','like',  '%' . $searchValue . '%')
+                ->orWhereRelation('payment.package','title','like',  '%' . $searchValue . '%')
                 ->orWhereRelation('payment.package','amount','like',  $searchValue . '%');
             })
             ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = ?", [$currentMonth])
@@ -138,8 +139,8 @@ class Index extends Component
 
             $yearlyTopRecords = Transaction::selectRaw('*, SUM(amount) as total_amount')
             ->where(function ($query) use($searchValue) {
-                $query->whereRelation('user','name','like',  $searchValue . '%')
-                ->orWhereRelation('payment.package','title','like',  $searchValue . '%')
+                $query->whereRelation('user','name','like',  '%' . $searchValue . '%')
+                ->orWhereRelation('payment.package','title','like',  '%' . $searchValue . '%')
                 ->orWhereRelation('payment.package','amount','like',  $searchValue . '%');
             })
             ->whereBetween('created_at', [$yearStart, $yearEnd])

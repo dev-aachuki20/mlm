@@ -12,16 +12,16 @@
                     <div wire:loading wire:target="create" class="loader"></div>
                     <div class="card-title d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Kyc</h4>
-                    </div> 
+                    </div>
                     <div class="table-header-plugins">
                         <!-- Start show length -->
                         <div class="dataTables_length">
-                            <label>Show 
-                            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                            <label>Show
+                            <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                                 @foreach(config('constants.datatable_paginations') as $length)
                                 <option value="{{ $length }}">{{ $length }}</option>
                                 @endforeach
-                            </select> 
+                            </select>
                             entries</label>
                         </div>
                         <!-- End show length -->
@@ -32,7 +32,7 @@
                             <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
                         </div>
                         <!-- End Search -->
-                    </div>               
+                    </div>
                     <div class="table-responsive mt-3 my-team-details table-record">
                         <table class="table table-striped table-hover">
                         <thead>
@@ -63,7 +63,7 @@
                                                 @endforeach
                                             </select>
                                         </td>
-                                        <td>{{ convertDateTimeFormat($kyc->created_at,'datetime') }}</td>
+                                        <td>{{ convertDateTimeFormat($kyc->created_at,'date') }}</td>
                                         <td>
                                             <button type="button" wire:click.prevent="show({{$kyc->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                 <i class="ti-eye"></i>
@@ -76,7 +76,7 @@
                                 <td class="text-center" colspan="5">{{ __('messages.no_record_found')}}</td>
                             </tr>
                             @endif
-                        
+
                         </tbody>
                         </table>
                     </div>
@@ -132,13 +132,13 @@
 @push('scripts')
 <script type="text/javascript">
    $(document).ready(function(e){
-       
+
     const dropdown = document.querySelector('.select-status');
     let previousValue = dropdown.value;
 
     $(document).on('change','.select-status', function(event){
         event.preventDefault();
-        
+
         var $this = $(this);
         var kycId = $this.attr('data-kyc');
         var statusVal = $this.val();
@@ -193,7 +193,7 @@
             if(result.isDismissed){
                 // console.log('new value',statusVal);
                 // console.log('previouse value',previousValue);
-                
+
                 // Loop through the options to find and remove the 'selected' attribute
                 var options = $this.find('option');
                 for (var i = 0; i < options.length; i++) {
@@ -201,14 +201,14 @@
                         options[i].removeAttribute('selected');
                     }
                 }
-            
+
                 // Loop through the options to find and add the 'selected' attribute to the new value
                 for (var i = 0; i < options.length; i++) {
                     if (options[i].value === previousValue) {
                         options[i].setAttribute('selected', 'selected');
                     }
                 }
-                
+
                 Livewire.emit('refreshComponent');
             }
 
@@ -218,7 +218,7 @@
    });
 
     document.addEventListener('loadPlugins', function (event) {
-      
+
     });
 </script>
 @endpush

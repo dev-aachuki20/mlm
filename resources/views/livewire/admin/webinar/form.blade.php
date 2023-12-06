@@ -1,10 +1,10 @@
 
 <h4 class="card-title">
-    {{ $updateMode ? __('global.edit') : __('global.create') }} 
+    {{ $updateMode ? __('global.edit') : __('global.create') }}
     Webinar</h4>
 
 <form wire:submit.prevent="{{ $updateMode ? 'update' : 'store' }}" class="forms-sample">
-    
+
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -97,4 +97,3 @@
     </button>
 </form>
 
-               

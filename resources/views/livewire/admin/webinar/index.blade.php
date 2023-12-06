@@ -1,18 +1,18 @@
 <div class="content-wrapper">
-   
+
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
 
                     @if($formMode)
-        
+
                         @include('livewire.admin.webinar.form')
 
                     @elseif($viewMode)
 
                         @livewire('admin.webinar.show', ['webinar_id' => $webinar_id])
-                    
+
                     @else
                         <div wire:loading wire:target="create" class="loader"></div>
                         <div class="card-title d-flex justify-content-between align-items-center">
@@ -20,21 +20,21 @@
 
                             @can('webinar_create')
                             <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                                <i class="fa-solid fa-plus"></i>                                                   
+                                <i class="fa-solid fa-plus"></i>
                                     {{__('global.add')}}
                             </button>
                             @endcan
 
-                        </div>  
+                        </div>
                         <div class="table-header-plugins">
                             <!-- Start show length -->
                             <div class="dataTables_length">
-                            <label>Show 
-                                <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                            <label>Show
+                                <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                                     @foreach(config('constants.datatable_paginations') as $length)
                                     <option value="{{ $length }}">{{ $length }}</option>
                                     @endforeach
-                                </select> 
+                                </select>
                             entries</label>
                             </div>
                             <!-- End show length -->
@@ -45,7 +45,7 @@
                                 <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
                             </div>
                             <!-- End Search -->
-                        </div>              
+                        </div>
                         <div class="table-responsive mt-3 my-team-details table-record">
                             <table class="table table-striped table-hover">
                             <thead>
@@ -77,7 +77,7 @@
                                                 </label>
 
                                             </td>
-                                            <td>{{ convertDateTimeFormat($webinar->created_at,'datetime') }}</td>
+                                            <td>{{ convertDateTimeFormat($webinar->created_at,'date') }}</td>
                                             <td>
 
                                                 @can('webinar_show')
@@ -97,7 +97,7 @@
                                                     <i class="ti-trash"></i>
                                                 </button>
                                                 @endcan
-                                            
+
                                             </td>
                                         </tr>
                                     @endforeach
@@ -106,10 +106,10 @@
                                     <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
                                 </tr>
                                 @endif
-                            
+
                             </tbody>
                             </table>
-                        
+
                         </div>
 
                         {{ $allWebinar->links('vendor.pagination.bootstrap-5') }}
@@ -120,7 +120,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 
 @push('styles')
@@ -140,7 +140,7 @@
 <script type="text/javascript">
 
     document.addEventListener('loadPlugins', function (event) {
-      
+
         $('input[id="webinar_time"]').daterangepicker({
             autoApply: true,
             timePicker: true,
@@ -150,7 +150,7 @@
             // minDate: moment().startOf('day'),
             // maxDate: moment().startOf('day').add(12, 'hour'),
             locale: {
-             format: 'HH:mm'
+             format: 'hh:mm A'
             }
 
         },function(start, end, label) {
@@ -158,7 +158,7 @@
             // console.log(start.format('HH:mm'));
 
             @this.set('time', start.format('HH:mm'));
-            
+
 
         }).on('show.daterangepicker', function(ev, picker) {
             picker.container.find(".calendar-table").hide();

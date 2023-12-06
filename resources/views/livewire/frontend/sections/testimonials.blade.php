@@ -18,9 +18,9 @@
                  @foreach($allTestimonial as $testimonial)
                  <div class="owl-slide testimonial-details bg-white">
                     <div class="testimonial-img">
-                      <img src="{{ $testimonial->user->profile_image_url ? $testimonial->user->profile_image_url : asset(config('constants.default_user_logo')) }}">
+                      <img src="{{ $testimonial->image_url ? $testimonial->image_url : asset(config('constants.default_user_logo')) }}">
                     </div>
-                    <div class="author-name body-size-large">{{ ucwords($testimonial->user->name) }}</div>
+                    <div class="author-name body-size-large">{{ ucwords($testimonial->name) }}</div>
                       <div class="author-rating d-flex">
                         @php
                            $rating = (int)$testimonial->rating;
@@ -32,7 +32,7 @@
                               <img src="{{ asset('images/Star-Border.svg') }}">
                             @endif
                         @endfor
-                        
+
                       </div>
                     <div class="testimonial-dis">
                       {!! $testimonial->description !!}

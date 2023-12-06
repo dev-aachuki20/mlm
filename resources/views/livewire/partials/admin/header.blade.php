@@ -47,7 +47,7 @@
                 @else
                     <img src="{{ isset(auth()->user()->profile_image_url) && !empty(auth()->user()->profile_image_url) ? auth()->user()->profile_image_url : asset(config('constants.default.profile_image')) }}" alt="profile"/>
                 @endif
-                
+
             </span>
             <div class="profile-name">
               <span>Welcome</span>
@@ -92,7 +92,7 @@
               <li>
                 @livewire('auth.admin.logout')
               </li>
-            </ul> 
+            </ul>
           </div>
         </li>
       </ul>

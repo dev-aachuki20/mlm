@@ -22,7 +22,7 @@
                 <a class="nav-link {{$activeTab == 'yearly' ? 'active' : ''}}" id="level-03-tab" data-toggle="tab" wire:click="switchTab('yearly')" href="#level-03" role="tab" aria-controls="level-03"
                   aria-selected="false">Yearly</a>
               </li>
-            </ul>                    
+            </ul>
           </div>
           <div class="tab-content border-0 p-0" id="myTabContent">
             {{-- Start all time records --}}
@@ -31,12 +31,12 @@
                 <div class="table-header-plugins">
                     <!-- Start show length -->
                     <div class="dataTables_length">
-                    <label>Show 
-                        <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                    <label>Show
+                        <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                             @foreach(config('constants.datatable_paginations') as $length)
                             <option value="{{ $length }}">{{ $length }}</option>
                             @endforeach
-                        </select> 
+                        </select>
                       entries</label>
                     </div>
                     <!-- End show length -->
@@ -65,10 +65,10 @@
                                    $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
                                   @endphp
                                  <span>
-                                     
+
                                     @if($packageDetail)
-                                      {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
-                                   
+                                      {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }}
+
                                     &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
                                     @endif
                                   </span>
@@ -99,12 +99,12 @@
                 <div class="table-header-plugins">
                   <!-- Start show length -->
                   <div class="dataTables_length">
-                  <label>Show 
-                      <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                  <label>Show
+                      <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                           @foreach(config('constants.datatable_paginations') as $length)
                           <option value="{{ $length }}">{{ $length }}</option>
                           @endforeach
-                      </select> 
+                      </select>
                     entries</label>
                   </div>
                   <!-- End show length -->
@@ -133,10 +133,10 @@
                                    $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
                                   @endphp
                                  <span>
-                                     
+
                                     @if($packageDetail)
-                                      {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
-                                   
+                                      {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }}
+
                                     &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
                                     @endif
                                   </span>
@@ -165,12 +165,12 @@
                 <div class="table-header-plugins">
                   <!-- Start show length -->
                   <div class="dataTables_length">
-                  <label>Show 
-                      <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                  <label>Show
+                      <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                           @foreach(config('constants.datatable_paginations') as $length)
                           <option value="{{ $length }}">{{ $length }}</option>
                           @endforeach
-                      </select> 
+                      </select>
                     entries</label>
                   </div>
                   <!-- End show length -->
@@ -199,10 +199,10 @@
                                    $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
                                   @endphp
                                  <span>
-                                     
+
                                     @if($packageDetail)
-                                      {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
-                                   
+                                      {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }}
+
                                     &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
                                     @endif
                                   </span>
@@ -231,12 +231,12 @@
                 <div class="table-header-plugins">
                     <!-- Start show length -->
                     <div class="dataTables_length">
-                    <label>Show 
-                        <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                    <label>Show
+                        <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                             @foreach(config('constants.datatable_paginations') as $length)
                             <option value="{{ $length }}">{{ $length }}</option>
                             @endforeach
-                        </select> 
+                        </select>
                       entries</label>
                     </div>
                     <!-- End show length -->
@@ -265,10 +265,10 @@
                                    $packageDetail = $record->referralUser ? $record->referralUser->invoices()->first() : null;
                                   @endphp
                                  <span>
-                                     
+
                                     @if($packageDetail)
-                                      {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }} 
-                                   
+                                      {{ isset(json_decode($packageDetail->package_json)->title) ? json_decode($packageDetail->package_json)->title : null }}
+
                                     &#8377  {{ isset(json_decode($packageDetail->package_json)->title) ? number_format(json_decode($packageDetail->package_json)->amount,2) : 0.00 }}
                                     @endif
                                   </span>
@@ -291,7 +291,7 @@
             </div>
             {{-- End yearly records --}}
 
-          </div>                  
+          </div>
         </div>
       </div>
     </div>

@@ -188,7 +188,7 @@ class Index extends Component
 
 
         // autoload
-        
+
         if($this->filterApply == false){
             $allUser = User::query()->where(function ($query) use ($searchValue, $statusSearch) {
                 $query->where('my_referral_code', 'like', '%' . $searchValue . '%')

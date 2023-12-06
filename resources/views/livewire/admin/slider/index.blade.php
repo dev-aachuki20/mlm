@@ -5,7 +5,7 @@
             <div class="card-body">
 
                 @if($formMode)
-    
+
                     @include('livewire.admin.slider.form')
 
                 @elseif($viewMode)
@@ -18,21 +18,21 @@
                         <h4 class="mb-0">Sliders</h4>
                         @if($allSliders->count() <= (int)config('constants.slider_limit'))
                             <button wire:click="create()" type="button" class="btn btn-sm btn-success btn-icon-text float-right">
-                                <i class="fa-solid fa-plus"></i>                                                   
+                                <i class="fa-solid fa-plus"></i>
                                     {{__('global.add')}}
                             </button>
                         @endif
 
-                    </div> 
+                    </div>
                     <div class="table-header-plugins">
                         <!-- Start show length -->
                         <div class="dataTables_length">
-                            <label>Show 
-                            <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                            <label>Show
+                            <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                                 @foreach(config('constants.datatable_paginations') as $length)
                                 <option value="{{ $length }}">{{ $length }}</option>
                                 @endforeach
-                            </select> 
+                            </select>
                             entries</label>
                         </div>
                         <!-- End show length -->
@@ -43,7 +43,7 @@
                             <span id="clearSearch" class="clear-icon" wire:click.prevent="clearSearch"><i class="fas fa-times"></i></span>
                         </div>
                         <!-- End Search -->
-                    </div>               
+                    </div>
                     <div class="table-responsive mt-3 my-team-details table-record">
                         <table class="table table-striped table-hover">
                         <thead>
@@ -70,19 +70,19 @@
                                         <td>{{ ucfirst($slider->name) }}</td>
                                         <td>{{ ucfirst($slider->type) }}</td>
                                         <td>
-                        
+
                                             <label class="toggle-switch">
                                                 <input type="checkbox" class="toggleSwitch"  wire:click.prevent="toggle({{$slider->id}})" {{ $slider->status == 1 ? 'checked' : '' }}>
                                                 <span class="switch-slider"></span>
                                             </label>
 
                                         </td>
-                                        <td>{{ convertDateTimeFormat($slider->created_at,'datetime') }}</td>
+                                        <td>{{ convertDateTimeFormat($slider->created_at,'date') }}</td>
                                         <td>
                                             <button type="button" wire:click.prevent="show({{$slider->id}})" class="btn btn-primary btn-rounded btn-icon">
                                                 <i class="ti-eye"></i>
                                             </button>
-                                            
+
                                             <button type="button" wire:click.prevent="edit({{$slider->id}})" class="btn btn-info btn-rounded btn-icon">
                                                 <i class="ti-pencil-alt"></i>
                                             </button>
@@ -98,7 +98,7 @@
                                 <td class="text-center" colspan="6">{{ __('messages.no_record_found')}}</td>
                             </tr>
                             @endif
-                        
+
                         </tbody>
                         </table>
                     </div>
@@ -133,7 +133,7 @@
                @this.set('removeImage',true);
             }
         });
-      
+
     });
 </script>
 @endpush
