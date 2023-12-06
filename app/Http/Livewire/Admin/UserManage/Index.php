@@ -5,8 +5,9 @@ namespace App\Http\Livewire\Admin\UserManage;
 use Gate;
 use App\Models\User;
 use App\Models\Package;
+use App\Models\Transaction;
 use Carbon\Carbon;
-
+use App\Rules\ValidWithdrawalAmount;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
@@ -30,10 +31,10 @@ class Index extends Component
 
     public $salesReportId, $fromDate, $toDate, $userName, $packageName, $referralName, $referralCode, $sponserName, $sponserCode;
 
-    public $filterApply = false;
+    public $filterApply = false, $withdrawUserId,$withdrawUserName,$totalEarning = 0, $availableBalance = 0, $withdraw_amount=0, $payment_gateway, $withdraw_remark;
 
     protected $listeners = [
-        'cancel', 'initializePlugins', 'updatePaginationLength', 'confirmedToggleAction', 'deleteConfirm', 'updatedFromDate', 'resetFromDate', 'updatedToDate', 'resetToDate'
+        'cancel', 'initializePlugins', 'updatePaginationLength', 'confirmedToggleAction', 'deleteConfirm', 'updatedFromDate', 'resetFromDate', 'updatedToDate', 'resetToDate','openWithdrawPanel','hideWithdrawPanel'
     ];
 
     public function mount()
@@ -283,39 +284,65 @@ class Index extends Component
         $this->dispatchBrowserEvent('loadPlugins');
     }
 
-    // public function render()
-    // {
+    public function openWithdrawPanel($userId){
 
-    //     // dd($this->joiningDateFrom);
-    //     // $this->validate([
-    //     //     'joiningDateFrom' => 'required|date',
-    //     //     'joiningDateTo' => 'date|after_or_equal:joiningDateFrom',
-    //     // ]);
+        $this->withdrawUserId = $userId;
+        $this->withdrawUserName = User::where('id',$userId)->value('name');
 
+        $creditBalance = Transaction::where('referrer_id', $userId)->where('payment_type','credit')->sum('amount');
+        $debitBalance = Transaction::where('referrer_id', $userId)->where('payment_type','debit')->sum('amount');
 
-    //     $statusSearch = null;
-    //     $searchValue = $this->search;
-    //     if (Str::contains('active', strtolower($searchValue))) {
-    //         $statusSearch = 1;
-    //     } else if (Str::contains('inactive', strtolower($searchValue))) {
-    //         $statusSearch = 0;
-    //     }
+        $this->totalEarning = $creditBalance;
 
-    //     $allUser = User::query()->where(function ($query) use ($searchValue, $statusSearch) {
-    //         $query->where('my_referral_code', 'like', '%' . $searchValue . '%')
-    //             ->orWhere('referral_code', 'like', '%' . $searchValue . '%')
-    //             ->orWhere('name', 'like', '%' . $searchValue . '%')
-    //             ->orWhere('referral_name', 'like', '%' . $searchValue . '%')
-    //             ->orWhere('is_active', $statusSearch)
-    //             ->orWhereRelation('packages', 'title', 'like', '%' . $searchValue . '%')
-    //             ->orWhereRaw("date_format(date_of_join, '" . config('constants.search_date_format') . "') like ?", ['%' . $searchValue . '%']);
-    //     })
-    //         ->whereHas('roles', function ($query) {
-    //             $query->whereIn('id', [3]);
-    //         })
-    //         ->orderBy($this->sortColumnName, $this->sortDirection)
-    //         ->paginate($this->paginationLength);
+        $this->availableBalance = (float)$creditBalance - (float)$debitBalance;
 
-    //     return view('livewire.admin.user-manage.index', compact('allUser'));
-    // }
+        $this->dispatchBrowserEvent('openWithdrawModal');
+    }
+
+    public function WithdrawAmount(){
+        $this->validate([
+            'withdraw_amount'=> ['required','numeric','not_in:-,0', new ValidWithdrawalAmount($this->availableBalance)],
+            'payment_gateway'=> 'required|in:razorpay,cod',
+            'withdraw_remark'=> 'required|string',
+        ],[],[
+            'withdraw_amount'=>'amount',
+            'withdraw_remark'=>'remark',
+        ]);
+
+        DB::beginTransaction();
+        try{
+
+            $gateway = $this->payment_gateway == 'cod' ? 2 : 1;
+
+            $transactionRecord = [
+                'user_id' => $this->withdrawUserId,
+                'payment_id' => null,
+                'payment_type' => 'debit',
+                'type' => null,
+                'gateway' => $gateway,
+                'amount' => $this->withdraw_amount,
+                'remark' => $this->withdraw_remark,
+                'referrer_id' => null,
+            ];
+
+            Transaction::create($transactionRecord);
+
+            DB::commit();
+
+            $this->hideWithdrawPanel();
+
+            $this->alert('success', 'Withdrawal Successfully!');
+
+        }catch (\Exception $e) {
+            DB::rollBack();
+            // dd($e->getMessage().'->'.$e->getLine());
+            $this->alert('error',trans('messages.error_message'));
+        }
+
+    }
+
+    public function hideWithdrawPanel(){
+        $this->reset(['withdrawUserId','withdrawUserName','totalEarning','availableBalance','withdraw_amount','payment_gateway','withdraw_remark']);
+        $this->dispatchBrowserEvent('hideWithdrawModal');
+    }
 }

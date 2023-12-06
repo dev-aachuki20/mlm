@@ -20,7 +20,7 @@ class Leaderboard extends Component
     public $sortColumnName = 'total_amount', $sortDirection = 'desc', $paginationLength = 10;
 
     public $activeTab = 'all';
-    
+
     protected $listeners = [
         'updatePaginationLength',
     ];
@@ -62,7 +62,7 @@ class Leaderboard extends Component
     }
 
     public function mount(){
-        
+
     }
 
     public function render()
@@ -78,7 +78,7 @@ class Leaderboard extends Component
 
             $allTimeTopRecords = Transaction::query()->selectRaw('*, SUM(amount) as total_amount')
             ->where(function ($query) use($searchValue) {
-                $query->whereRelation('user','name','like',  $searchValue . '%')
+                $query->whereRelation('referralUser','name','like',  $searchValue . '%')
                 ->orWhereRelation('payment.package','title','like',  $searchValue . '%')
                 ->orWhereRelation('payment.package','amount','like',  $searchValue . '%');
             })
@@ -95,7 +95,7 @@ class Leaderboard extends Component
 
             $weeklyTopRecords = Transaction::selectRaw('*, SUM(amount) as total_amount')
             ->where(function ($query) use($searchValue) {
-                $query->whereRelation('user','name','like',  $searchValue . '%')
+                $query->whereRelation('referralUser','name','like',  $searchValue . '%')
                 ->orWhereRelation('payment.package','title','like',  $searchValue . '%')
                 ->orWhereRelation('payment.package','amount','like',  $searchValue . '%');
             })
@@ -114,7 +114,7 @@ class Leaderboard extends Component
             $currentMonth = Carbon::now()->format('Y-m');
             $monthlyTopRecords = Transaction::selectRaw('*, SUM(amount) as total_amount')
             ->where(function ($query) use($searchValue) {
-                $query->whereRelation('user','name','like',  $searchValue . '%')
+                $query->whereRelation('referralUser','name','like',  $searchValue . '%')
                 ->orWhereRelation('payment.package','title','like',  $searchValue . '%')
                 ->orWhereRelation('payment.package','amount','like',  $searchValue . '%');
             })
@@ -129,12 +129,12 @@ class Leaderboard extends Component
 
         $yearlyTopRecords = null;
         if($this->activeTab == 'yearly'){
-            $yearStart = date('Y-04-01'); 
+            $yearStart = date('Y-04-01');
             $yearEnd = date('Y-03-31', strtotime('+1 year'));
 
             $yearlyTopRecords = Transaction::selectRaw('*, SUM(amount) as total_amount')
             ->where(function ($query) use($searchValue) {
-                $query->whereRelation('user','name','like',  $searchValue . '%')
+                $query->whereRelation('referralUser','name','like',  $searchValue . '%')
                 ->orWhereRelation('payment.package','title','like',  $searchValue . '%')
                 ->orWhereRelation('payment.package','amount','like',  $searchValue . '%');
             })

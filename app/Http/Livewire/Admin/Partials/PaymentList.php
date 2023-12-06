@@ -38,7 +38,7 @@ class PaymentList extends Component
 
         $this->total_earning = Transaction::where('referrer_id', $user_id)->where('payment_type', 'credit')->pluck('amount')->sum();
 
-        $this->total_withdrawal = Transaction::where('referrer_id', $user_id)->where('payment_type', 'debit')->pluck('amount')->sum();
+        $this->total_withdrawal = Transaction::where('user_id', $user_id)->where('payment_type', 'debit')->pluck('amount')->sum();
 
         $this->total_remaning_earning = (float)$this->total_earning -  (float)$this->total_withdrawal;
     }

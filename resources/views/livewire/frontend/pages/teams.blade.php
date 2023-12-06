@@ -32,7 +32,7 @@
                 </div>
                 <div class="founder-details-outer">
                   <div class="founder-img">
-                    <img src="{{ $ceoUserDetail->profile_image_url }}">
+                    <img src="{{ $ceoUserDetail->profile_image_url ? $ceoUserDetail->profile_image_url : asset(config('constants.default_user_logo')) }}">
                   </div>
                   <div class="founder-about">
                     <label class="color-orange body-size-normal">Founder</label>
@@ -91,7 +91,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 col-6">
                     <div class="team-member-details bg-light-orange">
                       <div class="team-member">
-                        <img src="{{ $team->profile_image_url }}">
+                        <img src="{{ $team->profile_image_url ? $team->profile_image_url : asset(config('constants.default_user_logo')) }}">
                       </div>
                       <div class="team-member-data">
                         <h6>{{ ucwords($team->name) }}</h6>

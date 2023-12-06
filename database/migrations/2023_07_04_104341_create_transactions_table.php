@@ -19,11 +19,11 @@ return new class extends Migration
 
             // $table->foreign('user_id', 'user_id_fk_6758')->references('id')->on('users');
 
-            $table->unsignedBigInteger('payment_id');
-          
+            $table->unsignedBigInteger('payment_id')->nullable();
+
             $table->enum('payment_type', ['debit', 'credit'])->nullable();
 
-            $table->tinyInteger('type')->default(null)->comment('1=>Level 1, 2=> Level 2, 3=>Level 3');
+            $table->tinyInteger('type')->default(null)->nullable()->comment('1=>Level 1, 2=> Level 2, 3=>Level 3');
 
             $table->double('amount', 10, 2);
 
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->unsignedBigInteger('referrer_id')->default(null)->nullable();
 
             $table->timestamps();
-            
+
             $table->softDeletes();
         });
     }

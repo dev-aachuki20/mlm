@@ -25,6 +25,7 @@ class Transaction extends Model
         'amount',
         'gateway',
         'referrer_id',
+        'remark',
         'created_at',
         'updated_at',
     ];

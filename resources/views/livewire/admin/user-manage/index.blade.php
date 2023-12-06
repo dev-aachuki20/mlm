@@ -169,9 +169,14 @@
                                 </td>
                                 <td>{{ convertDateTimeFormat($user->created_at,'date') }}</td>
                                 <td>
+                                    <button type="button" onclick="confirmDelete('{{$user->id}}')"  class="btn btn-info btn-rounded btn-icon">
+                                        <i class="fa-solid fa-money-bill-transfer"></i>
+                                    </button>
+
                                     <button type="button" wire:click.prevent="show({{$user->id}})" class="btn btn-primary btn-rounded btn-icon">
                                         <i class="ti-eye"></i>
                                     </button>
+
 
                                     {{-- @if($user->is_ceo || $user->is_management)
                                             <button type="button" wire:click.prevent="edit({{$user->id}})" class="btn btn-info btn-rounded btn-icon">
@@ -201,6 +206,84 @@
             </div>
         </div>
     </div>
+
+    <div wire:ignore.self wire:key="withdraw-modal" class="modal fade" id="withdrawModal" tabindex="-1" data-bs-backdrop='static' aria-hidden="true">
+        <div class="modal-dialog codModal modal-dialog-centered">
+          <form wire:submit.prevent="WithdrawAmount" class="modal-content border-0">
+            <div class="modal-header">
+              <h5 class="modal-title fs-5" id="exampleModalLabel">Withdraw Panel</h5>
+              <button type="button" wire:click.prvent="hideWithdrawPanel" class="btn-close shadow-none border-0" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+
+              <div class="modal-body">
+                 <div class="mb-1 text-center">
+                     <label class="font-weight-bold">{{ ucwords($withdrawUserName) }}</label>
+                  </div>
+                  <div class="mb-1 text-center">
+                       <label class="font-weight-bold">Total Earning :</label>
+                       <span>&#8377; {{ number_format($totalEarning,2) }}</span>
+                  </div>
+                  <div class="mb-1 text-center">
+                       <label class="font-weight-bold">Available Balance :</label>
+                       <span>&#8377; {{ number_format($availableBalance,2) }}</span>
+                  </div>
+                  <div class="form-group mb-3">
+                    <label class="font-weight-bold justify-content-start">Amount</label>
+                    <input type="number" step="0.1" wire:model.defer="withdraw_amount" class="form-control">
+
+                    @if($errors->has('withdraw_amount'))
+                        <span class="error text-danger">
+                            {{ $errors->first('withdraw_amount') }}
+                        </span>
+                    @endif
+                  </div>
+
+
+                  <div class="form-group mb-3">
+                    <label class="font-weight-bold justify-content-start">Payment Gateway</label>
+
+                    <input type="radio" wire:model="payment_gateway" value="cod" {{ $payment_gateway == 'cod' ? 'checked' : '' }}> COD
+
+                    @if($errors->has('payment_gateway'))
+                        <span class="error text-danger">
+                            {{ $errors->first('payment_gateway') }}
+                        </span>
+                    @endif
+                  </div>
+
+
+                  <div class="form-group mb-3">
+                    <label class="font-weight-bold justify-content-start">Remark</label>
+
+                    <textarea class="form-control" wire:model.defer="withdraw_remark" rows="5"  placeholder="Write Remark" ></textarea>
+
+                    @if($errors->has('withdraw_remark'))
+                        <span class="error text-danger">
+                            {{ $errors->first('withdraw_remark') }}
+                        </span>
+                    @endif
+                  </div>
+
+
+              </div>
+
+              <div class="modal-footer">
+                  <button type="button" wire:click.prvent="hideWithdrawPanel" class="btn btn-secondary" data-bs-dismiss="modal" wire:loading.attr="disabled">
+                    Close &nbsp;
+                    <span wire:loading wire:target="hideWithdrawPanel">
+                        <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                    </span>
+                </button>
+                  <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">
+                    Submit &nbsp;
+                    <span wire:loading wire:target="WithdrawAmount">
+                        <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                    </span>
+                </button>
+              </div>
+              </form>
+        </div>
+      </div>
 </div>
 @endif
 </div>
@@ -364,6 +447,37 @@
     document.addEventListener('paymentRecieptClosedModal', function(event) {
         $('#codReceiptModal').modal('hide');
     });
+
+
+
+    document.addEventListener('openWithdrawModal', function(event) {
+        $('#withdrawModal').modal('show');
+    });
+
+    document.addEventListener('hideWithdrawModal', function(event) {
+        $('#withdrawModal').modal('hide');
+    });
+
+
+    function confirmDelete(userId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You want withdraw amount!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                Livewire.emit('openWithdrawPanel', userId);
+
+            }else{
+                Livewire.emit('hideWithdrawPanel');
+            }
+        });
+    }
 
 </script>
 @endpush

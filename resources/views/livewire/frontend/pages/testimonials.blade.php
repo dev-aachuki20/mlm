@@ -30,17 +30,17 @@
                     <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                   </div>
                 </div>
-                <form class="form" wire:submit.prevent="storeReview">            
+                <form class="form" wire:submit.prevent="storeReview">
                   <div class="form-outer">
                     <div class="form-group">
                       <div class="input-form">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control" wire:model.defer="name"  placeholder="Enter Your Name" ></textarea>
+                        <input type="text" class="form-control" wire:model.defer="name"  placeholder="Enter Your Name" >
                         @error('name') <span class="error text-danger">{{ $message }}</span>@enderror
                       </div>
                     </div>
-                   
-        
+
+
                     <div class="form-group mb-0">
                         <div wire:key="testimonial-image" wire:ignore>
                             <label class="font-weight-bold justify-content-start">Image</label>
@@ -49,16 +49,16 @@
                                 <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Loading
                             </span>
                         </div>
-                        
+
                         @if($errors->has('image'))
                         <span class="error text-danger">
                             {{ $errors->first('image') }}
                         </span>
                         @endif
                     </div>
-                   
-        
-   
+
+
+
                     <div class="form-group mb-20">
                       <span class="label">Overall rating</span>
                       <div class="stars">
@@ -96,7 +96,7 @@
                     </div>
                   </div>
                   <div class="submit-btn">
-                    <button type="submit" class="btn fill" wire:loading.attr="disabled">Submit review 
+                    <button type="submit" class="btn fill" wire:loading.attr="disabled">Submit review
                       <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8 11L13 6L8 1" stroke-width="1.5" stroke-linecap="round"
                           stroke-linejoin="round" />
@@ -115,7 +115,7 @@
           </div>
         </div>
     </section>
-  
+
     <section class="all-testimonial-sec ptb-120">
         <div class="container">
           <div class="row justify-content-center">
@@ -130,7 +130,7 @@
           </div>
           <div class="row testimonial-outer">
             @foreach ($testimonials as $testimonial)
-         
+
             @if(auth()->check() && auth()->user()->is_super_admin && (!$testimonial->status))
             <div class="col-lg-4 col-md-6 col-sm-12">
               <div class="testimonial-details bg-white">
@@ -199,7 +199,7 @@
             </div>
           </div>
           @endif
-          
+
         </div>
     </section>
 
@@ -212,7 +212,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 <script type="text/javascript">
     $(function() {
-     
+
        $(document).on({
          mouseover: function(event) {
            $(this).find('.far').addClass('star-over');
@@ -223,8 +223,8 @@
            $(this).prevAll().find('.far').removeClass('star-over');
          }
        }, '.rate');
-   
-   
+
+
        $(document).on('click', '.rate', function() {
          if ( !$(this).find('.star').hasClass('rate-active') ) {
            $(this).siblings().find('.star').addClass('far').removeClass('fas rate-active');
@@ -234,7 +234,7 @@
         //    console.log('has');
          }
        });
-       
+
         $('.dropify').dropify();
         $('.dropify-errors-container').remove();
         $('.dropify-clear').click(function(e) {
@@ -245,25 +245,25 @@
                 @this.set('originalImage',null);
             }
         });
-       
-        
+
+
         document.addEventListener('resetImage', function (event) {
             console.log('reset image');
               // Find the Dropify container
             var dropifyContainer = document.querySelector('.dropify-wrapper');
-        
+
             // Find the "Remove" button within the container
             var removeButton = dropifyContainer.querySelector('.dropify-clear');
-        
+
             // Trigger a click event on the "Remove" button
             removeButton.click();
         });
-        
-        
-       
+
+
+
     });
-    
-    
-    
+
+
+
 </script>
 @endpush

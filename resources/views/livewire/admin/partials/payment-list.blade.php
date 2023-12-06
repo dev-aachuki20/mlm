@@ -11,15 +11,15 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-sm-4">
-                    <label class="font-weight-bold">{{ __('cruds.user.payment.total_earning') }}</label> : 
+                    <label class="font-weight-bold">{{ __('cruds.user.payment.total_earning') }}</label> :
                     <span class="p-2">&#8377; {{number_format($total_earning,2)}}</span>
                 </div>
                 <div class="col-sm-4">
-                    <label class="font-weight-bold">{{ __('cruds.user.payment.total_remaning_earning') }}</label> : 
+                    <label class="font-weight-bold">{{ __('cruds.user.payment.total_remaning_earning') }}</label> :
                     <span class="p-2">&#8377; {{number_format($total_remaning_earning,2)}}</span>
                 </div>
                 <div class="col-sm-4">
-                    <label class="font-weight-bold">{{ __('cruds.user.payment.total_withdrawal') }}</label> : 
+                    <label class="font-weight-bold">{{ __('cruds.user.payment.total_withdrawal') }}</label> :
                     <span class="p-2">&#8377; {{number_format($total_withdrawal,2)}} </span>
                 </div>
             </div>
@@ -34,18 +34,18 @@
             <label class="font-weight-bold">Payment Transactions</label>
         </div>
 
-        
+
 
         <div class="table-responsive p-3 my-team-details table-record">
         <div class="table-header-plugins">
                     <!-- Start show length -->
                     <div class="dataTables_length">
-                            <label>Show 
-                                <select wire:change="$emit('updatePaginationLength', $event.target.value)"> 
+                            <label>Show
+                                <select wire:change="$emit('updatePaginationLength', $event.target.value)">
                                     @foreach(config('constants.datatable_paginations') as $length)
                                     <option value="{{ $length }}">{{ $length }}</option>
                                     @endforeach
-                                </select> 
+                                </select>
                             entries</label>
                     </div>
                     <!-- End show length -->
@@ -94,7 +94,7 @@
                         <button wire:click.prevent="showInvoice({{$payment->user_id}})"  type="button" class="btn btn-sm btn-primary btn-icon-text">
                             View
                         </button>
-                        
+
                     </td>
 
                 </tr>
@@ -146,7 +146,7 @@
                         </span>
                       @endif
                   </div>
-              
+
               </div>
               @endif
               <div class="modal-footer">
