@@ -300,6 +300,8 @@ class Index extends Component
     }
 
     public function WithdrawAmount(){
+        $this->resetValidation();
+
         $this->validate([
             'withdraw_amount'=> ['required','numeric','not_in:-,0', new ValidWithdrawalAmount($this->availableBalance)],
             'payment_gateway'=> 'required|in:razorpay,cod',
@@ -342,6 +344,7 @@ class Index extends Component
     }
 
     public function hideWithdrawPanel(){
+        $this->resetValidation();
         $this->reset(['withdrawUserId','withdrawUserName','totalEarning','availableBalance','withdraw_amount','payment_gateway','withdraw_remark']);
         $this->dispatchBrowserEvent('hideWithdrawModal');
     }

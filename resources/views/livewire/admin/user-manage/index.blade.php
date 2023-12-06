@@ -244,11 +244,13 @@
 
                     <input type="radio" wire:model="payment_gateway" value="cod" {{ $payment_gateway == 'cod' ? 'checked' : '' }}> COD
 
+                    <div>
                     @if($errors->has('payment_gateway'))
                         <span class="error text-danger">
                             {{ $errors->first('payment_gateway') }}
                         </span>
                     @endif
+                    </div>
                   </div>
 
 
