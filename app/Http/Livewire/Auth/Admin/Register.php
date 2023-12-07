@@ -17,7 +17,8 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Illuminate\Support\Facades\DB;
 use App\Mail\SendRegisteredUserMail;
 use App\Mail\SendPlanPurchasedMail;
-use App\Mail\SendRefferalCommissionMail;
+use App\Mail\SendRefferalLevelOneCommissionMail;
+use App\Mail\SendRefferalLevelTwoCommissionMail;
 use Livewire\WithFileUploads;
 
 
@@ -300,20 +301,22 @@ class Register extends Component
                     //Verification mail sent
                     // $user->sendEmailVerificationNotification();
 
-                    // Send mail to reffrals
-                    $LevelOnereffraluser= $user->referrer->id ?? null;
-                    if($LevelOnereffraluser){
-                        $LOnecommissionAmount   = $user->packages()->first()->level_one_commission;
-                        $levelOneuser = User::where('id',$LevelOnereffraluser)->first();
-                        $subject = "Passive Income";
-                        Mail::to($levelOneuser->email)->queue(new SendRefferalCommissionMail($subject,$levelOneuser->name,$user->name,$user->email,$user->phone,$planName,$LOnecommissionAmount));
+                    if($paymentGateway != 'cod'){
+                        // Send mail to reffrals
+                        $LevelOnereffraluser= $user->referrer->id ?? null;
+                        if($LevelOnereffraluser){
+                            $LOnecommissionAmount   = $user->packages()->first()->level_one_commission;
+                            $levelOneuser = User::where('id',$LevelOnereffraluser)->first();
+                            $subject = "Passive Income";
+                            Mail::to($levelOneuser->email)->queue(new SendRefferalLevelOneCommissionMail($subject,$levelOneuser->name,$user->name,$user->email,$user->phone,$planName,$LOnecommissionAmount));
 
-                        $LevelTworeffraluser= $user->referrer->referrer->id ?? null;
-                        if($LevelTworeffraluser){
-                            $LTwocommissionAmount   = $user->packages()->first()->level_two_commission;
-                            $levelTwouser = User::where('id',$LevelTworeffraluser)->first();
-                            $subject = "Active Income";
-                            Mail::to($levelTwouser->email)->queue(new SendRefferalCommissionMail($subject,$levelTwouser->name,$user->name,$user->email,$user->phone,$planName,$LTwocommissionAmount));
+                            $LevelTworeffraluser= $user->referrer->referrer->id ?? null;
+                            if($LevelTworeffraluser){
+                                $LTwocommissionAmount   = $user->packages()->first()->level_two_commission;
+                                $levelTwouser = User::where('id',$LevelTworeffraluser)->first();
+                                $subject = "Active Income";
+                                Mail::to($levelTwouser->email)->queue(new SendRefferalLevelTwoCommissionMail($subject,$levelTwouser->name,$user->name,$user->email,$user->phone,$planName,$LTwocommissionAmount));
+                            }
                         }
                     }
 

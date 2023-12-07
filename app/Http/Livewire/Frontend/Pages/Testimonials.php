@@ -42,7 +42,7 @@ class Testimonials extends Component
 
     public function storeReview(){
         $validatedData = $this->validate([
-            'name'        => ['required','string'],
+        'name'        => ['required','string',/*new NoMoreThanOneSpace*/],
             'image'       => ['nullable','image'],
             'rating'      => ['required'],
             'description' => ['required','strip_tags',/*'min:'.config('constants.min_review_length')*/],

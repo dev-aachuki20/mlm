@@ -311,10 +311,22 @@ class SettingSeeder extends Seeder
             ],
             [
 
-                'key'    => 'referral_commission_mail_content',
+                'key'    => 'referral_commission_level_one_mail_content',
                 'value'  =>  null,
                 'type'   => 'text_area',
-                'display_name'  => 'Referral Commision Mail Content',
+                'display_name'  => 'Referral Commision Mail Content For Level 1',
+                'group'  => 'mail',
+                'details' => '[REFERRAL_NAME], [PACKAGE_NAME], [REGISTERED_USER_NAME], [REGISTERED_USER_EMAIL], [REGISTERED_USER_PHONE], [REFERRAL_COMMISSION_AMOUNT], [SUPPORT_EMAIL], [SUPPORT_PHONE], [APP_NAME]',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+            [
+
+                'key'    => 'referral_commission_level_two_mail_content',
+                'value'  =>  null,
+                'type'   => 'text_area',
+                'display_name'  => 'Referral Commision Mail Content For Level 2',
                 'group'  => 'mail',
                 'details' => '[REFERRAL_NAME], [PACKAGE_NAME], [REGISTERED_USER_NAME], [REGISTERED_USER_EMAIL], [REGISTERED_USER_PHONE], [REFERRAL_COMMISSION_AMOUNT], [SUPPORT_EMAIL], [SUPPORT_PHONE], [APP_NAME]',
                 'status' => 1,

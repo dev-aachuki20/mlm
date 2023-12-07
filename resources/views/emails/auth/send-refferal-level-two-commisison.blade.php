@@ -2,7 +2,7 @@
 
 @section('email-content')
         @php
-            $mailContent  = getSetting('referral_commission_mail_content');
+            $mailContent  = getSetting('referral_commission_level_two_mail_content');
             //dd($mailContent);
             $mailContent  = str_replace('[REFERRAL_NAME]',$referalName,$mailContent);
             $mailContent  = str_replace('[PACKAGE_NAME]', $planName,$mailContent);

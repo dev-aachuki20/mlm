@@ -25,7 +25,7 @@ class NoMoreThanOneSpace  implements Rule
      */
     public function passes($attribute, $value)
     {
-        return !preg_match('/\b(\w+\s+\w+)\b/', $value);
+        return preg_match('/^[a-zA-Z]+(?:\s[a-zA-Z]+)*$/', $value);
     }
 
     /**
@@ -35,6 +35,6 @@ class NoMoreThanOneSpace  implements Rule
      */
     public function message()
     {
-         return 'The :attribute field must not contain multiple consecutive spaces.';
+         return 'The :attribute must only contain alphabetic characters separated by single spaces';
     }
 }

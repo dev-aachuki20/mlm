@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SendRefferalCommissionMail extends Mailable
+class SendRefferalLevelTwoCommissionMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $subject,$referalName,$username,$useremail,$userphone,$planName,$commissionAmount;
@@ -33,7 +33,7 @@ class SendRefferalCommissionMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.auth.send-refferal-commisison', [
+        return $this->markdown('emails.auth.send-refferal-level-two-commisison', [
                 'referalName' => $this->referalName,
                 'username' => $this->username,
                 'useremail' => $this->useremail,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Partials;
 
+use Mail;
 use Gate;
 use App\Models\User;
 use App\Models\Payment;
@@ -12,6 +13,8 @@ use Livewire\WithPagination;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Symfony\Component\HttpFoundation\Response;
+use App\Mail\SendRefferalLevelOneCommissionMail;
+use App\Mail\SendRefferalLevelTwoCommissionMail;
 
 class PaymentList extends Component
 {
@@ -136,6 +139,25 @@ class PaymentList extends Component
                             $transactionCreated = Transaction::create($transactionRecords);
                         }
                     }
+
+                     // Send mail to reffrals
+                     $LevelOnereffraluser= $findUser->referrer->id ?? null;
+                     if($LevelOnereffraluser){
+                        $planName = $packagePurchased->title;
+
+                         $LOnecommissionAmount   = $packagePurchased->level_one_commission;
+                         $levelOneuser = User::where('id',$LevelOnereffraluser)->first();
+                         $subject = "Passive Income";
+                         Mail::to($levelOneuser->email)->queue(new SendRefferalLevelOneCommissionMail($subject,$levelOneuser->name,$findUser->name,$findUser->email,$findUser->phone,$planName,$LOnecommissionAmount));
+
+                         $LevelTworeffraluser= $findUser->referrer->referrer->id ?? null;
+                         if($LevelTworeffraluser){
+                             $LTwocommissionAmount   = $packagePurchased->level_two_commission;
+                             $levelTwouser = User::where('id',$LevelTworeffraluser)->first();
+                             $subject = "Active Income";
+                             Mail::to($levelTwouser->email)->queue(new SendRefferalLevelTwoCommissionMail($subject,$levelTwouser->name,$findUser->name,$findUser->email,$findUser->phone,$planName,$LTwocommissionAmount));
+                         }
+                     }
 
                 }elseif($this->payment_approval == 'rejected'){
                     $findUser->delete();
