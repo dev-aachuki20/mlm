@@ -56,7 +56,7 @@
                           @if($record->referralUser)
                             <tr>
                               <td class="pr-0"  width="50px">
-                                <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
+                                <img src="{{ $record->referralUser->profile_image_url ? $record->referralUser->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
                               </td>
                               <td>
                                 <div class="leaderboard-row">
@@ -125,7 +125,7 @@
                           @if($record->referralUser)
                             <tr>
                               <td class="pr-0"  width="50px">
-                                <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
+                                <img src="{{ $record->referralUser->profile_image_url ? $record->referralUser->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
                               </td>
                               <td>
                                 <div class="leaderboard-row">
@@ -192,7 +192,7 @@
                           @if($record->referralUser)
                             <tr>
                               <td class="pr-0"  width="50px">
-                                <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
+                                <img src="{{ $record->referralUser->profile_image_url ? $record->referralUser->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
                               </td>
                               <td>
                                 <div class="leaderboard-row">
@@ -259,7 +259,7 @@
                           @if($record->referralUser)
                             <tr>
                               <td class="pr-0"  width="50px">
-                                <img src="{{ $record->user->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
+                                <img src="{{ $record->referralUser->profile_image_url ? $record->referralUser->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="image">
                               </td>
                               <td>
                                 <div class="leaderboard-row">

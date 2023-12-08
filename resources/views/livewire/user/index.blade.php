@@ -447,7 +447,7 @@
                     @if($record->referralUser)
                     <li>
                       <div class="d-flex recent-list-detail">
-                        <img src="{{ $record->referralUser->profile_image_url ? $record->user->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
+                        <img src="{{ $record->referralUser->profile_image_url ? $record->referralUser->profile_image_url : asset(config('constants.default.profile_image'))  }}" alt="user">
                         <div class="leaderboard-row">
                           {{ ucwords($record->referralUser->name) }}
                           {{-- <span>{{ $record->payment->package->title ?? null }} &#8377 {{ number_format( $record->payment->package->amount,2) }}</span> --}}
