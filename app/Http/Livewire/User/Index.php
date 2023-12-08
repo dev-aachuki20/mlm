@@ -74,7 +74,7 @@ class Index extends Component
 
 
         // Start Commission
-        $this->levelCommission = Transaction::where('payment_type','credit')->where('referrer_id',$this->userId)->sum('amount');
+        $this->levelCommission = Transaction::where('payment_type','credit')->where('referrer_id',$this->userId)->where('type',2)->sum('amount');
         $this->totalWithdrawal = Transaction::where('payment_type','debit')->where('user_id',$this->userId)->sum('amount');
         $this->availableBalance = (float)$this->levelCommission - (float)$this->totalWithdrawal;
         $this->netProfit = (float)$this->levelCommission - (float)$this->totalWithdrawal;

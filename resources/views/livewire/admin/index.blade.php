@@ -436,9 +436,11 @@
               display: false
           },
           scales: {
-            y: {
-              beginAtZero: true // Start the y-axis from zero
-            }
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }],
           }
         }
       });
