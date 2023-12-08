@@ -27,55 +27,35 @@ class Index extends Component
         $this->userId = auth()->user()->id;
         // Start Earning
 
+        $totalIncomeAmount = Transaction::where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
+
         //Today
         $this->todayEarnings = Transaction::whereDate('created_at', today())->where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
 
-        $yesterday = Carbon::yesterday()->toDateString();
-        $yesterdayClosedAmount = Transaction::whereDate('created_at', $yesterday)->where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
-
-
-
-        $diffreceTodayAmount = (float)$this->todayEarnings - (float)$yesterdayClosedAmount;
-
-        if($diffreceTodayAmount != 0 && $yesterdayClosedAmount != 0){
-            $percentage = $diffreceTodayAmount / (float)$yesterdayClosedAmount * 100;
+        if($this->todayEarnings != 0){
+            $percentage = (float)$this->todayEarnings / (float)$totalIncomeAmount * 100;
             $this->todayEarningPercent = number_format(min($percentage, 100),2);
         }
+        
 
         //Last 7 days
-        $previousStartOfWeek = Carbon::now()->subWeek()->startOfWeek();
-        $previousEndOfWeek = Carbon::now()->subWeek()->endOfWeek();
+        $this->last7DaysEarnings = Transaction::whereDate('created_at', '>=', Carbon::now()->subDays(7))->where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
 
-        $this->last7DaysEarnings = Transaction::whereBetween('created_at', [$previousStartOfWeek, $previousEndOfWeek])->where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
-
-        $currentStartOfWeek = Carbon::now()->startOfWeek();
-        $currentEndOfWeek   = Carbon::now()->endOfWeek();
-
-        $currentWeekEarnings = Transaction::whereBetween('created_at', [$currentStartOfWeek, $currentEndOfWeek])->where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
-
-        $diffreceWeekAmount = (float)$currentWeekEarnings - (float)$this->last7DaysEarnings;
-        if($diffreceWeekAmount != 0 && $this->last7DaysEarnings != 0){
-            $percentage = $diffreceWeekAmount / (float)$this->last7DaysEarnings * 100;
+        if($this->last7DaysEarnings != 0){
+            $percentage = (float)$this->last7DaysEarnings / (float)$totalIncomeAmount * 100;
             $this->last7DaysEarningPercent = number_format(min($percentage, 100),2);
         }
+        
 
         //30 Days
-        $lastMonthStart = Carbon::now()->subMonth()->startOfMonth();
-        $lastMonthEnd = Carbon::now()->subMonth()->endOfMonth();
+        $this->last30DaysEarnings = Transaction::whereDate('created_at', '>=', Carbon::now()->subDays(30))->where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
 
-        $this->last30DaysEarnings = Transaction::whereBetween('created_at', [$lastMonthStart, $lastMonthEnd])->where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
-
-        $currentMonthStart = Carbon::now()->startOfMonth();
-        $currentMonthEnd = Carbon::now()->endOfMonth();
-
-        $currentMonthEarnings = Transaction::whereBetween('created_at', [$currentMonthStart, $currentMonthEnd])->where('referrer_id',$this->userId)->where('payment_type','credit')->sum('amount');
-
-        $diffreceMonthAmount = (float)$currentMonthEarnings - (float)$this->last30DaysEarnings;
-        if($diffreceMonthAmount != 0 && $this->last30DaysEarnings != 0){
-            $percentage = $diffreceMonthAmount / (float)$this->last30DaysEarnings * 100;
+        if($this->last30DaysEarnings != 0){
+            $percentage = (float)$this->last30DaysEarnings / (float)$totalIncomeAmount * 100;
             $this->last30DaysEarningPercent = number_format(min($percentage, 100),2);
         }
-
+        
+       
         //All Time
         $this->allTimeEarning = Transaction::where('referrer_id',$this->userId)->sum('amount');
         $currentDateTime = Carbon::now();
