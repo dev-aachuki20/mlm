@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Admin\UserManage;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -117,7 +118,7 @@ class Show extends Component
         if ($this->formType == 'personal-detail') {
             $validateDataArray['first_name'] = 'required';
             $validateDataArray['last_name']  = 'required';
-            $validateDataArray['email']  = 'required';
+            $validateDataArray['email']  = ['required', 'string', 'email:dns', Rule::unique((new User)->getTable(), 'email')->ignore($this->user_id)->whereNull('deleted_at')];
             $validateDataArray['dob']        = 'required';
             $validateDataArray['guardian_name']  = 'required';
             $validateDataArray['gender']         = 'required|in:male,female,other';
@@ -159,7 +160,7 @@ class Show extends Component
 
                 $userDetails['first_name'] = $this->first_name;
                 $userDetails['last_name']  = $this->last_name;
-                $userDetails['email']  = $this->email;
+                $userDetails['email']  = strtolower($this->email);
                 $userDetails['dob']        = Carbon::parse($this->dob)->format('Y-m-d');
 
                 $updatedUser->update($userDetails);

@@ -149,7 +149,7 @@ class Index extends Component
         $this->title           =  $webinar->title;
         $this->presenter       =  $webinar->presenter;
         $this->date            =  Carbon::parse($webinar->date)->format('d-m-Y');
-        $this->time            =  Carbon::parse($webinar->time)->format('h:i:a');
+        $this->time            =  Carbon::parse($webinar->time)->format('h:i A');
         $this->description    =  $webinar->description;
         $this->status         =  $webinar->status;
         $this->originalImage  =  $webinar->image_url;

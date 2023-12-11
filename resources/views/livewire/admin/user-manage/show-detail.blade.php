@@ -113,7 +113,7 @@
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <div class="form-group">
+                        <div class="form-group select_cityGroup">
                             <label class="font-weight-bold justify-content-start">{{ __('cruds.user.profile.city') }}<i class="fa-asterisk" style="color: #e14119;"></i></label>
                             <select class="form-control select-city" wire:model.defer="city">
                                 <option>Select City</option>                              

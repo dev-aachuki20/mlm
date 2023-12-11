@@ -534,6 +534,7 @@ div:where(.swal2-container).swal2-center>.swal2-popup textarea {
     justify-content: space-between;
     padding: 7px 0 6px;
     border-bottom: solid 1px #ddd;
+    flex-wrap: wrap;
 }
 .user-details-list ul li .left {
     font-weight: 700;
@@ -980,4 +981,18 @@ div:where(.swal2-container) div:where(.swal2-validation-message) {
   .videolayer_box {
     height: auto !important;
   }
+}
+
+
+.referral-link-form .form-label {
+  z-index: 1;
+}
+
+.select_cityGroup .select2-container .select2-selection--single{
+  height: 42px;
+  padding: .4375rem .75rem;
+}
+
+.select_cityGroup .select2-container--default .select2-selection--single{
+  border-color: #ECE6E6;
 }
