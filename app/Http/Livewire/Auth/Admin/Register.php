@@ -48,7 +48,7 @@ class Register extends Component
             'dob'        => ['required'],
             'gender'     => ['required'],
             'referral_id'   => ['required', 'regex:/^\S*$/u', 'exists:users,my_referral_code'],
-            'referral_name'   => ['required', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/'],
+            'referral_name'   => ['required', 'string'],
             'address'         => ['required', 'string'],
             // 'password' => ['required', 'string', 'min:8'],
             // 'password_confirmation' => 'min:8|same:password',
@@ -349,7 +349,8 @@ class Register extends Component
                 }
             } catch (\Exception $e) {
                 DB::rollBack();
-
+                $this->resetInputFields();
+               
                 //24-11-2023
                 $this->paymentMode     = false;
                 $this->paymentSuccess  = false;
@@ -358,7 +359,9 @@ class Register extends Component
                 $this->dispatchBrowserEvent('closedLoader');
                 $this->dispatchBrowserEvent('closedCODModal');
 
-                $this->alert('error', trans('messages.error_message'));
+                $this->flash('error', trans('messages.error_message'));
+                
+                return redirect()->route('auth.register');
             }
         }
     }

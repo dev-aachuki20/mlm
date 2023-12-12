@@ -30,7 +30,7 @@ class ChangePassword extends Component
     protected function rules() 
     {
         return [
-            'old_password'  => ['required', 'string','min:8',new MatchOldPassword],
+            'old_password'  => ['required', 'string',/*'min:8',*/ new MatchOldPassword],
             'new_password'   => ['required', 'string', 'min:8', /*'confirmed',*/ 'different:old_password'],
             'confirm_password' => ['required','min:8','same:new_password'],
         ];

@@ -45,12 +45,12 @@ class Login extends BaseComponent
 
         $remember_me = !is_null($this->remember_me) ? true : false;
         $credentialsOnly = [
-            'email'    => $this->email,
+            'email'    => strtolower($this->email),
             'password' => $this->password,
         ];
 
         try {
-            $checkVerified = User::where('email',$this->email)->first();
+            $checkVerified = User::where('email',strtolower($this->email))->first();
 
             if(!is_null($checkVerified)){
 

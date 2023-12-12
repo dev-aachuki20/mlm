@@ -65,7 +65,7 @@
                   <div class="input-form">
                     <div class="login-icon"><img src="{{asset('images/icons/date.svg')}}" alt="User"></div>
                     <label class="form-label">DOB</label>
-                    <input type="text" id="dob" class="form-control" wire:model.defer="dob" placeholder="DOB" autocomplete="off" />
+                    <input type="text" id="dob" class="form-control" wire:model.defer="dob" placeholder="DOB" autocomplete="off" readonly />
                   </div>
                   @error('dob') <span class="error text-danger">{{ $message }}</span>@enderror
 
