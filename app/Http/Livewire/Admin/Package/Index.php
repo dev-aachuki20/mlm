@@ -29,7 +29,7 @@ class Index extends Component
 
     , $package_id =null, $level_one_commission, $level_two_commission, $level_three_commission,
 
-     $removeImage = false , $removeVideo = false;
+     $removeImage = false , $removeVideo = false, $listPackages , $child_packages = [];
 
     public ?string $uuid = null;
 
@@ -103,6 +103,7 @@ class Index extends Component
         $this->resetPage('page');
         $this->resetInputFields();
         $this->formMode = true;
+        $this->listPackages = Package::pluck('title','id');
         $this->initializePlugins();
     }
 
@@ -139,7 +140,7 @@ class Index extends Component
         try{
             $this->uuid     = Str::uuid();
 
-            $exceptArray = ['search','formMode','updateMode','package_id','image','originalImage','page','paginators','duration'];
+            $exceptArray = ['search','formMode','updateMode','package_id','image','originalImage','page','paginators','duration','child_packages'];
 
             if(empty($this->level_one_commission)){
                 $exceptArray[] = 'level_one_commission';
@@ -157,6 +158,12 @@ class Index extends Component
 
             $package = Package::create($insertRecord);
 
+            if(count($this->child_packages) > 0){
+                foreach($this->child_packages as $pid){
+                    Package::where('id',$pid)->update(['parent_id'=>$package->id]);
+                }
+            }
+          
             //Image
             // uploadImage($package, $this->image, 'package/image/',"package", 'original', 'save', null);
 
@@ -211,7 +218,10 @@ class Index extends Component
         $this->originalVideo = $package->video_url;
         $this->videoExtenstion = $package->packageVideo ? $package->packageVideo->extension : null;
 
+        $this->child_packages = $package->childPackages()->pluck('id')->toArray();
+        
         $this->formMode = true;
+        $this->listPackages = Package::where('id','!=',$id)->pluck('title','id');
         $this->updateMode = true;
         $this->initializePlugins();
     }
@@ -285,7 +295,7 @@ class Index extends Component
                 uploadFile($package, $tmpVideoPath, 'package/video/', "package-video", "original","update",$uploadVideoId);
             }
 
-            $exceptArray =['search','formMode','updateMode','package_id','image','originalImage','page','paginators','uuid','duration'];
+            $exceptArray =['search','formMode','updateMode','package_id','image','originalImage','page','paginators','uuid','duration','child_packages'];
 
             if(empty($this->level_one_commission)){
                 $exceptArray[] = 'level_one_commission';
@@ -302,6 +312,12 @@ class Index extends Component
             $updateRecord = $this->except($exceptArray);
 
             $package->update($updateRecord);
+
+            if(count($this->child_packages) > 0){
+                foreach($this->child_packages as $pid){
+                    Package::where('id',$pid)->update(['parent_id'=>$this->package_id]);
+                }
+            }
 
             $this->formMode = false;
             $this->updateMode = false;
@@ -380,6 +396,7 @@ class Index extends Component
         $this->originalImage = null;
         $this->video = null;
         $this->originalVideo = null;
+        $this->child_packages = [];
     }
 
     public function cancel(){

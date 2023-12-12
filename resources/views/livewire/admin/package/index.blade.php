@@ -200,6 +200,11 @@
             @this.set('level', selectLevel);
         });
 
+        $(document).on('change','.child-packages',function(){
+            var selectPackages = $(this).val();
+            @this.set('child_packages', selectPackages);
+        });
+
 
         $('textarea#summernote-features').summernote({
             placeholder: 'Type somthing...',

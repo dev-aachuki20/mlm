@@ -106,6 +106,7 @@ Route::group(['middleware' => ['auth', 'preventBackHistory']], function () {
         Route::view('myteam', 'user.myteam.index')->name('myteam');
         Route::view('leaderboard', 'user.leaderboard.index')->name('leaderboard');
         Route::view('my-courses', 'user.my-courses.index')->name('my-courses');
+        Route::view('my-courses/{slug}', 'user.my-courses.lectures')->name('my-course-lectures');
         Route::view('webinar', 'user.webinar.index')->name('webinar');
         Route::view('invoice', 'user.invoice.index')->name('invoice');
         Route::view('referral-link', 'user.referral-link')->name('referral-link');

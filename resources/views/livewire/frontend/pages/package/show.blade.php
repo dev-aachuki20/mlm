@@ -39,10 +39,9 @@
           <div class="row">
             <div class="col-lg-8 col-md-6 col-sm-12">
               <div class="course-detail-outer">
-                <h4>Course Detail</h4>
-                @if($package->courses->count() > 0)
-                  {!! $package->courses[0]->description !!}
-                @endif
+        
+                  {!! $package->description !!}
+                
               </div>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-12">

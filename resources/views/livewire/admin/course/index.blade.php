@@ -69,7 +69,11 @@
                                 <tr>
                                     <td>{{ $serialNo+1 }}</td>
                                     <td>{{ $course->name ? ucwords($course->name) : '' }}</td>
-                                    <td>{{ $course->package ? ucwords($course->package->title) : '' }}</td>
+                                    <td>
+                                        @foreach($course->packages as $selected_package)
+                                            <span class="badge bg-secondary text-white">{{ ucwords($selected_package->title) }}</span>
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <label class="toggle-switch">
                                             <input type="checkbox" class="toggleSwitch" wire:click.prevent="toggle({{$course->id}})" {{ $course->status == 1 ? 'checked' : '' }}>
@@ -162,27 +166,9 @@
 
         $(document).on('change', '.select-package', function() {
             var selectPackage = $(this).val();
-            @this.set('package_id', selectPackage);
+            @this.set('selectedPackages', selectPackage);
         });
 
-        // $('.dropify').dropify();
-        // $('.dropify-errors-container').remove();
-
-        // $('.dropify-clear').click(function(e) {
-        //     e.preventDefault();
-        //     var elementName = $(this).siblings('input[type=file]').attr('id');
-        //     if (elementName == 'dropify-image') {
-        //         @this.set('image', null);
-        //         @this.set('originalImage', null);
-        //         @this.set('removeImage', true);
-
-        //     } else if (elementName == 'dropify-video') {
-        //         @this.set('video', null);
-        //         @this.set('originalVideo', null);
-        //         @this.set('videoExtenstion', null);
-        //         @this.set('removeVideo', true);
-        //     }
-        // });
 
         $('textarea#summernote').summernote({
             placeholder: 'Type somthing...',

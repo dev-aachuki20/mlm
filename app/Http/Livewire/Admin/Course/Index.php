@@ -24,7 +24,7 @@ class Index extends Component
 
      $sortColumnName = 'created_at', $sortDirection = 'desc', $paginationLength = 10,
 
-     $course_id=null, $name, $allPackage, $package_id, $description, $image, $originalImage, $video, $originalVideo,$videoExtenstion, $status=1,
+     $course_id=null, $name, $allPackage, $description, $image, $originalImage, $video, $originalVideo,$videoExtenstion, $status=1, $selectedPackages = [],
     
      $removeImage = false , $removeVideo = false;
 
@@ -68,7 +68,7 @@ class Index extends Component
     {
         return $this->sortDirection === 'asc' ? 'desc' : 'asc';
     }
-    
+
     public function render()
     {
         $statusSearch = null;
@@ -81,7 +81,7 @@ class Index extends Component
 
         $allCourse = Course::query()->where(function ($query) use($searchValue,$statusSearch) {
             $query->where('name', 'like', '%'.$searchValue.'%')
-            ->orWhereRelation('package','title','like','%'.$searchValue.'%')
+            ->orWhereRelation('packages','title','like','%'.$searchValue.'%')
             ->orWhere('status', $statusSearch)
             ->orWhereRaw("date_format(created_at, '".config('constants.search_datetime_format')."') like ?", ['%'.$searchValue.'%']);
         })
@@ -103,7 +103,8 @@ class Index extends Component
     public function store(){
         $validatedData = $this->validate([
             'name'        => 'required|'.Rule::unique('courses')->whereNull('deleted_at'),
-            'package_id'  => 'required',
+            'selectedPackages'  => 'required|array',
+            'selectedPackages.*' => 'exists:package,id',
             'description' => 'required|strip_tags',
             'status'      => 'required',
             // 'image'       => 'required|image|max:'.config('constants.img_max_size'),
@@ -111,8 +112,8 @@ class Index extends Component
             'image'         => 'required',
             'video'         => 'required',
         ],[
-            'package_id.required' => 'The package field is required.',
-            'description.strip_tags'=> 'The description field is required',
+            'selectedPackages.required' => 'Please select package.',
+            'description.strip_tags'=> 'The description field is required.',
         ]);
 
         $validatedData['status'] = $this->status;
@@ -121,7 +122,9 @@ class Index extends Component
         try{
             
             $course = Course::create($validatedData);
-    
+            
+            $course->packages()->sync($this->selectedPackages);
+
             // //Upload Image
             // uploadImage($course, $this->image, 'course/image/',"course-image", 'original', 'save', null);
     
@@ -140,7 +143,7 @@ class Index extends Component
      
             $this->formMode = false;
 
-            $this->reset(['name','description','status','image','originalImage','video','originalVideo','allPackage','package_id']);
+            $this->reset(['name','description','status','image','originalImage','video','originalVideo','allPackage','selectedPackages']);
     
             $this->flash('success',trans('messages.add_success_message'));
           
@@ -167,20 +170,19 @@ class Index extends Component
         $course = Course::findOrFail($id);
         $this->course_id      =  $course->id;
         $this->name           =  $course->name;
-        $this->package_id     =  $course->package_id;
+        $this->selectedPackages = $course->packages()->pluck('id')->toArray();
         $this->description    =  $course->description;
         $this->status         =  $course->status;
         $this->originalImage  =  $course->course_image_url;
         $this->originalVideo  =  $course->course_video_url;
-
         $this->videoExtenstion = $course->courseVideo->extension;
 
     }
 
     public function update(){
         $validatedArray['name']        = 'required|'.Rule::unique('courses')->ignore($this->course_id)->whereNull('deleted_at');
-        
-        $validatedArray['package_id']  = 'required';
+        $validatedArray['selectedPackages']  = 'required|array';
+        $validatedArray['selectedPackages.*'] = 'exists:package,id';
         $validatedArray['description'] = 'required|strip_tags';
         $validatedArray['status']      = 'required';
 
@@ -199,7 +201,6 @@ class Index extends Component
         $validatedData = $this->validate(
             $validatedArray,
             [
-                'package_id.required' => 'The package field is required.',
                 'description.strip_tags'=> 'The description field is required',
             ]
         );
@@ -232,6 +233,8 @@ class Index extends Component
                 uploadFile($course, $tmpVideoPath, 'course/video/', "course-video", "original","update",$uploadVideoId);
             }
     
+            $course->packages()->sync($this->selectedPackages);
+
             $course->update($validatedData);
          
             DB::commit();
@@ -241,7 +244,7 @@ class Index extends Component
       
             $this->flash('success',trans('messages.edit_success_message'));
     
-            $this->reset(['name','description','status','image','originalImage','video','originalVideo','allPackage','package_id']);
+            $this->reset(['name','description','status','image','originalImage','video','originalVideo','allPackage','selectedPackages']);
     
             return redirect()->route('admin.course');
         }catch (\Exception $e) {

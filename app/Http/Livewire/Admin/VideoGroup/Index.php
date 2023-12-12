@@ -119,7 +119,7 @@ class Index extends Component
     public function store()
     {
         $validatedData = $this->validate([
-            'title'       => 'required|'.Rule::unique('video_groups')->whereNull('deleted_at'),
+            'title'       => 'required|'.Rule::unique('video_groups')->where('course_id',$this->course_id)->whereNull('deleted_at'),
             'description' => 'required|strip_tags',
             'status'      => 'required',
             'image'         => 'required',
@@ -155,8 +155,9 @@ class Index extends Component
     
     
             //Start to update package duration
-            $total_duration = VideoGroup::selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')->where('status', 1)->where('course_id',$this->course_id)->value('total_duration');
-            Course::find($this->course_id)->package()->update(['duration' =>  $total_duration]);
+            // $total_duration = VideoGroup::selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')->where('status', 1)->where('course_id',$this->course_id)->value('total_duration');
+
+            // Course::find($this->course_id)->packages()->update(['duration' =>  $total_duration]);
             //End to update package duration
     
             DB::commit();
@@ -192,14 +193,14 @@ class Index extends Component
         $this->originalImage  =  $group_video->course_image_url;
         $this->originalVideo  =  $group_video->course_video_url;
 
-        $this->videoExtenstion = $group_video->courseVideo->extension;
+        $this->videoExtenstion = $group_video->courseVideo ? $group_video->courseVideo->extension : '';
 
         $this->videoDuration = $group_video->duration;
     }
 
     public function update()
     {
-        $validatedArray['title']        = 'required|'.Rule::unique('video_groups')->ignore($this->group_video_id)->whereNull('deleted_at');
+        $validatedArray['title']        = 'required|'.Rule::unique('video_groups')->ignore($this->group_video_id)->where('course_id',$this->course_id)->whereNull('deleted_at');
         $validatedArray['description'] = 'required|strip_tags';
         $validatedArray['status']      = 'required';
 
@@ -249,8 +250,9 @@ class Index extends Component
             $videoGroup->update($validatedData);
     
             //Start to update package duration
-            $total_duration = VideoGroup::selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')->where('status', 1)->where('course_id',$this->course_id)->value('total_duration');
-            Course::find($this->course_id)->package()->update(['duration' =>  $total_duration]);
+            // $total_duration = VideoGroup::selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')->where('status', 1)->where('course_id',$this->course_id)->value('total_duration');
+
+            // Course::find($this->course_id)->packages()->update(['duration' =>  $total_duration]);
             //End to update package duration
             
             DB::commit();

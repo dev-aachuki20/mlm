@@ -208,7 +208,7 @@ return [
         'title_singular' => 'Course',
         'fields' => [
             'name'        => 'Name',
-            'package'     => 'Package',
+            'package'     => 'Select Packages',
             'description' => 'Description',
             'video_image' => 'Video Image',
             'video'       => 'Video',

@@ -54,17 +54,33 @@
     </div>
 
     
-    <div class="form-group row">
+    {{-- <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.package.fields.duration')}}</label>
         <div class="col-sm-9 col-form-label">
              {{ convertDateTimeFormat($details->duration,'time') }} Hr
         </div>
-    </div>
+    </div> --}}
 
     <div class="form-group row">
         <label class="col-sm-3 col-form-label font-weight-bold">{{ __('cruds.package.fields.level')}}</label>
         <div class="col-sm-9 col-form-label">
              {{ ucfirst(config('constants.levels')[$details->level]) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label font-weight-bold">Child Packages</label>
+        <div class="col-sm-9 col-form-label">
+            @php
+             $child_packages = $details->childPackages()->pluck('title');
+            @endphp
+            @if(count($child_packages) > 0)
+              @foreach($child_packages as $title)
+                <span class="badge badge-secondary text-white"> {{ ucwords($title) }} </span>
+              @endforeach
+            @else
+              - 
+            @endif
         </div>
     </div>
 

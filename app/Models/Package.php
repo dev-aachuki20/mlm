@@ -20,6 +20,7 @@ class Package extends Model
 
     protected $fillable = [
         'uuid',
+        'parent_id',
         'title',
         'sub_title',
         'amount',
@@ -95,6 +96,16 @@ class Package extends Model
 
     public function courses()
     {
-        return $this->hasMany(Course::class, 'package_id', 'id');
+        return $this->belongsToMany(Course::class, 'package_course')->withTimestamps();
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Package::class, 'parent_id');
+    }
+
+    public function childPackages()
+    {
+        return $this->hasMany(Package::class, 'parent_id');
     }
 }

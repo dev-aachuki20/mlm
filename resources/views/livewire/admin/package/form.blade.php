@@ -48,6 +48,21 @@
             @error('level') <span class="error text-danger">{{ $message }}</span>@enderror
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <div class="form-group mb-0" wire:ignore>
+                <label class="font-weight-bold justify-content-start">Child Packages</label>
+                <select class="js-example-basic-single child-packages w-100" wire:model.defer="child_packages" multiple>
+                    @if($listPackages)
+                        @foreach($listPackages as $id=>$package_title)
+                            <option value="{{$id}}" {{ in_array($id,$child_packages) ? 'selected' : '' }}>{{ ucfirst($package_title) }}</option>
+                        @endforeach
+                    @endif
+                </select>
+            </div>
+            @error('child_packages') <span class="error text-danger">{{ $message }}</span>@enderror
+        </div>
+    </div>
 
     <p class="card-description">{{ __('cruds.package.fields.commission')}}</p>
     <div class="row">

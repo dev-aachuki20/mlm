@@ -15,10 +15,6 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            
-            $table->unsignedBigInteger('package_id');
-            $table->foreign('package_id', 'package_id_fk_6458')->references('id')->on('package');
-
             $table->string('name',191)->default(null)->nullable();
             $table->string('slug',191)->default(null)->nullable();
             $table->longtext('description')->default(null)->nullable();

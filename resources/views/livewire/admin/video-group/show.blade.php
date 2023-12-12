@@ -32,7 +32,7 @@
                     
                     <div class="video-container">
                         <video controls="" width="450" height="315" preload="none" poster="{{ $detail->course_image_url }}" id="clip-video"  playsinline>
-                            <source class="js-video" src="{{ $detail->course_video_url }}" type="video/{{$detail->courseVideo->extension }}">
+                            <source class="js-video" src="{{ $detail->course_video_url }}" type="video/{{$detail->courseVideo ? $detail->courseVideo->extension : '' }}">
                         </video>
                     </div>
                 </div>
