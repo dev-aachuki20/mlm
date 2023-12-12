@@ -1,12 +1,12 @@
 @extends('layouts.admin')
-@section('title','My Courses')
+@section('title','My Plan')
 
 @section('styles')
 @stop
 
 @section('content')
 
-    @livewire('user.my-courses.index',['uuid'=>$uuid])
+    @livewire('user.my-plan.index')
 
 @stop
 

@@ -29,13 +29,13 @@ class Course extends Model
         'deleted_at',
     ];
 
-    protected static function boot() 
+    protected static function boot()
     {
         parent::boot();
         static::creating(function(Course $model) {
             $model->created_by = auth()->user()->id;
-        });    
-        
+        });
+
         static::creating(function (Course $model) {
             $model->slug = $model->generateSlug($model->name);
         });
@@ -85,6 +85,11 @@ class Course extends Model
     public function packages()
     {
         return $this->belongsToMany(Package::class, 'package_course')->withTimestamps();
+    }
+
+    public function getTotalDurationAttribute(){
+        $total_duration = $this->videoGroup()->selectRaw('SEC_TO_TIME(SUM(TIME_TO_SEC(duration))) as total_duration')->where('status', 1)->value('total_duration');
+        return $total_duration;
     }
 
 

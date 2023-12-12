@@ -20,16 +20,9 @@
                         </div>
                         <div class="col-lg-5 col-sm-12">
                             <div class="my-course-package">
-                                <span class="my-course-plan active">Active Plan</span>
                                 <div class="plan-name">{{$packageDetail->title}}</div>
                                 <div class="course-price-list">
                                     <ul>
-                                        {{-- <li>
-                                            <div class="name-list">
-                                                <span><img src="{{ asset('images/standard-pack/clock.svg') }}"></span>Duration
-                                            </div>
-                                            <div class="details-course">{{$packageDetail->duration}}</div>
-                                        </li> --}}
                                         <li>
                                             <div class="name-list">
                                                 <span><img src="{{ asset('images/standard-pack/level.svg') }}"></span>Level
@@ -53,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                  
+
                     {{-- Start to show course list --}}
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
@@ -96,10 +89,10 @@
                                                 </clipPath>
                                                 </defs>
                                                 </svg>
-                                                2.5hr
+                                                {{ $course->total_duration }}
                                             </div>
                                             </div>
-                                         
+
                                         </div>
                                         <div class="content">
                                             <p>{{ Str::limit(strip_tags($course->description),100) }}</p>
@@ -112,7 +105,7 @@
                                 @endforeach
                             @else
                             <h6>{{ __('messages.no_record_found')}}</h6>
-                           
+
                             @endif
                                 {{-- Start pagination --}}
                                     {{$courses->links('vendor.pagination.bootstrap-5')}}
@@ -125,7 +118,7 @@
 
                     {{-- End to show course list --}}
 
-                    
+
                 </div>
             </div>
         </div>

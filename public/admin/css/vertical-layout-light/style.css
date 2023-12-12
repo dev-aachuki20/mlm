@@ -19059,7 +19059,7 @@ a.text-dark:hover, a.text-dark:focus {
   .table, .jsgrid .jsgrid-table {
     border-collapse: collapse !important;
   }
-  
+
   .table td,
   .jsgrid .jsgrid-table td, .table th, .jsgrid .jsgrid-table th {
     background-color: #ffffff !important;
@@ -30265,7 +30265,7 @@ div.tagsinput span.tag a {
 
 .settings-panel .tab-content .tab-pane.scroll-wrapper {
   position: relative;
-  max-height: 100vh; 
+  max-height: 100vh;
   height: 100%;
   padding-bottom: 180px;
 }
@@ -30629,7 +30629,7 @@ h1,h2,h3,h4,h5,h6{
 .sidebar .nav.sub-menu {
     background: #F24F00;
 }
-.sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link, 
+.sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link,
 .sidebar .nav:not(.sub-menu) > .nav-item:hover[aria-expanded="true"] {
     background: #F24F00;
     color: #fff;
@@ -31166,10 +31166,10 @@ hr {
   background: #EBEEF2;
   padding: 2px 0;
 }
- 
+
 /* Handle */
 .recent-list::-webkit-scrollbar-thumb {
-  background: #F24F00; 
+  background: #F24F00;
   border-radius: 10px;
 }
 
@@ -31525,10 +31525,10 @@ img.hide-password, .fa-eye-slash img.view-password {
   background: #EBEEF2;
   padding: 2px 0;
 }
- 
+
 /* Handle */
 .webinar-main::-webkit-scrollbar-thumb {
-  background: #F24F00; 
+  background: #F24F00;
   border-radius: 10px;
 }
 .webinar-item {
@@ -31695,7 +31695,7 @@ img.hide-password, .fa-eye-slash img.view-password {
   padding: 2px;
 }
 .course-main .box-video .bt-play {
-     margin:0; 
+     margin:0;
     width: 35px;
     height: 35px;
     transform: translate(-50%, -50%);
@@ -31710,10 +31710,10 @@ img.hide-password, .fa-eye-slash img.view-password {
   background: #EBEEF2;
   padding: 2px 0;
 }
- 
+
 /* Handle */
 .course-main::-webkit-scrollbar-thumb {
-  background: #F24F00; 
+  background: #F24F00;
   border-radius: 10px;
 }
 .course-item {
@@ -31741,7 +31741,7 @@ img.hide-password, .fa-eye-slash img.view-password {
 }
 .course-item .course-video .box-video{
   width: calc(100% - 40px);
-} 
+}
 .course-item .video-container {
     padding-bottom: 62.90198%;
 }
@@ -31833,7 +31833,7 @@ input[type=number] {
 .invoice-order h2 {
     font-size: 24px;
     color: #0a2540;
-} 
+}
 .invoice-order h3 {
     font-size: 19px;
     color: #0a2540;
@@ -32221,3 +32221,62 @@ td.thick-line {
     gap: 10px;
   }
 }
+
+
+/* *********** Plan Css ********** */
+.plancard{
+    border-radius: 6px;
+    border-bottom: 1px solid #ECE6E6 !important;
+  }
+  .plancard .planTitle {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .plancard .prich{
+    font-size: 45px;
+    font-weight: 900;
+    color: #000;
+    padding: 10px 0px;
+  }
+
+  .plancard .list{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .plancard .list li {
+    font-size: 15px;
+    font-weight: 500;
+    color: #0A2540;
+    position: relative;
+    padding-left: 38px;
+  }
+
+  .plancard .list li::before{
+    height: 20px;
+    width: 20px;
+    content: "";
+    position: absolute;
+    left: 0;
+    background-color: var(--color-light-orange);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    background-image: url('data:image/svg+xml,<svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 1L4.125 8L1 4.81818" stroke="%23F24F00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+
+  .viewMoreBtn.unlock {
+    border-color: #0a2540;
+    background-color: #0a2540;
+  }
+
+  @media screen and (max-width: 767.98px) {
+    .viewMoreBtn{
+      padding: 10px 30px;
+    }
+  }

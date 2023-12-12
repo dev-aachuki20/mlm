@@ -30,7 +30,7 @@
           <a class="nav-link" href="{{ route('front.about-us') }}">About us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ request()->is('user/my-courses') ? 'active' : '' }}" href="{{ route('user.my-courses') }}">My Courses</a>
+          <a class="nav-link {{ request()->is('user/my-plan') ? 'active' : '' }}" href="{{ route('user.my-plan') }}">My Plan</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('front.testimonials') }}">Testimonials</a>
@@ -76,9 +76,9 @@
 
               @if(auth()->user()->is_user)
               <li>
-                <a href="{{ route('user.my-courses') }}" class="dropdown-item {{ request()->is('user/my-courses') ? 'active' : '' }}">
+                <a href="{{ route('user.my-plan') }}" class="dropdown-item {{ request()->is('user/my-plan') || request()->is('user/my-courses/*') ? 'active' : '' }}">
                   <img src="{{ asset('images/icons/my-course.svg') }}">
-                  My Courses
+                  My Plan
                 </a>
               </li>
               @endif

@@ -16,17 +16,17 @@
                                 <p>{!! $description !!}</p>
                               </div>
                             </div>
-                           
+
                           </div>
                         </div>
-                        
+
                       </div>
                       <div class="col-md-5 col-12">
                         <div class="nav flex-column nav-pills border-0 playlistvidoTab" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
                           @if($lectureList)
                             @foreach($lectureList as $list)
-                            <a class="nav-link active">
+                            <a class="nav-link {{ $active_id == $list->id ? 'active' : ''}}" wire:click.prevent="activeVideo('{{$list->id}}')">
                               <div class="playlistVideo">
                                 <div class="row">
                                   <div class="col-auto">
@@ -43,13 +43,13 @@
                             </a>
                             @endforeach
                           @endif
-                          
-                      
+
+
                         </div>
                       </div>
                     </div>
                 </div>
-               
+
             </div>
         </div>
     </div>

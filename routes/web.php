@@ -78,7 +78,7 @@ Route::group(['middleware' => ['auth', 'preventBackHistory']], function () {
 
     Route::group(['middleware' => ['role:admin'], 'as' => 'admin.', 'prefix' => 'admin'], function () {
         Route::view('dashboard', 'admin.index')->name('dashboard');
-        
+
         //Package Routes
         Route::view('packages', 'admin.package.index')->name('package');
 
@@ -105,8 +105,10 @@ Route::group(['middleware' => ['auth', 'preventBackHistory']], function () {
         Route::view('kyc', 'user.kyc.index')->name('kyc');
         Route::view('myteam', 'user.myteam.index')->name('myteam');
         Route::view('leaderboard', 'user.leaderboard.index')->name('leaderboard');
-        Route::view('my-courses', 'user.my-courses.index')->name('my-courses');
-        Route::view('my-courses/{slug}', 'user.my-courses.lectures')->name('my-course-lectures');
+        Route::view('my-plan', 'user.my-plan.index')->name('my-plan');
+        Route::view('my-courses/{uuid}', 'user.my-courses.index')->name('my-courses');
+        // Route::view('my-courses', 'user.my-courses.index')->name('my-courses');
+        Route::view('my-course/{slug}', 'user.my-courses.lectures')->name('my-course-lectures');
         Route::view('webinar', 'user.webinar.index')->name('webinar');
         Route::view('invoice', 'user.invoice.index')->name('invoice');
         Route::view('referral-link', 'user.referral-link')->name('referral-link');
