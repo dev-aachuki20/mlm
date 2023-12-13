@@ -30,7 +30,7 @@
           <a class="nav-link" href="{{ route('front.about-us') }}">About us</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link {{ request()->is('user/my-plan') ? 'active' : '' }}" href="{{ route('user.my-plan') }}">My Plan</a>
+          <a class="nav-link {{ is_active('user.my-plan')  }} {{ is_active('user.my-courses*')  }} {{ is_active('user.my-course-lectures*')  }}" href="{{ route('user.my-plan') }}">My Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{ route('front.testimonials') }}">Testimonials</a>
@@ -78,7 +78,7 @@
               <li>
                 <a href="{{ route('user.my-plan') }}" class="dropdown-item {{ request()->is('user/my-plan') || request()->is('user/my-courses/*') ? 'active' : '' }}">
                   <img src="{{ asset('images/icons/my-course.svg') }}">
-                  My Plan
+                  My Courses
                 </a>
               </li>
               @endif

@@ -78,6 +78,9 @@ class Login extends BaseComponent
                 $this->flash('success', trans('panel.message.login_success'));
 
                 if(Auth::user()->is_user){
+                    
+                    request()->session()->put('is_intro_video_show', true);
+                   
                     return redirect()->route('user.dashboard');
                 }else{
                     return redirect()->route('admin.dashboard');

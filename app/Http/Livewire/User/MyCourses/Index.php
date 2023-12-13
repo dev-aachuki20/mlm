@@ -23,8 +23,13 @@ class Index extends Component
     public function mount($uuid)
     {
         $this->packageDetail =  Package::where('uuid',$uuid)->first();
-        $this->userenrolled = $this->packageDetail->users()->count();
-        $this->courseCount = $this->packageDetail ? $this->packageDetail->courses()->count() : 0;
+        if($this->packageDetail){
+            $this->userenrolled = $this->packageDetail->users()->count();
+            $this->courseCount = $this->packageDetail ? $this->packageDetail->courses()->count() : 0;
+        }else{
+            return abort(404);
+        }
+       
     }
 
     public function render()
@@ -32,5 +37,9 @@ class Index extends Component
         $courses = $this->packageDetail->courses()->paginate(10);
 
         return view('livewire.user.my-courses.index', compact('courses'));
+    }
+
+    public function cancel(){
+        return redirect()->route('user.my-plan');
     }
 }

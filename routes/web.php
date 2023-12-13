@@ -105,10 +105,10 @@ Route::group(['middleware' => ['auth', 'preventBackHistory']], function () {
         Route::view('kyc', 'user.kyc.index')->name('kyc');
         Route::view('myteam', 'user.myteam.index')->name('myteam');
         Route::view('leaderboard', 'user.leaderboard.index')->name('leaderboard');
-        Route::view('my-plan', 'user.my-plan.index')->name('my-plan');
+        Route::view('my-courses', 'user.my-plan.index')->name('my-plan');
         Route::view('my-courses/{uuid}', 'user.my-courses.index')->name('my-courses');
         // Route::view('my-courses', 'user.my-courses.index')->name('my-courses');
-        Route::view('my-course/{slug}', 'user.my-courses.lectures')->name('my-course-lectures');
+        Route::view('my-course/{package_uuid}/{slug}', 'user.my-courses.lectures')->name('my-course-lectures');
         Route::view('webinar', 'user.webinar.index')->name('webinar');
         Route::view('invoice', 'user.invoice.index')->name('invoice');
         Route::view('referral-link', 'user.referral-link')->name('referral-link');

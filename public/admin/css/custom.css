@@ -1000,3 +1000,7 @@ div:where(.swal2-container) div:where(.swal2-validation-message) {
 .my-course-video-main video{
   height: 400px;
 }
+
+.course-video-section video{
+  height: 135px;
+}

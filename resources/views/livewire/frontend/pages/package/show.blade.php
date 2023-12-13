@@ -39,6 +39,7 @@
           <div class="row">
             <div class="col-lg-8 col-md-6 col-sm-12">
               <div class="course-detail-outer">
+                  {!! $package->features !!}
         
                   {!! $package->description !!}
                 
@@ -47,12 +48,12 @@
             <div class="col-lg-4 col-md-6 col-sm-12">
               <div class="course-price-list">
                 <ul>
-                  <li>
+                  {{-- <li>
                     <div class="name-list">
                       <span><img src="{{ asset('images/package/clock.svg') }}"></span>Duration
                     </div>
                     <div class="details-course">{{ convertDateTimeFormat($package->duration,'time') }}hr</div>
-                  </li>
+                  </li> --}}
                   <li>
                     <div class="name-list">
                       <span><img src="{{ asset('images/package/level.svg') }}"></span>Level
@@ -61,14 +62,10 @@
                   </li>
                   <li>
                     <div class="name-list">
-                      <span><img src="{{ asset('images/package/lectures.svg') }}"></span>Lectures
+                      <span><img src="{{ asset('images/package/lectures.svg') }}"></span>Courses
                     </div>
                     <div class="details-course">
-                        @if($course = $package->courses()->first())
-                            {{ $course->courseVideo()->count() }} Enrolled
-                        @else
-                            0 Enrolled
-                        @endif
+                          {{ $package->courses()->count() }} Enrolled
                     </div>
                   </li>
                   <li>

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','My Plan')
+@section('title','My Courses')
 
 @section('styles')
 @stop

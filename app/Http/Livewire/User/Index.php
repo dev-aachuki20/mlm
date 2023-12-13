@@ -23,6 +23,10 @@ class Index extends Component
 
     public $incomeGrowthChart, $userId;
 
+    protected $listeners = [
+        'destroySession',
+    ];
+
     public function mount(){
         $this->userId = auth()->user()->id;
         // Start Earning
@@ -147,5 +151,11 @@ class Index extends Component
     public function render()
     {
         return view('livewire.user.index');
+    }
+
+
+    public function destroySession(){
+        request()->session()->put('is_intro_video_show', false);
+        return redirect()->route('user.dashboard');
     }
 }

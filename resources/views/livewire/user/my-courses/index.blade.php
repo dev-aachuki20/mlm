@@ -2,51 +2,21 @@
     <div class="row">
         <div class="col-md-12 grid-margin">
             <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-7 col-sm-12">
-                            <div class="my-course-video-main">
-                                <video id='video' controls="controls" preload='none' width="600" poster="{{$packageDetail->image_url}}">
-                                    <source id='mp4' src="{{$packageDetail->video_url}}" type='video/{{$packageDetail->packageVideo->extension}}' />
-                                    </track>
-                                </video>
-                            </div>
-                            <div class="sec-head">
-                                <h3 class="head-f-25 color-dark-blue">{{ucwords($packageDetail->title)}}</h3>
-                                <div class="content">
-                                    <p>{!! $packageDetail->description !!}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 col-sm-12">
-                            <div class="my-course-package">
-                                <div class="plan-name">{{$packageDetail->title}}</div>
-                                <div class="course-price-list">
-                                    <ul>
-                                        <li>
-                                            <div class="name-list">
-                                                <span><img src="{{ asset('images/standard-pack/level.svg') }}"></span>Level
-                                            </div>
-                                            <div class="details-course">{{ ucfirst(config('constants.levels')[$packageDetail->level]) }}</div>
-                                        </li>
-                                        <li>
-                                            <div class="name-list">
-                                                <span><img src="{{ asset('images/icons/my-course.svg') }}"></span>Courses
-                                            </div>
-                                            <div class="details-course">{{$courseCount}} Enrolled</div>
-                                        </li>
-                                        <li>
-                                            <div class="name-list">
-                                                <span><img src="{{ asset('images/standard-pack/enrolled.svg') }}"></span>Enrolled
-                                            </div>
-                                            <div class="details-course">{{$userenrolled}} Enrolled</div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                <div class="card-header bg-white">
+                    <div class="d-flex float-left">
+                    <h4 class="font-weight-bold">View Courses</h4>
                     </div>
+                    <div class="d-flex float-right">
+                        <button class="btn btn-primary btn-sm" wire:loading.attr="disabled" wire:click.prevent="cancel">
+                            <i class="fa-solid fa-arrow-left"></i> Back
+                            <span wire:loading="" wire:target="cancel">
+                                <i class="fa fa-solid fa-spinner fa-spin" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
 
+                <div class="card-body">
                     {{-- Start to show course list --}}
                     <div class="row">
                         <div class="col-lg-12 col-sm-12">
@@ -55,15 +25,15 @@
                             @if($courses->count() > 0)
                                 @foreach($courses as $course)
 
-                                    <div class="course-item">
+                                <div class="course-item">
                                     <div class="course-video">
                                         <div class="course-count">
                                         <span>{{$loop->iteration}}</span>
                                         </div>
                                         <div class="box-video">
-                                        <div class="video-container">
-                                            <video id="lecture-video-{{$course->iteration}}" controls="controls" preload='none' width="560" height="315" poster="{{$course->course_image_url}}">
-                                                <source src="{{$course->course_video_url}}" type='video/{{$course->courseVideo->extension}}' />
+                                        <div class="video-container course-video-section">
+                                            <video id='course-video-{{$loop->iteration}}' controls="controls" preload='none' width="600" poster="{{$course->course_image_url}}" controlsList="nodownload">
+                                                <source id='mp4' src="{{$course->course_video_url}}" type='video/{{$course->courseVideo->extension}}' />
                                                 </track>
                                             </video>
                                         </div>
@@ -71,11 +41,11 @@
                                     </div>
                                     <div class="course-text coursesfield row">
                                         <div class="course-text-width col">
-                                        <a href="{{ route('user.my-course-lectures',$course->slug) }}" >
+                                        <a href="{{ route('user.my-course-lectures',[$packageDetail->uuid,$course->slug]) }}" >
                                             <h5 class="head-f-25 color-dark-blue">{{ ucwords($course->name) }}</h5>
                                         </a>
                                         <div class="packages-detais-outer durationTab">
-                                            <div class="packages-detais bg-light-orange ">
+                                            <div class="packages-detais bg-light-orange">
                                             <label>Duration</label>
                                             <div class="icon-time">
                                                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -89,18 +59,26 @@
                                                 </clipPath>
                                                 </defs>
                                                 </svg>
-                                                {{ $course->total_duration }}
+                                                {{ $course->total_duration ?? '00:00:00' }}
                                             </div>
+                                            </div>
+
+                                            <div class="packages-detais bg-light-orange">
+                                                <label>Lectures</label>
+                                                <div class="icon-time">
+                                                    <span class="mr-1"><img src="{{ asset('images/icons/my-course.svg') }}"></span>
+                                                  {{ $course->videoGroup()->where('status',1)->count() }}
+                                                </div>
                                             </div>
 
                                         </div>
                                         <div class="content">
-                                            <p>{{ Str::limit(strip_tags($course->description),100) }}</p>
+                                            <p>{!! Str::limit(strip_tags($course->description),200) !!}</p>
                                         </div>
                                         </div>
 
                                     </div>
-                                    </div>
+                                </div>
 
                                 @endforeach
                             @else
@@ -114,7 +92,7 @@
 
                           </div>
                         </div>
-                      </div>
+                    </div>
 
                     {{-- End to show course list --}}
 

@@ -6,7 +6,7 @@
 
 @section('content')
 
-    @livewire('user.my-courses.lectures',['slug'=>$slug])
+    @livewire('user.my-courses.lectures',['package_uuid'=>$package_uuid,'slug'=>$slug])
 
 @stop
 

@@ -391,4 +391,10 @@ if (!function_exists('removeUploadTmpFolderAndFile')) {
 
 		return true;
 	}
+
+	if (!function_exists('is_active')) {
+		function is_active($route) {
+			return request()->routeIs($route) ? 'active' : '';
+		}
+	}
 }

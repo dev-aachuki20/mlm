@@ -19059,7 +19059,7 @@ a.text-dark:hover, a.text-dark:focus {
   .table, .jsgrid .jsgrid-table {
     border-collapse: collapse !important;
   }
-
+  
   .table td,
   .jsgrid .jsgrid-table td, .table th, .jsgrid .jsgrid-table th {
     background-color: #ffffff !important;
@@ -30629,7 +30629,7 @@ h1,h2,h3,h4,h5,h6{
 .sidebar .nav.sub-menu {
     background: #F24F00;
 }
-.sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link,
+.sidebar .nav:not(.sub-menu) > .nav-item:hover > .nav-link, 
 .sidebar .nav:not(.sub-menu) > .nav-item:hover[aria-expanded="true"] {
     background: #F24F00;
     color: #fff;
@@ -30870,23 +30870,13 @@ h1,h2,h3,h4,h5,h6{
     justify-content: space-between;
 }
 .form-control{
-    color: #464B70 !important;
+    color: #464B70;
     border: 1px solid #ECE6E6;
     height: 42px;
     font-family: 'Nunito Sans', sans-serif;
     padding: 0 12px;
     font-size: 18px !important;
     line-height: normal !important;
-}
-button.btn.w-auto.mt-0 {
-    background: #f24f00;
-    color: #fff;
-}
-button.btn.w-auto:focus {
-    box-shadow: 0px 0px 0 2px #f24f0066;
-}
-.panel-setion .panel-img img {
-    max-width: 100%;
 }
 input::placeholder{
     color: #464B70 !important;
@@ -31166,10 +31156,10 @@ hr {
   background: #EBEEF2;
   padding: 2px 0;
 }
-
+ 
 /* Handle */
 .recent-list::-webkit-scrollbar-thumb {
-  background: #F24F00;
+  background: #F24F00; 
   border-radius: 10px;
 }
 
@@ -31525,10 +31515,10 @@ img.hide-password, .fa-eye-slash img.view-password {
   background: #EBEEF2;
   padding: 2px 0;
 }
-
+ 
 /* Handle */
 .webinar-main::-webkit-scrollbar-thumb {
-  background: #F24F00;
+  background: #F24F00; 
   border-radius: 10px;
 }
 .webinar-item {
@@ -31609,10 +31599,12 @@ img.hide-password, .fa-eye-slash img.view-password {
     vertical-align: middle;
     width: 100%;
     border-radius: 5px;
-    height: 471px;
+    height: 100%;
     object-fit: cover;
+    aspect-ratio: 16/9;
 }
 .my-course-package {
+    height: 100%;
     background: #F7F8FA;
     border-radius: 5px;
     padding: 30px 30px  38px;
@@ -31668,7 +31660,8 @@ img.hide-password, .fa-eye-slash img.view-password {
     font-weight: 700;
 }
 .sec-head{
-  padding: 40px 0 0;
+  padding: 40px 0 33px;
+  border-bottom: solid 1px #ECE6E6;
 }
 .head-f-25{
   font-size: 25px;
@@ -31695,7 +31688,7 @@ img.hide-password, .fa-eye-slash img.view-password {
   padding: 2px;
 }
 .course-main .box-video .bt-play {
-     margin:0;
+     margin:0; 
     width: 35px;
     height: 35px;
     transform: translate(-50%, -50%);
@@ -31710,10 +31703,10 @@ img.hide-password, .fa-eye-slash img.view-password {
   background: #EBEEF2;
   padding: 2px 0;
 }
-
+ 
 /* Handle */
 .course-main::-webkit-scrollbar-thumb {
-  background: #F24F00;
+  background: #F24F00; 
   border-radius: 10px;
 }
 .course-item {
@@ -31736,12 +31729,11 @@ img.hide-password, .fa-eye-slash img.view-password {
     font-size: 16px;
     font-weight: 700;
     color: #464B70;
-    font-family: var(--nunito-font);
     width: 40px;
 }
 .course-item .course-video .box-video{
   width: calc(100% - 40px);
-}
+} 
 .course-item .video-container {
     padding-bottom: 62.90198%;
 }
@@ -31751,6 +31743,9 @@ img.hide-password, .fa-eye-slash img.view-password {
 }
 .course-item .course-text h5 {
     margin: 0 0 15px;
+}
+.course-item:hover .course-text h5{
+  color:var(--color-orange);;
 }
 .course-text-width{
   max-width: 570px;
@@ -31773,19 +31768,13 @@ img.hide-password, .fa-eye-slash img.view-password {
     height: 100%;
     color: #fff;
     width: 100%;
-    font-size: 14px;
+    font-size: 18px;
     text-transform: capitalize;
     max-width: 200px;
 }
-.copy-button input.btn:focus {
-  box-shadow: 0px 0px 0 2px #f24f0066;
-}
-.course-main .video-container video {
-    height: 127px;
-}
 select.form-control {
     background-image: url('data:image/svg+xml,<svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L7 7L13 1" stroke="%23464B70" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-    background-position: right 20px center;
+    background-position: 93% 53%;
     background-size: auto;
     background-repeat: no-repeat;
     -webkit-appearance: none;
@@ -31794,24 +31783,8 @@ select.form-control {
 .referral-link-form .row{
   row-gap: 20px;
 }
-body .select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 43px;
-    right: 11px;
-}
-body .select2-container .select2-selection--single .select2-selection__rendered {
-    padding-left: 0;
-}
 
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
 
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
 /*invoice design */
 
 .invoice-box {
@@ -31833,7 +31806,7 @@ input[type=number] {
 .invoice-order h2 {
     font-size: 24px;
     color: #0a2540;
-}
+} 
 .invoice-order h3 {
     font-size: 19px;
     color: #0a2540;
@@ -31877,7 +31850,9 @@ td.thick-line {
 /*# sourceMappingURL=../maps/vertical-layout-light/style.css.map */
 
 
+
 /* ============================ Ajay Css ============================ */
+
 
 
 .durationTab.packages-detais-outer {
@@ -31912,6 +31887,7 @@ td.thick-line {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  height: 100%;
 }
 
 
@@ -31923,7 +31899,6 @@ td.thick-line {
 /* * Button */
 .viewMoreBtn {
     border: solid 1px var(--color-orange);
-    height: 60px;
     background-color: var(--color-orange);
     font-size: 18px;
     text-transform: capitalize;
@@ -31933,7 +31908,7 @@ td.thick-line {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 30px;
+    padding: 15px 30px;
     overflow: hidden;
     box-shadow: none !important;
     position: relative;
@@ -31972,7 +31947,7 @@ td.thick-line {
 
 .viewMoreBtn:hover,
 .viewMoreBtn:active {
-  transform: translateY(-3px);
+  /* transform: translateY(-3px); */
   color: #fff;
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.3);
 }
@@ -32016,6 +31991,8 @@ td.thick-line {
   border: none;
   color: #000;
   position: relative;
+cursor: pointer;
+  transition: all ease-in-out 0.3s;
 }
 .playlists .nav-pills .nav-link::before{
   content: '';
@@ -32047,7 +32024,7 @@ td.thick-line {
   flex-wrap: nowrap;
 }
 .playlists .nav-pills .nav-link .playlistVideo .videoImg {
-  width: 110px;
+  width: 80px;
   border-radius: 4px;
   overflow: hidden;
   display: flex;
@@ -32070,7 +32047,7 @@ td.thick-line {
   line-height: 100%;
 }
 .playlists .nav-pills .nav-link.active, .playlists .nav-pills .nav-link.active:hover {
-  background-color: #ebdde9f2;
+  background-color: #0a2540;
   /* background-color: var(--color-orange); */
   /* color: #fff; */
 }
@@ -32088,6 +32065,16 @@ td.thick-line {
   white-space: normal;
 }
 
+.playlists .nav-pills .nav-link.active .videoTitle,
+.playlists .nav-pills .nav-link.active .videoDiscription{
+  color: #fff;
+}
+
+.playlistVideo .lecture-short-des{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .playlistVideo .videoTitle {
   font-size: 14px;
   font-weight: 600;
@@ -32102,6 +32089,10 @@ td.thick-line {
   line-height: normal;
   margin-top: 8px;
   -webkit-line-clamp: 1;
+}
+.playlists .nav-pills .nav-link.active .videoTitle,
+.playlists .nav-pills .nav-link.active .videoDiscription{
+  color: #fff;
 }
 
 
@@ -32123,7 +32114,7 @@ td.thick-line {
   line-height: 37px;
   margin: 0 0 15px;
   font-weight: 700;
-  color: #000;
+  color: var(--color-dark-blue);
 }
 
 .discriptionContent .section-text p{
@@ -32162,6 +32153,14 @@ td.thick-line {
 }
 
 
+/* 13-12 */
+.packagecard{
+  background-color: #fff1e7;
+  border: none;
+}
+
+
+
 @media screen and (max-width: 1300px){
 .coursesfield .viewBtn {
   min-width: 100%;
@@ -32174,13 +32173,24 @@ td.thick-line {
   font-size: 22px;
 }
 .viewMoreBtn{
-  height: 50px;
+  padding: 15px;
+  font-size: 16px;
+}
+.my-course-package {
+  padding: 25px 25px  30px;
+}
+.my-course-package .plan-name{
+  font-size: 30px;
+  margin: 0 0 30px;
+}
+.course-price-list ul li{
+  padding: 20px 0;
 }
 }
 
 @media screen and (max-width: 1199.98px) {
   .playlists .nav-pills .nav-link .playlistVideo .videoImg {
-    width: 90px;
+    width: 70px;
   }
   .playlistVideo .videoTitle{
     font-size: 13px;
@@ -32195,12 +32205,25 @@ td.thick-line {
   .playlists .nav-pills .nav-link .playlistVideo .videoImg .time{
     font-size: 10px;
   }
+  .plancard .prich{
+    font-size: 40px;
+  }
+  .plancard .list{
+    gap: 6px;
+  }
+  .plancard .list li {
+    font-size: 14px !important;
+    padding-left: 30px !important;
+  }
+  .viewMoreBtn{
+    padding: 15px;
+    font-size: 14px;
+  }
 
 
 
 .coursesfield  {
   min-width: 100%;
-  padding-left: 40px !important;
 }
 .course-item {
   width: 100%;
@@ -32209,11 +32232,23 @@ td.thick-line {
 }
 
 }
+@media screen and (max-width: 1100px){
+  .my-course-package {
+    padding: 25px 25px  30px;
+  }
+  .my-course-package .plan-name{
+    font-size: 25px;
+    margin: 0 0 25px;
+  }
+  .course-price-list ul li{
+    padding: 15px 0;
+  }
+}
 
 @media screen and (max-width: 767.98px) {
-  .my-course-video-main video{
+  /* .my-course-video-main video{
     height: 300px;
-  }
+  } */
   .playlists .nav-pills {
     max-height: 368px;
   }
@@ -32224,59 +32259,118 @@ td.thick-line {
 
 
 /* *********** Plan Css ********** */
+.gap-10{
+  gap: 10px;
+}
 .plancard{
-    border-radius: 6px;
-    border-bottom: 1px solid #ECE6E6 !important;
-  }
-  .plancard .planTitle {
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  .plancard .prich{
-    font-size: 45px;
-    font-weight: 900;
-    color: #000;
-    padding: 10px 0px;
-  }
+  border-radius: 8px;
+  /* border-right: 1px solid #ECE6E6 !important; */
+  width: 100% !important;
+  margin: 0px;
+  display: block;
+  background-color: #fff;
+  padding: 15px 10px !important;
+  height: 100%;
+}
+/* .plancard.endCrad{
+  border-right: none !important;
+} */
+.plancard .planTitle {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+}
+.plancard .prich{
+  font-size: 40px;
+  font-weight: 700;
+  color: #000;
+  padding: 10px 0px;
+  line-height: 100%;
+}
 
-  .plancard .list{
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .plancard .list li {
-    font-size: 15px;
-    font-weight: 500;
-    color: #0A2540;
-    position: relative;
-    padding-left: 38px;
-  }
+.plancard .list{
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0px;
+}
+.plancard .list li {
+  font-size: 15px;
+  font-weight: 500;
+  color: #0A2540;
+  position: relative;
+  padding-left: 38px;
+}
 
-  .plancard .list li::before{
-    height: 20px;
-    width: 20px;
-    content: "";
-    position: absolute;
-    left: 0;
-    background-color: var(--color-light-orange);
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-    background-image: url('data:image/svg+xml,<svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 1L4.125 8L1 4.81818" stroke="%23F24F00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-    background-repeat: no-repeat;
-    background-position: center;
-  }
+.plancard .list li::before{
+  height: 20px;
+  width: 20px;
+  content: "";
+  position: absolute;
+  left: 0;
+  background-color: #fff1e7;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-image: url('data:image/svg+xml,<svg width="12" height="9" viewBox="0 0 12 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 1L4.125 8L1 4.81818" stroke="%23F24F00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 
-  .viewMoreBtn.unlock {
-    border-color: #0a2540;
-    background-color: #0a2540;
-  }
+.viewMoreBtn.unlock {
+  border-color: #0a2540;
+  background-color: #0a2540;
+}
+.bottomFooter{
+  padding: 10px 15px;
+  background: #f7f8fa;
+  border-radius: 8px;
+}
+.packagecard .plancard .head-f-25{
+  margin-bottom: 30px;
+}
+.packagecard .plancard .head-f-25 span {
+  position: relative;
+  padding-bottom: 10px;
+}
+.packagecard .plancard .head-f-25 span::before{
+  width: 45px;
+  content: '';
+  display: block;
+  height: 2px;
+  background: #f24f00;
+  position: absolute;
+  top: 100%;
+  border-radius: 2px;
+  left: 0;
+}
 
-  @media screen and (max-width: 767.98px) {
-    .viewMoreBtn{
-      padding: 10px 30px;
-    }
+.packagecardmain{
+  max-height: 100%;
+  overflow: unset;
+}
+
+.allplans {
+  background: #f35e15;
+  border-radius: 15px 0px;
+  padding: 12px 50px;
+  display: inline-block;
+}
+.allplans h3 {
+  color: #fff;
+}
+
+@media screen and (max-width: 767.98px) {
+  .viewMoreBtn{
+    padding: 12px 30px;
   }
+  .plancard .prich {
+    font-size: 35px;
+    padding: 8px 0px;
+}
+
+.course-item:hover .course-text h5 {
+    color: var(--color-orange);
+}

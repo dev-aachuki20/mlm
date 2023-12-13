@@ -18,7 +18,7 @@ class Index extends Component
     public function mount(){
         $this->packageDetail =  auth()->user()->packages()->first();
         $this->activePlanId = $this->packageDetail->id;
-        $this->userenrolled = auth()->user()->packages()->count();
+        $this->userenrolled = $this->packageDetail->users()->count();
         $this->courseCount = $this->packageDetail ? $this->packageDetail->courses()->count() : 0;
     }
 
