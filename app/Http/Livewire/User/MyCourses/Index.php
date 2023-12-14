@@ -42,4 +42,8 @@ class Index extends Component
     public function cancel(){
         return redirect()->route('user.my-plan');
     }
+
+    public function showLectureList($uuid,$slug){
+        return redirect()->route('user.my-course-lectures',[$uuid,$slug]);
+    }
 }

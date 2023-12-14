@@ -996,11 +996,3 @@ div:where(.swal2-container) div:where(.swal2-validation-message) {
 .select_cityGroup .select2-container--default .select2-selection--single{
   border-color: #ECE6E6;
 }
-
-.my-course-video-main video{
-  height: 400px;
-}
-
-.course-video-section video{
-  height: 135px;
-}

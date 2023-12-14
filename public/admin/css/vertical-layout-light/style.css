@@ -31605,7 +31605,7 @@ img.hide-password, .fa-eye-slash img.view-password {
 }
 .my-course-package {
     height: 100%;
-    background: #F7F8FA;
+    background: #FFF1E7;
     border-radius: 5px;
     padding: 30px 30px  38px;
 }
@@ -31972,7 +31972,7 @@ td.thick-line {
   display: flex;
   align-items: center;
   justify-content: end;
-  margin: 20px 30px;
+  margin: 70px 20px 0px;
 }
 
 .paginationbar .pagination .page-item .page-link {
@@ -32175,7 +32175,8 @@ cursor: pointer;
 
 /* 13-12 */
 .packagecard{
-  background-color: #fff1e7;
+  /* background-color: #fff1e7; */
+  background-color: #fff;
   border: none;
 }
 
@@ -32283,13 +32284,13 @@ cursor: pointer;
   gap: 10px;
 }
 .plancard{
-  border-radius: 8px;
-  /* border-right: 1px solid #ECE6E6 !important; */
+  border-radius: 0px;
+  border: 1px solid #ECE6E6 !important;
   width: 100% !important;
   margin: 0px;
   display: block;
   background-color: #fff;
-  padding: 15px 10px !important;
+  padding: 20px 0px !important;
   height: 100%;
 }
 /* .plancard.endCrad{
@@ -32306,6 +32307,20 @@ cursor: pointer;
   color: #000;
   padding: 10px 0px;
   line-height: 100%;
+  text-align: center;
+  display: flex;
+  align-items: start;
+  gap: 6px;
+  justify-content: center;
+}
+.plancard .prich span {
+  font-size: 20px;
+  line-height: 27px;
+}
+
+.plancard .timing{
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .plancard .list{
@@ -32313,7 +32328,10 @@ cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 0px;
+  padding: 25px 20px;
+  background-color: #f7f8fa;
+  margin-top: 20px;
+  position: relative;
 }
 .plancard .list li {
   font-size: 15px;
@@ -32345,17 +32363,67 @@ cursor: pointer;
 }
 .bottomFooter{
   padding: 10px 15px;
-  background: #f7f8fa;
-  border-radius: 8px;
+  /* background: #f7f8fa;
+  border-radius: 8px; */
 }
-.packagecard .plancard .head-f-25{
+/* .packagecard .plancard .head-f-25{
   margin-bottom: 30px;
+} */
+.packagecard .plancard.active_plan .head-f-25{
+    color: #08d55d;
+}
+.packagecard .plancard.primium_plan .head-f-25{
+  color: #f35e15;
 }
 .packagecard .plancard .head-f-25 span {
   position: relative;
   padding-bottom: 10px;
 }
-.packagecard .plancard .head-f-25 span::before{
+.packagecard .plancard .activePlan{
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.packagecard .plancard .activePlan span{
+  padding: 4px 20px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: normal;
+}
+.packagecard .plancard.active_plan .activePlan span{
+  color: #08d55d;
+}
+.packagecard .plancard.primium_plan .activePlan span{
+  color: #f35e15;
+}
+
+.packagecard .plancard{
+  position: relative;
+  overflow: hidden;
+}
+.packagecard .plancard.primium_plan .currentPlan{
+  background-color: #F24F00;
+}
+.packagecard .plancard.advancedPlan .currentPlan{
+  background-color: #0a2540;
+}
+.packagecard .plancard .currentPlan{
+  transform: rotate(-45deg);
+  padding: 0px 30px;
+  background: #08d55d;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  position: absolute;
+  top: 26px;
+  left: -32px;
+}
+/* .packagecard .plancard .head-f-25 span::before{
   width: 45px;
   content: '';
   display: block;
@@ -32365,7 +32433,7 @@ cursor: pointer;
   top: 100%;
   border-radius: 2px;
   left: 0;
-}
+} */
 
 .packagecardmain{
   max-height: 100%;
@@ -32373,14 +32441,131 @@ cursor: pointer;
 }
 
 .allplans {
-  background: #f35e15;
-  border-radius: 15px 0px;
-  padding: 12px 50px;
+  /* background: #f35e15; */
+  /* border-radius: 15px 0px; */
+  /* padding: 12px 50px; */
+  padding: 0px;
   display: inline-block;
+  border: none;
 }
 .allplans h3 {
-  color: #fff;
+  color: #000;
 }
+
+
+/* courseCard */
+.courseCard {
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 5px 9px 27px #0a254026;
+  margin-top: 30px;
+}
+.courseCard .course-video{
+  /* padding: 20px 20px 0px; */
+  border-radius: 0px;
+}
+.courseCard .course-video .box-video{
+  border-radius: 0px;
+}
+.courseCard .coursesfield{
+  padding: 0px;
+  margin-top: 20px;
+}
+
+.courseCard .head-f-25 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.courseCard .durationList{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+.courseCard .durationList .items {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.courseCard .durationList .items .iconside{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.courseCard .durationList .items .iconside .icon_time{
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.courseCard .durationList .items .lables{
+  font-size: 15px;
+  line-height: 18px;
+  font-weight: 700;
+  color: #000;
+}
+.courseCard .durationList .items .timing{
+  color: #000;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.courseCard .content p {
+  line-height: 20px;
+  font-size: 14px;
+}
+.packageDetails {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.packageDetails .card {
+  border-radius: 10px;
+  background: #FFF;
+  box-shadow: 5px 9px 17px 0px rgba(167, 121, 88, 0.22);
+}
+.packageDetails .card .cardbody{
+  padding: 23px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+.packageDetails .card .cardbody .iconImg span{
+  width: 66px;
+  height: 66px;
+  display: inline-block;
+  padding: 17px;
+  border-radius: 50%;
+  background-color: #F7F8FA;
+}
+.packageDetails .card .cardbody .iconImg span img {
+  width: 100%;
+}
+.packageDetails .card .cardbody .details_course{
+  color: #0A2540;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 31px; /* 193.75% */
+}
+.packageDetails .plan-name{
+  border-bottom: 1px solid #B48B6E61;
+  margin-bottom: 50px;
+  padding-bottom: 50px
+}
+
+.packageDetails .packagerows{
+  margin: 0px -10px;
+}
+.packageDetails .packagerows > div{
+  padding: 0px 10px;
+}
+
 
 @media screen and (max-width: 767.98px) {
   .viewMoreBtn{
@@ -32393,4 +32578,12 @@ cursor: pointer;
 
 .course-item:hover .course-text h5 {
     color: var(--color-orange);
+}
+}
+
+@media screen and (min-width: 1600px) {
+  .coursecardrow > div{
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
 }
