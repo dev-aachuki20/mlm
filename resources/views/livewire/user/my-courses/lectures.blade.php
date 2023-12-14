@@ -25,14 +25,6 @@
                               <video id='displayActiveVideo' controls="controls" preload='none' width="600" poster="{{$imageUrl}}" controlsList="nodownload">
                                   <source  src="{{$videoUrl}}" type='video/{{$videoExtension}}' />
                               </video>
-                            <div class="videoName">{{ucwords($title)}}</div>
-                            <div class="discriptionContent d-md-block d-none">
-                              <p>{!! $description !!}</p>
-                            </div>
-                            <hr/>
-                            <div class="discriptionContent d-md-block d-none">
-                              <p>{!! $course->description !!}</p>
-                            </div>
                           </div>
 
                         </div>
@@ -40,12 +32,11 @@
 
                     </div>
                     <div class="col-md-5 col-12">
-                      {{-- <div class="nav flex-column nav-pills border-0 playlistvidoTab" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="max-height: 100px;"> --}}
-                      <div class="nav flex-column nav-pills border-0 playlistvidoTab" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-
+                       <div class="nav flex-column nav-pills border-0 playlistvidoTab" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                      
                         @if($lectureList)
                           @foreach($lectureList as $list)
-                          <a class="nav-link {{ $lastUserWatchedLectureId == $list->id ? 'active' : ''}}" wire:click.prevent="changeVideo('{{$list->id}}')">
+                          <a class="nav-link playlist-item {{ $lastUserWatchedLectureId == $list->id ? 'active' : ''}}" wire:click.prevent="changeVideo('{{$list->id}}')">
                             <div class="playlistVideo">
                               <div class="row">
                                 <div class="col-auto">
@@ -61,15 +52,34 @@
                             </div>
                           </a>
                           @endforeach
-
-                          <div x-intersect="$wire.loadMore()"></div>
-
                         @endif
 
 
                       </div>
                     </div>
                   </div>
+
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="my-course-video-main">
+                        <div class="tab-content border-0 p-0" id="v-pills-tabContent">
+                           
+                            <div class="videoName">{{ucwords($title)}}</div>
+                            <div class="discriptionContent d-md-block d-none">
+                              <p>{!! $description !!}</p>
+                            </div>
+                            <hr/>
+                            <div class="discriptionContent d-md-block d-none">
+                              <p>{!! $course->description !!}</p>
+                            </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                   
+                  </div>
+
               </div>
 
 
@@ -84,16 +94,14 @@
 
 @push('scripts')
 <script type="text/javascript">
-  document.addEventListener('livewire:load', function () {
-        var scrollContainer = document.querySelector('.playlistvidoTab'); // Replace with the actual selector of your scroll container
 
-        scrollContainer.addEventListener('scroll', function () {
-            if (scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight) {
-                // Reached the bottom of the scroll container, load more content
-                Livewire.emit('loadMore');
-            }
-        });
-    });
+  document.addEventListener('livewire:load', function () {
+      activePlaylistItem();
+  });
+
+  document.addEventListener('activePlaylistItemOnTop', function () {
+      activePlaylistItem();
+  });
 
   document.addEventListener('loadNewVideo', function(event) {
     changeVideoSource(event.detail)
@@ -112,5 +120,19 @@
       video.load();
       video.play();
   }
+
+  function activePlaylistItem(){
+    const playlist = document.querySelector('.playlistvidoTab');
+    //Scrolling
+    const activeVideo = playlist.querySelector('.playlist-item.active');
+    if (activeVideo) {
+        const offsetTop = activeVideo.offsetTop;
+        playlist.scrollTo({
+          top: offsetTop,
+          behavior: 'smooth',
+        });
+    }
+  }
+
 </script>
 @endpush

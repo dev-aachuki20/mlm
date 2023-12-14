@@ -32019,9 +32019,29 @@ cursor: pointer;
   background-color: #F7F8FA;
   padding: 10px;
   border-radius: 4px;
-  max-height: 722px;
+  max-height: 400px;
   overflow-y: auto;
   flex-wrap: nowrap;
+
+}
+/* width */
+.playlistvidoTab::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+.playlistvidoTab::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.playlistvidoTab::-webkit-scrollbar-thumb {
+  background: #ccc;
+}
+
+/* Handle on hover */
+.playlistvidoTab::-webkit-scrollbar-thumb:hover {
+  background: #888;
 }
 .playlists .nav-pills .nav-link .playlistVideo .videoImg {
   width: 80px;

@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Traits\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use Illuminate\Support\Facades\Cache;
 
 class VideoGroup extends Model
 {
@@ -36,6 +36,7 @@ class VideoGroup extends Model
         parent::boot();
         static::creating(function(VideoGroup $model) {
             $model->created_by = auth()->user()->id;
+            Cache::forget('all_lectures_'.$model->course_id);
         });    
         
         static::creating(function (VideoGroup $model) {
@@ -44,6 +45,10 @@ class VideoGroup extends Model
 
         static::updating(function (VideoGroup $model) {
             $model->slug = $model->generateSlug($model->title);
+        });
+
+        static::deleted(function ($model) {
+            Cache::forget('all_lectures_'.$model->course_id);
         });
     }
 

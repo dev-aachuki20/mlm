@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Cache;
+
 
 class Index extends Component
 {
@@ -343,6 +345,12 @@ class Index extends Component
     {
         $courseId = $event['data']['inputAttributes']['courseId'];
         $model = VideoGroup::find($courseId);
+        
+        $cacheKey = 'all_lectures_'.$model->course_id;
+        if (Cache::has($cacheKey)) {
+            Cache::forget($cacheKey);
+        }
+        
         $model->update(['status' => !$model->status]);
         $this->alert('success', trans('messages.change_status_success_message'));
     }

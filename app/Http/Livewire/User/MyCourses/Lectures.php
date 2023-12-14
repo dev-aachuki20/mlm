@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\VideoGroup;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Cache;
 
 
 class Lectures extends Component
@@ -15,10 +16,10 @@ class Lectures extends Component
 
     public $courseSlug = null, $title, $description, $imageUrl= null, $videoUrl = null, $videoExtension;
 
-    public $lectureCount = 0, $package_uuid, $per_page = 7;
+    public $lectureCount = 0, $package_uuid;
 
     protected $listeners = [
-        'loadMore'
+   
     ];
 
     public function mount($package_uuid,$slug){
@@ -64,7 +65,14 @@ class Lectures extends Component
 
             $course  = Course::where('slug',$this->courseSlug)->first();
             if($course){
-                $lectureList = $course->videoGroup()->where('status',1)->paginate($this->per_page);
+                $cacheKey = 'all_lectures_'.$course->id;
+                if (Cache::has($cacheKey)) {
+                    $lectureList = Cache::get($cacheKey);
+                }else{
+                    $lectureList = $course->videoGroup()->where('status',1)->get();
+                    Cache::put($cacheKey, $lectureList);
+                }
+               
             }else{
                 return abort(404);
             }
@@ -75,10 +83,6 @@ class Lectures extends Component
 
 
         return view('livewire.user.my-courses.lectures',compact('course','lectureList','lastUserWatchedLectureId'));
-    }
-
-    public function loadMore(){
-        $this->per_page +=5;
     }
 
     public function changeVideo($vid){
@@ -98,7 +102,7 @@ class Lectures extends Component
             auth()->user()->update(['other_json'=>json_encode($jsonData)]);
 
             $this->dispatchBrowserEvent('loadNewVideo',$this->videoUrl);
-
+            $this->dispatchBrowserEvent('activePlaylistItemOnTop');
         }
     }
 

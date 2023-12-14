@@ -106,48 +106,31 @@
 </div>
 
 @push('scripts')
-<script>
-    var charLimit = 210;
+<script type="text/javascript">
 
-    function truncate(el) {
-        var clone = el.children().first(),
-            originalContent = el.html(),
-            text = clone.text();
+    document.addEventListener('livewire:load', function () {
+        // Get all video elements
+        const videos = document.querySelectorAll('.course-video-section video');
 
-        if (clone[0].innerHTML.trim().length > charLimit) {
-            el.attr("data-originalContent", originalContent);
-            el.addClass("hasHidden");
-            clone.text(text.substring(0, charLimit) + "...");
-            el.empty().append(clone);
-            el.append(
-                $("<span class='read-more'><a href='#' class='more'>Read More</a>")
-            );
+        // Add event listeners to pause other videos when one is played
+        videos.forEach(video => {
+            video.addEventListener('play', function () {
+                pauseOtherVideos(video);
+            });
+        });
+
+        function pauseOtherVideos(currentVideo) {
+            // Pause all other videos except the one that is currently playing
+            videos.forEach(video => {
+                if (video !== currentVideo) {
+                    video.pause();
+                }
+            });
         }
-    }
-
-    $("body").on("click", "a.more", function(e) {
-        e.preventDefault();
-        var truncateElement = $(this).parent().parent();
-        if (truncateElement.hasClass("hasHidden")) {
-            $(truncateElement).html(truncateElement.attr("data-originalContent"));
-            $(truncateElement).append(
-                $("<span class='read-more'><a href='#' class='more'>Read Less</a>")
-            );
-            truncateElement.removeClass("hasHidden").slow;
-        } else {
-            $(".read-more", truncateElement).remove();
-            truncate(truncateElement);
-        }
+        
     });
 
-    $(".course-text-width .content").each(function() {
-        truncate($(this));
-    });
+   
 
-    function myCallback() {
-        setTimeout(function() {
-            $(".course-text-width .content").removeClass("hasHidden");
-        }, 3000);
-    }
 </script>
 @endpush
