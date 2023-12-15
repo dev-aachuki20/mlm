@@ -32414,14 +32414,17 @@ cursor: pointer;
 }
 .packagecard .plancard .currentPlan{
   transform: rotate(-45deg);
-  padding: 0px 30px;
   background: #08d55d;
   color: #fff;
   font-size: 14px;
   font-weight: 700;
   position: absolute;
+  padding: 0px 30px;
   top: 26px;
   left: -32px;
+  /* padding: 0px 40px;
+  top: 20px;
+  left: -36px; */
 }
 /* .packagecard .plancard .head-f-25 span::before{
   width: 45px;
@@ -32526,9 +32529,10 @@ cursor: pointer;
   border-radius: 10px;
   background: #FFF;
   box-shadow: 5px 9px 17px 0px rgba(167, 121, 88, 0.22);
+  height: 100%;
 }
 .packageDetails .card .cardbody{
-  padding: 23px 18px;
+  padding: 20px 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32536,10 +32540,10 @@ cursor: pointer;
   gap: 18px;
 }
 .packageDetails .card .cardbody .iconImg span{
-  width: 66px;
-  height: 66px;
-  display: inline-block;
-  padding: 17px;
+  width: 50px;
+  height: 50px;
+  display: inline-flex;
+  padding: 12px;
   border-radius: 50%;
   background-color: #F7F8FA;
 }
@@ -32548,15 +32552,15 @@ cursor: pointer;
 }
 .packageDetails .card .cardbody .details_course{
   color: #0A2540;
-  font-size: 16px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 700;
-  line-height: 31px; /* 193.75% */
+  line-height: 28px; /* 193.75% */
 }
 .packageDetails .plan-name{
   border-bottom: 1px solid #B48B6E61;
-  margin-bottom: 50px;
-  padding-bottom: 50px
+  margin-bottom: 20px;
+  padding-bottom: 40px
 }
 
 .packageDetails .packagerows{
@@ -32564,6 +32568,47 @@ cursor: pointer;
 }
 .packageDetails .packagerows > div{
   padding: 0px 10px;
+}
+.packagerows > div{
+  margin-top: 20px;
+}
+
+@media screen and (min-width: 1200px){
+  .packagerows > div{
+    flex: 0 0 50%;
+    max-width: 50%;
+    margin-top: 20px;
+  }
+  .packagerows > div:last-child{
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  /* .packageDetails {
+  } */
+  
+  .packageDetails .card {
+    border-radius: 10px;
+  }
+  .packageDetails .card .cardbody{
+    padding: 23px 18px;
+    gap: 18px;
+  }
+  .packageDetails .card .cardbody .iconImg span{
+    width: 66px;
+    height: 66px;
+    padding: 17px;
+  }
+  .packageDetails .card .cardbody .details_course{
+    font-size: 16px;
+    line-height: 31px;
+  }
+  .packageDetails .plan-name{
+    margin-bottom: 30px;
+    padding-bottom: 50px
+  }
 }
 
 
@@ -32585,5 +32630,9 @@ cursor: pointer;
   .coursecardrow > div{
     flex: 0 0 25%;
     max-width: 25%;
+  }
+  .packagerows > div{
+    flex: 0 0 33.33333% !important;
+    max-width: 33.33333% !important;
   }
 }

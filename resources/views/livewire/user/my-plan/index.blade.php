@@ -6,7 +6,7 @@
           <div class="card">
             <div class="card-body">
               <div class="row">
-                <div class="col-lg-7 col-sm-12">
+                <div class="col-xl-7 col-sm-12 mb-xl-0 mb-4">
                   <div class="my-course-video-main h-100">
                     <video id='video' controls="controls" preload='none' width="600" poster="{{$packageDetail->image_url}}" controlsList="nodownload">
                         <source id='mp4' src="{{$packageDetail->video_url}}" type='video/{{$packageDetail->packageVideo->extension}}' />
@@ -14,13 +14,13 @@
                     </video>
                   </div>
                 </div>
-                <div class="col-lg-5 col-sm-12">
+                <div class="col-xl-5 col-sm-12">
                   <div class="my-course-package packageDetails">
                     <div class="innerbody w-100">
                         <span class="my-course-plan active">Active Plan</span>
                         <div div class="plan-name">{{ucwords($packageDetail->title)}}</div>
                       <div class="row packagerows">
-                        <div class="col-4">
+                        <div class="col-sm-4 col-12">
                           <div class="card text-center">
                             <div class="cardbody">
                               <div class="iconImg"><span><img src="{{ asset('images/standard-pack/level.svg') }}"></span></div>
@@ -28,7 +28,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-sm-4 col-12">
                           <div class="card text-center">
                             <div class="cardbody">
                               <div class="iconImg"><span><img src="{{ asset('images/standard-pack/lacturess.svg') }}"></span></div>
@@ -36,7 +36,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-sm-4 col-12">
                           <div class="card text-center">
                             <div class="cardbody">
                               <div class="iconImg"><span><img src="{{ asset('images/standard-pack/enrolled.svg') }}"></span></div>
