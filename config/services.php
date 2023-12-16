@@ -33,5 +33,14 @@ return [
     'razorpay' => [
         'key'    => env('RAZORPAY_KEY'),
         'secret' => env('RAZORPAY_SECRET'),
+    ],
+
+    'phonepe' => [
+        'merchant_id'    => env('PHONEPE_MERCHANT_ID'),
+        'key'            => env('PHONEPE_MERCHANT_KEY'),
+        'index'          => env('PHONEPE_MERCHANT_KEY_INDEX'),
+        'callback_url'   => env('PHONEPE_CALLBACK_URL'),
+        'redirect_url'   => env('PHONEPE_REDIRECT_URL'),
     ]
+
 ];

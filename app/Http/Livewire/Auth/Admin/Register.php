@@ -41,8 +41,8 @@ class Register extends Component
     protected function rules()
     {
         return [
-            'first_name' => ['required', 'string', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
-            'last_name'  => ['required', 'string', 'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/', 'max:255'],
+            'first_name' => ['required', 'string', /*'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/',*/ 'max:255'],
+            'last_name'  => ['required', 'string', /*'regex:/^[^\d\s]+(\s{0,1}[^\d\s]+)*$/',*/ 'max:255'],
             'email'      => ['required', 'string', 'email:dns', Rule::unique((new User)->getTable(), 'email')->whereNull('deleted_at')],
             'phone'      => ['required', 'digits:10'],
             'dob'        => ['required'],

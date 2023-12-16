@@ -228,7 +228,7 @@
   window.addEventListener('openRazorpayCheckout', event => {
 
     var options = {
-          "key": "{{ config('services.razorpay.key') }}", // Enter the Key ID generated from the Dashboard
+          "key": "{{ getSetting('razorpay_key') ? getSetting('razorpay_key') : config('services.razorpay.key') }}", // Enter the Key ID generated from the Dashboard
           "amount": event.detail.amount,
           "currency": "INR",
           "description": "{{ config('app.name') }}",

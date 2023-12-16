@@ -52,10 +52,15 @@
                         <input type="radio" wire:model="payment_gateway" value="razorpay" {{ $payment_gateway == 'razorpay' ? 'checked' : '' }}> Razorpay
                     </div>
                     @if(getSetting('payment_cod_status') == 'active')
-                    <div class="col-auto d-flex align-items-center gap-2">
+                       <div class="col-auto d-flex align-items-center gap-2">
                             <input type="radio" wire:model="payment_gateway" value="cod" {{ $payment_gateway == 'cod' ? 'checked' : '' }}> COD
                         </div>
-                        @endif
+                    @endif
+                    {{-- @if(getSetting('phonepe_status') == 'active') --}}
+                       <div class="col-auto d-flex align-items-center gap-2">
+                            <input type="radio" wire:model="payment_gateway" value="phonepe" {{ $payment_gateway == 'phonepe' ? 'checked' : '' }}> PhonePe
+                        </div>
+                    {{-- @endif --}}
 
                 </div>
             </div>
