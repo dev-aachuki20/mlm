@@ -12,10 +12,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//Controller
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\UploadFileController;
+use App\Http\Controllers\PaymentController;
 
 
 // Route::get('/', function () {
@@ -37,6 +40,10 @@ Route::get('/cache-clear', function () {
 // Auth::routes(['verify' => true,'login' => false,'register'=>false]);
 
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
+
+Route::post('pay-callback-url', [PaymentController::class, 'handleCallback'])->name('pay-callback-url');
+Route::any('pay-return-url', [PaymentController::class, 'phonePePaymentSuccess'])->name('pay-return-url');
+
 
 // Auth Routes
 Route::group(['middleware' => ['web', 'guest', 'preventBackHistory'], 'as' => 'auth.', 'prefix' => ''], function () {
@@ -116,6 +123,7 @@ Route::group(['middleware' => ['auth', 'preventBackHistory']], function () {
         Route::view('statement', 'user.statement.index')->name('statement');
         Route::get('{slug}', [PageController::class, 'userPage'])->name('page');
     });
+
 
     Route::get('pdf/create/{invoice_id}', [PDFController::class, 'index'])->name('pdf.create');
     Route::get('pdf/preview/{invoice_id}', [PDFController::class, 'preview'])->name('pdf.preview');

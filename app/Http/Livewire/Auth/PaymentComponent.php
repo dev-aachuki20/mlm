@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\WithFileUploads;
 use Ixudra\Curl\Facades\Curl;
+use Illuminate\Http\Request;
 
 
 class PaymentComponent extends Component
@@ -108,7 +109,7 @@ class PaymentComponent extends Component
 
     public function phonePe($amount){
         
-        session('user_details',)
+        // session('user_details',)
 
         $phonePayMerchantId = getSetting('phone_pe_merchant_id') ? getSetting('phone_pay_merchant_id') : config('services.phonepe.merchant_id');
 
@@ -116,19 +117,17 @@ class PaymentComponent extends Component
 
         $phonePeIndex = getSetting('phone_pe_index') ? getSetting('phone_pe_index') : config('services.phonepe.index');
 
-        $phonePeCallbackUrl = getSetting('phone_pe_callback_url') ? getSetting('phone_pe_callback_url') : config('services.phonepe.callback_url');
-
-        $phonePeRedirectUrl = getSetting('phone_pe_redirect_url') ? getSetting('phone_pe_redirect_url') : config('services.phonepe.redirect_url');
-
+       
         $data = array(
             "merchantId" => $phonePayMerchantId,
-            "merchantTransactionId" =>  "MT7850590068188104",
+            "merchantTransactionId" =>  "MT785059006818815",
             "merchantUserId"=> "MUID123",
             "amount"=> (float)$amount*100,
-            "redirectUrl"=> $phonePeCallbackUrl,
+            "redirectUrl"=>  route('pay-callback-url'),
             "redirectMode"=> "POST",
-            "callbackUrl"=> $phonePeRedirectUrl,
-            "mobileNumber"=> "9999999999",
+            "callbackUrl"=> route('pay-callback-url'),
+            "mobileNumber"=> $this->getData['phone'] ?? null,
+            "customData" => $this->getData,
             "paymentInstrument"=> array(
                 "type"=>"PAY_PAGE"
             )
@@ -151,28 +150,7 @@ class PaymentComponent extends Component
 
         $rData = json_decode($response);
 
-        // dd($rData);
-
         return redirect()->to($rData->data->instrumentResponse->redirectInfo->url);
-    }
-
-    public function response(Request $request)
-    {
-        $input = $request->all();
-
-        $saltKey = '099eb0cd-02cf-4e2a-8aca-3e6c6aff0399';
-        $saltIndex = 1;
-
-        $finalXHeader = hash('sha256','/pg/v1/status/'.$input['merchantId'].'/'.$input['transactionId'].$saltKey).'###'.$saltIndex;
-
-        $response = Curl::to('https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/'.$input['merchantId'].'/'.$input['transactionId'])
-                ->withHeader('Content-Type:application/json')
-                ->withHeader('accept:application/json')
-                ->withHeader('X-VERIFY:'.$finalXHeader)
-                ->withHeader('X-MERCHANT-ID:'.$input['transactionId'])
-                ->get();
-
-        dd(json_decode($response));
     }
 
     public function paymentSuccessful($payment_id)

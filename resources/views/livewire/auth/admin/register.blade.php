@@ -265,7 +265,7 @@
           },
           "modal": {
           "ondismiss": function () {
-              if (confirm("Are you sure, you want to close the form?")) {
+              if (confirm("Are you sure, you want to close the form?")) { 
                   txt = "You pressed OK!";
                   console.log("Checkout form closed by the user");
                   // Show the loader element

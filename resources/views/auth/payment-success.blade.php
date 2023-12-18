@@ -3,6 +3,10 @@
 
 @section('content')
 
-    @livewire('auth.payment-success')
+  @if(isset($phonePeObject))
+      @dd($phonePeObject);
+   @else
+     @livewire('auth.payment-success')
+   @endif 
 
 @stop

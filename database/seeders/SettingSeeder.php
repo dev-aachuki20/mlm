@@ -552,6 +552,78 @@ class SettingSeeder extends Seeder
             //     'created_by' => 1,
             // ],
 
+            [
+                'key'    => 'phone_pe_merchant_id',
+                'value'  => null,
+                'type'   => 'text',
+                'display_name'  => 'Phone Pe Merchant ID',
+                'group'  => 'payment',
+                'details' => '',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
+            [
+                'key'    => 'phone_pe_key',
+                'value'  => null,
+                'type'   => 'text',
+                'display_name'  => 'Phone Pe Key',
+                'group'  => 'payment',
+                'details' => '',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
+            [
+                'key'    => 'phone_pe_index',
+                'value'  => null,
+                'type'   => 'text',
+                'display_name'  => 'Phone Pe Index',
+                'group'  => 'payment',
+                'details' => '',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
+            [
+                'key'    => 'phone_pe_callback_url',
+                'value'  => null,
+                'type'   => 'text',
+                'display_name'  => 'Phone Pe Callback Url',
+                'group'  => 'payment',
+                'details' => '',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
+            [
+                'key'    => 'phone_pe_redirect_url',
+                'value'  => null,
+                'type'   => 'text',
+                'display_name'  => 'Phone Pe Redirect Url',
+                'group'  => 'payment',
+                'details' => '',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
+            [
+                'key'    => 'phone_pe_status',
+                'value'  => null,
+                'type'   => 'toggle',
+                'display_name'  => 'Phone Pe Status',
+                'group'  => 'payment',
+                'details' => 'active, inactive',
+                'status' => 1,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'created_by' => 1,
+            ],
+
 
         ];
 
