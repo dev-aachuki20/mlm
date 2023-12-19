@@ -12,6 +12,8 @@ class PaymentController extends Controller
         try {
             $input = $request->all();
 
+            // dd($input,getSessionData('user_details'));
+
             $saltKey = '099eb0cd-02cf-4e2a-8aca-3e6c6aff0399';
             $saltIndex = 1;
 
@@ -24,23 +26,25 @@ class PaymentController extends Controller
                     ->withHeader('X-MERCHANT-ID:'.$input['transactionId'])
                     ->get();
 
+
           
             $phonePeObject = json_decode($response);
 
-            return view('auth.payment-success',compact('phonePeObject'));
+            if($phonePeObject == 'PAYMENT_SUCCESS'){
 
+                return view('auth.payment-success',compact('phonePeObject','input'));
 
+            }else if($phonePeObject == 'PAYMENT_ERROR'){
+                return $phonePeObject->message;
+            }
+
+          
         }catch (\Exception $e) {
               dd($e->getMessage() . '->' . $e->getLine());
         }
 
     }
 
-    public function phonePePaymentSuccess(){
-      
-        echo 'success';
-        
-    }
 
    
 }

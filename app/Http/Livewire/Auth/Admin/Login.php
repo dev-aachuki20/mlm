@@ -9,10 +9,13 @@ use App\Models\User;
 use App\Rules\IsActive;
 use App\Http\Livewire\BaseComponent;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Illuminate\Validation\ValidationException;
+use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 
 class Login extends BaseComponent
 {
-    use LivewireAlert;
+    use LivewireAlert, WithRateLimiting;
 
     // protected $layout = null;
 
@@ -37,19 +40,23 @@ class Login extends BaseComponent
 
     public function submitLogin()
     {
-
+    
         $validated = $this->validate([
             'email'    => ['required','email:dns',new IsActive],
             'password' => 'required',
         ]);
 
-        $remember_me = !is_null($this->remember_me) ? true : false;
-        $credentialsOnly = [
-            'email'    => strtolower($this->email),
-            'password' => $this->password,
-        ];
+        try{
 
-        try {
+            // $this->rateLimit(1,86400);
+
+            $remember_me = !is_null($this->remember_me) ? true : false;
+            $credentialsOnly = [
+                'email'    => strtolower($this->email),
+                'password' => $this->password,
+            ];
+
+         
             $checkVerified = User::where('email',strtolower($this->email))->first();
 
             if(!is_null($checkVerified)){
@@ -80,7 +87,7 @@ class Login extends BaseComponent
                 if(Auth::user()->is_user){
                     
                     request()->session()->put('is_intro_video_show', true);
-                   
+                
                     return redirect()->route('user.dashboard');
                 }else{
                     return redirect()->route('admin.dashboard');
@@ -92,10 +99,18 @@ class Login extends BaseComponent
 
             $this->resetInputFields();
 
-        } catch (ValidationException $e) {
+
+        }catch (ValidationException $e) {
 
             $this->addError('email', $e->getMessage());
+
+        }catch (TooManyRequestsException $exception) {
+            $this->alert('warning', 'Action rate limit exceeded. Please try again later.'); 
+            // throw ValidationException::withMessages([
+            //     'email' => "Slow down! Please wait another {$exception->secondsUntilAvailable} seconds to log in.",
+            // ]);
         }
+        
 
     }
 

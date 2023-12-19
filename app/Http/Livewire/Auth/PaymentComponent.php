@@ -26,8 +26,6 @@ class PaymentComponent extends Component
     public function mount($data,$packageUUID = ''){
         $this->getData = $data;
         
-        $this->payment_gateway = 'razorpay';
-
         if(!empty($packageUUID)){
             $this->fromURLPackageSelected = true;
             $packageExists = Package::where('uuid',$packageUUID)->where('status',1)->first();
@@ -66,16 +64,16 @@ class PaymentComponent extends Component
             $this->amount = $package->amount;
           
             switch($this->payment_gateway) {
-                case('razorpay'):
-                    // Redirect to the Razorpay checkout form
-                    $this->dispatchBrowserEvent('openRazorpayCheckout', [
-                        'name'  => $this->getData['first_name'].' '.$this->getData['last_name'],
-                        'email' => $this->getData['email'],
-                        'phone' => $this->getData['phone'],
-                        'amount' => (float)$this->amount * 100,
-                        'payment_gateway' => $this->payment_gateway,
-                    ]);
-                    break;
+                // case('razorpay'):
+                //     // Redirect to the Razorpay checkout form
+                //     $this->dispatchBrowserEvent('openRazorpayCheckout', [
+                //         'name'  => $this->getData['first_name'].' '.$this->getData['last_name'],
+                //         'email' => $this->getData['email'],
+                //         'phone' => $this->getData['phone'],
+                //         'amount' => (float)$this->amount * 100,
+                //         'payment_gateway' => $this->payment_gateway,
+                //     ]);
+                //     break;
      
                 case('cod'):
                      
@@ -90,11 +88,11 @@ class PaymentComponent extends Component
                     ]);
                     break;
 
-                case('phonepe'):
+                // case('phonepe'):
 
-                    $this->phonePe($this->amount);
+                //     $this->phonePe($this->amount);
 
-                    break;
+                //     break;
      
                 default:
                   $this->alert('error','Invalid payment type!');
@@ -109,48 +107,55 @@ class PaymentComponent extends Component
 
     public function phonePe($amount){
         
-        // session('user_details',)
+        try {
+          
+            $phonePayMerchantId = getSetting('phone_pe_merchant_id') ? getSetting('phone_pay_merchant_id') : config('services.phonepe.merchant_id');
 
-        $phonePayMerchantId = getSetting('phone_pe_merchant_id') ? getSetting('phone_pay_merchant_id') : config('services.phonepe.merchant_id');
+            $phonePeKey = getSetting('phone_pe_key') ? getSetting('phone_pe_key') : config('services.phonepe.key');
 
-        $phonePeKey = getSetting('phone_pe_key') ? getSetting('phone_pe_key') : config('services.phonepe.key');
+            $phonePeIndex = config('services.phonepe.index');
 
-        $phonePeIndex = getSetting('phone_pe_index') ? getSetting('phone_pe_index') : config('services.phonepe.index');
+            $data = array(
+                "merchantId" => $phonePayMerchantId,
+                "merchantTransactionId" =>  "MT785059006818815",
+                "merchantUserId"=> generateRandomString(20),
+                "mobileNumber"=> $this->getData['phone'] ?? null,
+                "amount"=> (float)$amount*100,
+                "redirectUrl"=>  route('pay-callback-url'),
+                "redirectMode"=> "POST",
+                "callbackUrl"=> route('pay-callback-url'),
+                "paymentInstrument"=> array(
+                    "type"=>"PAY_PAGE"
+                )
+            );
 
-       
-        $data = array(
-            "merchantId" => $phonePayMerchantId,
-            "merchantTransactionId" =>  "MT785059006818815",
-            "merchantUserId"=> "MUID123",
-            "amount"=> (float)$amount*100,
-            "redirectUrl"=>  route('pay-callback-url'),
-            "redirectMode"=> "POST",
-            "callbackUrl"=> route('pay-callback-url'),
-            "mobileNumber"=> $this->getData['phone'] ?? null,
-            "customData" => $this->getData,
-            "paymentInstrument"=> array(
-                "type"=>"PAY_PAGE"
-            )
-        );
+            storeSessionData('user_details','test');
 
-        $encode = base64_encode(json_encode($data));
+            $encode = base64_encode(json_encode($data));
 
-        $string = $encode.'/pg/v1/pay'.$phonePeKey;
-        $sha256 = hash('sha256',$string);
+            $string = $encode.'/pg/v1/pay'.$phonePeKey;
+            $sha256 = hash('sha256',$string);
 
-        $finalXHeader = $sha256.'###'.$phonePeIndex;
+            $finalXHeader = $sha256.'###'.$phonePeIndex;
 
-        $url = "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
+            $url = "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay";
 
-        $response = Curl::to($url)
-                ->withHeader('Content-Type:application/json')
-                ->withHeader('X-VERIFY:'.$finalXHeader)
-                ->withData(json_encode(['request' => $encode]))
-                ->post();
+            $response = Curl::to($url)
+                    ->withHeader('Content-Type:application/json')
+                    ->withHeader('X-VERIFY:'.$finalXHeader)
+                    ->withData(json_encode(['request' => $encode]))
+                    ->post();
 
-        $rData = json_decode($response);
+            $rData = json_decode($response);
 
-        return redirect()->to($rData->data->instrumentResponse->redirectInfo->url);
+            $userDetails = collect($this->getData)->except(['password','password_confirmation','from_url_referral_name','from_url_referral_id','share_email','share_password','paymentResponse','paymentMode','paymentSuccess','paymentGatewayType','paymentGatewayType','showResetBtn','cod_transaction_id','codRequest']);
+
+            return redirect()->to($rData->data->instrumentResponse->redirectInfo->url);
+
+        }catch (\Exception $e) {
+            dd($e->getMessage() . '->' . $e->getLine());
+            $this->alert('error',trans('messages.error_message'));
+        }
     }
 
     public function paymentSuccessful($payment_id)

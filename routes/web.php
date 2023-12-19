@@ -42,7 +42,6 @@ Route::get('/cache-clear', function () {
 Route::get('email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
 
 Route::post('pay-callback-url', [PaymentController::class, 'handleCallback'])->name('pay-callback-url');
-Route::any('pay-return-url', [PaymentController::class, 'phonePePaymentSuccess'])->name('pay-return-url');
 
 
 // Auth Routes

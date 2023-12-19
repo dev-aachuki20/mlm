@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0",
         "barryvdh/laravel-dompdf": "^2.0",
+        "danharrin/livewire-rate-limiting": "^1.2",
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
         "ixudra/curl": "^6.22",

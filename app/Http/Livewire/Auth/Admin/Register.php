@@ -20,17 +20,18 @@ use App\Mail\SendPlanPurchasedMail;
 use App\Mail\SendRefferalLevelOneCommissionMail;
 use App\Mail\SendRefferalLevelTwoCommissionMail;
 use Livewire\WithFileUploads;
-
+use DanHarrin\LivewireRateLimiting\WithRateLimiting;
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 
 class Register extends Component
 {
-    use LivewireAlert, WithFileUploads;
+    use LivewireAlert, WithFileUploads, WithRateLimiting;
 
     public $first_name, $last_name, $email, $phone, $dob, $gender, $password, $password_confirmation;
 
     public $from_url_referral_id, $from_url_referral_name, $packageUUID, $referral_id, $referral_name, $address;
 
-    public $paymentMode = false, $paymentSuccess = false, $paymentResponse = null, $share_email, $share_password,$paymentGatewayType = 'razorpay';
+    public $paymentMode = false, $paymentSuccess = false, $paymentResponse = null, $share_email, $share_password,$paymentGatewayType;
 
     public $showResetBtn = false;
 
@@ -113,14 +114,18 @@ class Register extends Component
 
     public function storeRegister($paymentGateway = '', $package_id = '')
     {
+        
         $validated = $this->validate($this->rules(), $this->messages());
 
-        $this->paymentMode = true;
+        DB::beginTransaction();
+        try {
 
-        if ($this->paymentSuccess) {
-            DB::beginTransaction();
-            try {
+            $this->rateLimit(1,86400);
 
+            $this->paymentMode = true;
+
+            if ($this->paymentSuccess) {
+                
                 $referral_user = User::where('my_referral_code', $this->referral_id)->first();
                 $password = generateRandomString(8);
 
@@ -347,22 +352,38 @@ class Register extends Component
                     $this->alert('error', trans('panel.message.error'));
 
                 }
-            } catch (\Exception $e) {
-                DB::rollBack();
-                $this->resetInputFields();
-               
-                //24-11-2023
-                $this->paymentMode     = false;
-                $this->paymentSuccess  = false;
-
-                // dd($e->getMessage() . '->' . $e->getLine());
-                $this->dispatchBrowserEvent('closedLoader');
-                $this->dispatchBrowserEvent('closedCODModal');
-
-                $this->flash('error', trans('messages.error_message'));
-                
-                return redirect()->route('auth.register');
+            
             }
+
+        } catch (TooManyRequestsException $exception) {
+
+            DB::rollBack();
+            $this->resetInputFields();
+
+            $this->paymentMode     = false;
+            $this->paymentSuccess  = false;
+            
+            $this->alert('warning', 'Action rate limit exceeded. Please try again later.'); 
+            // throw ValidationException::withMessages([
+            //     'email' => "Slow down! Please wait another {$exception->secondsUntilAvailable} seconds to log in.",
+            // ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $this->resetInputFields();
+        
+            //24-11-2023
+            $this->paymentMode     = false;
+            $this->paymentSuccess  = false;
+
+            dd($e->getMessage() . '->' . $e->getLine());
+            $this->dispatchBrowserEvent('closedLoader');
+            $this->dispatchBrowserEvent('closedCODModal');
+
+            $this->flash('error', trans('messages.error_message'));
+            
+            return redirect()->route('auth.register');
+
         }
     }
 

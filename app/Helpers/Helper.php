@@ -13,7 +13,7 @@ use App\Models\MailContentSetting;
 use App\Mail\SendMailContentFromSetting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Facades\Session;
 
 if (!function_exists('convertToFloat')) {
 	function convertToFloat($value)
@@ -400,6 +400,20 @@ if (!function_exists('removeUploadTmpFolderAndFile')) {
 	if (!function_exists('is_active')) {
 		function is_active($route) {
 			return request()->routeIs($route) ? 'active' : '';
+		}
+	}
+
+	if (!function_exists('storeSessionData')) {
+		function storeSessionData($key, $value)
+		{
+			Session::put($key, $value);
+		}
+	}
+
+	if (!function_exists('getSessionData')) {
+		function getSessionData($key)
+		{
+			return Session::get($key);
 		}
 	}
 }
