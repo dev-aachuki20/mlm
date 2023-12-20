@@ -64,18 +64,19 @@ class PaymentComponent extends Component
             $this->amount = $package->amount;
           
             switch($this->payment_gateway) {
-                // case('razorpay'):
-                //     // Redirect to the Razorpay checkout form
-                //     $this->dispatchBrowserEvent('openRazorpayCheckout', [
-                //         'name'  => $this->getData['first_name'].' '.$this->getData['last_name'],
-                //         'email' => $this->getData['email'],
-                //         'phone' => $this->getData['phone'],
-                //         'amount' => (float)$this->amount * 100,
-                //         'payment_gateway' => $this->payment_gateway,
-                //     ]);
-                //     break;
+               
+                case($this->payment_gateway == 'razorpay' && (getSetting('razorpay_status') == 'active')):
+                    // Redirect to the Razorpay checkout form
+                    $this->dispatchBrowserEvent('openRazorpayCheckout', [
+                        'name'  => $this->getData['first_name'].' '.$this->getData['last_name'],
+                        'email' => $this->getData['email'],
+                        'phone' => $this->getData['phone'],
+                        'amount' => (float)$this->amount * 100,
+                        'payment_gateway' => $this->payment_gateway,
+                    ]);
+                    break;
      
-                case('cod'):
+                case($this->payment_gateway == 'cod' && (getSetting('payment_cod_status') == 'active')):
                      
                     // Open the cod modal
                     $this->dispatchBrowserEvent('openCODModal',[

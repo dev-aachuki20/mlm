@@ -141,6 +141,8 @@ class Index extends Component
             'state.contact_us_mail_content.string'=> 'The contact us mail content must be a string.',
 
             'state.payment_qr_code_status.in' => 'The selected qr code status is invalid.',
+            'state.razorpay_status.in' => 'The selected razorpay status is invalid.',
+
 
 
         ];

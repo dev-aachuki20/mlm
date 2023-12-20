@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('amount');
             $table->longText('json_response');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

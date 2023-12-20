@@ -363,10 +363,16 @@ class Register extends Component
             $this->paymentMode     = false;
             $this->paymentSuccess  = false;
             
-            $this->alert('warning', 'Action rate limit exceeded. Please try again later.'); 
             // throw ValidationException::withMessages([
             //     'email' => "Slow down! Please wait another {$exception->secondsUntilAvailable} seconds to log in.",
             // ]);
+
+            $this->dispatchBrowserEvent('closedLoader');
+            $this->dispatchBrowserEvent('closedCODModal');
+
+            $this->flash('warning', 'Action rate limit exceeded. Please try again later.');
+          
+            return redirect()->route('auth.register');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -376,7 +382,7 @@ class Register extends Component
             $this->paymentMode     = false;
             $this->paymentSuccess  = false;
 
-            dd($e->getMessage() . '->' . $e->getLine());
+            // dd($e->getMessage() . '->' . $e->getLine());
             $this->dispatchBrowserEvent('closedLoader');
             $this->dispatchBrowserEvent('closedCODModal');
 

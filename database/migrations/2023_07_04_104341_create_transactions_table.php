@@ -27,7 +27,7 @@ return new class extends Migration
 
             $table->double('amount', 10, 2);
 
-            $table->tinyInteger('gateway')->default(null)->comment('1=> Razorpay, 2=>COD');
+            $table->tinyInteger('gateway')->default(null)->comment('1=> Razorpay, 2=>COD, 3=>Phonepe');
 
             $table->unsignedBigInteger('referrer_id')->default(null)->nullable();
 

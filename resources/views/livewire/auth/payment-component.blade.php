@@ -49,6 +49,12 @@
                 <h3>You have Completed SignUp!</h3>
                 <div class="payment_radio row justify-content-center">
                    
+                    @if(getSetting('razorpay_status') == 'active')
+                    <div class="col-auto d-flex align-items-center gap-2">
+                            <input type="radio" wire:model="payment_gateway" value="razorpay" {{ $payment_gateway == 'razorpay' ? 'checked' : '' }}> Razorpay
+                        </div>
+                    @endif
+
                     @if(getSetting('payment_cod_status') == 'active')
                        <div class="col-auto d-flex align-items-center gap-2">
                             <input type="radio" wire:model="payment_gateway" value="cod" {{ $payment_gateway == 'cod' ? 'checked' : '' }}> COD

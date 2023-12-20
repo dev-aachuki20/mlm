@@ -65,6 +65,18 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
     ];
 
+    protected static function boot ()
+    {
+        parent::boot();
+        
+        static::deleting(function ($model) {
+            // Delete all associated courses and their video groups
+            $model->profile()->delete();
+            $model->kycDetail()->delete();
+            $model->payments()->delete();
+            $model->refferalTransaction()->delete();
+        });
+    }
 
     public function profile()
     {

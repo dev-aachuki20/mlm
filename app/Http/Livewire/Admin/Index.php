@@ -27,10 +27,10 @@ class Index extends Component
 
     public function mount(){
         // Start Earning
-        $totalIncomeAmount = Payment::sum('amount');
+        $totalIncomeAmount = Payment::where('payment_approval','approved')->sum('amount');
         
         //Today
-        $this->todayEarnings = Payment::whereDate('created_at', today())->sum('amount');
+        $this->todayEarnings = Payment::whereDate('created_at', today())->where('payment_approval','approved')->sum('amount');
 
         if($this->todayEarnings != 0){
             $percentage = (float)$this->todayEarnings / (float)$totalIncomeAmount * 100;
@@ -39,7 +39,7 @@ class Index extends Component
         
         
         //Last 7 days
-        $this->last7DaysEarnings = Payment::whereDate('created_at', '>=', Carbon::now()->subDays(7))->sum('amount');
+        $this->last7DaysEarnings = Payment::whereDate('created_at', '>=', Carbon::now()->subDays(7))->where('payment_approval','approved')->sum('amount');
 
         if($this->last7DaysEarnings != 0){
             $percentage = (float)$this->last7DaysEarnings / (float)$totalIncomeAmount * 100;
@@ -48,7 +48,7 @@ class Index extends Component
         
 
         //30 Days
-        $this->last30DaysEarnings = Payment::whereDate('created_at', '>=', Carbon::now()->subDays(30))->sum('amount');
+        $this->last30DaysEarnings = Payment::whereDate('created_at', '>=', Carbon::now()->subDays(30))->where('payment_approval','approved')->sum('amount');
 
         if($this->last30DaysEarnings != 0){
             $percentage = (float)$this->last30DaysEarnings / (float)$totalIncomeAmount * 100;
@@ -57,9 +57,9 @@ class Index extends Component
         
 
         //All Time
-        $this->allTimeEarning = Payment::sum('amount');
+        $this->allTimeEarning = Payment::where('payment_approval','approved')->sum('amount');
         $currentDateTime = Carbon::now();
-        $earningsUpToCurrentTime = Payment::where('created_at', '<=', $currentDateTime)
+        $earningsUpToCurrentTime = Payment::where('created_at', '<=', $currentDateTime)->where('payment_approval','approved')
             ->sum('amount');
 
         if($this->allTimeEarning != 0){
