@@ -28,7 +28,9 @@
                             </div>
                         </div>
                         <div class="package-include">
-                            {!! $package->features !!}
+                            <ul class="list">
+                                {!! $package->features !!}
+                            </ul>
                         </div>
                         </label>                  
                     </div>
