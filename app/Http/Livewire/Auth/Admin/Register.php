@@ -120,7 +120,7 @@ class Register extends Component
         DB::beginTransaction();
         try {
 
-            $this->rateLimit(1,86400);
+            //$this->rateLimit(1,86400);
 
             $this->paymentMode = true;
 

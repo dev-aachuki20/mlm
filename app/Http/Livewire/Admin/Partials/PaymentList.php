@@ -108,17 +108,17 @@ class PaymentList extends Component
                         $commissionAmount = null;
                         $referralUserId = null;
 
-                        if ($levelKey == 1 && $refferalByUser) {
+                        if ($levelKey == 1 && !is_null($refferalByUser)) {
 
                             $commissionAmount   = $packagePurchased->level_one_commission;
                             $referralUserId     = $refferalByUser->is_user ? $refferalByUser->id : null;
 
-                        } elseif ($levelKey == 2 && $refferalByUser->referrer) {
+                        } elseif ($levelKey == 2 && !is_null($refferalByUser->referrer)) {
 
                             $commissionAmount   = $packagePurchased->level_two_commission;
                             $referralUserId     = $refferalByUser->referrer->is_user ? $refferalByUser->referrer->id : null;
 
-                        } elseif ($levelKey == 3 && $refferalByUser->referrer) {
+                        } elseif ($levelKey == 3 && !is_null($refferalByUser->referrer)) {
 
                             if($refferalByUser->referrer->referrer){
                                 $commissionAmount   = $packagePurchased->level_three_commission;
@@ -170,7 +170,7 @@ class PaymentList extends Component
         }catch (\Exception $e) {
             DB::rollBack();
 
-            dd($e->getMessage() . '->' . $e->getLine());
+            // dd($e->getMessage() . '->' . $e->getLine());
 
             $this->alert('error', trans('messages.error_message'));
         }
