@@ -183,7 +183,7 @@ class Index extends Component
         $uploadImageId = null;
         if ($this->image) {
             $uploadImageId = $webinar->webinarImage->id;
-            uploadImage($course, $this->image, 'webinar/image/',"webinar", 'original', 'update', $uploadImageId);
+            uploadImage($webinar, $this->image, 'webinar/image/',"webinar", 'original', 'update', $uploadImageId);
         }
 
 
